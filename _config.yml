@@ -1,0 +1,29 @@
+markdown: kramdown
+highlighter: rouge
+rouge_style: github.css
+
+exclude:
+  - README.md
+  - LICENSE.md
+  - CODE_OF_CONDUCT.md
+  - Gemfile
+  - Gemfile.lock
+  - Makefile
+  - '.#*'
+  - '*~'
+  - bin
+  - data
+
+permalink: pretty
+
+defaults:
+  -
+    scope:
+      path: ""
+    values:
+      layout: "default"
+
+plugins:
+  - jekyll-paginate
+  - jekyll-redirect-from
+  - jekyll-sitemap
