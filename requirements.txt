@@ -1,0 +1,8 @@
+ark
+beautifulsoup4
+fastapi
+flask
+pymdown-extensions
+requests
+ruff
+uvicorn[standard]

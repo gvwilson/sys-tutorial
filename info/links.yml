@@ -1,0 +1,34 @@
+# General
+- key: "ark"
+  url: "https://www.dmulholl.com/docs/ark/main/"
+  title: "Ark static site generator"
+- key: "persona"
+  url: "http://teachtogether.tech/en/index.html#s:process-personas"
+  title: "*Teaching Tech Together* lesson on learner personas"
+- key: "t3"
+  url: "https://teachtogether.tech/"
+  title: "*Teaching Tech Together*"
+
+# People
+- key: wilson-greg
+  url: "https://third-bit.com/"
+
+# Colophon
+- key: "atkinson"
+  url: "https://brailleinstitute.org/freefont"
+- key: "draw-io"
+  url: "https://www.drawio.com/"
+- key: "ghp"
+  url: "https://pages.github.com/"
+- key: "highlight-css"
+  url: "https://numist.github.io/highlight-css/"
+- key: "jekyll"
+  url: "https://jekyllrb.com/"
+- key: "plausible"
+  url: "https://plausible.io/"
+- key: "rouge"
+  url: "https://rouge.jneen.net/"
+- key: "stamps"
+  url: "https://third-bit.com/colophon/"
+- key: "wave"
+  url: "https://wave.webaim.org/"
