@@ -3,7 +3,7 @@ home: true
 ---
 <section markdown="1">
 
-{% include h2_unnumbered.md title="what this is" %}
+{% include h2_aside.md title="what this is" %}
 
 -   notes and working examples that instructors can use to perform a lesson
     -   do *not* expect novices with only basic command-line experience
@@ -21,7 +21,7 @@ home: true
 </section>
 <section markdown="1">
 
-{% include h2_unnumbered.md title="scope" %}
+{% include h2_aside.md title="scope" %}
 
 -   [intended audience][persona]
     -   Ning has a bachelor's degree in geology and a master's degree in data science,

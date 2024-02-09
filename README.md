@@ -1,4 +1,4 @@
-# Systems Administration for the Weary
+# Systems Administration for the Weary Data Scientist
 
 -   Please see [the website][site] to view the current version of this tutorial.
 
