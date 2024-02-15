@@ -11,3 +11,13 @@ release:
 	src \
 	out \
 	-x \*~
+
+PY_FILES := $(wildcard ${SRC}/*.py)
+OUT_FILES := $(patsubst ${SRC}/%.py,${OUT}/%.out,${PY_FILES})
+
+## run: re-run all examples
+.PHONY: run
+run: ${OUT_FILES}
+
+${OUT}/get_motto.out: ${SRC}/get_motto.py
+	python $< > $@

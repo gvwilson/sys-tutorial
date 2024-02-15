@@ -107,18 +107,53 @@
 <!-- ---------------------------------------------------------------- -->
 </section>
 <section class="topic">
-<h2 class="topic">1: Selecting Constant</h2>
-<p>TODO</p>
+<h2 class="topic">1: Requesting a File</h2>
+<p class="inclusion"><a href="src/get_motto.py">src/get_motto.py</a></p>
+<div class="language-py">
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;https://gvwilson.github.io/web-tutorial/site/motto.txt&quot;</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;status code: </span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;body:</span><span class="se">\n</span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+</div>
+<p class="inclusion"><a href="out/get_motto.out">out/get_motto.out</a></p>
+<div class="language-plaintext">
+<div class="highlight"><pre><span></span><code>status code: 200
+body:
+Start where you are, use what you have, help who you can.
+</code></pre></div>
+</div>
+<ul>
+<li>Use the <a href="https://requests.readthedocs.io/en/latest/"><code>requests</code></a> module (needs to be installed)</li>
+<li>The URL identifies the file we want<ul>
+<li>Though as we&rsquo;ll see, the server can interpret it differently</li>
+</ul>
+</li>
+<li>Response includes:<ul>
+<li><a href="#g:http_status_code">HTTP status code</a> such as 200 (OK) or 404 (Not Found)</li>
+<li>The text of the response</li>
+</ul>
+</li>
+</ul>
 <!-- ---------------------------------------------------------------- -->
 </section>
 <section class="aside">
 <h2 class="aside">Appendices</h2>
 <h3>Terms</h3>
 <dl class="glossary">
-
+<dt id="g:http_status_code">HTTP status code</dt><dd>A numerical code that indicates what happened when an <a href="#http_request">HTTP request</a> was processed, such as 200 (OK), 404 (not found), or 500 (internal server error).</dd>
 </dl>
 <h3>Acknowledgments</h3>
 <ul></ul>
+<h3>Links</h3>
+<ul>
+<li><em>Teaching Tech Together</em>: <a href="https://teachtogether.tech/">https://teachtogether.tech/</a></li>
+<li><em>Teaching Tech Together</em> lesson on learner personas: <a href="http://teachtogether.tech/en/index.html#s:process-personas">http://teachtogether.tech/en/index.html#s:process-personas</a></li>
+<li>Ark static site generator: <a href="https://www.dmulholl.com/docs/ark/main/">https://www.dmulholl.com/docs/ark/main/</a></li>
+<li><code>requests</code> module: <a href="https://requests.readthedocs.io/en/latest/">https://requests.readthedocs.io/en/latest/</a></li>
+</ul>
 </section>
     </main>
     <footer>

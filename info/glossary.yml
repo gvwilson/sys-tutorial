@@ -16,6 +16,15 @@
 
 # H
 
+- key: http_status_code
+  en:
+    term: HTTP status code
+    def: >
+      A numerical code that indicates what happened when an [HTTP request](#http_request) was processed,
+      such as 200 (OK),
+      404 (not found),
+      or 500 (internal server error).
+
 # I
 
 # J

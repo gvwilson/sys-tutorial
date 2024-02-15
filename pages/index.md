@@ -49,9 +49,16 @@
 -   TODO
 
 <!-- ---------------------------------------------------------------- -->
-[% section_break class="topic" title="Selecting Constant" %]
+[% section_break class="topic" title="Requesting a File" %]
 
-TODO
+[% double stem="get_motto" suffix="py out" %]
+
+-   Use the [`requests`][requests] module (needs to be installed)
+-   The URL identifies the file we want
+    -   Though as we'll see, the server can interpret it differently
+-   Response includes:
+    -   [%g http_status_code "HTTP status code" %] such as 200 (OK) or 404 (Not Found)
+    -   The text of the response
 
 <!-- ---------------------------------------------------------------- -->
 [% section_break class="aside" title="Appendices" %]
@@ -63,5 +70,9 @@ TODO
 ### Acknowledgments
 
 [% thanks %]
+
+### Links
+
+[% link_table %]
 
 [% section_end %]
