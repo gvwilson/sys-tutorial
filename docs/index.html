@@ -139,6 +139,21 @@ Start where you are, use what you have, help who you can.
 </ul>
 <!-- ---------------------------------------------------------------- -->
 </section>
+<section class="topic">
+<h2 class="topic">2: What Just Happened</h2>
+<figure id="figure_1">
+<img src="img/http_lifecycle.svg" alt="HTTP request/response lifecycle"/>
+<figcaption>Figure 1: Lifecycle of an HTTP request and response</figcaption>
+</figure>
+<ul>
+<li>Open a connection to the server (we need to investigate that)</li>
+<li>Send a request for the file we want (yup, going to investigate that as well)</li>
+<li>Server creates a response that includes the contents of the file (ditto)</li>
+<li>Sends it back</li>
+<li><code>requests</code> parses the response and creates a Python object for us (also deserves a closer look)</li>
+</ul>
+<!-- ---------------------------------------------------------------- -->
+</section>
 <section class="aside">
 <h2 class="aside">Appendices</h2>
 <h3>Terms</h3>

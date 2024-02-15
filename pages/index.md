@@ -61,6 +61,21 @@
     -   The text of the response
 
 <!-- ---------------------------------------------------------------- -->
+[% section_break class="topic" title="What Just Happened" %]
+
+[% figure
+   file="img/http_lifecycle.svg"
+   title="Lifecycle of an HTTP request and response"
+   alt="HTTP request/response lifecycle"
+%]
+
+-   Open a connection to the server (we need to investigate that)
+-   Send a request for the file we want (yup, going to investigate that as well)
+-   Server creates a response that includes the contents of the file (ditto)
+-   Sends it back
+-   `requests` parses the response and creates a Python object for us (also deserves a closer look)
+
+<!-- ---------------------------------------------------------------- -->
 [% section_break class="aside" title="Appendices" %]
 
 ### Terms
