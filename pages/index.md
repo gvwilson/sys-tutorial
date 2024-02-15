@@ -1,7 +1,3 @@
----
-home: true
----
-
 <!-- ---------------------------------------------------------------- -->
 [% section_start class="aside" title="what this is" %]
 
@@ -16,6 +12,46 @@ home: true
     and [these guidelines](./contributing/) for notes on contributing
 -   about the author:
     [Greg Wilson][wilson-greg] is a programmer, author, and educator based in Toronto
+
+<!-- ---------------------------------------------------------------- -->
+[% section_break class="aside" title="Scope" %]
+
+-   [intended audience][persona]
+    -   Ning did a bachelor's degree in economics
+        and now works as a data analyst for the Ministry of Health
+    -   They learned Python in an intensive 16-week data science bootcamp program
+        and are comfortable working with Unix command-line tools
+        and writing data analysis programs with Pandas and Polars
+    -   Ning wants to build dashboards that people in the Ministry can use to query data in real time,
+        but doesn't really understand how web browsers get data
+        or what a server actually does
+    -   Their work schedule is unpredictable and highly variable,
+        so they need to be able to learn a bit at a time
+-   prerequisites
+    -   intermediate Unix command line: `find`, `grep`, shell scripts using `for`
+    -   data analysis with Python: Pandas, Polars, Plotly, Jupyter notebooks, argparse, regular expressions
+    -   using Git and GitHub on months-long projects with two or three colleagues
+-   learning outcomes
+    1.  TODO
+
+<!-- ---------------------------------------------------------------- -->
+[% section_break class="aside" title="Setup" %]
+
+-   Download [the latest release]([% config "release" %])
+-   Unzip the file in a temporary directory to create:
+    -   `./data/*.*`: the datasets used in the examples
+    -   `./src/*.*`: shell scripts and Python programs
+    -   `./out/*.*`: expected output for examples
+
+<!-- ---------------------------------------------------------------- -->
+[% section_break class="aside" title="Background Concepts" %]
+
+-   TODO
+
+<!-- ---------------------------------------------------------------- -->
+[% section_break class="topic" title="Selecting Constant" %]
+
+TODO
 
 <!-- ---------------------------------------------------------------- -->
 [% section_break class="aside" title="Appendices" %]
