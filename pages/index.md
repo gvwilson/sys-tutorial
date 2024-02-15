@@ -82,8 +82,10 @@
 
 -   Every HTTP request and response has [%g http_header "headers" %] with extra information
     -   Does *not* include status code (handled separately)
--   `Content-Length`: number of bytes in response data (i.e., how much to read)
--   `Content-Type`: [%g mime_type "MIME type" %] of data (e.g., `text/plain`)
+-   Most important for now are:
+    -   `Content-Length`: number of bytes in response data (i.e., how much to read)
+    -   `Content-Type`: [%g mime_type "MIME type" %] of data (e.g., `text/plain`)
+-   Requests have headers too, which we will see soon
 
 <!-- ---------------------------------------------------------------- -->
 [% section_break class="topic" title="When Things Go Wrong" %]
@@ -92,7 +94,18 @@
 
 -   The 404 status code tells us something went wrong
 -   The 9 kilobyte response is an HTML page with an embedded image (the GitHub logo)
--   It does contain error messages, but we'd have to know page format to pull them out
+-   The page contains error messages, but we have to know page format to pull them out
+
+<!-- ---------------------------------------------------------------- -->
+[% section_break class="topic" title="Getting JSON" %]
+
+[% double stem="get_json" suffix="py out" %]
+
+-   Parsing data out of HTML is called [%g web_scraping "web scraping" %]
+    -   Painful and error prone
+-   Better: have the server return data as data
+    -   Preferred format these days is [%g json "JSON" %]
+    -   So common that `requests` has built-in support
 
 <!-- ---------------------------------------------------------------- -->
 [% section_break class="aside" title="Appendices" %]

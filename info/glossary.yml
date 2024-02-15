@@ -60,6 +60,15 @@
 
 # J
 
+- key: json
+  en:
+    term: JavaScript Object Notation
+    acronym: JSON
+    def: >
+      A way to represent data by combining basic values like numbers
+      and character strings in lists and key-value structures. Unlike
+      other formats, it is unencumbered by a syntax for writing comments.
+
 # K
 
 # L
@@ -99,6 +108,12 @@
 # V
 
 # W
+
+- key: web_scraping
+  en:
+    term: web scraping
+    def: >
+      The act of extracting data from HTML pages on the web.
 
 # X
 

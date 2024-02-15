@@ -32,7 +32,7 @@
     <main>
       
   <h1>Web Programming for Wary Data Scientists</h1>
-  
+  <p class="subtitle"></p>
 
 
       <!-- ---------------------------------------------------------------- -->
@@ -139,8 +139,8 @@ Start where you are, use what you have, help who you can.
 </ul>
 <!-- ---------------------------------------------------------------- -->
 </section>
-<section class="topic">
-<h2 class="topic">2: What Just Happened</h2>
+<section class="aside">
+<h2 class="aside">What Just Happened</h2>
 <figure id="figure_1">
 <img src="img/http_lifecycle.svg" alt="HTTP request/response lifecycle"/>
 <figcaption>Figure 1: Lifecycle of an HTTP request and response</figcaption>
@@ -154,11 +154,136 @@ Start where you are, use what you have, help who you can.
 </ul>
 <!-- ---------------------------------------------------------------- -->
 </section>
+<section class="topic">
+<h2 class="topic">2: Headers</h2>
+<p class="inclusion"><a href="src/show_response_headers.py">src/show_response_headers.py</a></p>
+<div class="language-py">
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;https://gvwilson.github.io/web-tutorial/site/motto.txt&quot;</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">response</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+</div>
+<p class="inclusion"><a href="out/show_response_headers.out">out/show_response_headers.out</a></p>
+<div class="language-plaintext">
+<div class="highlight"><pre><span></span><code>Connection: keep-alive
+Content-Length: 58
+Server: GitHub.com
+Content-Type: text/plain; charset=utf-8
+permissions-policy: interest-cohort=()
+Last-Modified: Thu, 15 Feb 2024 16:38:15 GMT
+Access-Control-Allow-Origin: *
+ETag: &quot;65ce3df7-3a&quot;
+expires: Thu, 15 Feb 2024 17:33:28 GMT
+Cache-Control: max-age=600
+x-proxy-cache: MISS
+X-GitHub-Request-Id: 7A68:7E6D:189F723:1E361E6:65CE4890
+Accept-Ranges: bytes
+Date: Thu, 15 Feb 2024 17:26:13 GMT
+Via: 1.1 varnish
+Age: 0
+X-Served-By: cache-yyz4572-YYZ
+X-Cache: HIT
+X-Cache-Hits: 1
+X-Timer: S1708017973.281686,VS0,VE23
+Vary: Accept-Encoding
+X-Fastly-Request-ID: 90b0ddfe43025af002beee5e090ea83304d51dc0
+</code></pre></div>
+</div>
+<ul>
+<li>Every HTTP request and response has <a href="#g:http_header">headers</a> with extra information<ul>
+<li>Does <em>not</em> include status code (handled separately)</li>
+</ul>
+</li>
+<li>Most important for now are:<ul>
+<li><code>Content-Length</code>: number of bytes in response data (i.e., how much to read)</li>
+<li><code>Content-Type</code>: <a href="#g:mime_type">MIME type</a> of data (e.g., <code>text/plain</code>)</li>
+</ul>
+</li>
+<li>Requests have headers too, which we will see soon</li>
+</ul>
+<!-- ---------------------------------------------------------------- -->
+</section>
+<section class="topic">
+<h2 class="topic">3: When Things Go Wrong</h2>
+<p class="inclusion"><a href="src/get_nonexistent.py">src/get_nonexistent.py</a></p>
+<div class="language-py">
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;https://gvwilson.github.io/web-tutorial/site/nonexistent.txt&quot;</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;status code: </span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;body length: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+</div>
+<p class="inclusion"><a href="out/get_nonexistent.out">out/get_nonexistent.out</a></p>
+<div class="language-plaintext">
+<div class="highlight"><pre><span></span><code>status code: 404
+body length: 9379
+</code></pre></div>
+</div>
+<ul>
+<li>The 404 status code tells us something went wrong</li>
+<li>The 9 kilobyte response is an HTML page with an embedded image (the GitHub logo)</li>
+<li>The page contains error messages, but we have to know page format to pull them out</li>
+</ul>
+<!-- ---------------------------------------------------------------- -->
+</section>
+<section class="topic">
+<h2 class="topic">4: Getting JSON</h2>
+<p class="inclusion"><a href="src/get_json.py">src/get_json.py</a></p>
+<div class="language-py">
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;https://gvwilson.github.io/web-tutorial/site/motto.json&quot;</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;status code: </span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;body as text: </span><span class="si">{</span><span class="nb">repr</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">as_json</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;body as JSON (</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">as_json</span><span class="p">)</span><span class="si">}</span><span class="s2"> entries)&quot;</span><span class="p">,</span> <span class="n">as_json</span><span class="p">)</span>
+</code></pre></div>
+</div>
+<p class="inclusion"><a href="out/get_json.out">out/get_json.out</a></p>
+<div class="language-plaintext">
+<div class="highlight"><pre><span></span><code>
+</code></pre></div>
+</div>
+<ul>
+<li>Parsing data out of HTML is called <a href="#g:web_scraping">web scraping</a><ul>
+<li>Painful and error prone</li>
+</ul>
+</li>
+<li>Better: have the server return data as data<ul>
+<li>Preferred format these days is <a href="#g:json">JSON</a></li>
+<li>So common that <code>requests</code> has built-in support</li>
+</ul>
+</li>
+</ul>
+<!-- ---------------------------------------------------------------- -->
+</section>
 <section class="aside">
 <h2 class="aside">Appendices</h2>
 <h3>Terms</h3>
 <dl class="glossary">
+<dt id="g:client">client</dt><dd>A program such as a browser that sends requests to a server and does something with the response.</dd>
+
+<dt id="g:http_header">header (of HTTP request or response)</dt><dd>A name-value pair at the start of an <a href="#http_request">HTTP request</a> or <a href="#http_response">response</a>. Headers are used to specify what data formats the sender can handle, the date and time the message was sent, and so on.</dd>
+
+<dt id="g:http_request">HTTP request</dt><dd>A precisely-formatted block of text sent from a <a href="#client">client</a> such as a browser to a <a href="#server">server</a> that specifies what resource is being requested, what data formats the client will accept, etc.</dd>
+
+<dt id="g:http_response">HTTP response</dt><dd>A precisely-formatted block of text sent from a <a href="#server">server</a> back to a <a href="#client">client</a> in reply to a <a href="#http_request">request</a>.</dd>
+
 <dt id="g:http_status_code">HTTP status code</dt><dd>A numerical code that indicates what happened when an <a href="#http_request">HTTP request</a> was processed, such as 200 (OK), 404 (not found), or 500 (internal server error).</dd>
+
+<dt id="g:json">JavaScript Object Notation (JSON)</dt><dd>A way to represent data by combining basic values like numbers and character strings in lists and key-value structures. Unlike other formats, it is unencumbered by a syntax for writing comments.</dd>
+
+<dt id="g:mime_type">MIME type</dt><dd>A standard that defines types of file content, such as <code>text/plain</code> for plain text and <code>image/jpeg</code> for JPEG images.</dd>
+
+<dt id="g:server">server</dt><dd>A program that waits for requests from <a href="#client">clients</a> and sends them data in response.</dd>
+
+<dt id="g:web_scraping">web scraping</dt><dd>The act of extracting data from HTML pages on the web.</dd>
 </dl>
 <h3>Acknowledgments</h3>
 <ul></ul>

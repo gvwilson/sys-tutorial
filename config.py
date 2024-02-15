@@ -27,6 +27,7 @@ copydir = [
 # Files to copy verbatim.
 copyext = [
     ".html",
+    ".json",
     ".out",
     ".py",
     ".sh",
