@@ -21,3 +21,6 @@ run: ${OUT_FILES}
 
 ${OUT}/get_motto.out: ${SRC}/get_motto.py
 	python $< > $@
+
+${OUT}/show_response_headers.out: ${SRC}/show_response_headers.py
+	python $< > $@

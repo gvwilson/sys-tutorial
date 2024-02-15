@@ -6,6 +6,12 @@
 
 # C
 
+- key: client
+  en:
+    term: client
+    def: >
+      A program such as a browser that sends requests to a server and does something with the response.
+
 # D
 
 # E
@@ -15,6 +21,31 @@
 # G
 
 # H
+
+- key: http_header
+  en:
+    term: header (of HTTP request or response)
+    def: >
+      A name-value pair at the start of an [HTTP request](#http_request) or [response](#http_response).
+      Headers are used to specify what data formats the sender can handle,
+      the date and time the message was sent,
+      and so on.
+
+- key: http_request
+  en:
+    term: HTTP request
+    def: >
+      A precisely-formatted block of text sent from a [client](#client) such as a browser
+      to a [server](#server)
+      that specifies what resource is being requested,
+      what data formats the client will accept, etc.
+
+- key: http_response
+  en:
+    term: HTTP response
+    def: >
+      A precisely-formatted block of text sent from a [server](#server)
+      back to a [client](#client) in reply to a [request](#http_request).
 
 - key: http_status_code
   en:
@@ -35,6 +66,13 @@
 
 # M
 
+- key: mime_type
+  en:
+    term: MIME type
+    def: >
+      A standard that defines types of file content,
+      such as `text/plain` for plain text and `image/jpeg` for JPEG images.
+
 # N
 
 # O
@@ -46,6 +84,13 @@
 # R
 
 # S
+
+- key: server
+  en:
+    term: server
+    def: >
+      A program that waits for requests from [clients](#client)
+      and sends them data in response.
 
 # T
 

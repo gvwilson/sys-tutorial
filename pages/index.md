@@ -61,7 +61,7 @@
     -   The text of the response
 
 <!-- ---------------------------------------------------------------- -->
-[% section_break class="topic" title="What Just Happened" %]
+[% section_break class="aside" title="What Just Happened" %]
 
 [% figure
    file="img/http_lifecycle.svg"
@@ -74,6 +74,16 @@
 -   Server creates a response that includes the contents of the file (ditto)
 -   Sends it back
 -   `requests` parses the response and creates a Python object for us (also deserves a closer look)
+
+<!-- ---------------------------------------------------------------- -->
+[% section_break class="topic" title="Headers" %]
+
+[% double stem="show_response_headers" suffix="py out" %]
+
+-   Every HTTP request and response has [%g http_header "headers" %] with extra information
+    -   Does *not* include status code (handled separately)
+-   `Content-Length`: number of bytes in response data (i.e., how much to read)
+-   `Content-Type`: [%g mime_type "MIME type" %] of data (e.g., `text/plain`)
 
 <!-- ---------------------------------------------------------------- -->
 [% section_break class="aside" title="Appendices" %]
