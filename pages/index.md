@@ -86,6 +86,15 @@
 -   `Content-Type`: [%g mime_type "MIME type" %] of data (e.g., `text/plain`)
 
 <!-- ---------------------------------------------------------------- -->
+[% section_break class="topic" title="When Things Go Wrong" %]
+
+[% double stem="get_nonexistent" suffix="py out" %]
+
+-   The 404 status code tells us something went wrong
+-   The 9 kilobyte response is an HTML page with an embedded image (the GitHub logo)
+-   It does contain error messages, but we'd have to know page format to pull them out
+
+<!-- ---------------------------------------------------------------- -->
 [% section_break class="aside" title="Appendices" %]
 
 ### Terms

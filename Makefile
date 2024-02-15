@@ -19,6 +19,9 @@ OUT_FILES := $(patsubst ${SRC}/%.py,${OUT}/%.out,${PY_FILES})
 .PHONY: run
 run: ${OUT_FILES}
 
+${OUT}/get_nonexistent.out: ${SRC}/get_nonexistent.py
+	python $< > $@
+
 ${OUT}/get_motto.out: ${SRC}/get_motto.py
 	python $< > $@
 
