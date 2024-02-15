@@ -25,13 +25,13 @@ copydir = [
 ]
 
 # Files to copy verbatim.
-copy = [
-    "*.html",
-    "*.out",
-    "*.py",
-    "*.sh",
-    "*.text",
-    "*.txt",
+copyext = [
+    ".html",
+    ".out",
+    ".py",
+    ".sh",
+    ".text",
+    ".txt",
 ]
 
 # Enable various Markdown extensions.
@@ -42,3 +42,22 @@ markdown_settings = {
         "pymdownx.superfences",
     ]
 }
+
+
+if __name__ == "__main__":
+    import sys
+    USAGE = "usage: config.py [copydir | copyext]"
+    status = 0
+    if len(sys.argv) == 1:
+        print(USAGE, file=sys.stderr)
+    elif len(sys.argv) != 2:
+        print(USAGE, file=sys.stderr)
+        status = 1
+    elif sys.argv[1] == "copydir":
+        print(" ".join(copydir))
+    elif sys.argv[1] == "copyext":
+        print(" ".join(copyext))
+    else:
+        print(USAGE, file=sys.stderr)
+        status = 1
+    sys.exit(status)
