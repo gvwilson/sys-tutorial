@@ -138,20 +138,31 @@
     -   Order may change from run to run
 
 <!-- ---------------------------------------------------------------- -->
+[% section_break class="topic" title="Sockets" %]
+
+[% double stem="socket_client" suffix="py out" %]
+
+-   A [%g socket "socket" %] is a channel between two computers
+    -   Makes network I/O look (sort of) like file I/O
+-   Connect to a local server
+-   Send an HTTP request
+    -   Verb: `GET`
+    -   Path: `/motto.txt`
+    -   HTTP version
+    -   One header identifying the host (because a single address might be home to several)
+-   Read data back
+    -   First chunk of reply is standard HTTP response with lots of headers,
+        including length (in bytes) of content
+    -   Second chunk is content
+
+<!-- ---------------------------------------------------------------- -->
 [% section_break class="aside" title="Secure Sockets" %]
 
 [% double stem="https_client" suffix="py out" %]
 
 -   There's a lot going on here (which is why we use `requests`)
--   Create a [%g socket "socket" %]
--   Wrap it with [%g tls_ssl "TLS/SSL" %] security (which GitHub requires)
--   Connect to server
--   Send HTTP request
-    -   `GET` plus path to file plus HTTP version
-    -   One header identifying the host (because a single address might be home to several)
--   Read data back
-    -   First chunk of reply is standard HTTP response with lots of headers
-    -   Second chunk is content
+-   Create a socket and wrap it with [%g tls_ssl "TLS/SSL" %] security
+    -   Which GitHub requires
 -   Like we said, this is why we use `requests`
 
 <!-- ---------------------------------------------------------------- -->

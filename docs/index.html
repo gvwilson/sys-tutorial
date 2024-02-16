@@ -324,17 +324,86 @@ body as JSON:
 </div>
 <p class="inclusion"><a href="out/get_local_motto.out">out/get_local_motto.out</a></p>
 <div class="language-plaintext">
-<div class="highlight"><pre><span></span><code>server: ::ffff:127.0.0.1 - - [16/Feb/2024 13:39:51] &quot;GET /motto.txt HTTP/1.1&quot; 200 -
-client: status code: 200
-client: body:
-client: Start where you are, use what you have, help who you can.
-client:
+<div class="highlight"><pre><span></span><code>+  ::ffff:127.0.0.1 - - [16/Feb/2024 14:30:49] &quot;GET /motto.txt HTTP/1.1&quot; 200 -
+   status code: 200
+   body:
+   Start where you are, use what you have, help who you can.
 </code></pre></div>
 </div>
 <ul>
 <li><a href="#g:concurrency">Concurrent</a> systems are hard to debug<ul>
 <li>Multiple streams of activity</li>
 <li>Order may change from run to run</li>
+</ul>
+</li>
+</ul>
+<!-- ---------------------------------------------------------------- -->
+</section>
+<section class="topic">
+<h2 class="topic">6: Sockets</h2>
+<p class="inclusion"><a href="src/socket_client.py">src/socket_client.py</a></p>
+<div class="language-py">
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">socket</span>
+
+<span class="n">CHUNK_SIZE</span> <span class="o">=</span> <span class="mi">4096</span>
+<span class="n">HOST</span> <span class="o">=</span> <span class="s2">&quot;localhost&quot;</span>
+<span class="n">PORT</span> <span class="o">=</span> <span class="mi">8000</span>
+<span class="n">PATH</span> <span class="o">=</span> <span class="s2">&quot;/motto.txt&quot;</span>
+<span class="n">MESSAGE</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;GET </span><span class="si">{</span><span class="n">PATH</span><span class="si">}</span><span class="s2"> HTTP/1.1</span><span class="se">\r\n</span><span class="s2">Host: </span><span class="si">{</span><span class="n">HOST</span><span class="si">}</span><span class="se">\r\n\r\n</span><span class="s2">&quot;</span>
+<span class="n">SERVER_ADDRESS</span> <span class="o">=</span> <span class="p">(</span><span class="n">HOST</span><span class="p">,</span> <span class="mi">8000</span><span class="p">)</span>
+
+<span class="n">socket</span> <span class="o">=</span> <span class="n">socket</span><span class="o">.</span><span class="n">socket</span><span class="p">()</span>
+<span class="n">socket</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">SERVER_ADDRESS</span><span class="p">)</span>
+<span class="n">socket</span><span class="o">.</span><span class="n">sendall</span><span class="p">(</span><span class="nb">bytes</span><span class="p">(</span><span class="n">MESSAGE</span><span class="p">,</span> <span class="s2">&quot;utf-8&quot;</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;client sent:</span><span class="se">\n</span><span class="si">{</span><span class="n">MESSAGE</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="n">first</span> <span class="o">=</span> <span class="n">socket</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="n">CHUNK_SIZE</span><span class="p">)</span>
+<span class="n">first_str</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">first</span><span class="p">,</span> <span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;client received </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">first</span><span class="p">)</span><span class="si">}</span><span class="s2"> bytes:</span><span class="se">\n</span><span class="si">{</span><span class="n">first_str</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="n">second</span> <span class="o">=</span> <span class="n">socket</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="n">CHUNK_SIZE</span><span class="p">)</span>
+<span class="n">second_str</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">second</span><span class="p">,</span> <span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;client received </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">second</span><span class="p">)</span><span class="si">}</span><span class="s2"> bytes:</span><span class="se">\n</span><span class="si">{</span><span class="n">second_str</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+</div>
+<p class="inclusion"><a href="out/socket_client.out">out/socket_client.out</a></p>
+<div class="language-plaintext">
+<div class="highlight"><pre><span></span><code>+  ::ffff:127.0.0.1 - - [16/Feb/2024 14:30:50] &quot;GET /motto.txt HTTP/1.1&quot; 200 -
+   client sent:
+   GET /motto.txt HTTP/1.1
+   Host: localhost
+
+
+   client received 186 bytes:
+   HTTP/1.0 200 OK
+   Server: SimpleHTTP/0.6 Python/3.12.1
+   Date: Fri, 16 Feb 2024 19:30:50 GMT
+   Content-type: text/plain
+   Content-Length: 58
+   Last-Modified: Thu, 15 Feb 2024 12:58:01 GMT
+
+
+   client received 58 bytes:
+   Start where you are, use what you have, help who you can.
+</code></pre></div>
+</div>
+<ul>
+<li>A <a href="#g:socket">socket</a> is a channel between two computers<ul>
+<li>Makes network I/O look (sort of) like file I/O</li>
+</ul>
+</li>
+<li>Connect to a local server</li>
+<li>Send an HTTP request<ul>
+<li>Verb: <code>GET</code></li>
+<li>Path: <code>/motto.txt</code></li>
+<li>HTTP version</li>
+<li>One header identifying the host (because a single address might be home to several)</li>
+</ul>
+</li>
+<li>Read data back<ul>
+<li>First chunk of reply is standard HTTP response with lots of headers,
+    including length (in bytes) of content</li>
+<li>Second chunk is content</li>
 </ul>
 </li>
 </ul>
@@ -350,9 +419,10 @@ client:
 
 <span class="n">CHUNK_SIZE</span> <span class="o">=</span> <span class="mi">4096</span>
 <span class="n">HOST</span> <span class="o">=</span> <span class="s2">&quot;gvwilson.github.io&quot;</span>
+<span class="n">PORT</span> <span class="o">=</span> <span class="mi">443</span>
 <span class="n">PATH</span> <span class="o">=</span> <span class="s2">&quot;/web-tutorial/site/motto.txt&quot;</span>
 <span class="n">MESSAGE</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;GET </span><span class="si">{</span><span class="n">PATH</span><span class="si">}</span><span class="s2"> HTTP/1.1</span><span class="se">\r\n</span><span class="s2">Host: </span><span class="si">{</span><span class="n">HOST</span><span class="si">}</span><span class="se">\r\n\r\n</span><span class="s2">&quot;</span>
-<span class="n">SERVER_ADDRESS</span> <span class="o">=</span> <span class="p">(</span><span class="n">HOST</span><span class="p">,</span> <span class="mi">443</span><span class="p">)</span>
+<span class="n">SERVER_ADDRESS</span> <span class="o">=</span> <span class="p">(</span><span class="n">HOST</span><span class="p">,</span> <span class="n">PORT</span><span class="p">)</span>
 
 <span class="n">socket</span> <span class="o">=</span> <span class="n">socket</span><span class="o">.</span><span class="n">socket</span><span class="p">()</span>
 <span class="n">context</span> <span class="o">=</span> <span class="n">ssl</span><span class="o">.</span><span class="n">create_default_context</span><span class="p">()</span>
@@ -378,7 +448,7 @@ GET /web-tutorial/site/motto.txt HTTP/1.1
 Host: gvwilson.github.io
 
 
-client received 680 bytes:
+client received 682 bytes:
 HTTP/1.1 200 OK
 Content-Length: 58
 Content-Type: text/plain; charset=utf-8
@@ -390,17 +460,8 @@ Start where you are, use what you have, help who you can.
 </div>
 <ul>
 <li>There&rsquo;s a lot going on here (which is why we use <code>requests</code>)</li>
-<li>Create a <a href="#g:socket">socket</a></li>
-<li>Wrap it with <a href="#g:tls_ssl">TLS/SSL</a> security (which GitHub requires)</li>
-<li>Connect to server</li>
-<li>Send HTTP request<ul>
-<li><code>GET</code> plus path to file plus HTTP version</li>
-<li>One header identifying the host (because a single address might be home to several)</li>
-</ul>
-</li>
-<li>Read data back<ul>
-<li>First chunk of reply is standard HTTP response with lots of headers</li>
-<li>Second chunk is content</li>
+<li>Create a socket and wrap it with <a href="#g:tls_ssl">TLS/SSL</a> security<ul>
+<li>Which GitHub requires</li>
 </ul>
 </li>
 <li>Like we said, this is why we use <code>requests</code></li>

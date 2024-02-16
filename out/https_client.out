@@ -3,7 +3,7 @@ GET /web-tutorial/site/motto.txt HTTP/1.1
 Host: gvwilson.github.io
 
 
-client received 680 bytes:
+client received 682 bytes:
 HTTP/1.1 200 OK
 Content-Length: 58
 Content-Type: text/plain; charset=utf-8

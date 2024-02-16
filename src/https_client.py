@@ -4,9 +4,10 @@ from headers import headers
 
 CHUNK_SIZE = 4096
 HOST = "gvwilson.github.io"
+PORT = 443
 PATH = "/web-tutorial/site/motto.txt"
 MESSAGE = f"GET {PATH} HTTP/1.1\r\nHost: {HOST}\r\n\r\n"
-SERVER_ADDRESS = (HOST, 443)
+SERVER_ADDRESS = (HOST, PORT)
 
 socket = socket.socket()
 context = ssl.create_default_context()
