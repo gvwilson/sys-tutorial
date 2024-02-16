@@ -2,6 +2,8 @@ include lib/tut/tutorial.mk
 include depend.mk
 
 PAGE := pages/index.md
+RUN2 := bin/silent.sh bin/run2.sh
+SITE_SERVER := python -m http.server -d site
 
 ## release: create a release
 .PHONY: release
@@ -21,6 +23,9 @@ run: ${OUT_FILES}
 
 ${OUT}/basic_http_client.out: ${SRC}/basic_http_client.py
 	python $< > $@
+
+${OUT}/get_local_motto.out: ${SRC}/get_local_motto.py
+	${RUN2} "${SITE_SERVER}" "python $<" > $@
 
 ${OUT}/get_json.out: ${SRC}/get_json.py
 	python $< > $@

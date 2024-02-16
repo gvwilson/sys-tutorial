@@ -12,6 +12,12 @@
     def: >
       A program such as a browser that sends requests to a server and does something with the response.
 
+- key: concurrency
+  en:
+    term: concurrency
+    def: >
+      The ability of different parts of a system to take action at the same time.
+
 # D
 
 # E

@@ -5,6 +5,9 @@
 - key: "persona"
   url: "http://teachtogether.tech/en/index.html#s:process-personas"
   title: "*Teaching Tech Together* lesson on learner personas"
+- key: py_http_server
+  url: "https://docs.python.org/3/library/http.server.html"
+  title: "Python `http.server` module"
 - key: "requests"
   url: "https://requests.readthedocs.io/en/latest/"
   title: "`requests` module"

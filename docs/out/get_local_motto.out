@@ -1,0 +1,6 @@
+server: ::ffff:127.0.0.1 - - [16/Feb/2024 08:25:09] "GET /motto.txt HTTP/1.1" 200 -
+client: client before request
+client: status code: 200
+client: body:
+client: Start where you are, use what you have, help who you can.
+client:

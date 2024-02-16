@@ -108,7 +108,30 @@
     -   So common that `requests` has built-in support
 
 <!-- ---------------------------------------------------------------- -->
-[% section_break class="topic" title="Secure Sockets" %]
+[% section_break class="aside" title="Local Server" %]
+
+[% single "src/run_site_server.sh" %]
+
+-   Use Python's [`http.server`][py_http_server] module
+    to run a [%g local_server "local server" %]
+    -   Host name is [%g localhost "`localhost`" %]
+    -   Uses port 8000 by default
+    -   So URLs look like `http://localhost:8000/path/to/file`
+-   `-d site` tells the server to pretend `site` is root directory
+-   Use this local server for the next few examples
+    -   Build our own server later on to show how it works
+
+<!-- ---------------------------------------------------------------- -->
+[% section_break class="topic" title="Checking Local Server" %]
+
+[% double stem="get_local_motto" suffix="py out" %]
+
+-   [%g concurrency "Concurrent" %] systems are hard to debug
+    -   Multiple streams of activity
+    -   Order may change from run to run
+
+<!-- ---------------------------------------------------------------- -->
+[% section_break class="aside" title="Secure Sockets" %]
 
 [% double stem="basic_http_client" suffix="py out" %]
 

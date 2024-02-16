@@ -267,8 +267,62 @@ body as JSON:
 </ul>
 <!-- ---------------------------------------------------------------- -->
 </section>
+<section class="aside">
+<h2 class="aside">Local Server</h2>
+<p class="inclusion"><a href="src/run_site_server.sh">src/run_site_server.sh</a></p>
+<div class="language-sh">
+<div class="highlight"><pre><span></span><code>python<span class="w"> </span>-m<span class="w"> </span>http.server<span class="w"> </span>-d<span class="w"> </span>site
+</code></pre></div>
+</div>
+<ul>
+<li>Use Python&rsquo;s <a href="https://docs.python.org/3/library/http.server.html"><code>http.server</code></a> module
+    to run a <a href="#g:local_server">local server</a><ul>
+<li>Host name is <a href="#g:localhost"><code>localhost</code></a></li>
+<li>Uses port 8000 by default</li>
+<li>So URLs look like <code>http://localhost:8000/path/to/file</code></li>
+</ul>
+</li>
+<li><code>-d site</code> tells the server to pretend <code>site</code> is root directory</li>
+<li>Use this local server for the next few examples<ul>
+<li>Build our own server later on to show how it works</li>
+</ul>
+</li>
+</ul>
+<!-- ---------------------------------------------------------------- -->
+</section>
 <section class="topic">
-<h2 class="topic">5: Secure Socket</h2>
+<h2 class="topic">5: Checking Local Server</h2>
+<p class="inclusion"><a href="src/get_local_motto.py">src/get_local_motto.py</a></p>
+<div class="language-py">
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;http://localhost:8000/motto.txt&quot;</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;status code: </span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;body:</span><span class="se">\n</span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+</div>
+<p class="inclusion"><a href="out/get_local_motto.out">out/get_local_motto.out</a></p>
+<div class="language-plaintext">
+<div class="highlight"><pre><span></span><code>server: ::ffff:127.0.0.1 - - [16/Feb/2024 08:25:09] &quot;GET /motto.txt HTTP/1.1&quot; 200 -
+client: client before request
+client: status code: 200
+client: body:
+client: Start where you are, use what you have, help who you can.
+client:
+</code></pre></div>
+</div>
+<ul>
+<li><a href="#g:concurrency">Concurrent</a> systems are hard to debug<ul>
+<li>Multiple streams of activity</li>
+<li>Order may change from run to run</li>
+</ul>
+</li>
+</ul>
+<!-- ---------------------------------------------------------------- -->
+</section>
+<section class="aside">
+<h2 class="aside">Secure Sockets</h2>
 <p class="inclusion"><a href="src/basic_http_client.py">src/basic_http_client.py</a></p>
 <div class="language-py">
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">socket</span>
@@ -359,6 +413,8 @@ Start where you are, use what you have, help who you can.
 <dl class="glossary">
 <dt id="g:client">client</dt><dd>A program such as a browser that sends requests to a server and does something with the response.</dd>
 
+<dt id="g:concurrency">concurrency</dt><dd>The ability of different parts of a system to take action at the same time.</dd>
+
 <dt id="g:http_header">header (of HTTP request or response)</dt><dd>A name-value pair at the start of an <a href="#http_request">HTTP request</a> or <a href="#http_response">response</a>. Headers are used to specify what data formats the sender can handle, the date and time the message was sent, and so on.</dd>
 
 <dt id="g:http_request">HTTP request</dt><dd>A precisely-formatted block of text sent from a <a href="#client">client</a> such as a browser to a <a href="#server">server</a> that specifies what resource is being requested, what data formats the client will accept, etc.</dd>
@@ -386,6 +442,7 @@ Start where you are, use what you have, help who you can.
 <li><em>Teaching Tech Together</em>: <a href="https://teachtogether.tech/">https://teachtogether.tech/</a></li>
 <li><em>Teaching Tech Together</em> lesson on learner personas: <a href="http://teachtogether.tech/en/index.html#s:process-personas">http://teachtogether.tech/en/index.html#s:process-personas</a></li>
 <li>Ark static site generator: <a href="https://www.dmulholl.com/docs/ark/main/">https://www.dmulholl.com/docs/ark/main/</a></li>
+<li>Python <code>http.server</code> module: <a href="https://docs.python.org/3/library/http.server.html">https://docs.python.org/3/library/http.server.html</a></li>
 <li><code>requests</code> module: <a href="https://requests.readthedocs.io/en/latest/">https://requests.readthedocs.io/en/latest/</a></li>
 </ul>
 </section>
