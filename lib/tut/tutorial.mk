@@ -15,10 +15,7 @@ commands:
 .PHONY: build
 build:
 	@ark build
-	@python ${TEMPLATE}/bin/copyfiles.py \
-	${DOCS} \
-	"$$(python config.py copydir)" \
-	"$$(python config.py copyext)"
+	rm -rf ${DOCS}/${SRC} ${DOCS}/${OUT} && (tar cf - ${SRC} ${OUT} | (cd ${DOCS} && tar xf -))
 
 ## serve: rebuild and serve website
 .PHONY: serve

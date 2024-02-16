@@ -1,0 +1,3 @@
+status code: 200
+body as text: '{\n    "first": "Start where you are",\n    "second": "Use what you have",\n    "third": "Help who you can"\n}\n'
+body as JSON (3 entries) {'first': 'Start where you are', 'second': 'Use what you have', 'third': 'Help who you can'}

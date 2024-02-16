@@ -22,10 +22,13 @@ run: ${OUT_FILES}
 ${OUT}/basic_http_client.out: ${SRC}/basic_http_client.py
 	python $< > $@
 
-${OUT}/get_nonexistent.out: ${SRC}/get_nonexistent.py
+${OUT}/get_json.out: ${SRC}/get_json.py
 	python $< > $@
 
 ${OUT}/get_motto.out: ${SRC}/get_motto.py
+	python $< > $@
+
+${OUT}/get_nonexistent.out: ${SRC}/get_nonexistent.py
 	python $< > $@
 
 ${OUT}/show_response_headers.out: ${SRC}/show_response_headers.py
