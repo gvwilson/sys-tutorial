@@ -47,7 +47,7 @@ markdown_settings = {
 
 if __name__ == "__main__":
     import sys
-    USAGE = "usage: config.py [copydir | copyext]"
+    USAGE = "usage: config.py [copydir | copyext | lang]"
     status = 0
     if len(sys.argv) == 1:
         print(USAGE, file=sys.stderr)
@@ -58,6 +58,8 @@ if __name__ == "__main__":
         print(" ".join(copydir))
     elif sys.argv[1] == "copyext":
         print(" ".join(copyext))
+    elif sys.argv[1] == "lang":
+        print(lang)
     else:
         print(USAGE, file=sys.stderr)
         status = 1
