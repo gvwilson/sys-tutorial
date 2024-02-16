@@ -15,7 +15,7 @@ commands:
 .PHONY: build
 build:
 	@ark build
-	rm -rf ${DOCS}/${SRC} ${DOCS}/${OUT} && (tar cf - ${SRC} ${OUT} | (cd ${DOCS} && tar xf -))
+	rm -rf ${DOCS}/${SRC} ${DOCS}/${OUT} && cp -r ${SRC} ${OUT} ${DOCS}
 
 ## serve: rebuild and serve website
 .PHONY: serve

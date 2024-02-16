@@ -108,9 +108,9 @@
     -   So common that `requests` has built-in support
 
 <!-- ---------------------------------------------------------------- -->
-[% section_break class="topic" title="Getting JSON" %]
+[% section_break class="topic" title="Secure Sockets" %]
 
-[% double stem="get_json" suffix="py out" %]
+[% double stem="basic_http_client" suffix="py out" %]
 
 -   There's a lot going on here (which is why we use `requests`)
 -   Create a [%g socket "socket" %]
