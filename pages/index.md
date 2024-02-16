@@ -88,6 +88,13 @@
 -   Requests have headers too, which we will see soon
 
 <!-- ---------------------------------------------------------------- -->
+[% section_break class="aside" title="Shortening Output" %]
+
+[% single "src/headers.py" %]
+
+-   From now on only show interesting headers
+
+<!-- ---------------------------------------------------------------- -->
 [% section_break class="topic" title="When Things Go Wrong" %]
 
 [% double stem="get_nonexistent" suffix="py out" %]

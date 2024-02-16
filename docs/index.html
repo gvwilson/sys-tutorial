@@ -207,6 +207,26 @@ X-Fastly-Request-ID: fca63c44e7d7263b6fe8f8b290410eb578631a34
 </ul>
 <!-- ---------------------------------------------------------------- -->
 </section>
+<section class="aside">
+<h2 class="aside">Shortening Output</h2>
+<p class="inclusion"><a href="src/headers.py">src/headers.py</a></p>
+<div class="language-py">
+<div class="highlight"><pre><span></span><code><span class="sd">&quot;&quot;&quot;Manage headers for display.&quot;&quot;&quot;</span>
+
+<span class="k">def</span> <span class="nf">headers</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Show only desired headers.&quot;&quot;&quot;</span>
+    <span class="n">lines</span> <span class="o">=</span> <span class="p">[</span><span class="n">ln</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">ln</span> <span class="ow">in</span> <span class="n">text</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)]</span>
+    <span class="n">keep</span> <span class="o">=</span> <span class="p">[</span><span class="n">ln</span> <span class="k">for</span> <span class="n">ln</span> <span class="ow">in</span> <span class="n">lines</span> <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">ln</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">args</span><span class="p">)]</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">keep</span><span class="p">)</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">lines</span><span class="p">):</span>
+        <span class="n">keep</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;…plus </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nb">len</span><span class="p">(</span><span class="n">keep</span><span class="p">)</span><span class="si">}</span><span class="s2"> more lines…&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">keep</span><span class="p">)</span>
+</code></pre></div>
+</div>
+<ul>
+<li>From now on only show interesting headers</li>
+</ul>
+<!-- ---------------------------------------------------------------- -->
+</section>
 <section class="topic">
 <h2 class="topic">3: When Things Go Wrong</h2>
 <p class="inclusion"><a href="src/get_nonexistent.py">src/get_nonexistent.py</a></p>
