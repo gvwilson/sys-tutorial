@@ -15,14 +15,12 @@ release:
 	-x \*~
 
 PY_FILES := $(wildcard ${SRC}/*.py)
-OUT_FILES := $(patsubst ${SRC}/%.py,${OUT}/%.out,${PY_FILES})
+PY_EXCLUDED := ${SRC}/headers.py
+OUT_FILES := $(patsubst ${SRC}/%.py,${OUT}/%.out,$(filter-out ${PY_EXCLUDED},${PY_FILES}))
 
 ## run: re-run all examples
 .PHONY: run
 run: ${OUT_FILES}
-
-${OUT}/basic_http_client.out: ${SRC}/basic_http_client.py
-	python $< > $@
 
 ${OUT}/get_local_motto.out: ${SRC}/get_local_motto.py
 	${RUN2} "${SITE_SERVER}" "python $<" > $@
@@ -34,6 +32,9 @@ ${OUT}/get_motto.out: ${SRC}/get_motto.py
 	python $< > $@
 
 ${OUT}/get_nonexistent.out: ${SRC}/get_nonexistent.py
+	python $< > $@
+
+${OUT}/https_client.out: ${SRC}/https_client.py ${SRC}/headers.py
 	python $< > $@
 
 ${OUT}/show_response_headers.out: ${SRC}/show_response_headers.py

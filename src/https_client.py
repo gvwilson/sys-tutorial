@@ -1,5 +1,6 @@
 import socket
 import ssl
+from headers import headers
 
 CHUNK_SIZE = 4096
 HOST = "gvwilson.github.io"
@@ -16,8 +17,8 @@ connection.sendall(bytes(MESSAGE, "utf-8"))
 print(f"client sent:\n{MESSAGE}")
 
 first = connection.recv(CHUNK_SIZE)
-first_str = str(first, "utf-8")
-print(f"client received {len(first)} bytes:\n{first_str}")
+first_str = headers(str(first, "utf-8"), "HTTP", "Content-Length", "Content-Type")
+print(f"client received {len(first)} bytes:\n{first_str}\n")
 
 second = connection.recv(CHUNK_SIZE)
 second_str = str(second, "utf-8")

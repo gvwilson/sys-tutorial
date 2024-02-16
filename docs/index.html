@@ -304,8 +304,7 @@ body as JSON:
 </div>
 <p class="inclusion"><a href="out/get_local_motto.out">out/get_local_motto.out</a></p>
 <div class="language-plaintext">
-<div class="highlight"><pre><span></span><code>server: ::ffff:127.0.0.1 - - [16/Feb/2024 08:25:09] &quot;GET /motto.txt HTTP/1.1&quot; 200 -
-client: client before request
+<div class="highlight"><pre><span></span><code>server: ::ffff:127.0.0.1 - - [16/Feb/2024 13:39:51] &quot;GET /motto.txt HTTP/1.1&quot; 200 -
 client: status code: 200
 client: body:
 client: Start where you are, use what you have, help who you can.
@@ -323,10 +322,11 @@ client:
 </section>
 <section class="aside">
 <h2 class="aside">Secure Sockets</h2>
-<p class="inclusion"><a href="src/basic_http_client.py">src/basic_http_client.py</a></p>
+<p class="inclusion"><a href="src/https_client.py">src/https_client.py</a></p>
 <div class="language-py">
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">socket</span>
 <span class="kn">import</span> <span class="nn">ssl</span>
+<span class="kn">from</span> <span class="nn">headers</span> <span class="kn">import</span> <span class="n">headers</span>
 
 <span class="n">CHUNK_SIZE</span> <span class="o">=</span> <span class="mi">4096</span>
 <span class="n">HOST</span> <span class="o">=</span> <span class="s2">&quot;gvwilson.github.io&quot;</span>
@@ -343,46 +343,26 @@ client:
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;client sent:</span><span class="se">\n</span><span class="si">{</span><span class="n">MESSAGE</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
 <span class="n">first</span> <span class="o">=</span> <span class="n">connection</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="n">CHUNK_SIZE</span><span class="p">)</span>
-<span class="n">first_str</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">first</span><span class="p">,</span> <span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;client received </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">first</span><span class="p">)</span><span class="si">}</span><span class="s2"> bytes:</span><span class="se">\n</span><span class="si">{</span><span class="n">first_str</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">first_str</span> <span class="o">=</span> <span class="n">headers</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">first</span><span class="p">,</span> <span class="s2">&quot;utf-8&quot;</span><span class="p">),</span> <span class="s2">&quot;HTTP&quot;</span><span class="p">,</span> <span class="s2">&quot;Content-Length&quot;</span><span class="p">,</span> <span class="s2">&quot;Content-Type&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;client received </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">first</span><span class="p">)</span><span class="si">}</span><span class="s2"> bytes:</span><span class="se">\n</span><span class="si">{</span><span class="n">first_str</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
 
 <span class="n">second</span> <span class="o">=</span> <span class="n">connection</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="n">CHUNK_SIZE</span><span class="p">)</span>
 <span class="n">second_str</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">second</span><span class="p">,</span> <span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;client received </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">second</span><span class="p">)</span><span class="si">}</span><span class="s2"> bytes:</span><span class="se">\n</span><span class="si">{</span><span class="n">second_str</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </code></pre></div>
 </div>
-<p class="inclusion"><a href="out/basic_http_client.out">out/basic_http_client.out</a></p>
+<p class="inclusion"><a href="out/https_client.out">out/https_client.out</a></p>
 <div class="language-plaintext">
 <div class="highlight"><pre><span></span><code>client sent:
 GET /web-tutorial/site/motto.txt HTTP/1.1
 Host: gvwilson.github.io
 
 
-client received 682 bytes:
+client received 680 bytes:
 HTTP/1.1 200 OK
-Connection: keep-alive
 Content-Length: 58
-Server: GitHub.com
 Content-Type: text/plain; charset=utf-8
-permissions-policy: interest-cohort=()
-Last-Modified: Fri, 16 Feb 2024 02:11:42 GMT
-Access-Control-Allow-Origin: *
-ETag: &quot;65cec45e-3a&quot;
-expires: Fri, 16 Feb 2024 12:44:10 GMT
-Cache-Control: max-age=600
-x-proxy-cache: MISS
-X-GitHub-Request-Id: 54F2:1F56:1E38C47:2536389:65CF5640
-Accept-Ranges: bytes
-Date: Fri, 16 Feb 2024 12:34:10 GMT
-Via: 1.1 varnish
-Age: 0
-X-Served-By: cache-yyz4536-YYZ
-X-Cache: MISS
-X-Cache-Hits: 0
-X-Timer: S1708086850.395856,VS0,VE41
-Vary: Accept-Encoding
-X-Fastly-Request-ID: 84db5b265de56c31a7df555901be226cf36bb892
-
+…plus 22 more lines…
 
 client received 58 bytes:
 Start where you are, use what you have, help who you can.
@@ -417,6 +397,8 @@ Start where you are, use what you have, help who you can.
 
 <dt id="g:http_header">header (of HTTP request or response)</dt><dd>A name-value pair at the start of an <a href="#http_request">HTTP request</a> or <a href="#http_response">response</a>. Headers are used to specify what data formats the sender can handle, the date and time the message was sent, and so on.</dd>
 
+<dt id="g:hostname">hostname</dt><dd>A human-readable name for a computer on a network.</dd>
+
 <dt id="g:http_request">HTTP request</dt><dd>A precisely-formatted block of text sent from a <a href="#client">client</a> such as a browser to a <a href="#server">server</a> that specifies what resource is being requested, what data formats the client will accept, etc.</dd>
 
 <dt id="g:http_response">HTTP response</dt><dd>A precisely-formatted block of text sent from a <a href="#server">server</a> back to a <a href="#client">client</a> in reply to a <a href="#http_request">request</a>.</dd>
@@ -424,6 +406,10 @@ Start where you are, use what you have, help who you can.
 <dt id="g:http_status_code">HTTP status code</dt><dd>A numerical code that indicates what happened when an <a href="#http_request">HTTP request</a> was processed, such as 200 (OK), 404 (not found), or 500 (internal server error).</dd>
 
 <dt id="g:json">JavaScript Object Notation (JSON)</dt><dd>A way to represent data by combining basic values like numbers and character strings in lists and key-value structures. Unlike other formats, it is unencumbered by a syntax for writing comments.</dd>
+
+<dt id="g:local_server">local server</dt><dd>A <a href="#server">server</a> running on the programmer&rsquo;s own computer, typically for development purposes.</dd>
+
+<dt id="g:localhost">localhost</dt><dd>A special <a href="#hostname">host name</a> that identifies the computer that the software is running on.</dd>
 
 <dt id="g:mime_type">MIME type</dt><dd>A standard that defines types of file content, such as <code>text/plain</code> for plain text and <code>image/jpeg</code> for JPEG images.</dd>
 

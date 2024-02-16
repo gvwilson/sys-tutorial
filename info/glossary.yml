@@ -28,6 +28,12 @@
 
 # H
 
+- key: hostname
+  en:
+    term: hostname
+    def: >
+      A human-readable name for a computer on a network.
+
 - key: http_header
   en:
     term: header (of HTTP request or response)
@@ -78,6 +84,20 @@
 # K
 
 # L
+
+- key: local_server
+  en:
+    term: local server
+    def: >
+      A [server](#server) running on the programmer's own computer,
+      typically for development purposes.
+
+- key: localhost
+  en:
+    term: localhost
+    def: >
+      A special [host name](#hostname) that identifies
+      the computer that the software is running on.
 
 # M
 
