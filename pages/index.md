@@ -70,8 +70,8 @@
 %]
 
 -   Open a connection to the server (we need to investigate that)
--   Send a request for the file we want (yup, going to investigate that as well)
--   Server creates a response that includes the contents of the file (ditto)
+-   Send an [%g http_request "HTTP request" %] for the file we want (yup, going to investigate that as well)
+-   Server creates a [%g http_response "response" %] that includes the contents of the file (ditto)
 -   Sends it back
 -   `requests` parses the response and creates a Python object for us (also deserves a closer look)
 
@@ -106,6 +106,23 @@
 -   Better: have the server return data as data
     -   Preferred format these days is [%g json "JSON" %]
     -   So common that `requests` has built-in support
+
+<!-- ---------------------------------------------------------------- -->
+[% section_break class="topic" title="Getting JSON" %]
+
+[% double stem="get_json" suffix="py out" %]
+
+-   There's a lot going on here (which is why we use `requests`)
+-   Create a [%g socket "socket" %]
+-   Wrap it with [%g tls_ssl "TLS/SSL" %] security (which GitHub requires)
+-   Connect to server
+-   Send HTTP request
+    -   `GET` plus path to file plus HTTP version
+    -   One header identifying the host (because a single address might be home to several)
+-   Read data back
+    -   First chunk of reply is standard HTTP response with lots of headers
+    -   Second chunk is content
+-   Like we said, this is why we use `requests`
 
 <!-- ---------------------------------------------------------------- -->
 [% section_break class="aside" title="Appendices" %]

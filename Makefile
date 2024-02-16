@@ -19,6 +19,9 @@ OUT_FILES := $(patsubst ${SRC}/%.py,${OUT}/%.out,${PY_FILES})
 .PHONY: run
 run: ${OUT_FILES}
 
+${OUT}/basic_http_client.out: ${SRC}/basic_http_client.py
+	python $< > $@
+
 ${OUT}/get_nonexistent.out: ${SRC}/get_nonexistent.py
 	python $< > $@
 

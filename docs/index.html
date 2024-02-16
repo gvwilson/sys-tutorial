@@ -147,8 +147,8 @@ Start where you are, use what you have, help who you can.
 </figure>
 <ul>
 <li>Open a connection to the server (we need to investigate that)</li>
-<li>Send a request for the file we want (yup, going to investigate that as well)</li>
-<li>Server creates a response that includes the contents of the file (ditto)</li>
+<li>Send an <a href="#g:http_request">HTTP request</a> for the file we want (yup, going to investigate that as well)</li>
+<li>Server creates a <a href="#g:http_response">response</a> that includes the contents of the file (ditto)</li>
 <li>Sends it back</li>
 <li><code>requests</code> parses the response and creates a Python object for us (also deserves a closer look)</li>
 </ul>
@@ -263,6 +263,44 @@ body length: 9379
 </ul>
 <!-- ---------------------------------------------------------------- -->
 </section>
+<section class="topic">
+<h2 class="topic">5: Getting JSON</h2>
+<p class="inclusion"><a href="src/get_json.py">src/get_json.py</a></p>
+<div class="language-py">
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;https://gvwilson.github.io/web-tutorial/site/motto.json&quot;</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;status code: </span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;body as text: </span><span class="si">{</span><span class="nb">repr</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">as_json</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;body as JSON (</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">as_json</span><span class="p">)</span><span class="si">}</span><span class="s2"> entries)&quot;</span><span class="p">,</span> <span class="n">as_json</span><span class="p">)</span>
+</code></pre></div>
+</div>
+<p class="inclusion"><a href="out/get_json.out">out/get_json.out</a></p>
+<div class="language-plaintext">
+<div class="highlight"><pre><span></span><code>
+</code></pre></div>
+</div>
+<ul>
+<li>There&rsquo;s a lot going on here (which is why we use <code>requests</code>)</li>
+<li>Create a <a href="#g:socket">socket</a></li>
+<li>Wrap it with <a href="#g:tls_ssl">TLS/SSL</a> security (which GitHub requires)</li>
+<li>Connect to server</li>
+<li>Send HTTP request<ul>
+<li><code>GET</code> plus path to file plus HTTP version</li>
+<li>One header identifying the host (because a single address might be home to several)</li>
+</ul>
+</li>
+<li>Read data back<ul>
+<li>First chunk of reply is standard HTTP response with lots of headers</li>
+<li>Second chunk is content</li>
+</ul>
+</li>
+<li>Like we said, this is why we use <code>requests</code></li>
+</ul>
+<!-- ---------------------------------------------------------------- -->
+</section>
 <section class="aside">
 <h2 class="aside">Appendices</h2>
 <h3>Terms</h3>
@@ -303,7 +341,7 @@ body length: 9379
   <a href="https://github.com/gvwilson/web-tutorial"><i class="fab fa-github" aria-hidden="true" title="GitHub repository"></i></a>
   <a href="license/"><i class="fab fa-creative-commons-by" aria-hidden="true" title="license"></i></a>
   &middot;
-  <time datetime="2024-02-15">Last built 2024-02-15</time>
+  <time datetime="2024-02-16">Last built 2024-02-16</time>
 </footer>
 
   </body>

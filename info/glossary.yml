@@ -101,7 +101,21 @@
       A program that waits for requests from [clients](#client)
       and sends them data in response.
 
+- key: socket
+  en:
+    term: socket
+    def: >
+      A communication channel between two computers
+      that provides an interface similar to reading and writing files.
+
 # T
+
+- key: tls_ssl
+  en:
+    term: Transport Layer Security/Secure Sockets Layer
+    acronym: TLS/SSL
+    def: >
+      A cryptographic protocol for secure communication over a computer network.
 
 # U
 
