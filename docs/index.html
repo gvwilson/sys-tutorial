@@ -205,26 +205,9 @@ X-Fastly-Request-ID: fca63c44e7d7263b6fe8f8b290410eb578631a34
 </li>
 <li>Requests have headers too, which we will see soon</li>
 </ul>
-<!-- ---------------------------------------------------------------- -->
-</section>
-<section class="aside">
-<h2 class="aside">Shortening Output</h2>
-<p class="inclusion"><a href="src/headers.py">src/headers.py</a></p>
-<div class="language-py">
-<div class="highlight"><pre><span></span><code><span class="sd">&quot;&quot;&quot;Manage headers for display.&quot;&quot;&quot;</span>
-
-<span class="k">def</span> <span class="nf">headers</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Show only desired headers.&quot;&quot;&quot;</span>
-    <span class="n">lines</span> <span class="o">=</span> <span class="p">[</span><span class="n">ln</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">ln</span> <span class="ow">in</span> <span class="n">text</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)]</span>
-    <span class="n">keep</span> <span class="o">=</span> <span class="p">[</span><span class="n">ln</span> <span class="k">for</span> <span class="n">ln</span> <span class="ow">in</span> <span class="n">lines</span> <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">ln</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">args</span><span class="p">)]</span>
-    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">keep</span><span class="p">)</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">lines</span><span class="p">):</span>
-        <span class="n">keep</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;…plus </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nb">len</span><span class="p">(</span><span class="n">keep</span><span class="p">)</span><span class="si">}</span><span class="s2"> more lines…&quot;</span><span class="p">)</span>
-    <span class="k">return</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">keep</span><span class="p">)</span>
-</code></pre></div>
-</div>
-<ul>
-<li>From now on only show interesting headers</li>
-</ul>
+<blockquote>
+<p>From now on we will only show interesting headers</p>
+</blockquote>
 <!-- ---------------------------------------------------------------- -->
 </section>
 <section class="topic">
@@ -324,10 +307,11 @@ body as JSON:
 </div>
 <p class="inclusion"><a href="out/get_local_motto.out">out/get_local_motto.out</a></p>
 <div class="language-plaintext">
-<div class="highlight"><pre><span></span><code>+  ::ffff:127.0.0.1 - - [16/Feb/2024 14:30:49] &quot;GET /motto.txt HTTP/1.1&quot; 200 -
-   status code: 200
-   body:
-   Start where you are, use what you have, help who you can.
+<div class="highlight"><pre><span></span><code>S:  ::ffff:127.0.0.1 - - [16/Feb/2024 17:53:39] &quot;GET /motto.txt HTTP/1.1&quot; 200 -
+c:  status code: 200
+c:  body:
+c:  Start where you are, use what you have, help who you can.
+c:
 </code></pre></div>
 </div>
 <ul>
@@ -336,6 +320,7 @@ body as JSON:
 <li>Order may change from run to run</li>
 </ul>
 </li>
+<li>Use <code>S</code> and <code>c</code> to show output from server and client respectively</li>
 </ul>
 <!-- ---------------------------------------------------------------- -->
 </section>
@@ -368,23 +353,24 @@ body as JSON:
 </div>
 <p class="inclusion"><a href="out/socket_client.out">out/socket_client.out</a></p>
 <div class="language-plaintext">
-<div class="highlight"><pre><span></span><code>+  ::ffff:127.0.0.1 - - [16/Feb/2024 14:30:50] &quot;GET /motto.txt HTTP/1.1&quot; 200 -
-   client sent:
-   GET /motto.txt HTTP/1.1
-   Host: localhost
-
-
-   client received 186 bytes:
-   HTTP/1.0 200 OK
-   Server: SimpleHTTP/0.6 Python/3.12.1
-   Date: Fri, 16 Feb 2024 19:30:50 GMT
-   Content-type: text/plain
-   Content-Length: 58
-   Last-Modified: Thu, 15 Feb 2024 12:58:01 GMT
-
-
-   client received 58 bytes:
-   Start where you are, use what you have, help who you can.
+<div class="highlight"><pre><span></span><code>S:  ::ffff:127.0.0.1 - - [16/Feb/2024 17:53:40] &quot;GET /motto.txt HTTP/1.1&quot; 200 -
+c:  client sent:
+c:  GET /motto.txt HTTP/1.1
+c:  Host: localhost
+c:  
+c: 
+c:  client received 244 bytes:
+c:  HTTP/1.0 200 OK
+c:  Server: SimpleHTTP/0.6 Python/3.12.1
+c:  Date: Fri, 16 Feb 2024 22:53:40 GMT
+c:  Content-type: text/plain
+c:  Content-Length: 58
+c:  Last-Modified: Thu, 15 Feb 2024 12:58:01 GMT
+c:  
+c:  Start where you are, use what you have, help who you can.
+c: 
+c:  client received 0 bytes:
+c:
 </code></pre></div>
 </div>
 <ul>
@@ -409,8 +395,8 @@ body as JSON:
 </ul>
 <!-- ---------------------------------------------------------------- -->
 </section>
-<section class="aside">
-<h2 class="aside">Secure Sockets</h2>
+<section class="topic">
+<h2 class="topic">7: Secure Sockets</h2>
 <p class="inclusion"><a href="src/https_client.py">src/https_client.py</a></p>
 <div class="language-py">
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">socket</span>

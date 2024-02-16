@@ -87,12 +87,7 @@
     -   `Content-Type`: [%g mime_type "MIME type" %] of data (e.g., `text/plain`)
 -   Requests have headers too, which we will see soon
 
-<!-- ---------------------------------------------------------------- -->
-[% section_break class="aside" title="Shortening Output" %]
-
-[% single "src/headers.py" %]
-
--   From now on only show interesting headers
+> From now on we will only show interesting headers
 
 <!-- ---------------------------------------------------------------- -->
 [% section_break class="topic" title="When Things Go Wrong" %]
@@ -136,6 +131,7 @@
 -   [%g concurrency "Concurrent" %] systems are hard to debug
     -   Multiple streams of activity
     -   Order may change from run to run
+-   Use `S` and `c` to show output from server and client respectively
 
 <!-- ---------------------------------------------------------------- -->
 [% section_break class="topic" title="Sockets" %]
@@ -156,7 +152,7 @@
     -   Second chunk is content
 
 <!-- ---------------------------------------------------------------- -->
-[% section_break class="aside" title="Secure Sockets" %]
+[% section_break class="topic" title="Secure Sockets" %]
 
 [% double stem="https_client" suffix="py out" %]
 

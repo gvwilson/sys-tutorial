@@ -1,5 +1,5 @@
-+  ::ffff:127.0.0.1 - - [16/Feb/2024 14:30:49] "GET /motto.txt HTTP/1.1" 200 -
-   status code: 200
-   body:
-   Start where you are, use what you have, help who you can.
-  
+S:  ::ffff:127.0.0.1 - - [16/Feb/2024 17:53:39] "GET /motto.txt HTTP/1.1" 200 -
+c:  status code: 200
+c:  body:
+c:  Start where you are, use what you have, help who you can.
+c: 
