@@ -1,5 +1,5 @@
 <!-- ---------------------------------------------------------------- -->
-[% section_start class="aside" title="what this is" %]
+[% section_start class="aside" title="What This Is" %]
 
 -   notes and working examples that instructors can use to perform a lesson
     -   do *not* expect novices with no prior Python or Unix experience to be able to learn from them

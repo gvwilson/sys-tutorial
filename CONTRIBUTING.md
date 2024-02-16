@@ -58,7 +58,7 @@ All contributors will be acknowledged.
     the key must identify an entry in `info/glossary.yml`,
     which is in [Glosario][glosario] format.
 
--   SVG diagrams are in `res/img/` and can be edited using [draw.io][draw-io].
+-   SVG diagrams are in `res/img/` and can be edited using [draw.io][draw_io].
     Please use 12-point Helvetica for text,
     solid 1-point black lines,
     and unfilled objects.
@@ -172,7 +172,7 @@ Why hand-drawn figures rather than [Graphviz][graphviz] or [Mermaid][mermaid]?
 Why make this tutorial freely available?
 :   Because if we all give a little, we all get a lot.
 
-[draw-io]: https://www.drawio.com/
+[draw_io]: https://www.drawio.com/
 [jekyll]: https://jekyllrb.com/
 [ghp]: https://pages.github.com/
 [glosario]: https://glosario.carpentries.org/

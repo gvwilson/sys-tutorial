@@ -26,6 +26,7 @@
     --stamp-red-light: #DAB3B7;
 
     --background-color: #FFFFFF;
+    --background-cthulhu: #FFFFF3;
 
     --lightborder: 1px;
     --mediumborder: 2px;
@@ -92,6 +93,10 @@
 /*
  * Colors
  */
+
+div.cthulhu {
+    background-color: var(--background-cthulhu);
+}
 
 div.language-sh, div.language-text {
     font-style: italic;
