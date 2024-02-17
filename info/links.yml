@@ -1,4 +1,7 @@
 # General
+- key: "carpentries"
+  url: "https://carpentries.org/"
+  title: "The Carpentries"
 - key: "persona"
   url: "http://teachtogether.tech/en/index.html#s:process-personas"
   title: "*Teaching Tech Together* lesson on learner personas"

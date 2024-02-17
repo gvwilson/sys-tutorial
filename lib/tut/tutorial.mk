@@ -1,6 +1,7 @@
 DOCS := docs
 OUT := out
 PAGES := pages
+SITE := site
 SRC := src
 TEMPLATE := lib/tut
 
@@ -15,7 +16,7 @@ commands:
 .PHONY: build
 build:
 	@ark build
-	@rm -rf ${DOCS}/${SRC} ${DOCS}/${OUT} && cp -r ${SRC} ${OUT} ${DOCS}
+	@rm -rf ${DOCS}/${SRC} ${DOCS}/${OUT} ${DOCS}/${SITE} && cp -r ${SRC} ${OUT} ${SITE} ${DOCS}
 
 ## serve: rebuild and serve website
 .PHONY: serve

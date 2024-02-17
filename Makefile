@@ -1,8 +1,8 @@
 include lib/tut/tutorial.mk
 
-PAGE := pages/index.md
-RUN2 := bin/silent.sh bin/run2.sh
-SITE_SERVER := python -m http.server -d site
+PY_FILES := $(wildcard ${SRC}/*.py)
+PY_EXCLUDED := ${SRC}/headers.py ${SRC}/socket_server_client.py
+OUT_FILES := $(patsubst ${SRC}/%.py,${OUT}/%.out,$(filter-out ${PY_EXCLUDED},${PY_FILES}))
 
 ## release: create a release
 .PHONY: release
@@ -12,3 +12,10 @@ release:
 	src \
 	out \
 	-x \*~
+
+## run: re-run all examples
+.PHONY: run
+run: ${OUT_FILES}
+
+${OUT}/requests_get_motto.out: ${SRC}/requests_get_motto.py
+	python $< > $@
