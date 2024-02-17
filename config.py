@@ -1,9 +1,9 @@
 # Tutorial data.
-title = "Web Programming for Wary Data Scientists"
+title = "Computer Security for Wary Data Scientists"
 subtitle = ""
-repo = "https://github.com/gvwilson/web-tutorial"
-release = "https://github.com/gvwilson/web-tutorial/raw/main/web-tutorial.zip"
-plausible = "gvwilson.github.io/web-tutorial"
+repo = "https://github.com/gvwilson/safety-tutorial"
+release = "https://github.com/gvwilson/safety-tutorial/raw/main/safety-tutorial.zip"
+plausible = "gvwilson.github.io/safety-tutorial"
 author = {
     "name": "Greg Wilson",
     "email": "gvwilson@third-bit.com",
@@ -17,24 +17,6 @@ rouge_style = "github.css"
 lang = "en"
 extension = "/"
 
-# Directories to copy verbatim.
-copydir = [
-    "out",
-    "site",
-    "src",
-]
-
-# Files to copy verbatim.
-copyext = [
-    ".html",
-    ".json",
-    ".out",
-    ".py",
-    ".sh",
-    ".text",
-    ".txt",
-]
-
 # Enable various Markdown extensions.
 markdown_settings = {
     "extensions": [
@@ -47,17 +29,13 @@ markdown_settings = {
 
 if __name__ == "__main__":
     import sys
-    USAGE = "usage: config.py [copydir | copyext | lang]"
+    USAGE = "usage: config.py [lang]"
     status = 0
     if len(sys.argv) == 1:
         print(USAGE, file=sys.stderr)
     elif len(sys.argv) != 2:
         print(USAGE, file=sys.stderr)
         status = 1
-    elif sys.argv[1] == "copydir":
-        print(" ".join(copydir))
-    elif sys.argv[1] == "copyext":
-        print(" ".join(copyext))
     elif sys.argv[1] == "lang":
         print(lang)
     else:

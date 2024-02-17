@@ -1,4 +1,4 @@
-# Web Programming for Wary Data Scientists
+# The Safetynomicon: An Introduction to Computer Security for Wary Data Scientists
 
 -   Please see [the website][site] to view the current version of this tutorial.
 
@@ -28,9 +28,9 @@
   </p>
 </div>
 
-[conduct]: https://gvwilson.github.io/web-tutorial/conduct/
-[contribute]: https://gvwilson.github.io/web-tutorial/contributing/
-[help_wanted]: https://github.com/gvwilson/web-tutorial/issues?q=is%3Aissue+is%3Aopen+label%3Ahelp-wanted
-[license]: https://gvwilson.github.io/web-tutorial/license/
-[site]: https://gvwilson.github.io/web-tutorial/
+[conduct]: https://gvwilson.github.io/safety-tutorial/conduct/
+[contribute]: https://gvwilson.github.io/safety-tutorial/contributing/
+[help_wanted]: https://github.com/gvwilson/safety-tutorial/issues?q=is%3Aissue+is%3Aopen+label%3Ahelp-wanted
+[license]: https://gvwilson.github.io/safety-tutorial/license/
+[site]: https://gvwilson.github.io/safety-tutorial/
 [t3]: https://teachtogether.tech/

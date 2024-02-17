@@ -1,7 +1,4 @@
 # General
-- key: "ark"
-  url: "https://www.dmulholl.com/docs/ark/main/"
-  title: "Ark static site generator"
 - key: "persona"
   url: "http://teachtogether.tech/en/index.html#s:process-personas"
   title: "*Teaching Tech Together* lesson on learner personas"
@@ -20,6 +17,8 @@
   url: "https://third-bit.com/"
 
 # Colophon
+- key: "ark"
+  url: "https://www.dmulholl.com/docs/ark/main/"
 - key: "atkinson"
   url: "https://brailleinstitute.org/freefont"
 - key: "draw-io"

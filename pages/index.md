@@ -20,16 +20,17 @@
     -   Ning did a bachelor's degree in economics
         and now works as a data analyst for the Ministry of Health
     -   They learned Python in an intensive 16-week data science bootcamp program
-        and are comfortable working with Unix command-line tools
-        and writing data analysis programs with Pandas and Polars
-    -   Ning wants to build dashboards that people in the Ministry can use to query data in real time,
-        but doesn't really understand how web browsers get data
-        or what a server actually does
+        and are comfortable working with Unix command-line tools,
+        writing data analysis programs in Python,
+	and downloading data from the web to use in those programs
+    -   Ning wants to build real-time dashboards for people in the Ministry,
+        but doesn't understand how to do that
+	without exposing confidential data or opening the Ministry up to attack
     -   Their work schedule is unpredictable and highly variable,
         so they need to be able to learn a bit at a time
 -   prerequisites
     -   intermediate Unix command line: `find`, `grep`, shell scripts using `for`
-    -   data analysis with Python: Pandas, Polars, Plotly, Jupyter notebooks, argparse, regular expressions
+    -   data analysis with Python: Polars, Plotly, Jupyter notebooks, argparse, regular expressions
     -   using Git and GitHub on months-long projects with two or three colleagues
 -   learning outcomes
     1.  TODO
@@ -47,132 +48,6 @@
 [% section_break class="aside" title="Background Concepts" %]
 
 -   TODO
-
-<!-- ---------------------------------------------------------------- -->
-[% section_break class="topic" title="Requesting a File" %]
-
-[% double stem="get_motto" suffix="py out" %]
-
--   Use the [`requests`][requests] module (needs to be installed)
--   The URL identifies the file we want
-    -   Though as we'll see, the server can interpret it differently
--   Response includes:
-    -   [%g http_status_code "HTTP status code" %] such as 200 (OK) or 404 (Not Found)
-    -   The text of the response
-
-<!-- ---------------------------------------------------------------- -->
-[% section_break class="aside" title="What Just Happened" %]
-
-[% figure
-   file="img/http_lifecycle.svg"
-   title="Lifecycle of an HTTP request and response"
-   alt="HTTP request/response lifecycle"
-%]
-
--   Open a connection to the server
--   Send an [%g http_request "HTTP request" %] for the file we want
--   Server creates a [%g http_response "response" %] that includes the contents of the file
--   Sends it back
--   `requests` parses the response and creates a Python object for us
-
-<!-- ---------------------------------------------------------------- -->
-[% section_break class="topic" title="Headers" %]
-
-[% double stem="show_response_headers" suffix="py out" %]
-
--   Every HTTP request and response has [%g http_header "headers" %] with extra information
-    -   Does *not* include status code (handled separately)
--   Most important for now are:
-    -   `Content-Length`: number of bytes in response data (i.e., how much to read)
-    -   `Content-Type`: [%g mime_type "MIME type" %] of data (e.g., `text/plain`)
--   Requests have headers too, which we will see soon
-
-> From now on we will only show interesting headers
-
-<!-- ---------------------------------------------------------------- -->
-[% section_break class="topic" title="When Things Go Wrong" %]
-
-[% double stem="get_nonexistent" suffix="py out" %]
-
--   The 404 status code tells us something went wrong
--   The 9 kilobyte response is an HTML page with an embedded image (the GitHub logo)
--   The page contains error messages, but we have to know page format to pull them out
-
-<!-- ---------------------------------------------------------------- -->
-[% section_break class="topic" title="Getting JSON" %]
-
-[% double stem="get_json" suffix="py out" %]
-
--   Parsing data out of HTML is called [%g web_scraping "web scraping" %]
-    -   Painful and error prone
--   Better: have the server return data as data
-    -   Preferred format these days is [%g json "JSON" %]
-    -   So common that `requests` has built-in support
-
-<!-- ---------------------------------------------------------------- -->
-[% section_break class="aside" title="Local Web Server" %]
-
-[% single "src/run_site_server.sh" %]
-
--   Use Python's [`http.server`][py_http_server] module
-    to run a [%g local_server "local server" %]
-    -   Host name is [%g localhost "`localhost`" %]
-    -   Uses port 8000 by default
-    -   So URLs look like `http://localhost:8000/path/to/file`
--   `-d site` tells the server to pretend `site` is root directory
--   Use this local server for the next few examples
-    -   Build our own server later on to show how it works
-
-<!-- ---------------------------------------------------------------- -->
-[% section_break class="topic" title="Checking Local Server" %]
-
-[% double stem="get_local_motto" suffix="py out" %]
-
--   [%g concurrency "Concurrent" %] systems are hard to debug
-    -   Multiple streams of activity
-    -   Order may change from run to run
--   Use `S` and `c` to show output from server and client respectively
-
-<!-- ---------------------------------------------------------------- -->
-[% section_break class="topic" title="At a Lower Level" %]
-
-[% double stem="socket_server" suffix="py out" %]
-
--   A [%g socket "socket" %] is a channel between two computers
-    -   Makes network I/O look (sort of) like file I/O
--   Our server handles a single request by:
-    -   Waiting for a connection
-    -   Creating a `Handler` object
-    -   Calling its `handle` method
--   And then it closes
--   It responds to requests with an HTTP "OK"
-
-<!-- ---------------------------------------------------------------- -->
-[% section_break class="topic" title="Sending an HTTP Request" %]
-
-[% double stem="socket_client" suffix="py out" %]
-
--   Connect to a local server
--   Send an HTTP request
-    -   Verb: `GET`
-    -   Path: `/motto.txt`
-    -   HTTP version
-    -   One header identifying the host (because a single address might be home to several)
--   Read data back
-    -   First chunk of reply is standard HTTP response with lots of headers,
-        including length (in bytes) of content
-    -   Second chunk is content
--   You can see why we use `requests`, right?
-
-<!-- ---------------------------------------------------------------- -->
-[% section_break class="topic" title="Secure Sockets" %]
-
-[% double stem="https_client" suffix="py out" %]
-
--   There's a lot going on here (which is why we use `requests`)
--   Create a socket and wrap it with [%g tls_ssl "TLS/SSL" %] security
-    -   Which GitHub requires
--   Like we said, this is why we use `requests`
 
 <!-- ---------------------------------------------------------------- -->
 [% section_break class="aside" title="Appendices" %]
