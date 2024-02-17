@@ -91,8 +91,8 @@
 <ul>
 <li>Download <a href="https://github.com/gvwilson/web-tutorial/raw/main/web-tutorial.zip">the latest release</a></li>
 <li>Unzip the file in a temporary directory to create:<ul>
-<li><code>./data/*.*</code>: the datasets used in the examples</li>
 <li><code>./src/*.*</code>: shell scripts and Python programs</li>
+<li><code>./site/*.*</code>: the pages and data files used in the examples</li>
 <li><code>./out/*.*</code>: expected output for examples</li>
 </ul>
 </li>
@@ -146,11 +146,11 @@ Start where you are, use what you have, help who you can.
 <figcaption>Figure 1: Lifecycle of an HTTP request and response</figcaption>
 </figure>
 <ul>
-<li>Open a connection to the server (we need to investigate that)</li>
-<li>Send an <a href="#g:http_request">HTTP request</a> for the file we want (yup, going to investigate that as well)</li>
-<li>Server creates a <a href="#g:http_response">response</a> that includes the contents of the file (ditto)</li>
+<li>Open a connection to the server</li>
+<li>Send an <a href="#g:http_request">HTTP request</a> for the file we want</li>
+<li>Server creates a <a href="#g:http_response">response</a> that includes the contents of the file</li>
 <li>Sends it back</li>
-<li><code>requests</code> parses the response and creates a Python object for us (also deserves a closer look)</li>
+<li><code>requests</code> parses the response and creates a Python object for us</li>
 </ul>
 <!-- ---------------------------------------------------------------- -->
 </section>
@@ -271,7 +271,7 @@ body as JSON:
 <!-- ---------------------------------------------------------------- -->
 </section>
 <section class="aside">
-<h2 class="aside">Local Server</h2>
+<h2 class="aside">Local Web Server</h2>
 <p class="inclusion"><a href="src/run_site_server.sh">src/run_site_server.sh</a></p>
 <div class="language-sh">
 <div class="highlight"><pre><span></span><code>python<span class="w"> </span>-m<span class="w"> </span>http.server<span class="w"> </span>-d<span class="w"> </span>site
@@ -325,7 +325,72 @@ c:
 <!-- ---------------------------------------------------------------- -->
 </section>
 <section class="topic">
-<h2 class="topic">6: Sockets</h2>
+<h2 class="topic">6: At a Lower Level</h2>
+<p class="inclusion"><a href="src/socket_server.py">src/socket_server.py</a></p>
+<div class="language-py">
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">socketserver</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+
+<span class="n">CHUNK_SIZE</span> <span class="o">=</span> <span class="mi">4096</span>
+<span class="n">HOST</span> <span class="o">=</span> <span class="s2">&quot;localhost&quot;</span>
+<span class="n">PORT</span> <span class="o">=</span> <span class="mi">8000</span>
+
+<span class="n">RESPONSE</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;HTTP/1.1 200 OK</span>
+<span class="s2">Content-Length: 0</span>
+<span class="s2">&quot;&quot;&quot;</span>
+
+<span class="k">class</span> <span class="nc">Handler</span><span class="p">(</span><span class="n">socketserver</span><span class="o">.</span><span class="n">BaseRequestHandler</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">handle</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;server awaiting message&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="n">CHUNK_SIZE</span><span class="p">),</span> <span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;From </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">client_address</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">)</span><span class="si">}</span><span class="s2"> bytes</span><span class="se">\n</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">sendall</span><span class="p">(</span><span class="nb">bytes</span><span class="p">(</span><span class="n">RESPONSE</span><span class="p">,</span> <span class="s2">&quot;utf-8&quot;</span><span class="p">))</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">server</span> <span class="o">=</span> <span class="n">socketserver</span><span class="o">.</span><span class="n">TCPServer</span><span class="p">((</span><span class="n">HOST</span><span class="p">,</span> <span class="n">PORT</span><span class="p">),</span> <span class="n">Handler</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;server about to handle request&quot;</span><span class="p">)</span>
+    <span class="n">server</span><span class="o">.</span><span class="n">handle_request</span><span class="p">()</span>
+    <span class="n">server</span><span class="o">.</span><span class="n">server_close</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;server done&quot;</span><span class="p">)</span>
+</code></pre></div>
+</div>
+<p class="inclusion"><a href="out/socket_server.out">out/socket_server.out</a></p>
+<div class="language-plaintext">
+<div class="highlight"><pre><span></span><code>S:  server about to handle request
+S:  server awaiting message
+S:  From 127.0.0.1: 154 bytes
+S:  GET /motto.txt HTTP/1.1
+S:  Host: localhost:8000
+S:  User-Agent: python-requests/2.31.0
+S:  Accept-Encoding: gzip, deflate
+c:  client received: &lt;Response [200]&gt;
+S:  Accept: */*
+S:  Connection: keep-alive
+S:  
+S: 
+S:  server done
+</code></pre></div>
+</div>
+<ul>
+<li>A <a href="#g:socket">socket</a> is a channel between two computers<ul>
+<li>Makes network I/O look (sort of) like file I/O</li>
+</ul>
+</li>
+<li>Our server handles a single request by:<ul>
+<li>Waiting for a connection</li>
+<li>Creating a <code>Handler</code> object</li>
+<li>Calling its <code>handle</code> method</li>
+</ul>
+</li>
+<li>And then it closes</li>
+<li>It responds to requests with an HTTP &ldquo;OK&rdquo;</li>
+</ul>
+<!-- ---------------------------------------------------------------- -->
+</section>
+<section class="topic">
+<h2 class="topic">7: Sending an HTTP Request</h2>
 <p class="inclusion"><a href="src/socket_client.py">src/socket_client.py</a></p>
 <div class="language-py">
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">socket</span>
@@ -374,10 +439,6 @@ c:
 </code></pre></div>
 </div>
 <ul>
-<li>A <a href="#g:socket">socket</a> is a channel between two computers<ul>
-<li>Makes network I/O look (sort of) like file I/O</li>
-</ul>
-</li>
 <li>Connect to a local server</li>
 <li>Send an HTTP request<ul>
 <li>Verb: <code>GET</code></li>
@@ -392,11 +453,12 @@ c:
 <li>Second chunk is content</li>
 </ul>
 </li>
+<li>You can see why we use <code>requests</code>, right?</li>
 </ul>
 <!-- ---------------------------------------------------------------- -->
 </section>
 <section class="topic">
-<h2 class="topic">7: Secure Sockets</h2>
+<h2 class="topic">8: Secure Sockets</h2>
 <p class="inclusion"><a href="src/https_client.py">src/https_client.py</a></p>
 <div class="language-py">
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">socket</span>
@@ -507,7 +569,7 @@ Start where you are, use what you have, help who you can.
   <a href="https://github.com/gvwilson/web-tutorial"><i class="fab fa-github" aria-hidden="true" title="GitHub repository"></i></a>
   <a href="license/"><i class="fab fa-creative-commons-by" aria-hidden="true" title="license"></i></a>
   &middot;
-  <time datetime="2024-02-16">Last built 2024-02-16</time>
+  <time datetime="2024-02-17">Last built 2024-02-17</time>
 </footer>
 
   </body>

@@ -39,8 +39,8 @@
 
 -   Download [the latest release]([% config "release" %])
 -   Unzip the file in a temporary directory to create:
-    -   `./data/*.*`: the datasets used in the examples
     -   `./src/*.*`: shell scripts and Python programs
+    -   `./site/*.*`: the pages and data files used in the examples
     -   `./out/*.*`: expected output for examples
 
 <!-- ---------------------------------------------------------------- -->
@@ -69,11 +69,11 @@
    alt="HTTP request/response lifecycle"
 %]
 
--   Open a connection to the server (we need to investigate that)
--   Send an [%g http_request "HTTP request" %] for the file we want (yup, going to investigate that as well)
--   Server creates a [%g http_response "response" %] that includes the contents of the file (ditto)
+-   Open a connection to the server
+-   Send an [%g http_request "HTTP request" %] for the file we want
+-   Server creates a [%g http_response "response" %] that includes the contents of the file
 -   Sends it back
--   `requests` parses the response and creates a Python object for us (also deserves a closer look)
+-   `requests` parses the response and creates a Python object for us
 
 <!-- ---------------------------------------------------------------- -->
 [% section_break class="topic" title="Headers" %]
@@ -110,7 +110,7 @@
     -   So common that `requests` has built-in support
 
 <!-- ---------------------------------------------------------------- -->
-[% section_break class="aside" title="Local Server" %]
+[% section_break class="aside" title="Local Web Server" %]
 
 [% single "src/run_site_server.sh" %]
 
@@ -134,12 +134,24 @@
 -   Use `S` and `c` to show output from server and client respectively
 
 <!-- ---------------------------------------------------------------- -->
-[% section_break class="topic" title="Sockets" %]
+[% section_break class="topic" title="At a Lower Level" %]
 
-[% double stem="socket_client" suffix="py out" %]
+[% double stem="socket_server" suffix="py out" %]
 
 -   A [%g socket "socket" %] is a channel between two computers
     -   Makes network I/O look (sort of) like file I/O
+-   Our server handles a single request by:
+    -   Waiting for a connection
+    -   Creating a `Handler` object
+    -   Calling its `handle` method
+-   And then it closes
+-   It responds to requests with an HTTP "OK"
+
+<!-- ---------------------------------------------------------------- -->
+[% section_break class="topic" title="Sending an HTTP Request" %]
+
+[% double stem="socket_client" suffix="py out" %]
+
 -   Connect to a local server
 -   Send an HTTP request
     -   Verb: `GET`
@@ -150,6 +162,7 @@
     -   First chunk of reply is standard HTTP response with lots of headers,
         including length (in bytes) of content
     -   Second chunk is content
+-   You can see why we use `requests`, right?
 
 <!-- ---------------------------------------------------------------- -->
 [% section_break class="topic" title="Secure Sockets" %]
