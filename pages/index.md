@@ -112,6 +112,32 @@
     -   So common that `requests` has built-in support
 
 <!-- ---------------------------------------------------------------- -->
+[% section_break class="aside" title="Local Web Server" %]
+
+[% single "src/run_local_server.sh" %]
+
+-   We're going to want more control
+    -   And pushing files to GitHub so that we can use them is annoying
+-   Use Python's [`http.server`][py_http_server] module
+    to run a [%g local_server "local server" %]
+    -   Host name is [%g localhost "`localhost`" %]
+    -   Uses port 8000 by default
+    -   So URLs look like `http://localhost:8000/path/to/file`
+-   `-d site` tells the server to pretend `site` is root directory
+-   Use this local server for the next few examples
+    -   Build our own server later on to show how it works
+
+<!-- ---------------------------------------------------------------- -->
+[% section_break class="topic" title="Checking Local Server" %]
+
+[% double stem="requests_local_motto" suffix="py out" %]
+
+-   [%g concurrency "Concurrent" %] systems are hard to debug
+    -   Multiple streams of activity
+    -   Order may change from run to run
+-   Use `S` and `c` to show output from server and client respectively
+
+<!-- ---------------------------------------------------------------- -->
 [% section_break class="aside" title="Appendices" %]
 
 ### Terms

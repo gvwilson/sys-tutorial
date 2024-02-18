@@ -271,6 +271,65 @@ body as JSON:
 <!-- ---------------------------------------------------------------- -->
 </section>
 <section class="aside">
+<h2 class="aside">Local Web Server</h2>
+<p class="inclusion"><a href="src/run_local_server.sh">src/run_local_server.sh</a></p>
+<div class="language-sh">
+<div class="highlight"><pre><span></span><code>python<span class="w"> </span>-m<span class="w"> </span>http.server<span class="w"> </span>-d<span class="w"> </span>site
+</code></pre></div>
+</div>
+<ul>
+<li>We&rsquo;re going to want more control<ul>
+<li>And pushing files to GitHub so that we can use them is annoying</li>
+</ul>
+</li>
+<li>Use Python&rsquo;s <a href="https://docs.python.org/3/library/http.server.html"><code>http.server</code></a> module
+    to run a <a href="#g:local_server">local server</a><ul>
+<li>Host name is <a href="#g:localhost"><code>localhost</code></a></li>
+<li>Uses port 8000 by default</li>
+<li>So URLs look like <code>http://localhost:8000/path/to/file</code></li>
+</ul>
+</li>
+<li><code>-d site</code> tells the server to pretend <code>site</code> is root directory</li>
+<li>Use this local server for the next few examples<ul>
+<li>Build our own server later on to show how it works</li>
+</ul>
+</li>
+</ul>
+<!-- ---------------------------------------------------------------- -->
+</section>
+<section class="topic">
+<h2 class="topic">4: Checking Local Server</h2>
+<p class="inclusion"><a href="src/requests_local_motto.py">src/requests_local_motto.py</a></p>
+<div class="language-py">
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="n">URL</span> <span class="o">=</span> <span class="s2">&quot;http://localhost:8000/motto.txt&quot;</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">URL</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;status code: </span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;body:</span><span class="se">\n</span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+</div>
+<p class="inclusion"><a href="out/requests_local_motto.out">out/requests_local_motto.out</a></p>
+<div class="language-plaintext">
+<div class="highlight"><pre><span></span><code>S:  ::ffff:127.0.0.1 - - [17/Feb/2024 19:09:55] &quot;GET /motto.txt HTTP/1.1&quot; 200 -
+c:  status code: 200
+c:  body:
+c:  Start where you are, use what you have, help who you can.
+c:
+</code></pre></div>
+</div>
+<ul>
+<li><a href="#g:concurrency">Concurrent</a> systems are hard to debug<ul>
+<li>Multiple streams of activity</li>
+<li>Order may change from run to run</li>
+</ul>
+</li>
+<li>Use <code>S</code> and <code>c</code> to show output from server and client respectively</li>
+</ul>
+<!-- ---------------------------------------------------------------- -->
+</section>
+<section class="aside">
 <h2 class="aside">Appendices</h2>
 <h3>Terms</h3>
 <dl class="glossary">
@@ -323,7 +382,7 @@ body as JSON:
   <a href="https://github.com/gvwilson/safety-tutorial"><i class="fab fa-github" aria-hidden="true" title="GitHub repository"></i></a>
   <a href="license/"><i class="fab fa-creative-commons-by" aria-hidden="true" title="license"></i></a>
   &middot;
-  <time datetime="2024-02-17">Last built 2024-02-17</time>
+  <time datetime="2024-02-18">Last built 2024-02-18</time>
 </footer>
 
   </body>

@@ -4,7 +4,7 @@
 pgid=`ps -o pgid= $$`
 
 # Trap a Ctrl-C SIGINT and kill everything running inside this script.
-trap "pkill -KILL -g $pgid" INT
+trap "pkill -TERM -g $pgid" INT
 
 # 1. Redirect server stderr to stdout.
 # 2. Prefix each line with 'server'.
@@ -19,4 +19,4 @@ sleep 1
 $2 2>&1 | while read client; do echo 'c: ' ${client}; done
 
 # Kill this script and its children (client and server) when client finishes.
-pkill -KILL -g $pgid
+pkill -TERM -g $pgid
