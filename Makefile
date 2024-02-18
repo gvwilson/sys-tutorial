@@ -4,7 +4,7 @@ PY_FILES := $(wildcard ${SRC}/*.py)
 PY_EXCLUDED := ${SRC}/headers.py
 OUT_FILES := $(patsubst ${SRC}/%.py,${OUT}/%.out,$(filter-out ${PY_EXCLUDED},${PY_FILES}))
 
-RUN2 := bin/silent.sh bin/run2.sh
+RUNNER := bin/runner.sh
 SITE_SERVER := python -m http.server -d site
 
 ## release: create a release
@@ -29,8 +29,8 @@ ${OUT}/requests_get_json.out: ${SRC}/requests_get_json.py
 ${OUT}/requests_get_motto.out: ${SRC}/requests_get_motto.py
 	python $< > $@
 
-${OUT}/requests_local_motto.out: ${SRC}/requests_local_motto.py ${RUN2}
-	${RUN2} "${SITE_SERVER}" "python $<" > $@
+${OUT}/requests_local_motto.out: ${SRC}/requests_local_motto.py ${RUNNER}
+	${RUNNER} 8000 "${SITE_SERVER}" "python $<" &> $@
 
 ${OUT}/show_response_headers.out: ${SRC}/show_response_headers.py
 	python $< > $@
