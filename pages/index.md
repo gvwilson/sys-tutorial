@@ -37,6 +37,13 @@
     1.  TODO
 
 <!-- ---------------------------------------------------------------- -->
+[% section_break class="aside" title="What We're Going to Do" %]
+
+1.  Show how the basic components of the web work.
+1.  Build a simple application that serves up data from files and a database.
+1.  Fix its safety issues one by one.
+
+<!-- ---------------------------------------------------------------- -->
 [% section_break class="aside" title="Setup" %]
 
 -   Download [the latest release]([% config "release" %])
@@ -44,11 +51,6 @@
     -   `./src/*.*`: shell scripts and Python programs
     -   `./site/*.*`: the pages and data files used in the examples
     -   `./out/*.*`: expected output for examples
-
-<!-- ---------------------------------------------------------------- -->
-[% section_break class="aside" title="Background Concepts" %]
-
--   TODO
 
 <!-- ---------------------------------------------------------------- -->
 [% section_break class="aside" title="Start with Something Simple" %]
