@@ -80,16 +80,25 @@
 -   `requests` parses the response and creates a Python object for us
 
 <!-- ---------------------------------------------------------------- -->
-[% section_break class="topic" title="Headers" %]
+[% section_break class="topic" title="Request Structure" %]
+
+[% double stem="requests_prepared_structure" suffix="py out" %]
+
+-   First line is [%g http_method "method" %], URL, and protocol version
+-   Every HTTP request can have [%g http_header "headers" %] with extra information
+-   And optionally data being uploaded (which we will see later)
+-   Yes, it's all just text
+
+<!-- ---------------------------------------------------------------- -->
+[% section_break class="topic" title="Response Headers" %]
 
 [% double stem="show_response_headers" suffix="py out" %]
 
--   Every HTTP request and response has [%g http_header "headers" %] with extra information
-    -   Does *not* include status code (handled separately)
+-   Every HTTP response also has with extra information
+    -   Does *not* include status code: that appears in the first line
 -   Most important for now are:
     -   `Content-Length`: number of bytes in response data (i.e., how much to read)
     -   `Content-Type`: [%g mime_type "MIME type" %] of data (e.g., `text/plain`)
--   Requests have headers too, which we will see soon
 
 > From now on we will only show interesting headers
 
@@ -118,8 +127,8 @@
 
 [% single "src/run_local_server.sh" %]
 
--   We're going to want more control
-    -   And pushing files to GitHub so that we can use them is annoying
+-   Pushing files to GitHub so that we can use them is annoying
+-   And we want to show how to make things *wrong* so that we can then make them *right*
 -   Use Python's [`http.server`][py_http_server] module
     to run a [%g local_server "local server" %]
     -   Host name is [%g localhost "`localhost`" %]

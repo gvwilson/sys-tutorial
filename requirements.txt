@@ -4,5 +4,6 @@ fastapi
 flask
 pymdown-extensions
 requests
+requests_toolbelt
 ruff
 uvicorn[standard]

@@ -43,6 +43,13 @@
       the date and time the message was sent,
       and so on.
 
+- key: http_method
+  en:
+    term: HTTP method
+    def: >
+      The verb in an [HTTP request](#http_request) that defines what the [client](#client) wants to do.
+      Common methods are `GET` (to get data) and `POST` (to submit data).
+
 - key: http_request
   en:
     term: HTTP request

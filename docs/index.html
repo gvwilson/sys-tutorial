@@ -161,7 +161,38 @@ Start where you are, use what you have, help who you can.
 <!-- ---------------------------------------------------------------- -->
 </section>
 <section class="topic">
-<h2 class="topic">1: Headers</h2>
+<h2 class="topic">1: Request Structure</h2>
+<p class="inclusion"><a href="src/requests_prepared_structure.py">src/requests_prepared_structure.py</a></p>
+<div class="language-py">
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">from</span> <span class="nn">requests_toolbelt.utils</span> <span class="kn">import</span> <span class="n">dump</span>
+
+<span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;https://gvwilson.github.io/safety-tutorial/site/motto.txt&quot;</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">dump</span><span class="o">.</span><span class="n">dump_all</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s2">&quot;utf-8&quot;</span><span class="p">))</span>
+</code></pre></div>
+</div>
+<p class="inclusion"><a href="out/requests_prepared_structure.out">out/requests_prepared_structure.out</a></p>
+<div class="language-plaintext">
+<div class="highlight"><pre><span></span><code>GET /safety-tutorial/site/motto.txt HTTP/1.1
+Host: gvwilson.github.io
+User-Agent: python-requests/2.31.0
+Accept-Encoding: gzip, deflate
+Accept: */*
+Connection: keep-alive
+</code></pre></div>
+</div>
+<ul>
+<li>First line is <a href="#g:http_method">method</a>, URL, and protocol version</li>
+<li>Every HTTP request can have <a href="#g:http_header">headers</a> with extra information</li>
+<li>And optionally data being uploaded (which we will see later)</li>
+<li>Yes, it&rsquo;s all just text</li>
+</ul>
+<!-- ---------------------------------------------------------------- -->
+</section>
+<section class="topic">
+<h2 class="topic">2: Response Headers</h2>
 <p class="inclusion"><a href="src/show_response_headers.py">src/show_response_headers.py</a></p>
 <div class="language-py">
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">requests</span>
@@ -196,8 +227,8 @@ X-Fastly-Request-ID: cb16df2dfa73aaf6de87924c743dd1e50a0ce570
 </code></pre></div>
 </div>
 <ul>
-<li>Every HTTP request and response has <a href="#g:http_header">headers</a> with extra information<ul>
-<li>Does <em>not</em> include status code (handled separately)</li>
+<li>Every HTTP response also has with extra information<ul>
+<li>Does <em>not</em> include status code: that appears in the first line</li>
 </ul>
 </li>
 <li>Most important for now are:<ul>
@@ -205,7 +236,6 @@ X-Fastly-Request-ID: cb16df2dfa73aaf6de87924c743dd1e50a0ce570
 <li><code>Content-Type</code>: <a href="#g:mime_type">MIME type</a> of data (e.g., <code>text/plain</code>)</li>
 </ul>
 </li>
-<li>Requests have headers too, which we will see soon</li>
 </ul>
 <blockquote>
 <p>From now on we will only show interesting headers</p>
@@ -213,7 +243,7 @@ X-Fastly-Request-ID: cb16df2dfa73aaf6de87924c743dd1e50a0ce570
 <!-- ---------------------------------------------------------------- -->
 </section>
 <section class="topic">
-<h2 class="topic">2: When Things Go Wrong</h2>
+<h2 class="topic">3: When Things Go Wrong</h2>
 <p class="inclusion"><a href="src/get_nonexistent_file.py">src/get_nonexistent_file.py</a></p>
 <div class="language-py">
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">requests</span>
@@ -238,7 +268,7 @@ body length: 9115
 <!-- ---------------------------------------------------------------- -->
 </section>
 <section class="topic">
-<h2 class="topic">3: Getting JSON</h2>
+<h2 class="topic">4: Getting JSON</h2>
 <p class="inclusion"><a href="src/requests_get_json.py">src/requests_get_json.py</a></p>
 <div class="language-py">
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">requests</span>
@@ -280,10 +310,8 @@ body as JSON:
 </code></pre></div>
 </div>
 <ul>
-<li>We&rsquo;re going to want more control<ul>
-<li>And pushing files to GitHub so that we can use them is annoying</li>
-</ul>
-</li>
+<li>Pushing files to GitHub so that we can use them is annoying</li>
+<li>And we want to show how to make things <em>wrong</em> so that we can then make them <em>right</em></li>
 <li>Use Python&rsquo;s <a href="https://docs.python.org/3/library/http.server.html"><code>http.server</code></a> module
     to run a <a href="#g:local_server">local server</a><ul>
 <li>Host name is <a href="#g:localhost"><code>localhost</code></a></li>
@@ -300,7 +328,7 @@ body as JSON:
 <!-- ---------------------------------------------------------------- -->
 </section>
 <section class="topic">
-<h2 class="topic">4: Checking Local Server</h2>
+<h2 class="topic">5: Checking Local Server</h2>
 <p class="inclusion"><a href="src/requests_local_motto.py">src/requests_local_motto.py</a></p>
 <div class="language-py">
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">requests</span>
@@ -341,6 +369,8 @@ Start where you are, use what you have, help who you can.
 <dt id="g:http_header">header (of HTTP request or response)</dt><dd>A name-value pair at the start of an <a href="#http_request">HTTP request</a> or <a href="#http_response">response</a>. Headers are used to specify what data formats the sender can handle, the date and time the message was sent, and so on.</dd>
 
 <dt id="g:hostname">hostname</dt><dd>A human-readable name for a computer on a network.</dd>
+
+<dt id="g:http_method">HTTP method</dt><dd>The verb in an <a href="#http_request">HTTP request</a> that defines what the <a href="#client">client</a> wants to do. Common methods are <code>GET</code> (to get data) and <code>POST</code> (to submit data).</dd>
 
 <dt id="g:http_request">HTTP request</dt><dd>A precisely-formatted block of text sent from a <a href="#client">client</a> such as a browser to a <a href="#server">server</a> that specifies what resource is being requested, what data formats the client will accept, etc.</dd>
 
@@ -383,7 +413,7 @@ Start where you are, use what you have, help who you can.
   <a href="https://github.com/gvwilson/safety-tutorial"><i class="fab fa-github" aria-hidden="true" title="GitHub repository"></i></a>
   <a href="license/"><i class="fab fa-creative-commons-by" aria-hidden="true" title="license"></i></a>
   &middot;
-  <time datetime="2024-02-18">Last built 2024-02-18</time>
+  <time datetime="2024-02-19">Last built 2024-02-19</time>
 </footer>
 
   </body>

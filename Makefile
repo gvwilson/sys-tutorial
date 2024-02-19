@@ -16,6 +16,11 @@ release:
 	out \
 	-x \*~
 
+## listen: listen on port 8000
+.PHONY: listen
+listen:
+	nc -l -p 8000
+
 ## run: re-run all examples
 .PHONY: run
 run: ${OUT_FILES}
@@ -31,6 +36,9 @@ ${OUT}/requests_get_motto.out: ${SRC}/requests_get_motto.py
 
 ${OUT}/requests_local_motto.out: ${SRC}/requests_local_motto.py ${RUNNER}
 	${RUNNER} 8000 "${SITE_SERVER}" "python $<" &> $@
+
+${OUT}/requests_prepared_structure.out: ${SRC}/requests_prepared_structure.py
+	python $< | grep -e '< ' | sed -e 's/< //g' > $@
 
 ${OUT}/show_response_headers.out: ${SRC}/show_response_headers.py
 	python $< > $@
