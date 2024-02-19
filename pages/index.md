@@ -102,6 +102,17 @@
 -   From now on we will only show interesting headers
 
 <!-- ---------------------------------------------------------------- -->
+[% section_break class="exercise" %]
+
+[% exercise %]
+Add header called `Studying` with the value `safety` to the `requests` script shown above.
+Does it make a difference to the response?
+Should it?
+
+[% exercise %]
+What is the difference between the `Content-Type` and the `Content-Encoding` headers?
+
+<!-- ---------------------------------------------------------------- -->
 [% section_break class="topic" title="When Things Go Wrong" %]
 
 [% double stem="get_nonexistent_file" suffix="py out" %]
@@ -110,6 +121,18 @@
 -   The 9 kilobyte response is an HTML page with an embedded image (the GitHub logo)
 -   The page contains human-readable error messages
     -   But we have to know page format to pull them out
+
+<!-- ---------------------------------------------------------------- -->
+[% section_break class="exercise" %]
+
+[% exercise %]
+Look at [this list of HTTP status codes][http_status_codes].
+
+1.  What is the difference between status code 403 and status code 404?
+
+2.  What is status code 418 used for?
+
+3.  Under what circumstances would you expect to get a response whose status code is 505?
 
 <!-- ---------------------------------------------------------------- -->
 [% section_break class="topic" title="Getting JSON" %]
@@ -125,6 +148,13 @@
     -   A list with one list with column names + N lists of values
     -   A list with N dictionaries, all with the same keys
     -   A dictionary with column names and lists of values, all the same length
+
+<!-- ---------------------------------------------------------------- -->
+[% section_break class="exercise" %]
+
+[% exercise %]
+Write a `requests` script that gets the current location and crew roster
+of [the International Space Station][iss_api].
 
 <!-- ---------------------------------------------------------------- -->
 [% section_break class="aside" title="Local Web Server" %]
