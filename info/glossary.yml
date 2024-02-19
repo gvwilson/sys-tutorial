@@ -121,6 +121,13 @@
 
 # P
 
+- key: port
+  en:
+    term: port
+    def: >
+      A logical endpoint for communication,
+      like a phone number in an office building.
+
 # Q
 
 # R

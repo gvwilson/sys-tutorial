@@ -90,7 +90,7 @@
 -   Yes, it's all just text
 
 <!-- ---------------------------------------------------------------- -->
-[% section_break class="topic" title="Response Headers" %]
+[% section_break class="topic" title="Response Structure" %]
 
 [% double stem="show_response_headers" suffix="py out" %]
 
@@ -99,8 +99,7 @@
 -   Most important for now are:
     -   `Content-Length`: number of bytes in response data (i.e., how much to read)
     -   `Content-Type`: [%g mime_type "MIME type" %] of data (e.g., `text/plain`)
-
-> From now on we will only show interesting headers
+-   From now on we will only show interesting headers
 
 <!-- ---------------------------------------------------------------- -->
 [% section_break class="topic" title="When Things Go Wrong" %]
@@ -109,7 +108,8 @@
 
 -   The 404 status code tells us something went wrong
 -   The 9 kilobyte response is an HTML page with an embedded image (the GitHub logo)
--   The page contains error messages, but we have to know page format to pull them out
+-   The page contains human-readable error messages
+    -   But we have to know page format to pull them out
 
 <!-- ---------------------------------------------------------------- -->
 [% section_break class="topic" title="Getting JSON" %]
@@ -121,6 +121,10 @@
 -   Better to have the server return data as data
     -   Preferred format these days is [%g json "JSON" %]
     -   So common that `requests` has built-in support
+-   There is no standard for representing tabular data as JSON
+    -   A list with one list with column names + N lists of values
+    -   A list with N dictionaries, all with the same keys
+    -   A dictionary with column names and lists of values, all the same length
 
 <!-- ---------------------------------------------------------------- -->
 [% section_break class="aside" title="Local Web Server" %]
@@ -132,14 +136,14 @@
 -   Use Python's [`http.server`][py_http_server] module
     to run a [%g local_server "local server" %]
     -   Host name is [%g localhost "`localhost`" %]
-    -   Uses port 8000 by default
+    -   Uses [%g port "port" %] 8000 by default
     -   So URLs look like `http://localhost:8000/path/to/file`
--   `-d site` tells the server to pretend `site` is root directory
+-   `-d site` tells the server to use `site` as its root directory
 -   Use this local server for the next few examples
     -   Build our own server later on to show how it works
 
 <!-- ---------------------------------------------------------------- -->
-[% section_break class="topic" title="Checking Local Server" %]
+[% section_break class="topic" title="Talk to Local Server" %]
 
 [% double stem="requests_local_motto" suffix="py out" %]
 
@@ -147,6 +151,55 @@
     -   Multiple streams of activity
     -   Order may change from run to run
 -   Use `S` and `c` to show output from server and client respectively
+
+<!-- ---------------------------------------------------------------- -->
+[% section_break class="topic" title="Our Own File Server" %]
+
+[% single "src/file_server.py" keep="do_get" %]
+
+-   Our `RequestHandler` handles a single HTTP request
+    -   More specifically, handles the `GET` method
+-   Combine working directory with requested file path to get local path to file
+-   Return that if it exists and is a file or raise an error
+
+<!-- ---------------------------------------------------------------- -->
+[% section_break class="topic" title="Support Code" %]
+
+-   Send content
+
+[% single "src/file_server.py" keep="send_content" %]
+
+-   Handle errors
+
+[% single "src/file_server.py" keep="error_page" %]
+
+[% single "src/file_server.py" keep="handle_error" %]
+
+-   Define our own exceptions so we're sure we're only catching what we expect
+
+[% single "src/file_server.py" keep="exception" %]
+
+<!-- ---------------------------------------------------------------- -->
+[% section_break class="topic" title="Running Our File Server" %]
+
+[% single "src/file_server.py" keep="main" %]
+
+-   And then get `motto.txt` as before
+
+<!-- ---------------------------------------------------------------- -->
+[% section_break class="exercise" %]
+
+[% exercise %]
+Attackers will often try to escape from the server's sandbox:
+
+1.  What happens if you try to get a file using `http://localhost:8000/../private.txt`
+
+2.  Is this allowed?
+    If not,
+    which part of the software is preventing it:
+    the client or the server?
+
+3.  Can you bypass that protection?
 
 <!-- ---------------------------------------------------------------- -->
 [% section_break class="aside" title="Appendices" %]

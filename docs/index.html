@@ -192,7 +192,7 @@ Connection: keep-alive
 <!-- ---------------------------------------------------------------- -->
 </section>
 <section class="topic">
-<h2 class="topic">2: Response Headers</h2>
+<h2 class="topic">2: Response Structure</h2>
 <p class="inclusion"><a href="src/show_response_headers.py">src/show_response_headers.py</a></p>
 <div class="language-py">
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">requests</span>
@@ -236,10 +236,8 @@ X-Fastly-Request-ID: cb16df2dfa73aaf6de87924c743dd1e50a0ce570
 <li><code>Content-Type</code>: <a href="#g:mime_type">MIME type</a> of data (e.g., <code>text/plain</code>)</li>
 </ul>
 </li>
+<li>From now on we will only show interesting headers</li>
 </ul>
-<blockquote>
-<p>From now on we will only show interesting headers</p>
-</blockquote>
 <!-- ---------------------------------------------------------------- -->
 </section>
 <section class="topic">
@@ -263,7 +261,10 @@ body length: 9115
 <ul>
 <li>The 404 status code tells us something went wrong</li>
 <li>The 9 kilobyte response is an HTML page with an embedded image (the GitHub logo)</li>
-<li>The page contains error messages, but we have to know page format to pull them out</li>
+<li>The page contains human-readable error messages<ul>
+<li>But we have to know page format to pull them out</li>
+</ul>
+</li>
 </ul>
 <!-- ---------------------------------------------------------------- -->
 </section>
@@ -299,6 +300,12 @@ body as JSON:
 <li>So common that <code>requests</code> has built-in support</li>
 </ul>
 </li>
+<li>There is no standard for representing tabular data as JSON<ul>
+<li>A list with one list with column names + N lists of values</li>
+<li>A list with N dictionaries, all with the same keys</li>
+<li>A dictionary with column names and lists of values, all the same length</li>
+</ul>
+</li>
 </ul>
 <!-- ---------------------------------------------------------------- -->
 </section>
@@ -315,11 +322,11 @@ body as JSON:
 <li>Use Python&rsquo;s <a href="https://docs.python.org/3/library/http.server.html"><code>http.server</code></a> module
     to run a <a href="#g:local_server">local server</a><ul>
 <li>Host name is <a href="#g:localhost"><code>localhost</code></a></li>
-<li>Uses port 8000 by default</li>
+<li>Uses <a href="#g:port">port</a> 8000 by default</li>
 <li>So URLs look like <code>http://localhost:8000/path/to/file</code></li>
 </ul>
 </li>
-<li><code>-d site</code> tells the server to pretend <code>site</code> is root directory</li>
+<li><code>-d site</code> tells the server to use <code>site</code> as its root directory</li>
 <li>Use this local server for the next few examples<ul>
 <li>Build our own server later on to show how it works</li>
 </ul>
@@ -328,7 +335,7 @@ body as JSON:
 <!-- ---------------------------------------------------------------- -->
 </section>
 <section class="topic">
-<h2 class="topic">5: Checking Local Server</h2>
+<h2 class="topic">5: Talk to Local Server</h2>
 <p class="inclusion"><a href="src/requests_local_motto.py">src/requests_local_motto.py</a></p>
 <div class="language-py">
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">requests</span>
@@ -358,6 +365,121 @@ Start where you are, use what you have, help who you can.
 </ul>
 <!-- ---------------------------------------------------------------- -->
 </section>
+<section class="topic">
+<h2 class="topic">6: Our Own File Server</h2>
+<p class="inclusion"><a href="src/file_server.py">src/file_server.py</a></p>
+<div class="language-py">
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">RequestHandler</span><span class="p">(</span><span class="n">BaseHTTPRequestHandler</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">do_GET</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">url_path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">lstrip</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
+            <span class="n">full_path</span> <span class="o">=</span> <span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">()</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="n">url_path</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">full_path</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+                <span class="k">raise</span> <span class="n">ServerException</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="si">}</span><span class="s2"> not found&quot;</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">full_path</span><span class="o">.</span><span class="n">is_file</span><span class="p">():</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">handle_file</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="n">full_path</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">ServerException</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="si">}</span><span class="s2"> unknown&quot;</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">msg</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">handle_error</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+</code></pre></div>
+</div>
+<ul>
+<li>Our <code>RequestHandler</code> handles a single HTTP request<ul>
+<li>More specifically, handles the <code>GET</code> method</li>
+</ul>
+</li>
+<li>Combine working directory with requested file path to get local path to file</li>
+<li>Return that if it exists and is a file or raise an error</li>
+</ul>
+<!-- ---------------------------------------------------------------- -->
+</section>
+<section class="topic">
+<h2 class="topic">7: Support Code</h2>
+<ul>
+<li>Send content</li>
+</ul>
+<p class="inclusion"><a href="src/file_server.py">src/file_server.py</a></p>
+<div class="language-py">
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">send_content</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">content</span><span class="p">,</span> <span class="n">status</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">send_response</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">status</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">send_header</span><span class="p">(</span><span class="s2">&quot;Content-Type&quot;</span><span class="p">,</span> <span class="s2">&quot;text/html; charset=utf-8&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">send_header</span><span class="p">(</span><span class="s2">&quot;Content-Length&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">content</span><span class="p">)))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">end_headers</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">wfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
+</code></pre></div>
+</div>
+<ul>
+<li>Handle errors</li>
+</ul>
+<p class="inclusion"><a href="src/file_server.py">src/file_server.py</a></p>
+<div class="language-py">
+<div class="highlight"><pre><span></span><code><span class="n">ERROR_PAGE</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span><span class="se">\</span>
+<span class="s2">&lt;html&gt;</span>
+<span class="s2">  &lt;head&gt;&lt;title&gt;Error accessing </span><span class="si">{path}</span><span class="s2">&lt;/title&gt;&lt;/head&gt;</span>
+<span class="s2">  &lt;body&gt;</span>
+<span class="s2">    &lt;h1&gt;Error accessing </span><span class="si">{path}</span><span class="s2">: </span><span class="si">{msg}</span><span class="s2">&lt;/h1&gt;</span>
+<span class="s2">  &lt;/body&gt;</span>
+<span class="s2">&lt;/html&gt;</span>
+<span class="s2">&quot;&quot;&quot;</span>
+</code></pre></div>
+</div>
+<p class="inclusion"><a href="src/file_server.py">src/file_server.py</a></p>
+<div class="language-py">
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">handle_error</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msg</span><span class="p">):</span>
+        <span class="n">content</span> <span class="o">=</span> <span class="n">ERROR_PAGE</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="n">msg</span><span class="o">=</span><span class="n">msg</span><span class="p">)</span>
+        <span class="n">content</span> <span class="o">=</span> <span class="nb">bytes</span><span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">send_content</span><span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">HTTPStatus</span><span class="o">.</span><span class="n">NOT_FOUND</span><span class="p">)</span>
+</code></pre></div>
+</div>
+<ul>
+<li>Define our own exceptions so we&rsquo;re sure we&rsquo;re only catching what we expect</li>
+</ul>
+<p class="inclusion"><a href="src/file_server.py">src/file_server.py</a></p>
+<div class="language-py">
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">ServerException</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">pass</span>
+</code></pre></div>
+</div>
+<!-- ---------------------------------------------------------------- -->
+</section>
+<section class="topic">
+<h2 class="topic">8: Running Our File Server</h2>
+<p class="inclusion"><a href="src/file_server.py">src/file_server.py</a></p>
+<div class="language-py">
+<div class="highlight"><pre><span></span><code><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">serverAddress</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="mi">8000</span><span class="p">)</span>
+    <span class="n">server</span> <span class="o">=</span> <span class="n">HTTPServer</span><span class="p">(</span><span class="n">serverAddress</span><span class="p">,</span> <span class="n">RequestHandler</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;serving in </span><span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span><span class="si">}</span><span class="s2">...&quot;</span><span class="p">)</span>
+    <span class="n">server</span><span class="o">.</span><span class="n">serve_forever</span><span class="p">()</span>
+</code></pre></div>
+</div>
+<ul>
+<li>And then get <code>motto.txt</code> as before</li>
+</ul>
+<!-- ---------------------------------------------------------------- -->
+</section>
+<section class="exercise">
+<h2 class="exercise">Practice</h2>
+<p><strong>Exercise 1</strong>:
+Attackers will often try to escape from the server&rsquo;s sandbox:</p>
+<ol>
+<li>
+<p>What happens if you try to get a file using <code>http://localhost:8000/../private.txt</code></p>
+</li>
+<li>
+<p>Is this allowed?
+    If not,
+    which part of the software is preventing it:
+    the client or the server?</p>
+</li>
+<li>
+<p>Can you bypass that protection?</p>
+</li>
+</ol>
+<!-- ---------------------------------------------------------------- -->
+</section>
 <section class="aside">
 <h2 class="aside">Appendices</h2>
 <h3>Terms</h3>
@@ -385,6 +507,8 @@ Start where you are, use what you have, help who you can.
 <dt id="g:localhost">localhost</dt><dd>A special <a href="#hostname">host name</a> that identifies the computer that the software is running on.</dd>
 
 <dt id="g:mime_type">MIME type</dt><dd>A standard that defines types of file content, such as <code>text/plain</code> for plain text and <code>image/jpeg</code> for JPEG images.</dd>
+
+<dt id="g:port">port</dt><dd>A logical endpoint for communication, like a phone number in an office building.</dd>
 
 <dt id="g:server">server</dt><dd>A program that waits for requests from <a href="#client">clients</a> and sends them data in response.</dd>
 
