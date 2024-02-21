@@ -121,6 +121,12 @@
 
 # P
 
+- key: path
+  en:
+    term: path (in filesystem)
+    def: >
+      An expression that refers to a file or directory in a filesystem.
+
 - key: port
   en:
     term: port
@@ -131,6 +137,18 @@
 # Q
 
 # R
+
+- key: refactor
+  en:
+    term: refactor
+    def: >
+      To reorganize code without changing its overall behavior.
+
+- key: resolve_path
+  en:
+    term: resolve (a path)
+    def: >
+      To translate a [path](#path) into the canonical name of the file or directory it refers to.
 
 # S
 

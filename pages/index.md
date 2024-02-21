@@ -269,6 +269,25 @@ and Telnet.
 What happens with each and why?
 
 <!-- ---------------------------------------------------------------- -->
+[% section_break class="topic" title="A Safer File Server" %]
+
+[% single "src/file_server_safe.py" keep="handle_file" %]
+
+-   [%g resolve_path "Resolve" %] the constructed path
+-   Check that it's below the current working directory (i.e., the sandbox)
+-   Fail if not
+    -   Using `ServerException` guarantees that all errors are handled the same way
+
+<!-- ---------------------------------------------------------------- -->
+[% section_break class="exercise" %]
+
+[% exercise %]
+[%g refactor "Refactor" %] the `do_GET` and `handle_file` methods in `RequestHandler`
+so that all checks are in one place.
+Does this make the code easier to understand overall?
+Do you think making code easier to understand also makes it safer?
+
+<!-- ---------------------------------------------------------------- -->
 [% section_break class="aside" title="Appendices" %]
 
 ### Terms

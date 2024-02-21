@@ -647,6 +647,44 @@ and Telnet.
 What happens with each and why?</p>
 <!-- ---------------------------------------------------------------- -->
 </section>
+<section class="topic">
+<h2 class="topic">11: A Safer File Server</h2>
+<p class="inclusion"><a href="src/file_server_safe.py">src/file_server_safe.py</a></p>
+<div class="language-py">
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">handle_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">given_path</span><span class="p">,</span> <span class="n">full_path</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">resolved_path</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">full_path</span><span class="o">.</span><span class="n">resolve</span><span class="p">())</span>
+            <span class="n">sandbox</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">()</span><span class="o">.</span><span class="n">resolve</span><span class="p">())</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">resolved_path</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">sandbox</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="n">ServerException</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Cannot access </span><span class="si">{</span><span class="n">given_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">full_path</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">reader</span><span class="p">:</span>
+                <span class="n">content</span> <span class="o">=</span> <span class="n">reader</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">send_content</span><span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">HTTPStatus</span><span class="o">.</span><span class="n">OK</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">FileNotFoundError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">ServerException</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Cannot find </span><span class="si">{</span><span class="n">given_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">IOError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">ServerException</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Cannot read </span><span class="si">{</span><span class="n">given_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+</div>
+<ul>
+<li><a href="#g:resolve_path">Resolve</a> the constructed path</li>
+<li>Check that it&rsquo;s below the current working directory (i.e., the sandbox)</li>
+<li>Fail if not<ul>
+<li>Using <code>ServerException</code> guarantees that all errors are handled the same way</li>
+</ul>
+</li>
+</ul>
+<!-- ---------------------------------------------------------------- -->
+</section>
+<section class="exercise">
+<h2 class="exercise">Practice</h2>
+<p><strong>Exercise 6</strong>:
+<a href="#g:refactor">Refactor</a> the <code>do_GET</code> and <code>handle_file</code> methods in <code>RequestHandler</code>
+so that all checks are in one place.
+Does this make the code easier to understand overall?
+Do you think making code easier to understand also makes it safer?</p>
+<!-- ---------------------------------------------------------------- -->
+</section>
 <section class="aside">
 <h2 class="aside">Appendices</h2>
 <h3>Terms</h3>
@@ -675,7 +713,13 @@ What happens with each and why?</p>
 
 <dt id="g:mime_type">MIME type</dt><dd>A standard that defines types of file content, such as <code>text/plain</code> for plain text and <code>image/jpeg</code> for JPEG images.</dd>
 
+<dt id="g:path">path (in filesystem)</dt><dd>An expression that refers to a file or directory in a filesystem.</dd>
+
 <dt id="g:port">port</dt><dd>A logical endpoint for communication, like a phone number in an office building.</dd>
+
+<dt id="g:refactor">refactor</dt><dd>To reorganize code without changing its overall behavior.</dd>
+
+<dt id="g:resolve_path">resolve (a path)</dt><dd>To translate a <a href="#path">path</a> into the canonical name of the file or directory it refers to.</dd>
 
 <dt id="g:server">server</dt><dd>A program that waits for requests from <a href="#client">clients</a> and sends them data in response.</dd>
 
