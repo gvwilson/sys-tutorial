@@ -28,10 +28,10 @@ class RequestHandler(BaseHTTPRequestHandler):
             full_path = Path.cwd().joinpath(url_path)
             if not full_path.exists():
                 raise ServerException(f"{self.path} not found")
-            elif full_path.is_file():
-                self.handle_file(self.path, full_path)
+            elif not full_path.is_file():
+                raise ServerException(f"{self.path} not file")
             else:
-                raise ServerException(f"{self.path} unknown")
+                self.handle_file(self.path, full_path)
         except Exception as msg:
             self.handle_error(msg)
 # [/do_get]
