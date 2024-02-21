@@ -185,7 +185,7 @@ of [the International Space Station][iss_api].
 <!-- ---------------------------------------------------------------- -->
 [% section_break class="topic" title="Our Own File Server" %]
 
-[% single "src/file_server.py" keep="do_get" %]
+[% single "src/file_server_unsafe.py" keep="do_get" %]
 
 -   Our `RequestHandler` handles a single HTTP request
     -   More specifically, handles the `GET` method
@@ -197,22 +197,22 @@ of [the International Space Station][iss_api].
 
 -   Send content
 
-[% single "src/file_server.py" keep="send_content" %]
+[% single "src/file_server_unsafe.py" keep="send_content" %]
 
 -   Handle errors
 
-[% single "src/file_server.py" keep="error_page" %]
+[% single "src/file_server_unsafe.py" keep="error_page" %]
 
-[% single "src/file_server.py" keep="handle_error" %]
+[% single "src/file_server_unsafe.py" keep="handle_error" %]
 
 -   Define our own exceptions so we're sure we're only catching what we expect
 
-[% single "src/file_server.py" keep="exception" %]
+[% single "src/file_server_unsafe.py" keep="exception" %]
 
 <!-- ---------------------------------------------------------------- -->
 [% section_break class="topic" title="Running Our File Server" %]
 
-[% single "src/file_server.py" keep="main" %]
+[% single "src/file_server_unsafe.py" keep="main" %]
 
 -   And then get `motto.txt` as before
 
@@ -254,6 +254,19 @@ of [the International Space Station][iss_api].
 [% multi "src/telnet_localhost_8000.sh" "out/telnet_disallowed.out" %]
 
 -   If someone doesn't strip out the `..` characters, users can escape the sandbox
+-   So we just need to do that, right?
+
+<!-- ---------------------------------------------------------------- -->
+[% section_break class="exercise" %]
+
+[% exercise %]
+The shortcut <code>~<em>username</em></code> means "the specified user's home directory" in the shell,
+while `~` on its own means "the current user's home directory".
+create a file called `test.txt` in your home directory
+and then try to get `~/test.txt` using your browser,
+`requests`,
+and Telnet.
+What happens with each and why?
 
 <!-- ---------------------------------------------------------------- -->
 [% section_break class="aside" title="Appendices" %]

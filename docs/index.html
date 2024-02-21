@@ -401,7 +401,7 @@ Start where you are, use what you have, help who you can.
 </section>
 <section class="topic">
 <h2 class="topic">6: Our Own File Server</h2>
-<p class="inclusion"><a href="src/file_server.py">src/file_server.py</a></p>
+<p class="inclusion"><a href="src/file_server_unsafe.py">src/file_server_unsafe.py</a></p>
 <div class="language-py">
 <div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">RequestHandler</span><span class="p">(</span><span class="n">BaseHTTPRequestHandler</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">do_GET</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -434,7 +434,7 @@ Start where you are, use what you have, help who you can.
 <ul>
 <li>Send content</li>
 </ul>
-<p class="inclusion"><a href="src/file_server.py">src/file_server.py</a></p>
+<p class="inclusion"><a href="src/file_server_unsafe.py">src/file_server_unsafe.py</a></p>
 <div class="language-py">
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">send_content</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">content</span><span class="p">,</span> <span class="n">status</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">send_response</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">status</span><span class="p">))</span>
@@ -447,7 +447,7 @@ Start where you are, use what you have, help who you can.
 <ul>
 <li>Handle errors</li>
 </ul>
-<p class="inclusion"><a href="src/file_server.py">src/file_server.py</a></p>
+<p class="inclusion"><a href="src/file_server_unsafe.py">src/file_server_unsafe.py</a></p>
 <div class="language-py">
 <div class="highlight"><pre><span></span><code><span class="n">ERROR_PAGE</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span><span class="se">\</span>
 <span class="s2">&lt;html&gt;</span>
@@ -459,7 +459,7 @@ Start where you are, use what you have, help who you can.
 <span class="s2">&quot;&quot;&quot;</span>
 </code></pre></div>
 </div>
-<p class="inclusion"><a href="src/file_server.py">src/file_server.py</a></p>
+<p class="inclusion"><a href="src/file_server_unsafe.py">src/file_server_unsafe.py</a></p>
 <div class="language-py">
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">handle_error</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msg</span><span class="p">):</span>
         <span class="n">content</span> <span class="o">=</span> <span class="n">ERROR_PAGE</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="n">msg</span><span class="o">=</span><span class="n">msg</span><span class="p">)</span>
@@ -470,7 +470,7 @@ Start where you are, use what you have, help who you can.
 <ul>
 <li>Define our own exceptions so we&rsquo;re sure we&rsquo;re only catching what we expect</li>
 </ul>
-<p class="inclusion"><a href="src/file_server.py">src/file_server.py</a></p>
+<p class="inclusion"><a href="src/file_server_unsafe.py">src/file_server_unsafe.py</a></p>
 <div class="language-py">
 <div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">ServerException</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
     <span class="k">pass</span>
@@ -480,7 +480,7 @@ Start where you are, use what you have, help who you can.
 </section>
 <section class="topic">
 <h2 class="topic">8: Running Our File Server</h2>
-<p class="inclusion"><a href="src/file_server.py">src/file_server.py</a></p>
+<p class="inclusion"><a href="src/file_server_unsafe.py">src/file_server_unsafe.py</a></p>
 <div class="language-py">
 <div class="highlight"><pre><span></span><code><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
     <span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
@@ -631,7 +631,20 @@ Connection closed by foreign host.
 </div>
 <ul>
 <li>If someone doesn&rsquo;t strip out the <code>..</code> characters, users can escape the sandbox</li>
+<li>So we just need to do that, right?</li>
 </ul>
+<!-- ---------------------------------------------------------------- -->
+</section>
+<section class="exercise">
+<h2 class="exercise">Practice</h2>
+<p><strong>Exercise 5</strong>:
+The shortcut <code>~<em>username</em></code> means &ldquo;the specified user&rsquo;s home directory&rdquo; in the shell,
+while <code>~</code> on its own means &ldquo;the current user&rsquo;s home directory&rdquo;.
+create a file called <code>test.txt</code> in your home directory
+and then try to get <code>~/test.txt</code> using your browser,
+<code>requests</code>,
+and Telnet.
+What happens with each and why?</p>
 <!-- ---------------------------------------------------------------- -->
 </section>
 <section class="aside">
