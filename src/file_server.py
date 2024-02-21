@@ -26,6 +26,7 @@ class RequestHandler(BaseHTTPRequestHandler):
         try:
             url_path = self.path.lstrip("/")
             full_path = Path.cwd().joinpath(url_path)
+            print(f"'{self.path}' => '{full_path}'")
             if not full_path.exists():
                 raise ServerException(f"{self.path} not found")
             elif not full_path.is_file():

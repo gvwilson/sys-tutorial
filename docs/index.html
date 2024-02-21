@@ -408,12 +408,13 @@ Start where you are, use what you have, help who you can.
         <span class="k">try</span><span class="p">:</span>
             <span class="n">url_path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">lstrip</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
             <span class="n">full_path</span> <span class="o">=</span> <span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">()</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="n">url_path</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="si">}</span><span class="s2">&#39; =&gt; &#39;</span><span class="si">{</span><span class="n">full_path</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">full_path</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
                 <span class="k">raise</span> <span class="n">ServerException</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="si">}</span><span class="s2"> not found&quot;</span><span class="p">)</span>
-            <span class="k">elif</span> <span class="n">full_path</span><span class="o">.</span><span class="n">is_file</span><span class="p">():</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">handle_file</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="n">full_path</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="ow">not</span> <span class="n">full_path</span><span class="o">.</span><span class="n">is_file</span><span class="p">():</span>
+                <span class="k">raise</span> <span class="n">ServerException</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="si">}</span><span class="s2"> not file&quot;</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="n">ServerException</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="si">}</span><span class="s2"> unknown&quot;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">handle_file</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="n">full_path</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">msg</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">handle_error</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
 </code></pre></div>
@@ -494,24 +495,143 @@ Start where you are, use what you have, help who you can.
 </ul>
 <!-- ---------------------------------------------------------------- -->
 </section>
-<section class="exercise">
-<h2 class="exercise">Practice</h2>
-<p><strong>Exercise 5</strong>:
-Attackers will often try to escape from the server&rsquo;s sandbox:</p>
-<ol>
-<li>
-<p>What happens if you try to get a file using <code>http://localhost:8000/../private.txt</code></p>
-</li>
-<li>
-<p>Is this allowed?
-    If not,
-    which part of the software is preventing it:
-    the client or the server?</p>
-</li>
-<li>
-<p>Can you bypass that protection?</p>
-</li>
-</ol>
+<section class="topic">
+<h2 class="topic">9: Built-in Safety</h2>
+<ul>
+<li>Modify <code>requests</code> script to take URL as command-line parameter</li>
+</ul>
+<p class="inclusion"><a href="src/requests_local_url.py">src/requests_local_url.py</a></p>
+<div class="language-py">
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+
+<span class="n">URL</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">URL</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;status code: </span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;body:</span><span class="se">\n</span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+</div>
+<ul>
+<li>Add a sub-directory to <code>site</code> called <code>sandbox</code> with a file <code>example.txt</code></li>
+<li>Serve that sub-directory</li>
+</ul>
+<p class="inclusion"><a href="src/file_server_sandbox.sh">src/file_server_sandbox.sh</a></p>
+<div class="language-sh">
+<div class="highlight"><pre><span></span><code>python<span class="w"> </span>src/file_server.py<span class="w"> </span>site/sandbox
+</code></pre></div>
+</div>
+<ul>
+<li>Can get files from that directory</li>
+</ul>
+<p class="inclusion"><a href="src/requests_local_url_allowed.sh">src/requests_local_url_allowed.sh</a></p>
+<div class="language-sh">
+<div class="highlight"><pre><span></span><code>python<span class="w"> </span>src/requests_local_url.py<span class="w"> </span>http://localhost:8000/example.txt
+</code></pre></div>
+</div>
+<p class="inclusion"><a href="out/file_server_allowed.out">out/file_server_allowed.out</a></p>
+<div class="language-plaintext">
+<div class="highlight"><pre><span></span><code>&#39;/example.txt&#39; =&gt; &#39;/Users/gvwilson/safety/site/sandbox/example.txt&#39;
+127.0.0.1 - - [21/Feb/2024 06:04:32] &quot;GET /example.txt HTTP/1.1&quot; 200 -
+</code></pre></div>
+</div>
+<p class="inclusion"><a href="out/requests_local_url_allowed.out">out/requests_local_url_allowed.out</a></p>
+<div class="language-plaintext">
+<div class="highlight"><pre><span></span><code>status code: 200
+body:
+example file
+</code></pre></div>
+</div>
+<ul>
+<li>But not from parent directory (which isn&rsquo;t part of sandbox)</li>
+</ul>
+<p class="inclusion"><a href="src/requests_local_url_disallowed.sh">src/requests_local_url_disallowed.sh</a></p>
+<div class="language-sh">
+<div class="highlight"><pre><span></span><code>python<span class="w"> </span>src/requests_local_url.py<span class="w"> </span>http://localhost:8000/motto.txt
+</code></pre></div>
+</div>
+<p class="inclusion"><a href="out/file_server_disallowed.out">out/file_server_disallowed.out</a></p>
+<div class="language-plaintext">
+<div class="highlight"><pre><span></span><code>&#39;/motto.txt&#39; =&gt; &#39;/Users/gvwilson/safety/site/sandbox/motto.txt&#39;
+127.0.0.1 - - [21/Feb/2024 06:04:38] &quot;GET /motto.txt HTTP/1.1&quot; 404 -
+</code></pre></div>
+</div>
+<p class="inclusion"><a href="out/requests_local_url_disallowed.out">out/requests_local_url_disallowed.out</a></p>
+<div class="language-plaintext">
+<div class="highlight"><pre><span></span><code>status code: 404
+body:
+&lt;html&gt;
+  &lt;head&gt;&lt;title&gt;Error accessing /motto.txt&lt;/title&gt;&lt;/head&gt;
+  &lt;body&gt;
+    &lt;h1&gt;Error accessing /motto.txt: /motto.txt not found&lt;/h1&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</code></pre></div>
+</div>
+<ul>
+<li>But why not?</li>
+<li>Looks like <code>requests</code> is stripping the leading <code>..</code> off the path</li>
+<li>And if we try that URL in the browser, same thing happens</li>
+<li>So we&rsquo;re safe, right?</li>
+</ul>
+<!-- ---------------------------------------------------------------- -->
+</section>
+<section class="topic">
+<h2 class="topic">10: Introducing Telnet</h2>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Telnet">Telnet</a> is short for &ldquo;teletype network&rdquo;, which tells you how old the program is</li>
+<li>Open a connection, send exactly what the user types, and show exactly what is sent in response</li>
+</ul>
+<p class="inclusion"><a href="src/telnet_localhost_8000.sh">src/telnet_localhost_8000.sh</a></p>
+<div class="language-sh">
+<div class="highlight"><pre><span></span><code>telnet<span class="w"> </span>localhost<span class="w"> </span><span class="m">8000</span>
+</code></pre></div>
+</div>
+<p class="inclusion"><a href="out/telnet_allowed.out">out/telnet_allowed.out</a></p>
+<div class="language-plaintext">
+<div class="highlight"><pre><span></span><code>Trying 127.0.0.1...
+Connected to localhost.
+Escape character is &#39;^]&#39;.
+GET /example.txt HTTP/1.1
+
+HTTP/1.0 200 OK
+Server: BaseHTTP/0.6 Python/3.12.1
+Date: Wed, 21 Feb 2024 11:21:22 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 13
+
+example file
+Connection closed by foreign host.
+</code></pre></div>
+</div>
+<ul>
+<li>So far so good, but:</li>
+</ul>
+<p class="inclusion"><a href="src/telnet_localhost_8000.sh">src/telnet_localhost_8000.sh</a></p>
+<div class="language-sh">
+<div class="highlight"><pre><span></span><code>telnet<span class="w"> </span>localhost<span class="w"> </span><span class="m">8000</span>
+</code></pre></div>
+</div>
+<p class="inclusion"><a href="out/telnet_disallowed.out">out/telnet_disallowed.out</a></p>
+<div class="language-plaintext">
+<div class="highlight"><pre><span></span><code>Trying 127.0.0.1...
+Connected to localhost.
+Escape character is &#39;^]&#39;.
+GET ../motto.txt HTTP/1.1
+
+HTTP/1.0 200 OK
+Server: BaseHTTP/0.6 Python/3.12.1
+Date: Wed, 21 Feb 2024 11:25:25 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 58
+
+Start where you are, use what you have, help who you can.
+Connection closed by foreign host.
+</code></pre></div>
+</div>
+<ul>
+<li>If someone doesn&rsquo;t strip out the <code>..</code> characters, users can escape the sandbox</li>
+</ul>
 <!-- ---------------------------------------------------------------- -->
 </section>
 <section class="aside">
@@ -560,6 +680,7 @@ Attackers will often try to escape from the server&rsquo;s sandbox:</p>
 <li><em>Teaching Tech Together</em> lesson on learner personas: <a href="http://teachtogether.tech/en/index.html#s:process-personas">http://teachtogether.tech/en/index.html#s:process-personas</a></li>
 <li>Open Notify API for the International Space Station: <a href="http://api.open-notify.org/">http://api.open-notify.org/</a></li>
 <li>Python <code>http.server</code> module: <a href="https://docs.python.org/3/library/http.server.html">https://docs.python.org/3/library/http.server.html</a></li>
+<li>Telnet: <a href="https://en.wikipedia.org/wiki/Telnet">https://en.wikipedia.org/wiki/Telnet</a></li>
 <li>The Carpentries: <a href="https://carpentries.org/">https://carpentries.org/</a></li>
 <li>Wikipedia article on HTTP status codes: <a href="https://en.wikipedia.org/wiki/List_of_HTTP_status_codes">https://en.wikipedia.org/wiki/List_of_HTTP_status_codes</a></li>
 <li><code>requests</code> module: <a href="https://requests.readthedocs.io/en/latest/">https://requests.readthedocs.io/en/latest/</a></li>
@@ -573,7 +694,7 @@ Attackers will often try to escape from the server&rsquo;s sandbox:</p>
   <a href="https://github.com/gvwilson/safety-tutorial"><i class="fab fa-github" aria-hidden="true" title="GitHub repository"></i></a>
   <a href="license/"><i class="fab fa-creative-commons-by" aria-hidden="true" title="license"></i></a>
   &middot;
-  <time datetime="2024-02-19">Last built 2024-02-19</time>
+  <time datetime="2024-02-21">Last built 2024-02-21</time>
 </footer>
 
   </body>

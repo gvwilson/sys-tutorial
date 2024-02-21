@@ -20,6 +20,9 @@
 - key: "t3"
   url: "https://teachtogether.tech/"
   title: "*Teaching Tech Together*"
+- key: "telnet"
+  url: "https://en.wikipedia.org/wiki/Telnet"
+  title: "Telnet"
 
 # People
 - key: wilson-greg

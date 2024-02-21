@@ -217,19 +217,43 @@ of [the International Space Station][iss_api].
 -   And then get `motto.txt` as before
 
 <!-- ---------------------------------------------------------------- -->
-[% section_break class="exercise" %]
+[% section_break class="topic" title="Built-in Safety" %]
 
-[% exercise %]
-Attackers will often try to escape from the server's sandbox:
+-   Modify `requests` script to take URL as command-line parameter
 
-1.  What happens if you try to get a file using `http://localhost:8000/../private.txt`
+[% single "src/requests_local_url.py" %]
 
-2.  Is this allowed?
-    If not,
-    which part of the software is preventing it:
-    the client or the server?
+-   Add a sub-directory to `site` called `sandbox` with a file `example.txt`
+-   Serve that sub-directory
 
-3.  Can you bypass that protection?
+[% single "src/file_server_sandbox.sh" %]
+
+-   Can get files from that directory
+
+[% multi "src/requests_local_url_allowed.sh" "out/file_server_allowed.out" "out/requests_local_url_allowed.out" %]
+
+-   But not from parent directory (which isn't part of sandbox)
+
+[% multi "src/requests_local_url_disallowed.sh" "out/file_server_disallowed.out" "out/requests_local_url_disallowed.out" %]
+
+-   But why not?
+-   Looks like `requests` is stripping the leading `..` off the path
+-   And if we try that URL in the browser, same thing happens
+-   So we're safe, right?
+
+<!-- ---------------------------------------------------------------- -->
+[% section_break class="topic" title="Introducing Telnet" %]
+
+-   [Telnet][telnet] is short for "teletype network", which tells you how old the program is
+-   Open a connection, send exactly what the user types, and show exactly what is sent in response
+
+[% multi "src/telnet_localhost_8000.sh" "out/telnet_allowed.out" %]
+
+-   So far so good, but:
+
+[% multi "src/telnet_localhost_8000.sh" "out/telnet_disallowed.out" %]
+
+-   If someone doesn't strip out the `..` characters, users can escape the sandbox
 
 <!-- ---------------------------------------------------------------- -->
 [% section_break class="aside" title="Appendices" %]

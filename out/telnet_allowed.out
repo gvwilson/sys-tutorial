@@ -1,0 +1,13 @@
+Trying 127.0.0.1...
+Connected to localhost.
+Escape character is '^]'.
+GET /example.txt HTTP/1.1
+
+HTTP/1.0 200 OK
+Server: BaseHTTP/0.6 Python/3.12.1
+Date: Wed, 21 Feb 2024 11:21:22 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 13
+
+example file
+Connection closed by foreign host.
