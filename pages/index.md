@@ -9,10 +9,7 @@
 -   Please see [the license](./license/) for terms of use,
     the [Code of Conduct](./conduct/) for community standards,
     and [these guidelines](./contributing/) for notes on contributing
--   About the author:
-    [Greg Wilson][wilson-greg] is a programmer, author, and educator based in Toronto
-    -   Co-founder and first Executive Director of [Software Carpentry][carpentries]
-    -   Currently a senior software engineering manager at a startup in Toronto
+-   [Greg Wilson][wilson-greg] is a programmer, author, and educator based in Toronto
 
 <!-- ---------------------------------------------------------------- -->
 [% section_break class="aside" title="Scope" %]

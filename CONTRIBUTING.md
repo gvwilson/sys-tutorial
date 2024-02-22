@@ -4,7 +4,16 @@ Contributions are very welcome.
 Please file issues or submit pull requests in our GitHub repository.
 All contributors will be acknowledged.
 
-## In Brief
+## Quickstart
+
+1.  Create a Python virtual environment for Python 3.12 and activate it
+    -   E.g., `conda create -n safety python=3.12`
+2.  `pip install -r requirements.txt` to install dependencies
+3.  `make build` to rebuild the tutorial website locally
+4.  Open `docs/index.html` to view the tutorial's home page
+5.  Or `make serve` to preview on <http://localhost:8080>
+
+## In More Detail
 
 -   Use `pip install -r requirements.txt`
     to install the packages required by the helper tools and Python examples.
@@ -34,19 +43,21 @@ All contributors will be acknowledged.
 -   Use `[% section_break class="CLASS" title="TITLE" %]`
     to end the previous section and start a new one.
 
+-   Use `[% single "dir/file.ext" %]`
+    in `index.md` to include an arbitrary text file.
+
+-   Use `[% multi "a/b.ext" "c/d.ext" …and so on… %]`
+    in `index.md` to include any number of text files.
+
 -   Use `[% double stem="file" suffix="py out" %]`
     to include `src/file.py` and `out/file.out`.
     Any two suffixes can be provided, such as `"py out"`,
     but the first file will always be looked for in the `src` directory
     and the second in `out`.
 
--   Use `[% single "dir/file.ext" %]`
-    in `index.md` to include an arbitrary text file *without* automatically including output.
-    (Note that `single` requires a directory name such as `src` or `out` but `double` does not.)
-
 -   By default, file inclusion strips out everything between `# [keep]` and `# [/keep]` for Python files.
     The start and end tags can be customized by passing `keep="label"`
-    to the `single` or `double` inclusion tags.
+    to the `single`, `multi`, or `double` inclusion tags.
 
 -   Use `[% exercise %]` to introduce a numbered exercise.
     Do not leave a blank link between the inclusion and the text of the exercise.
@@ -58,14 +69,15 @@ All contributors will be acknowledged.
     the key must identify an entry in `info/glossary.yml`,
     which is in [Glosario][glosario] format.
 
--   SVG diagrams are in `res/img/` and can be edited using [draw.io][draw_io].
-    Please use 12-point Helvetica for text,
+-   Create and edit SVG diagrams using [draw.io][draw_io] and save them in `res/img/`.
+    Please use 14-point Helvetica for text,
     solid 1-point black lines,
     and unfilled objects.
 
--   All external links are written using `[box][notation]` inline
-    and defined in `info/tutorial.yml`.
-    The shortcode `[% link_table %]` at the end of `index.md` fills in these links.
+-   Write external links using `[box][notation]` inline
+    and defined the links in `info/links.yml`.
+    The shortcode `[% link_table %]` at the end of `index.md`
+    copies links values into the page during build.
 
 ## Logical Structure
 
@@ -137,33 +149,30 @@ All contributors will be acknowledged.
 
 ## FAQ
 
-Why web programming?
+Why computer security?
 :   Because if you dig down far enough,
-    almost every data science project needs to get data or supply it to someone else.
+    almost every data science project needs to get data or supply it to someone else,
+    and ought to know how to do that safely.
 
 Why Ark?
 :   The first version of this tutorial used [Jekyll][jekyll]
-    because it is the default for [GitHub Pages][ghp]
-    and because its frustrating limitations would discourage contributors
-    from messing around with the template instead of writing content.
+    because it is the default for [GitHub Pages][ghp].
     However,
-    those limitations proved more frustrating than anticipated:
-    in particular,
-    very few data scientists speak Ruby,
+    its limitations proved more frustrating than anticipated
+    and very few data scientists speak Ruby,
     so previewing changes locally required them to install and use
     yet another language framework.
 
 Why Make?
 :   It runs everywhere,
     no other build tool is a clear successor,
-    and,
-    like Jekyll,
-    it's uncomfortable enough to use that people won't be tempted to fiddle with it
+    and it's clunky enough that people won't be tempted to fiddle with it
     when they could be writing.
 
-Why hand-drawn figures rather than [Graphviz][graphviz] or [Mermaid][mermaid]?
+Why manually-edited figures rather than [Graphviz][graphviz] or [Mermaid][mermaid]?
 :   Because it's faster to Just Effing Draw than it is
     to try to tweak layout parameters for text-to-diagram systems.
+    (Believe me, I've tried…)
     If you really want to make developers' lives better,
     build a diff-and-merge tool for SVG:
     programmers shouldn't have to use punchard-compatible data formats in the 21st Century

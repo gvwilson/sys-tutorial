@@ -1,6 +1,6 @@
 # Tutorial data.
-title = "Computer Security for Wary Data Scientists"
-subtitle = ""
+title = "The Safetynomicon"
+subtitle = "An Introduction to Computer Security for Weary Data Scientists"
 repo = "https://github.com/gvwilson/safety-tutorial"
 release = "https://github.com/gvwilson/safety-tutorial/raw/main/safety-tutorial.zip"
 plausible = "gvwilson.github.io/safety-tutorial"

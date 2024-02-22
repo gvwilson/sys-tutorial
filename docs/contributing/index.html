@@ -9,7 +9,7 @@
 <link rel="stylesheet" href="../github.css" type="text/css">
 <link rel="stylesheet" href="../tutorial.css" type="text/css">
 <script defer data-domain="gvwilson.github.io/safety-tutorial" src="https://plausible.io/js/script.js"></script>
-<title>Computer Security for Wary Data Scientists &middot; Contributing</title>
+<title>The Safetynomicon &middot; Contributing</title>
 
   </head>
   <body>
@@ -37,7 +37,18 @@
       <p>Contributions are very welcome.
 Please file issues or submit pull requests in our GitHub repository.
 All contributors will be acknowledged.</p>
-<h2>In Brief</h2>
+<h2>Quickstart</h2>
+<ol>
+<li>Create a Python virtual environment for Python 3.12 and activate it<ul>
+<li>E.g., <code>conda create -n safety python=3.12</code></li>
+</ul>
+</li>
+<li><code>pip install -r requirements.txt</code> to install dependencies</li>
+<li><code>make build</code> to rebuild the tutorial website locally</li>
+<li>Open <code>docs/index.html</code> to view the tutorial&rsquo;s home page</li>
+<li>Or <code>make serve</code> to preview on <a href="http://localhost:8080">http://localhost:8080</a></li>
+</ol>
+<h2>In More Detail</h2>
 <ul>
 <li>
 <p>Use <code>pip install -r requirements.txt</code>
@@ -75,6 +86,14 @@ All contributors will be acknowledged.</p>
     to end the previous section and start a new one.</p>
 </li>
 <li>
+<p>Use <code>[% single "dir/file.ext" %]</code>
+    in <code>index.md</code> to include an arbitrary text file.</p>
+</li>
+<li>
+<p>Use <code>[% multi "a/b.ext" "c/d.ext" …and so on… %]</code>
+    in <code>index.md</code> to include any number of text files.</p>
+</li>
+<li>
 <p>Use <code>[% double stem="file" suffix="py out" %]</code>
     to include <code>src/file.py</code> and <code>out/file.out</code>.
     Any two suffixes can be provided, such as <code>"py out"</code>,
@@ -82,14 +101,9 @@ All contributors will be acknowledged.</p>
     and the second in <code>out</code>.</p>
 </li>
 <li>
-<p>Use <code>[% single "dir/file.ext" %]</code>
-    in <code>index.md</code> to include an arbitrary text file <em>without</em> automatically including output.
-    (Note that <code>single</code> requires a directory name such as <code>src</code> or <code>out</code> but <code>double</code> does not.)</p>
-</li>
-<li>
 <p>By default, file inclusion strips out everything between <code># [keep]</code> and <code># [/keep]</code> for Python files.
     The start and end tags can be customized by passing <code>keep="label"</code>
-    to the <code>single</code> or <code>double</code> inclusion tags.</p>
+    to the <code>single</code>, <code>multi</code>, or <code>double</code> inclusion tags.</p>
 </li>
 <li>
 <p>Use <code>[% exercise %]</code> to introduce a numbered exercise.
@@ -105,15 +119,16 @@ All contributors will be acknowledged.</p>
     which is in <a href="https://glosario.carpentries.org/">Glosario</a> format.</p>
 </li>
 <li>
-<p>SVG diagrams are in <code>res/img/</code> and can be edited using <a href="https://www.drawio.com/">draw.io</a>.
-    Please use 12-point Helvetica for text,
+<p>Create and edit SVG diagrams using <a href="https://www.drawio.com/">draw.io</a> and save them in <code>res/img/</code>.
+    Please use 14-point Helvetica for text,
     solid 1-point black lines,
     and unfilled objects.</p>
 </li>
 <li>
-<p>All external links are written using <code>[box][notation]</code> inline
-    and defined in <code>info/tutorial.yml</code>.
-    The shortcode <code>[% link_table %]</code> at the end of <code>index.md</code> fills in these links.</p>
+<p>Write external links using <code>[box][notation]</code> inline
+    and defined the links in <code>info/links.yml</code>.
+    The shortcode <code>[% link_table %]</code> at the end of <code>index.md</code>
+    copies links values into the page during build.</p>
 </li>
 </ul>
 <h2>Logical Structure</h2>
@@ -211,30 +226,27 @@ All contributors will be acknowledged.</p>
 </ul>
 <h2>FAQ</h2>
 <dl>
-<dt>Why web programming?</dt>
+<dt>Why computer security?</dt>
 <dd>Because if you dig down far enough,
-almost every data science project needs to get data or supply it to someone else.</dd>
+almost every data science project needs to get data or supply it to someone else,
+and ought to know how to do that safely.</dd>
 <dt>Why Ark?</dt>
 <dd>The first version of this tutorial used <a href="https://jekyllrb.com/">Jekyll</a>
-because it is the default for <a href="https://pages.github.com/">GitHub Pages</a>
-and because its frustrating limitations would discourage contributors
-from messing around with the template instead of writing content.
+because it is the default for <a href="https://pages.github.com/">GitHub Pages</a>.
 However,
-those limitations proved more frustrating than anticipated:
-in particular,
-very few data scientists speak Ruby,
+its limitations proved more frustrating than anticipated
+and very few data scientists speak Ruby,
 so previewing changes locally required them to install and use
 yet another language framework.</dd>
 <dt>Why Make?</dt>
 <dd>It runs everywhere,
 no other build tool is a clear successor,
-and,
-like Jekyll,
-it&rsquo;s uncomfortable enough to use that people won&rsquo;t be tempted to fiddle with it
+and it&rsquo;s clunky enough that people won&rsquo;t be tempted to fiddle with it
 when they could be writing.</dd>
-<dt>Why hand-drawn figures rather than <a href="https://graphviz.org/">Graphviz</a> or <a href="https://mermaid.js.org/">Mermaid</a>?</dt>
+<dt>Why manually-edited figures rather than <a href="https://graphviz.org/">Graphviz</a> or <a href="https://mermaid.js.org/">Mermaid</a>?</dt>
 <dd>Because it&rsquo;s faster to Just Effing Draw than it is
 to try to tweak layout parameters for text-to-diagram systems.
+(Believe me, I&rsquo;ve tried…)
 If you really want to make developers&rsquo; lives better,
 build a diff-and-merge tool for SVG:
 programmers shouldn&rsquo;t have to use punchard-compatible data formats in the 21st Century
@@ -250,7 +262,7 @@ just to get the benefits of version control.</dd>
   <a href="https://github.com/gvwilson/safety-tutorial"><i class="fab fa-github" aria-hidden="true" title="GitHub repository"></i></a>
   <a href="../license/"><i class="fab fa-creative-commons-by" aria-hidden="true" title="license"></i></a>
   &middot;
-  <time datetime="2024-02-21">Last built 2024-02-21</time>
+  <time datetime="2024-02-22">Last built 2024-02-22</time>
 </footer>
 
   </body>

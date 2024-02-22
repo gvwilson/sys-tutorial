@@ -1,4 +1,4 @@
-# The Safetynomicon: An Introduction to Computer Security for Wary Data Scientists
+# The Safetynomicon: An Introduction to Computer Security for Weary Data Scientists
 
 -   Please see [the website][site] to view the current version of this tutorial.
 
