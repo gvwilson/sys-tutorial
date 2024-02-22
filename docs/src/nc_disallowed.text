@@ -1,0 +1,2 @@
+GET ../motto.txt HTTP/1.1
+

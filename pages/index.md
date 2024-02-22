@@ -239,19 +239,19 @@ of [the International Space Station][iss_api].
 -   So we're safe, right?
 
 <!-- ---------------------------------------------------------------- -->
-[% section_break class="topic" title="Introducing Telnet" %]
+[% section_break class="topic" title="Introducing netcat" %]
 
--   [Telnet][telnet] is short for "teletype network", which tells you how old the program is
+-   [`netcat`][netcat] (often just `nc`) is a computer networking tool
 -   Open a connection, send exactly what the user types, and show exactly what is sent in response
 
-[% multi "src/telnet_localhost_8000.sh" "out/telnet_allowed.out" %]
+[% multi "src/nc_localhost_8000.sh" "src/nc_allowed.text" "out/nc_allowed.out" %]
 
 -   So far so good, but:
 
-[% multi "src/telnet_localhost_8000.sh" "out/telnet_disallowed.out" %]
+[% multi "src/nc_disallowed.text" "out/nc_disallowed.out" %]
 
--   If someone doesn't strip out the `..` characters, users can escape the sandbox
--   So we just need to do that, right?
+-   We shouldn't be able to see files outside the sandbox
+-   But if someone doesn't strip out the `..` characters, users can escape
 
 <!-- ---------------------------------------------------------------- -->
 [% section_break class="exercise" %]

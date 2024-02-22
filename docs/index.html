@@ -572,61 +572,54 @@ body:
 <!-- ---------------------------------------------------------------- -->
 </section>
 <section class="topic">
-<h2 class="topic">10: Introducing Telnet</h2>
+<h2 class="topic">10: Introducing netcat</h2>
 <ul>
-<li><a href="https://en.wikipedia.org/wiki/Telnet">Telnet</a> is short for &ldquo;teletype network&rdquo;, which tells you how old the program is</li>
+<li><a href="https://en.wikipedia.org/wiki/Netcat"><code>netcat</code></a> (often just <code>nc</code>) is a computer networking tool</li>
 <li>Open a connection, send exactly what the user types, and show exactly what is sent in response</li>
 </ul>
-<p class="inclusion"><a href="src/telnet_localhost_8000.sh">src/telnet_localhost_8000.sh</a></p>
+<p class="inclusion"><a href="src/nc_localhost_8000.sh">src/nc_localhost_8000.sh</a></p>
 <div class="language-sh">
-<div class="highlight"><pre><span></span><code>telnet<span class="w"> </span>localhost<span class="w"> </span><span class="m">8000</span>
+<div class="highlight"><pre><span></span><code>nc<span class="w"> </span>localhost<span class="w"> </span><span class="m">8000</span>
 </code></pre></div>
 </div>
-<p class="inclusion"><a href="out/telnet_allowed.out">out/telnet_allowed.out</a></p>
+<p class="inclusion"><a href="src/nc_allowed.text">src/nc_allowed.text</a></p>
+<div class="language-text">
+<div class="highlight"><pre><span></span><code>GET /example.txt HTTP/1.1
+</code></pre></div>
+</div>
+<p class="inclusion"><a href="out/nc_allowed.out">out/nc_allowed.out</a></p>
 <div class="language-plaintext">
-<div class="highlight"><pre><span></span><code>Trying 127.0.0.1...
-Connected to localhost.
-Escape character is &#39;^]&#39;.
-GET /example.txt HTTP/1.1
-
-HTTP/1.0 200 OK
+<div class="highlight"><pre><span></span><code>HTTP/1.0 200 OK
 Server: BaseHTTP/0.6 Python/3.12.1
-Date: Wed, 21 Feb 2024 11:21:22 GMT
+Date: Thu, 22 Feb 2024 18:37:37 GMT
 Content-Type: text/html; charset=utf-8
 Content-Length: 13
 
 example file
-Connection closed by foreign host.
 </code></pre></div>
 </div>
 <ul>
 <li>So far so good, but:</li>
 </ul>
-<p class="inclusion"><a href="src/telnet_localhost_8000.sh">src/telnet_localhost_8000.sh</a></p>
-<div class="language-sh">
-<div class="highlight"><pre><span></span><code>telnet<span class="w"> </span>localhost<span class="w"> </span><span class="m">8000</span>
+<p class="inclusion"><a href="src/nc_disallowed.text">src/nc_disallowed.text</a></p>
+<div class="language-text">
+<div class="highlight"><pre><span></span><code>GET ../motto.txt HTTP/1.1
 </code></pre></div>
 </div>
-<p class="inclusion"><a href="out/telnet_disallowed.out">out/telnet_disallowed.out</a></p>
+<p class="inclusion"><a href="out/nc_disallowed.out">out/nc_disallowed.out</a></p>
 <div class="language-plaintext">
-<div class="highlight"><pre><span></span><code>Trying 127.0.0.1...
-Connected to localhost.
-Escape character is &#39;^]&#39;.
-GET ../motto.txt HTTP/1.1
-
-HTTP/1.0 200 OK
+<div class="highlight"><pre><span></span><code>HTTP/1.0 200 OK
 Server: BaseHTTP/0.6 Python/3.12.1
-Date: Wed, 21 Feb 2024 11:25:25 GMT
+Date: Thu, 22 Feb 2024 18:38:50 GMT
 Content-Type: text/html; charset=utf-8
 Content-Length: 58
 
 Start where you are, use what you have, help who you can.
-Connection closed by foreign host.
 </code></pre></div>
 </div>
 <ul>
-<li>If someone doesn&rsquo;t strip out the <code>..</code> characters, users can escape the sandbox</li>
-<li>So we just need to do that, right?</li>
+<li>We shouldn&rsquo;t be able to see files outside the sandbox</li>
+<li>But if someone doesn&rsquo;t strip out the <code>..</code> characters, users can escape</li>
 </ul>
 <!-- ---------------------------------------------------------------- -->
 </section>
@@ -732,10 +725,10 @@ Do you think making code easier to understand also makes it safer?</p>
 <li><em>Teaching Tech Together</em> lesson on learner personas: <a href="http://teachtogether.tech/en/index.html#s:process-personas">http://teachtogether.tech/en/index.html#s:process-personas</a></li>
 <li>Open Notify API for the International Space Station: <a href="http://api.open-notify.org/">http://api.open-notify.org/</a></li>
 <li>Python <code>http.server</code> module: <a href="https://docs.python.org/3/library/http.server.html">https://docs.python.org/3/library/http.server.html</a></li>
-<li>Telnet: <a href="https://en.wikipedia.org/wiki/Telnet">https://en.wikipedia.org/wiki/Telnet</a></li>
 <li>The Carpentries: <a href="https://carpentries.org/">https://carpentries.org/</a></li>
 <li>Wikipedia article on HTTP status codes: <a href="https://en.wikipedia.org/wiki/List_of_HTTP_status_codes">https://en.wikipedia.org/wiki/List_of_HTTP_status_codes</a></li>
 <li><code>requests</code> module: <a href="https://requests.readthedocs.io/en/latest/">https://requests.readthedocs.io/en/latest/</a></li>
+<li>netcat: <a href="https://en.wikipedia.org/wiki/Netcat">https://en.wikipedia.org/wiki/Netcat</a></li>
 </ul>
 </section>
     </main>
