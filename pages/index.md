@@ -384,6 +384,11 @@ Explain why the server should return JSON rather than HTML in the case of an err
     -   Sent as [%g cleartext "cleartext" %] over an unencrypted connection
 
 <!-- ---------------------------------------------------------------- -->
+[% section_break class="topic" title="Introducting FastAPI" %]
+
+[% single "src/bird_server_fastapi.py" %]
+
+<!-- ---------------------------------------------------------------- -->
 [% section_break class="aside" title="Appendices" %]
 
 ### Terms
