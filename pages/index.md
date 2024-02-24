@@ -294,20 +294,20 @@ Do you think making code easier to understand also makes it safer?
 -   Modify server to generate it dynamically
 -   Main program
 
-[% single "src/bird_whole_server.py" keep="main" %]
+[% single "src/bird_server_whole.py" keep="main" %]
 
 -   Create our own server class because we want to pass the dataframe in the constructor
 
-[% single "src/bird_whole_server.py" keep="server" %]
+[% single "src/bird_server_whole.py" keep="server" %]
 
 -   `do_GET` converts the dataframe to JSON (will modify later to do more than this)
 
-[% single "src/bird_whole_server.py" keep="get" %]
+[% single "src/bird_server_whole.py" keep="get" %]
 
 -   `send_content` [%g character_encoding "encodes" %] the JSON string as [%g utf_8 "UTF-8" %]
     and sets the MIME type to `application/json`
 
-[% single "src/bird_whole_server.py" keep="send" %]
+[% single "src/bird_server_whole.py" keep="send" %]
 
 -   Can view in browser at `http://localhost:8000` or use `requests` to fetch as before
 
@@ -318,13 +318,13 @@ Do you think making code easier to understand also makes it safer?
 -   Want `http://localhost:8000/?year=2021&species=rebnut` to select red-breasted nuthatches in 2021
 -   Put slicing in a method of its own
 
-[% single "src/bird_slice_server.py" keep="get" %]
+[% single "src/bird_server_slice.py" keep="get" %]
 
 -   Use `urlparse` and `parse_qs` from [`urllib.parse`][py_urllib_parse] to get query parameters
     -   (Key, list) dictionary
 -   Then filter data as requested
 
-[% single "src/bird_slice_server.py" keep="filter" %]
+[% single "src/bird_server_slice.py" keep="filter" %]
 
 <!-- ---------------------------------------------------------------- -->
 [% section_break class="exercise" %]
@@ -348,6 +348,40 @@ and a JSON blog with two keys:
 `status_code` (set to 400)
 and `error_message` (set to something informative).
 Explain why the server should return JSON rather than HTML in the case of an error.
+
+<!-- ---------------------------------------------------------------- -->
+[% section_break class="topic" title="What's the Magic Word?" %]
+
+-   Only allow access to data if client:
+    -   [%g authentication "Authenticates" %] (i.e., establishes their identity)
+    -   Is [%g authorization "authorized" %] (i.e., has the right to view the data)
+-   Simplest possible is wrong in many ways: does the client know a password?
+
+[% single "src/bird_client_password.py" %]
+[% double stem="bird_client_password_correct" suffix="sh out" %]
+[% double stem="bird_client_password_incorrect" suffix="sh out" %]
+
+-   First change to server: get the password on the command line and save it
+
+[% single "src/bird_server_password.py" keep="main" %]
+[% single "src/bird_server_password.py" keep="server" %]
+
+-   Second change: add authorization to `do_GET`
+    -   Once again use our own exception class to handle unhappy cases
+
+[% single "src/bird_server_password.py" keep="get" %]
+
+-   Add authorization taht checks header value
+
+[% single "src/bird_server_password.py" keep="auth" %]
+
+-   Handle errors by constructing JSON
+
+[% single "src/bird_server_password.py" keep="error" %]
+
+-   It works but:
+    -   One password for everyone
+    -   Sent as [%g cleartext "cleartext" %] over an unencrypted connection
 
 <!-- ---------------------------------------------------------------- -->
 [% section_break class="aside" title="Appendices" %]

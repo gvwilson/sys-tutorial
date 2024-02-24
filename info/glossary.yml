@@ -12,6 +12,18 @@
       European languages as 7-bit integers, now largely superceded by
       [Unicode](#unicode).
 
+- key: authentication
+  en:
+    term: authentication
+    def: >
+      The act of establishing one's identity.
+
+- key: authorization
+  en:
+    term: authorization
+    def: >
+      The act of establishing that one has a right to access certain information.
+
 # B
 
 # C
@@ -22,6 +34,12 @@
     def: >
       A way to represent characters as bytes. Common examples include [ASCII](#ascii)
       and [UTF-8](#utf_8).
+
+- key: cleartext
+  en:
+    term: cleartext
+    def: >
+      Text that has not been [encrypted](#encryption).
 
 - key: client
   en:
@@ -47,6 +65,13 @@
       etc.
 
 # E
+
+- key: encryption
+  en:
+    term: encryption
+    def: >
+      The process of converting data from a representation that anyone can read
+      to one that can only be read by someone with the right algorithm and/or key.
 
 # F
 

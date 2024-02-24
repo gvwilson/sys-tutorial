@@ -701,7 +701,7 @@ L13476859,60.8606726,-135.2015181,CA-YT,2021,2,15,bkcchi,3.0
 <li>Modify server to generate it dynamically</li>
 <li>Main program</li>
 </ul>
-<p class="inclusion"><a href="src/bird_whole_server.py">src/bird_whole_server.py</a></p>
+<p class="inclusion"><a href="src/bird_server_whole.py">src/bird_server_whole.py</a></p>
 <div class="language-py">
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
     <span class="n">sandbox</span><span class="p">,</span> <span class="n">filename</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
@@ -715,7 +715,7 @@ L13476859,60.8606726,-135.2015181,CA-YT,2021,2,15,bkcchi,3.0
 <ul>
 <li>Create our own server class because we want to pass the dataframe in the constructor</li>
 </ul>
-<p class="inclusion"><a href="src/bird_whole_server.py">src/bird_whole_server.py</a></p>
+<p class="inclusion"><a href="src/bird_server_whole.py">src/bird_server_whole.py</a></p>
 <div class="language-py">
 <div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">BirdServer</span><span class="p">(</span><span class="n">HTTPServer</span><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">server_address</span><span class="p">,</span> <span class="n">request_handler</span><span class="p">):</span>
@@ -726,7 +726,7 @@ L13476859,60.8606726,-135.2015181,CA-YT,2021,2,15,bkcchi,3.0
 <ul>
 <li><code>do_GET</code> converts the dataframe to JSON (will modify later to do more than this)</li>
 </ul>
-<p class="inclusion"><a href="src/bird_whole_server.py">src/bird_whole_server.py</a></p>
+<p class="inclusion"><a href="src/bird_server_whole.py">src/bird_server_whole.py</a></p>
 <div class="language-py">
 <div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">RequestHandler</span><span class="p">(</span><span class="n">BaseHTTPRequestHandler</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">do_GET</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -738,7 +738,7 @@ L13476859,60.8606726,-135.2015181,CA-YT,2021,2,15,bkcchi,3.0
 <li><code>send_content</code> <a href="#g:character_encoding">encodes</a> the JSON string as <a href="#g:utf_8">UTF-8</a>
     and sets the MIME type to <code>application/json</code></li>
 </ul>
-<p class="inclusion"><a href="src/bird_whole_server.py">src/bird_whole_server.py</a></p>
+<p class="inclusion"><a href="src/bird_server_whole.py">src/bird_server_whole.py</a></p>
 <div class="language-py">
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">send_content</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">content</span><span class="p">,</span> <span class="n">status</span><span class="p">):</span>
         <span class="n">content</span> <span class="o">=</span> <span class="nb">bytes</span><span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
@@ -761,7 +761,7 @@ L13476859,60.8606726,-135.2015181,CA-YT,2021,2,15,bkcchi,3.0
 <li>Want <code>http://localhost:8000/?year=2021&amp;species=rebnut</code> to select red-breasted nuthatches in 2021</li>
 <li>Put slicing in a method of its own</li>
 </ul>
-<p class="inclusion"><a href="src/bird_slice_server.py">src/bird_slice_server.py</a></p>
+<p class="inclusion"><a href="src/bird_server_slice.py">src/bird_server_slice.py</a></p>
 <div class="language-py">
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">do_GET</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">filter_data</span><span class="p">()</span>
@@ -776,7 +776,7 @@ L13476859,60.8606726,-135.2015181,CA-YT,2021,2,15,bkcchi,3.0
 </li>
 <li>Then filter data as requested</li>
 </ul>
-<p class="inclusion"><a href="src/bird_slice_server.py">src/bird_slice_server.py</a></p>
+<p class="inclusion"><a href="src/bird_server_slice.py">src/bird_server_slice.py</a></p>
 <div class="language-py">
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">filter_data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">params</span> <span class="o">=</span> <span class="n">parse_qs</span><span class="p">(</span><span class="n">urlparse</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">)</span><span class="o">.</span><span class="n">query</span><span class="p">)</span>
@@ -813,19 +813,145 @@ and <code>error_message</code> (set to something informative).
 Explain why the server should return JSON rather than HTML in the case of an error.</p>
 <!-- ---------------------------------------------------------------- -->
 </section>
+<section class="topic">
+<h2 class="topic">14: What&rsquo;s the Magic Word?</h2>
+<ul>
+<li>Only allow access to data if client:<ul>
+<li><a href="#g:authentication">Authenticates</a> (i.e., establishes their identity)</li>
+<li>Is <a href="#g:authorization">authorized</a> (i.e., has the right to view the data)</li>
+</ul>
+</li>
+<li>Simplest possible is wrong in many ways: does the client know a password?</li>
+</ul>
+<p class="inclusion"><a href="src/bird_client_password.py">src/bird_client_password.py</a></p>
+<div class="language-py">
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">http</span> <span class="kn">import</span> <span class="n">HTTPStatus</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+
+<span class="n">URL</span> <span class="o">=</span> <span class="s2">&quot;http://localhost:8000?species=stejay&quot;</span>
+<span class="n">headers</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;Password&quot;</span><span class="p">:</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]}</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span> <span class="k">else</span> <span class="p">{}</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">URL</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="n">HTTPStatus</span><span class="o">.</span><span class="n">OK</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">())</span><span class="si">}</span><span class="s2"> records returned&quot;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">j</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">j</span><span class="p">[</span><span class="s1">&#39;status&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">j</span><span class="p">[</span><span class="s1">&#39;error_message&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+</div>
+<p class="inclusion"><a href="src/bird_client_password_correct.sh">src/bird_client_password_correct.sh</a></p>
+<div class="language-sh">
+<div class="highlight"><pre><span></span><code>python<span class="w"> </span>src/bird_client_password.py<span class="w"> </span>mumble
+</code></pre></div>
+</div>
+<p class="inclusion"><a href="out/bird_client_password_correct.out">out/bird_client_password_correct.out</a></p>
+<div class="language-plaintext">
+<div class="highlight"><pre><span></span><code>16 records returned
+</code></pre></div>
+</div>
+<p class="inclusion"><a href="src/bird_client_password_incorrect.sh">src/bird_client_password_incorrect.sh</a></p>
+<div class="language-sh">
+<div class="highlight"><pre><span></span><code>python<span class="w"> </span>src/bird_client_password.py<span class="w"> </span>bad_password
+</code></pre></div>
+</div>
+<p class="inclusion"><a href="out/bird_client_password_incorrect.out">out/bird_client_password_incorrect.out</a></p>
+<div class="language-plaintext">
+<div class="highlight"><pre><span></span><code>403: incorrect or missing password
+</code></pre></div>
+</div>
+<ul>
+<li>First change to server: get the password on the command line and save it</li>
+</ul>
+<p class="inclusion"><a href="src/bird_server_password.py">src/bird_server_password.py</a></p>
+<div class="language-py">
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="n">sandbox</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">password</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="n">sandbox</span><span class="p">)</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+    <span class="n">serverAddress</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="mi">8000</span><span class="p">)</span>
+    <span class="n">server</span> <span class="o">=</span> <span class="n">BirdServer</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">password</span><span class="p">,</span> <span class="n">serverAddress</span><span class="p">,</span> <span class="n">RequestHandler</span><span class="p">)</span>
+    <span class="n">server</span><span class="o">.</span><span class="n">serve_forever</span><span class="p">()</span>
+</code></pre></div>
+</div>
+<p class="inclusion"><a href="src/bird_server_password.py">src/bird_server_password.py</a></p>
+<div class="language-py">
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">BirdServer</span><span class="p">(</span><span class="n">HTTPServer</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">password</span><span class="p">,</span> <span class="n">server_address</span><span class="p">,</span> <span class="n">request_handler</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">server_address</span><span class="p">,</span> <span class="n">request_handler</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_data</span> <span class="o">=</span> <span class="n">data</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_password</span> <span class="o">=</span> <span class="n">password</span>
+</code></pre></div>
+</div>
+<ul>
+<li>Second change: add authorization to <code>do_GET</code><ul>
+<li>Once again use our own exception class to handle unhappy cases</li>
+</ul>
+</li>
+</ul>
+<p class="inclusion"><a href="src/bird_server_password.py">src/bird_server_password.py</a></p>
+<div class="language-py">
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">do_GET</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">authorize</span><span class="p">()</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">filter_data</span><span class="p">()</span>
+            <span class="n">as_json</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">to_json</span><span class="p">(</span><span class="n">orient</span><span class="o">=</span><span class="s2">&quot;records&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">send_content</span><span class="p">(</span><span class="n">as_json</span><span class="p">,</span> <span class="n">HTTPStatus</span><span class="o">.</span><span class="n">OK</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">ServerException</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">send_error</span><span class="p">(</span><span class="n">exc</span><span class="p">)</span>
+</code></pre></div>
+</div>
+<ul>
+<li>Add authorization taht checks header value</li>
+</ul>
+<p class="inclusion"><a href="src/bird_server_password.py">src/bird_server_password.py</a></p>
+<div class="language-py">
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">authorize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">expected</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">server</span><span class="o">.</span><span class="n">_password</span>
+        <span class="n">actual</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;Password&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">actual</span> <span class="o">!=</span> <span class="n">expected</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">ServerException</span><span class="p">(</span><span class="s2">&quot;incorrect or missing password&quot;</span><span class="p">,</span> <span class="n">HTTPStatus</span><span class="o">.</span><span class="n">FORBIDDEN</span><span class="p">)</span>
+</code></pre></div>
+</div>
+<ul>
+<li>Handle errors by constructing JSON</li>
+</ul>
+<p class="inclusion"><a href="src/bird_server_password.py">src/bird_server_password.py</a></p>
+<div class="language-py">
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">send_error</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exc</span><span class="p">):</span>
+        <span class="n">content</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;status&quot;</span><span class="p">:</span> <span class="n">exc</span><span class="o">.</span><span class="n">_status</span><span class="p">,</span> <span class="s2">&quot;error_message&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">exc</span><span class="p">)}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">send_content</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">content</span><span class="p">),</span> <span class="n">exc</span><span class="o">.</span><span class="n">_status</span><span class="p">)</span>
+</code></pre></div>
+</div>
+<ul>
+<li>It works but:<ul>
+<li>One password for everyone</li>
+<li>Sent as <a href="#g:cleartext">cleartext</a> over an unencrypted connection</li>
+</ul>
+</li>
+</ul>
+<!-- ---------------------------------------------------------------- -->
+</section>
 <section class="aside">
 <h2 class="aside">Appendices</h2>
 <h3>Terms</h3>
 <dl class="glossary">
 <dt id="g:ascii">ASCII character encoding</dt><dd>A standard way to represent the characters commonly used in the Western European languages as 7-bit integers, now largely superceded by <a href="#unicode">Unicode</a>.</dd>
 
+<dt id="g:authentication">authentication</dt><dd>The act of establishing one&rsquo;s identity.</dd>
+
+<dt id="g:authorization">authorization</dt><dd>The act of establishing that one has a right to access certain information.</dd>
+
 <dt id="g:character_encoding">character encoding</dt><dd>A way to represent characters as bytes. Common examples include <a href="#ascii">ASCII</a> and <a href="#utf_8">UTF-8</a>.</dd>
+
+<dt id="g:cleartext">cleartext</dt><dd>Text that has not been <a href="#encryption">encrypted</a>.</dd>
 
 <dt id="g:client">client</dt><dd>A program such as a browser that sends requests to a server and does something with the response.</dd>
 
 <dt id="g:concurrency">concurrency</dt><dd>The ability of different parts of a system to take action at the same time.</dd>
 
 <dt id="g:dynamic_content">dynamic content</dt><dd>Web site content that is generated on the fly. Dynamic content is usually customized according to the requester&rsquo;s identity, <a href="#query_parameter">query parameter</a>, etc.</dd>
+
+<dt id="g:encryption">encryption</dt><dd>The process of converting data from a representation that anyone can read to one that can only be read by someone with the right algorithm and/or key.</dd>
 
 <dt id="g:http_header">header (of HTTP request or response)</dt><dd>A name-value pair at the start of an <a href="#http_request">HTTP request</a> or <a href="#http_response">response</a>. Headers are used to specify what data formats the sender can handle, the date and time the message was sent, and so on.</dd>
 
