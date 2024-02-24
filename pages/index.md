@@ -294,22 +294,60 @@ Do you think making code easier to understand also makes it safer?
 -   Modify server to generate it dynamically
 -   Main program
 
-[% single "src/bird_server.py" keep="main" %]
+[% single "src/bird_whole_server.py" keep="main" %]
 
 -   Create our own server class because we want to pass the dataframe in the constructor
 
-[% single "src/bird_server.py" keep="server" %]
+[% single "src/bird_whole_server.py" keep="server" %]
 
 -   `do_GET` converts the dataframe to JSON (will modify later to do more than this)
 
-[% single "src/bird_server.py" keep="get" %]
+[% single "src/bird_whole_server.py" keep="get" %]
 
 -   `send_content` [%g character_encoding "encodes" %] the JSON string as [%g utf_8 "UTF-8" %]
     and sets the MIME type to `application/json`
 
-[% single "src/bird_server.py" keep="send" %]
+[% single "src/bird_whole_server.py" keep="send" %]
 
 -   Can view in browser at `http://localhost:8000` or use `requests` to fetch as before
+
+<!-- ---------------------------------------------------------------- -->
+[% section_break class="topic" title="Slicing Data" %]
+
+-   URL can contain [%g query_parameter "query parameters" %]
+-   Want `http://localhost:8000/?year=2021&species=rebnut` to select red-breasted nuthatches in 2021
+-   Put slicing in a method of its own
+
+[% single "src/bird_slice_server.py" keep="get" %]
+
+-   Use `urlparse` and `parse_qs` from [`urllib.parse`][py_urllib_parse] to get query parameters
+    -   (Key, list) dictionary
+-   Then filter data as requested
+
+[% single "src/bird_slice_server.py" keep="filter" %]
+
+<!-- ---------------------------------------------------------------- -->
+[% section_break class="exercise" %]
+
+[% exercise %]
+Write a function that takes a URL as input
+and returns a dictionary whose keys are the query parameters' names
+and whose values are lists of their values.
+Do you now see why you should use the library function to do this?
+
+[% exercise %]
+Modify the server so that clients can specify which columns they want returned
+as a comma-separated list of names.
+If the client asks for a column that doesn't exist, ignore it.
+
+[% exercise %]
+Modify your solution to the previous exercise so that
+if the client asks for a column that doesn't exist
+the server returns a status code 400 (Bad Request)
+and a JSON blog with two keys:
+`status_code` (set to 400)
+and `error_message` (set to something informative).
+Explain why the server should return JSON rather than HTML in the case of an error.
 
 <!-- ---------------------------------------------------------------- -->
 [% section_break class="aside" title="Appendices" %]

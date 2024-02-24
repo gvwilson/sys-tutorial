@@ -20,6 +20,9 @@
 - key: py_http_server
   url: "https://docs.python.org/3/library/http.server.html"
   title: "Python `http.server` module"
+- key: py_urllib_parse
+  url: "https://docs.python.org/3/library/urllib.parse.html"
+  title: "Python `urllib.parse` module"
 - key: "requests"
   url: "https://requests.readthedocs.io/en/latest/"
   title: "`requests` module"

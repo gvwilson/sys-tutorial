@@ -701,7 +701,7 @@ L13476859,60.8606726,-135.2015181,CA-YT,2021,2,15,bkcchi,3.0
 <li>Modify server to generate it dynamically</li>
 <li>Main program</li>
 </ul>
-<p class="inclusion"><a href="src/bird_server.py">src/bird_server.py</a></p>
+<p class="inclusion"><a href="src/bird_whole_server.py">src/bird_whole_server.py</a></p>
 <div class="language-py">
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
     <span class="n">sandbox</span><span class="p">,</span> <span class="n">filename</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
@@ -715,7 +715,7 @@ L13476859,60.8606726,-135.2015181,CA-YT,2021,2,15,bkcchi,3.0
 <ul>
 <li>Create our own server class because we want to pass the dataframe in the constructor</li>
 </ul>
-<p class="inclusion"><a href="src/bird_server.py">src/bird_server.py</a></p>
+<p class="inclusion"><a href="src/bird_whole_server.py">src/bird_whole_server.py</a></p>
 <div class="language-py">
 <div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">BirdServer</span><span class="p">(</span><span class="n">HTTPServer</span><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">server_address</span><span class="p">,</span> <span class="n">request_handler</span><span class="p">):</span>
@@ -726,7 +726,7 @@ L13476859,60.8606726,-135.2015181,CA-YT,2021,2,15,bkcchi,3.0
 <ul>
 <li><code>do_GET</code> converts the dataframe to JSON (will modify later to do more than this)</li>
 </ul>
-<p class="inclusion"><a href="src/bird_server.py">src/bird_server.py</a></p>
+<p class="inclusion"><a href="src/bird_whole_server.py">src/bird_whole_server.py</a></p>
 <div class="language-py">
 <div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">RequestHandler</span><span class="p">(</span><span class="n">BaseHTTPRequestHandler</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">do_GET</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -738,7 +738,7 @@ L13476859,60.8606726,-135.2015181,CA-YT,2021,2,15,bkcchi,3.0
 <li><code>send_content</code> <a href="#g:character_encoding">encodes</a> the JSON string as <a href="#g:utf_8">UTF-8</a>
     and sets the MIME type to <code>application/json</code></li>
 </ul>
-<p class="inclusion"><a href="src/bird_server.py">src/bird_server.py</a></p>
+<p class="inclusion"><a href="src/bird_whole_server.py">src/bird_whole_server.py</a></p>
 <div class="language-py">
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">send_content</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">content</span><span class="p">,</span> <span class="n">status</span><span class="p">):</span>
         <span class="n">content</span> <span class="o">=</span> <span class="nb">bytes</span><span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
@@ -752,6 +752,65 @@ L13476859,60.8606726,-135.2015181,CA-YT,2021,2,15,bkcchi,3.0
 <ul>
 <li>Can view in browser at <code>http://localhost:8000</code> or use <code>requests</code> to fetch as before</li>
 </ul>
+<!-- ---------------------------------------------------------------- -->
+</section>
+<section class="topic">
+<h2 class="topic">13: Slicing Data</h2>
+<ul>
+<li>URL can contain <a href="#g:query_parameter">query parameters</a></li>
+<li>Want <code>http://localhost:8000/?year=2021&amp;species=rebnut</code> to select red-breasted nuthatches in 2021</li>
+<li>Put slicing in a method of its own</li>
+</ul>
+<p class="inclusion"><a href="src/bird_slice_server.py">src/bird_slice_server.py</a></p>
+<div class="language-py">
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">do_GET</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">filter_data</span><span class="p">()</span>
+        <span class="n">as_json</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">to_json</span><span class="p">(</span><span class="n">orient</span><span class="o">=</span><span class="s2">&quot;records&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">send_content</span><span class="p">(</span><span class="n">as_json</span><span class="p">,</span> <span class="n">HTTPStatus</span><span class="o">.</span><span class="n">OK</span><span class="p">)</span>
+</code></pre></div>
+</div>
+<ul>
+<li>Use <code>urlparse</code> and <code>parse_qs</code> from <a href="https://docs.python.org/3/library/urllib.parse.html"><code>urllib.parse</code></a> to get query parameters<ul>
+<li>(Key, list) dictionary</li>
+</ul>
+</li>
+<li>Then filter data as requested</li>
+</ul>
+<p class="inclusion"><a href="src/bird_slice_server.py">src/bird_slice_server.py</a></p>
+<div class="language-py">
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">filter_data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="n">parse_qs</span><span class="p">(</span><span class="n">urlparse</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">)</span><span class="o">.</span><span class="n">query</span><span class="p">)</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">server</span><span class="o">.</span><span class="n">_data</span>
+        <span class="k">if</span> <span class="s2">&quot;species&quot;</span> <span class="ow">in</span> <span class="n">params</span><span class="p">:</span>
+            <span class="n">species</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s2">&quot;species&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="n">result</span><span class="p">[</span><span class="s2">&quot;species_id&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">species</span><span class="p">]</span>
+        <span class="k">if</span> <span class="s2">&quot;year&quot;</span> <span class="ow">in</span> <span class="n">params</span><span class="p">:</span>
+            <span class="n">year</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;year&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="n">result</span><span class="p">[</span><span class="s2">&quot;year&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">year</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">result</span>
+</code></pre></div>
+</div>
+<!-- ---------------------------------------------------------------- -->
+</section>
+<section class="exercise">
+<h2 class="exercise">Practice</h2>
+<p><strong>Exercise 7</strong>:
+Write a function that takes a URL as input
+and returns a dictionary whose keys are the query parameters&rsquo; names
+and whose values are lists of their values.
+Do you now see why you should use the library function to do this?</p>
+<p><strong>Exercise 8</strong>:
+Modify the server so that clients can specify which columns they want returned
+as a comma-separated list of names.
+If the client asks for a column that doesn&rsquo;t exist, ignore it.</p>
+<p><strong>Exercise 9</strong>:
+Modify your solution to the previous exercise so that
+if the client asks for a column that doesn&rsquo;t exist
+the server returns a status code 400 (Bad Request)
+and a JSON blog with two keys:
+<code>status_code</code> (set to 400)
+and <code>error_message</code> (set to something informative).
+Explain why the server should return JSON rather than HTML in the case of an error.</p>
 <!-- ---------------------------------------------------------------- -->
 </section>
 <section class="aside">
@@ -823,6 +882,7 @@ L13476859,60.8606726,-135.2015181,CA-YT,2021,2,15,bkcchi,3.0
 <li>Open Notify API for the International Space Station: <a href="http://api.open-notify.org/">http://api.open-notify.org/</a></li>
 <li>Polars dataframe library: <a href="https://pola.rs/">https://pola.rs/</a></li>
 <li>Python <code>http.server</code> module: <a href="https://docs.python.org/3/library/http.server.html">https://docs.python.org/3/library/http.server.html</a></li>
+<li>Python <code>urllib.parse</code> module: <a href="https://docs.python.org/3/library/urllib.parse.html">https://docs.python.org/3/library/urllib.parse.html</a></li>
 <li>The Carpentries: <a href="https://carpentries.org/">https://carpentries.org/</a></li>
 <li>Wikipedia article on HTTP status codes: <a href="https://en.wikipedia.org/wiki/List_of_HTTP_status_codes">https://en.wikipedia.org/wiki/List_of_HTTP_status_codes</a></li>
 <li><code>requests</code> module: <a href="https://requests.readthedocs.io/en/latest/">https://requests.readthedocs.io/en/latest/</a></li>

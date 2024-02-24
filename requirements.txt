@@ -2,7 +2,7 @@ ark
 beautifulsoup4
 fastapi
 flask
-polars
+pandas
 pymdown-extensions
 requests
 requests_toolbelt
