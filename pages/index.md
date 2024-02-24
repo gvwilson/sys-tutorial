@@ -285,6 +285,33 @@ Does this make the code easier to understand overall?
 Do you think making code easier to understand also makes it safer?
 
 <!-- ---------------------------------------------------------------- -->
+[% section_break class="topic" title="Serving Data" %]
+
+-   Rarely have JSON lying around as [%g static_file "static files" %]
+
+[% double stem="show_birds_csv" suffix="sh out" %]
+
+-   Modify server to generate it dynamically
+-   Main program
+
+[% single "src/bird_server.py" keep="main" %]
+
+-   Create our own server class because we want to pass the dataframe in the constructor
+
+[% single "src/bird_server.py" keep="server" %]
+
+-   `do_GET` converts the dataframe to JSON (will modify later to do more than this)
+
+[% single "src/bird_server.py" keep="get" %]
+
+-   `send_content` [%g character_encoding "encodes" %] the JSON string as [%g utf_8 "UTF-8" %]
+    and sets the MIME type to `application/json`
+
+[% single "src/bird_server.py" keep="send" %]
+
+-   Can view in browser at `http://localhost:8000` or use `requests` to fetch as before
+
+<!-- ---------------------------------------------------------------- -->
 [% section_break class="aside" title="Appendices" %]
 
 ### Terms

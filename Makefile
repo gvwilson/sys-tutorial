@@ -40,5 +40,8 @@ ${OUT}/requests_local_motto.out: ${SRC}/requests_local_motto.py ${RUNNER}
 ${OUT}/requests_prepared_structure.out: ${SRC}/requests_prepared_structure.py
 	python $< | grep -e '< ' | sed -e 's/< //g' > $@
 
+${OUT}/show_birds_csv.out: ${SRC}/show_birds_csv.sh
+	bash $< > $@
+
 ${OUT}/show_response_headers.out: ${SRC}/show_response_headers.py
 	python $< > $@

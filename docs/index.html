@@ -673,13 +673,100 @@ Does this make the code easier to understand overall?
 Do you think making code easier to understand also makes it safer?</p>
 <!-- ---------------------------------------------------------------- -->
 </section>
+<section class="topic">
+<h2 class="topic">12: Serving Data</h2>
+<ul>
+<li>Rarely have JSON lying around as <a href="#g:static_file">static files</a></li>
+</ul>
+<p class="inclusion"><a href="src/show_birds_csv.sh">src/show_birds_csv.sh</a></p>
+<div class="language-sh">
+<div class="highlight"><pre><span></span><code>head<span class="w"> </span>-n<span class="w"> </span><span class="m">10</span><span class="w"> </span>site/birds.csv
+</code></pre></div>
+</div>
+<p class="inclusion"><a href="out/show_birds_csv.out">out/show_birds_csv.out</a></p>
+<div class="language-plaintext">
+<div class="highlight"><pre><span></span><code>loc_id,latitude,longitude,region,year,month,day,species_id,num
+L13476859,60.8606726,-135.2015181,CA-YT,2021,2,1,redcro,3.0
+L13476859,60.8606726,-135.2015181,CA-YT,2021,2,1,rebnut,1.0
+L13476859,60.8606726,-135.2015181,CA-YT,2021,2,1,comred,13.0
+L13476859,60.8606726,-135.2015181,CA-YT,2021,2,1,dowwoo,1.0
+L13476859,60.8606726,-135.2015181,CA-YT,2021,2,1,bkcchi,3.0
+L13476859,60.8606726,-135.2015181,CA-YT,2021,2,1,haiwoo,1.0
+L13476859,60.8606726,-135.2015181,CA-YT,2021,2,8,nobird,
+L13476859,60.8606726,-135.2015181,CA-YT,2021,2,15,rebnut,2.0
+L13476859,60.8606726,-135.2015181,CA-YT,2021,2,15,bkcchi,3.0
+</code></pre></div>
+</div>
+<ul>
+<li>Modify server to generate it dynamically</li>
+<li>Main program</li>
+</ul>
+<p class="inclusion"><a href="src/bird_server.py">src/bird_server.py</a></p>
+<div class="language-py">
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="n">sandbox</span><span class="p">,</span> <span class="n">filename</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="n">sandbox</span><span class="p">)</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+    <span class="n">serverAddress</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="mi">8000</span><span class="p">)</span>
+    <span class="n">server</span> <span class="o">=</span> <span class="n">BirdServer</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">serverAddress</span><span class="p">,</span> <span class="n">RequestHandler</span><span class="p">)</span>
+    <span class="n">server</span><span class="o">.</span><span class="n">serve_forever</span><span class="p">()</span>
+</code></pre></div>
+</div>
+<ul>
+<li>Create our own server class because we want to pass the dataframe in the constructor</li>
+</ul>
+<p class="inclusion"><a href="src/bird_server.py">src/bird_server.py</a></p>
+<div class="language-py">
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">BirdServer</span><span class="p">(</span><span class="n">HTTPServer</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">server_address</span><span class="p">,</span> <span class="n">request_handler</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">server_address</span><span class="p">,</span> <span class="n">request_handler</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_data</span> <span class="o">=</span> <span class="n">data</span>
+</code></pre></div>
+</div>
+<ul>
+<li><code>do_GET</code> converts the dataframe to JSON (will modify later to do more than this)</li>
+</ul>
+<p class="inclusion"><a href="src/bird_server.py">src/bird_server.py</a></p>
+<div class="language-py">
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">RequestHandler</span><span class="p">(</span><span class="n">BaseHTTPRequestHandler</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">do_GET</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">server</span><span class="o">.</span><span class="n">_data</span><span class="o">.</span><span class="n">write_json</span><span class="p">(</span><span class="n">row_oriented</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">send_content</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">HTTPStatus</span><span class="o">.</span><span class="n">OK</span><span class="p">)</span>
+</code></pre></div>
+</div>
+<ul>
+<li><code>send_content</code> <a href="#g:character_encoding">encodes</a> the JSON string as <a href="#g:utf_8">UTF-8</a>
+    and sets the MIME type to <code>application/json</code></li>
+</ul>
+<p class="inclusion"><a href="src/bird_server.py">src/bird_server.py</a></p>
+<div class="language-py">
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">send_content</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">content</span><span class="p">,</span> <span class="n">status</span><span class="p">):</span>
+        <span class="n">content</span> <span class="o">=</span> <span class="nb">bytes</span><span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">send_response</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">status</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">send_header</span><span class="p">(</span><span class="s2">&quot;Content-Type&quot;</span><span class="p">,</span> <span class="s2">&quot;application/json; charset=utf-8&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">send_header</span><span class="p">(</span><span class="s2">&quot;Content-Length&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">content</span><span class="p">)))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">end_headers</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">wfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
+</code></pre></div>
+</div>
+<ul>
+<li>Can view in browser at <code>http://localhost:8000</code> or use <code>requests</code> to fetch as before</li>
+</ul>
+<!-- ---------------------------------------------------------------- -->
+</section>
 <section class="aside">
 <h2 class="aside">Appendices</h2>
 <h3>Terms</h3>
 <dl class="glossary">
+<dt id="g:ascii">ASCII character encoding</dt><dd>A standard way to represent the characters commonly used in the Western European languages as 7-bit integers, now largely superceded by <a href="#unicode">Unicode</a>.</dd>
+
+<dt id="g:character_encoding">character encoding</dt><dd>A way to represent characters as bytes. Common examples include <a href="#ascii">ASCII</a> and <a href="#utf_8">UTF-8</a>.</dd>
+
 <dt id="g:client">client</dt><dd>A program such as a browser that sends requests to a server and does something with the response.</dd>
 
 <dt id="g:concurrency">concurrency</dt><dd>The ability of different parts of a system to take action at the same time.</dd>
+
+<dt id="g:dynamic_content">dynamic content</dt><dd>Web site content that is generated on the fly. Dynamic content is usually customized according to the requester&rsquo;s identity, <a href="#query_parameter">query parameter</a>, etc.</dd>
 
 <dt id="g:http_header">header (of HTTP request or response)</dt><dd>A name-value pair at the start of an <a href="#http_request">HTTP request</a> or <a href="#http_response">response</a>. Headers are used to specify what data formats the sender can handle, the date and time the message was sent, and so on.</dd>
 
@@ -705,6 +792,8 @@ Do you think making code easier to understand also makes it safer?</p>
 
 <dt id="g:port">port</dt><dd>A logical endpoint for communication, like a phone number in an office building.</dd>
 
+<dt id="g:query_parameter">query parameter</dt><dd>A key-value pair included in a URL that the server may use to modify or customize its response.</dd>
+
 <dt id="g:refactor">refactor</dt><dd>To reorganize code without changing its overall behavior.</dd>
 
 <dt id="g:resolve_path">resolve (a path)</dt><dd>To translate a <a href="#path">path</a> into the canonical name of the file or directory it refers to.</dd>
@@ -713,17 +802,26 @@ Do you think making code easier to understand also makes it safer?</p>
 
 <dt id="g:socket">socket</dt><dd>A communication channel between two computers that provides an interface similar to reading and writing files.</dd>
 
+<dt id="g:static_file">static file</dt><dd>Web site content that is stored as a file on disk that is served as-is. Serving static files is usually faster than generating <a href="#dynamic_content">dynamic content</a>, but can only be done if what&rsquo;s wanted is unchanging and known in advance.</dd>
+
 <dt id="g:tls_ssl">Transport Layer Security/Secure Sockets Layer (TLS/SSL)</dt><dd>A cryptographic protocol for secure communication over a computer network.</dd>
+
+<dt id="g:unicode">Unicode</dt><dd>A standard that defines numeric codes for many thousands of characters and symbols. Unicode does not define how those numbers are stored; that is done by standards like <a href="#utf_8">UTF-8</a>.</dd>
+
+<dt id="g:utf_8">UTF-8</dt><dd>A way to store the numeric codes representing <a href="#unicode">Unicode</a> characters that is backward-compatible with the older <a href="#ascii">ASCII</a> standard.</dd>
 
 <dt id="g:web_scraping">web scraping</dt><dd>The act of extracting data from HTML pages on the web.</dd>
 </dl>
 <h3>Acknowledgments</h3>
-<ul><li>Jean-Marc Saffroy</li></ul>
+<ul><li>Robert Kern</li>
+<li>Jean-Marc Saffroy</li>
+</ul>
 <h3>Links</h3>
 <ul>
 <li><em>Teaching Tech Together</em>: <a href="https://teachtogether.tech/">https://teachtogether.tech/</a></li>
 <li><em>Teaching Tech Together</em> lesson on learner personas: <a href="http://teachtogether.tech/en/index.html#s:process-personas">http://teachtogether.tech/en/index.html#s:process-personas</a></li>
 <li>Open Notify API for the International Space Station: <a href="http://api.open-notify.org/">http://api.open-notify.org/</a></li>
+<li>Polars dataframe library: <a href="https://pola.rs/">https://pola.rs/</a></li>
 <li>Python <code>http.server</code> module: <a href="https://docs.python.org/3/library/http.server.html">https://docs.python.org/3/library/http.server.html</a></li>
 <li>The Carpentries: <a href="https://carpentries.org/">https://carpentries.org/</a></li>
 <li>Wikipedia article on HTTP status codes: <a href="https://en.wikipedia.org/wiki/List_of_HTTP_status_codes">https://en.wikipedia.org/wiki/List_of_HTTP_status_codes</a></li>
@@ -739,7 +837,7 @@ Do you think making code easier to understand also makes it safer?</p>
   <a href="https://github.com/gvwilson/safety-tutorial"><i class="fab fa-github" aria-hidden="true" title="GitHub repository"></i></a>
   <a href="license/"><i class="fab fa-creative-commons-by" aria-hidden="true" title="license"></i></a>
   &middot;
-  <time datetime="2024-02-22">Last built 2024-02-22</time>
+  <time datetime="2024-02-24">Last built 2024-02-24</time>
 </footer>
 
   </body>

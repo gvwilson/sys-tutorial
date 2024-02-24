@@ -14,6 +14,9 @@
 - key: "persona"
   url: "http://teachtogether.tech/en/index.html#s:process-personas"
   title: "*Teaching Tech Together* lesson on learner personas"
+- key: polars
+  url: https://pola.rs/
+  title: "Polars dataframe library"
 - key: py_http_server
   url: "https://docs.python.org/3/library/http.server.html"
   title: "Python `http.server` module"

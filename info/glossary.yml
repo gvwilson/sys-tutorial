@@ -2,9 +2,26 @@
 
 # A
 
+- key: ascii
+  ref:
+  - ansi_encoding
+  en:
+    term: ASCII character encoding
+    def: >
+      A standard way to represent the characters commonly used in the Western
+      European languages as 7-bit integers, now largely superceded by
+      [Unicode](#unicode).
+
 # B
 
 # C
+
+- key: character_encoding
+  en:
+    term: character encoding
+    def: >
+      A way to represent characters as bytes. Common examples include [ASCII](#ascii)
+      and [UTF-8](#utf_8).
 
 - key: client
   en:
@@ -19,6 +36,15 @@
       The ability of different parts of a system to take action at the same time.
 
 # D
+
+- key: dynamic_content
+  en:
+    term: dynamic content
+    def: >
+      Web site content that is generated on the fly.
+      Dynamic content is usually customized according to the requester's identity,
+      [query parameter](#query_parameter),
+      etc.
 
 # E
 
@@ -136,6 +162,12 @@
 
 # Q
 
+- key: query_parameter
+  en:
+    term: query parameter
+    def: >
+      A key-value pair included in a URL that the server may use to modify or customize its response.
+
 # R
 
 - key: refactor
@@ -166,6 +198,14 @@
       A communication channel between two computers
       that provides an interface similar to reading and writing files.
 
+- key: static_file
+  en:
+    term: static file
+    def: >
+      Web site content that is stored as a file on disk that is served as-is.
+      Serving static files is usually faster than generating [dynamic content](#dynamic_content),
+      but can only be done if what's wanted is unchanging and known in advance.
+
 # T
 
 - key: tls_ssl
@@ -176,6 +216,21 @@
       A cryptographic protocol for secure communication over a computer network.
 
 # U
+
+- key: unicode
+  en:
+    term: Unicode
+    def: >
+      A standard that defines numeric codes for many thousands of characters and
+      symbols. Unicode does not define how those numbers are stored; that is
+      done by standards like [UTF-8](#utf_8).
+
+- key: utf_8
+  en:
+    term: UTF-8
+    def: >
+      A way to store the numeric codes representing [Unicode](#unicode)
+      characters that is backward-compatible with the older [ASCII](#ascii) standard.
 
 # V
 
