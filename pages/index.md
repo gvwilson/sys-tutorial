@@ -384,6 +384,19 @@ Explain why the server should return JSON rather than HTML in the case of an err
     -   Sent as [%g cleartext "cleartext" %] over an unencrypted connection
 
 <!-- ---------------------------------------------------------------- -->
+[% section_break class="topic" title="Basic Authentication" %]
+
+-   Modify `do_GET`
+
+[% single src/bird_server_basicauth.py" keep="get" %]
+
+-   [Basic HTTP authentication][basic_http_auth]:
+    -   Header called `"Authorization"`
+    -   Value is <code>Basic <em>data</em></code>
+    -   Data is [%g base64 "base-64 encoded" %] <code><em>username</em>:<em>password</em></code>
+-   Most of the code is checking that everything is OK and responding properly if it's not
+
+<!-- ---------------------------------------------------------------- -->
 [% section_break class="topic" title="Introducting FastAPI" %]
 
 [% single "src/bird_server_fastapi.py" %]

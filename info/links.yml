@@ -1,4 +1,7 @@
 # General
+- key: "basic_http_auth"
+  url: "https://en.wikipedia.org/wiki/Basic_access_authentication"
+  title: "Basic HTTP authentication"
 - key: "carpentries"
   url: "https://carpentries.org/"
   title: "The Carpentries"
