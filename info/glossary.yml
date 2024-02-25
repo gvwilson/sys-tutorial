@@ -35,6 +35,13 @@
 
 # C
 
+- key: certificate_authority
+  en:
+    term: certificate authority
+    acronym: CA
+    def: >
+      An organization that issues, stores, and [signs](#digital_signature) [digital certificates](#digital_certificate).
+
 - key: character_encoding
   en:
     term: character encoding
@@ -70,6 +77,12 @@
       and potentially other information such as the owner's email address
       or an expiration date.
       Digital certificates are used to establish identity online.
+
+- key: digital_signature
+  en:
+    term: digital signature
+    def: >
+      A means of establishing the authenticity of a message or document.
 
 - key: dynamic_content
   en:

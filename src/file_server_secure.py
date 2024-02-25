@@ -64,17 +64,17 @@ class RequestHandler(BaseHTTPRequestHandler):
 # [main]
 if __name__ == "__main__":
     server_address = ("", 1443)
-    sandbox_dir = sys.argv[1]
-    public_file = sys.argv[2]
-    private_file = sys.argv[3]
+    sandbox = sys.argv[1]
+    certfile = sys.argv[2]
+    keyfile = sys.argv[3]
 
-    os.chdir(sandbox_dir)
+    os.chdir(sandbox)
 
     # If check_hostname is True, only the hostname that matches the certificate
     # will be accepted
     ssl_context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
     ssl_context.check_hostname = False
-    ssl_context.load_cert_chain(certfile=public_file, keyfile=private_file)
+    ssl_context.load_cert_chain(certfile=certfile, keyfile=keyfile)
 
     server = HTTPServer(server_address, RequestHandler)
     server.socket = ssl_context.wrap_socket(server.socket, server_side=True)

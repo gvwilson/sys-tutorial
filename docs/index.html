@@ -992,14 +992,48 @@ Explain why the server should return JSON rather than HTML in the case of an err
 </ul>
 </li>
 <li>Certificate has private and public components<ul>
-<li>Answer questions for the second part</li>
+<li>Answer questions with &lsquo;.&rsquo; to skip</li>
+<li><code>-nodes</code> is short for &ldquo;no DES&rdquo; so there isn&rsquo;t an interactive password on the certificate</li>
 </ul>
 </li>
 </ul>
 <p class="inclusion"><a href="src/create_pem.sh">src/create_pem.sh</a></p>
 <div class="language-sh">
-<div class="highlight"><pre><span></span><code>openssl<span class="w"> </span>genrsa<span class="w"> </span><span class="m">2048</span><span class="w"> </span>&gt;<span class="w"> </span>private.pem
-openssl<span class="w"> </span>req<span class="w"> </span>-x509<span class="w"> </span>-days<span class="w"> </span><span class="m">1000</span><span class="w"> </span>-new<span class="w"> </span>-key<span class="w"> </span>private.pem<span class="w"> </span>-out<span class="w"> </span>public.pem
+<div class="highlight"><pre><span></span><code>openssl<span class="w"> </span>req<span class="w"> </span>-x509<span class="w"> </span>-newkey<span class="w"> </span>rsa:4096<span class="w"> </span>-sha256<span class="w"> </span>-days<span class="w"> </span><span class="m">1000</span><span class="w"> </span>-nodes<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-keyout<span class="w"> </span>server_first_key.pem<span class="w"> </span>-out<span class="w"> </span>server_first_cert.pem
+</code></pre></div>
+</div>
+<p class="inclusion"><a href="site/server_first_cert.pem">site/server_first_cert.pem</a></p>
+<div class="language-pem">
+<div class="highlight"><pre><span></span><code><span class="gh">-----BEGIN CERTIFICATE-----</span>
+<span class="s">MIIE+zCCAuOgAwIBAgIUfqV4WLyo+hCSjqfLxt8gxP2SqWMwDQYJKoZIhvcNAQEL</span>
+<span class="s">BQAwDTELMAkGA1UEBhMCQ0EwHhcNMjQwMjI1MjI1OTMyWhcNMjYxMTIxMjI1OTMy</span>
+<span class="s">WjANMQswCQYDVQQGEwJDQTCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIB</span>
+<span class="s">AL3+7HzDMcRLBUONmN65OSrk23ZitOXenyYaOmbkKH//lM6qMVDRJUA5FRiVuTV8</span>
+<span class="s">lx8uw2QKwCfgpcf3y6jk1L3p+eOY333BE38m7GCjysTMc7//aDxdEYu8rkzCeG/G</span>
+<span class="s">afA0osXvLBMKMJ5DvPTo47pOS0Fd4QpT7Q5Xmntv1u5oSbzm1VHBHeZiiAaLBn5n</span>
+<span class="s">mcEc0Ha86iEAjasqTEGlB6iGKCdqq8y6k9ftVNQ/6W/oKRDaBZxbczwjiFmtVFHD</span>
+<span class="s">L18fXN7ZOL85ZrLs4aP10lQb8TUdxYJG0R0iAgUlTvpPOsV0t6UwsSf7Dux+o3Dk</span>
+<span class="s">wA5F80AA3zOql0PsnPfqHLwsQE115NnTbLGLP2bvzJDs6+m0hZxsyneE834oWmzL</span>
+<span class="s">a1deaWf6+/PjKT6a4mc4a00JkhL3fd9O6mWNw27j+wk0ZZhbVdpgXwwgBvUMwQhs</span>
+<span class="s">ECuKv/a7NI/IlnlmF6/e7oJdmeMoxMwgwWpuHh5FiYVBQOZm4riNqWyYNGWhzWbY</span>
+<span class="s">+1pzJpF6j4ZIPSnlC1PhRYvz1v3ytOz4cmst2PGklFhQB7pW1zCvtQLCPthLttKH</span>
+<span class="s">bjhHryJ+fUWMadsxKYXQUpt/fwd7iv3fQk29DaHAe/aZ9VrMK1q9xJUUvhEF/DEb</span>
+<span class="s">+/RezMYX0DnJv+1IPh5nBO/vK79a/flWiOI869geFm+zAgMBAAGjUzBRMB0GA1Ud</span>
+<span class="s">DgQWBBRjmUKJdgbEWqmlgIwcWc4LJr8vLjAfBgNVHSMEGDAWgBRjmUKJdgbEWqml</span>
+<span class="s">gIwcWc4LJr8vLjAPBgNVHRMBAf8EBTADAQH/MA0GCSqGSIb3DQEBCwUAA4ICAQCg</span>
+<span class="s">sYsPVYwNXulIezaDLPZO08lzMJHaAdcXLRayCBH84M7UwEyZtoUvOc2iLoJ8gjgx</span>
+<span class="s">kngK9uv6de55G1qXL/7Na8i1hMSe4D2mS9QvGQIQdhKm+wZ+BNcGi4ZM2n4yIaIh</span>
+<span class="s">gt6remAx5PrRrrIU6xWznSDFXiWTlhUtDlzkQHL+riOto5vCMIcamCFqwRs9CePm</span>
+<span class="s">OzEbCSBlOphQyeckO1Ao03s2MRR9+KsM/bJTzZ7bgWJ7shO5kz7bB8rR3FC61TZj</span>
+<span class="s">JqUkBDvivVWsJmKJy0zh0GkvFwWmppF1Cx4Ay+uFPneTxnNUBoCyQlA5M8/kU/nP</span>
+<span class="s">9xsL795HC8t1AcxmOD25PWeQueh/NYywbGAz6q1aS8uiYhnwxy3NEjIAw5mBISru</span>
+<span class="s">kazb+1pMO+Pkxn03mYbcXm8iujYO3Nayor/n1L6HActlPWcnFczvJbl588WaD1Xm</span>
+<span class="s">sd84cTV5Qe7w9KfpPnvOrHIlUcHt1F2H+251HT8ImftW9vhUZT5O78I262ejiVwU</span>
+<span class="s">vtJJlHeEbSTadL75GZD10kkMDkzJx417daHv1RblMnXJMoykry5ZUFFcUM3F02dv</span>
+<span class="s">41X6fP1kQObr5rSXff9uffGo7QCi0/yFluWe5x71tEWuIpSn6RX2gy2eNFkT5hhr</span>
+<span class="s">XWcP6H9eIGJ4IaOombNYJ1Cm5dnKFMECKTRQijharQ==</span>
+<span class="gh">-----END CERTIFICATE-----</span>
 </code></pre></div>
 </div>
 <ul>
@@ -1013,17 +1047,17 @@ openssl<span class="w"> </span>req<span class="w"> </span>-x509<span class="w"> 
 <div class="language-py">
 <div class="highlight"><pre><span></span><code><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
     <span class="n">server_address</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="mi">1443</span><span class="p">)</span>
-    <span class="n">sandbox_dir</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-    <span class="n">public_file</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
-    <span class="n">private_file</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+    <span class="n">sandbox</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">certfile</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+    <span class="n">keyfile</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
 
-    <span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="n">sandbox_dir</span><span class="p">)</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="n">sandbox</span><span class="p">)</span>
 
     <span class="c1"># If check_hostname is True, only the hostname that matches the certificate</span>
     <span class="c1"># will be accepted</span>
     <span class="n">ssl_context</span> <span class="o">=</span> <span class="n">ssl</span><span class="o">.</span><span class="n">SSLContext</span><span class="p">(</span><span class="n">ssl</span><span class="o">.</span><span class="n">PROTOCOL_TLS_SERVER</span><span class="p">)</span>
     <span class="n">ssl_context</span><span class="o">.</span><span class="n">check_hostname</span> <span class="o">=</span> <span class="kc">False</span>
-    <span class="n">ssl_context</span><span class="o">.</span><span class="n">load_cert_chain</span><span class="p">(</span><span class="n">certfile</span><span class="o">=</span><span class="n">public_file</span><span class="p">,</span> <span class="n">keyfile</span><span class="o">=</span><span class="n">private_file</span><span class="p">)</span>
+    <span class="n">ssl_context</span><span class="o">.</span><span class="n">load_cert_chain</span><span class="p">(</span><span class="n">certfile</span><span class="o">=</span><span class="n">certfile</span><span class="p">,</span> <span class="n">keyfile</span><span class="o">=</span><span class="n">keyfile</span><span class="p">)</span>
 
     <span class="n">server</span> <span class="o">=</span> <span class="n">HTTPServer</span><span class="p">(</span><span class="n">server_address</span><span class="p">,</span> <span class="n">RequestHandler</span><span class="p">)</span>
     <span class="n">server</span><span class="o">.</span><span class="n">socket</span> <span class="o">=</span> <span class="n">ssl_context</span><span class="o">.</span><span class="n">wrap_socket</span><span class="p">(</span><span class="n">server</span><span class="o">.</span><span class="n">socket</span><span class="p">,</span> <span class="n">server_side</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -1037,7 +1071,7 @@ openssl<span class="w"> </span>req<span class="w"> </span>-x509<span class="w"> 
 </ul>
 <p class="inclusion"><a href="src/file_server_secure.sh">src/file_server_secure.sh</a></p>
 <div class="language-sh">
-<div class="highlight"><pre><span></span><code>python<span class="w"> </span>src/message_server_secure.py<span class="w"> </span>site<span class="w"> </span>public.pem<span class="w"> </span>private.pem
+<div class="highlight"><pre><span></span><code>python<span class="w"> </span>src/file_server_secure.py<span class="w"> </span>site<span class="w"> </span>server_first_cert.pem<span class="w"> </span>server_first_key.pem
 </code></pre></div>
 </div>
 <ul>
@@ -1049,7 +1083,114 @@ openssl<span class="w"> </span>req<span class="w"> </span>-x509<span class="w"> 
 <!-- ---------------------------------------------------------------- -->
 </section>
 <section class="topic">
-<h2 class="topic">17: Introducting FastAPI</h2>
+<h2 class="topic">17: Securing the Client</h2>
+<ul>
+<li>Try <code>requests.get("https://localhost:1443/test.txt")</code></li>
+</ul>
+<p class="inclusion"><a href="out/requests_secure_no_verify.out">out/requests_secure_no_verify.out</a></p>
+<div class="language-plaintext">
+<div class="highlight"><pre><span></span><code>ERROR: HTTPSConnectionPool(host=&#39;localhost&#39;, port=1443):
+Max retries exceeded with url: /test.txt
+(Caused by SSLError(SSLCertVerificationError(1,
+&#39;[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: self-signed certificate (_ssl.c:1000)&#39;)))
+</code></pre></div>
+</div>
+<ul>
+<li>Fair enough: <code>requests</code> shouldn&rsquo;t trust self-signed certificates by default</li>
+<li>Can tell it not to check at all by passing <code>verify=False</code> but turning off security is a bad idea</li>
+<li>Try <code>requests.get("https://localhost:1443/test.txt", verify="cert.pem")</code><ul>
+<li>I.e., pass it the server&rsquo;s certificate</li>
+</ul>
+</li>
+</ul>
+<p class="inclusion"><a href="out/requests_secure_server_cert.out">out/requests_secure_server_cert.out</a></p>
+<div class="language-plaintext">
+<div class="highlight"><pre><span></span><code>ERROR: HTTPSConnectionPool(host=&#39;localhost&#39;, port=1443):
+Max retries exceeded with url: /test.txt
+(Caused by SSLError(SSLCertVerificationError(1,
+&quot;[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed:
+Hostname mismatch, certificate is not valid for &#39;localhost&#39;. (_ssl.c:1000)&quot;)))
+</code></pre></div>
+</div>
+<ul>
+<li>What we actually need is to sign the server&rsquo;s certificate with a certificate from some authority,
+    then tell <code>requests</code> it can use the authority&rsquo;s certificate to check the server&rsquo;s certificate<ul>
+<li>Seems roundabout, but it allows us to use a few hundred trusted certificates to check everyone else&rsquo;s</li>
+</ul>
+</li>
+<li><code>import certifi</code> and <code>certifi.where()</code> to see the PEM file that <code>requests</code> uses by default</li>
+</ul>
+<!-- ---------------------------------------------------------------- -->
+</section>
+<section class="topic">
+<h2 class="topic">18: Starting Over</h2>
+<ul>
+<li>Pretend to be our own <a href="#g:certificate_authority">certificate authority</a> (CA)</li>
+<li>Use our CA certificate to <a href="#g:digial_signature">sign</a> the server&rsquo;s certificate<ul>
+<li>We can use the CA to sign any number of certificates</li>
+</ul>
+</li>
+</ul>
+<p class="inclusion"><a href="src/create_signed_cert.sh">src/create_signed_cert.sh</a></p>
+<div class="language-sh">
+<div class="highlight"><pre><span></span><code><span class="c1"># create CA key and cert simultaneously</span>
+openssl<span class="w"> </span>req<span class="w"> </span>-x509<span class="w"> </span>-newkey<span class="w"> </span>RSA<span class="w"> </span>-nodes<span class="w"> </span>-keyout<span class="w"> </span>CA.key<span class="w"> </span>-days<span class="w"> </span><span class="m">10</span><span class="w"> </span>-out<span class="w"> </span>CA.pem<span class="w"> </span>-reqexts<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>v3_ca<span class="w"> </span>-subj<span class="w"> </span><span class="s2">&quot;/C=CA/ST=ON/L=Toronto/O=Third Bit/OU=x509&quot;</span>
+
+<span class="c1"># create server key and cert</span>
+openssl<span class="w"> </span>req<span class="w"> </span>-new<span class="w"> </span>-newkey<span class="w"> </span>RSA<span class="w"> </span>-nodes<span class="w"> </span>-keyout<span class="w"> </span>server.key<span class="w"> </span>-out<span class="w"> </span>server.csr<span class="w"> </span>-batch<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-reqexts<span class="w"> </span>v3_req<span class="w"> </span>-subj<span class="w"> </span><span class="s2">&quot;/CN=localhost&quot;</span>
+
+<span class="c1"># sign server CSR with CA key</span>
+openssl<span class="w"> </span>x509<span class="w"> </span>-req<span class="w"> </span>-days<span class="w"> </span><span class="m">10</span><span class="w"> </span>-in<span class="w"> </span>server.csr<span class="w"> </span>-CAkey<span class="w"> </span>CA.key<span class="w"> </span>-CA<span class="w"> </span>CA.pem<span class="w"> </span>-CAcreateserial<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-out<span class="w"> </span>server.pem<span class="w"> </span>-extfile<span class="w"> </span>extfile.txt
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;certificates created&quot;</span>
+</code></pre></div>
+</div>
+<ul>
+<li>Run the server with the newly-created certificate</li>
+<li>Point <code>requests</code> at the CA certificate<ul>
+<li>Which it then uses to check that the server&rsquo;s certificate is properly signed</li>
+</ul>
+</li>
+</ul>
+<p class="inclusion"><a href="src/requests_signed_cert.py">src/requests_signed_cert.py</a></p>
+<div class="language-py">
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="n">CA_FILE</span> <span class="o">=</span> <span class="s2">&quot;CA.pem&quot;</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;trying request with verify=</span><span class="si">{</span><span class="n">CA_FILE</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;https://localhost:1443/motto.txt&quot;</span><span class="p">,</span> <span class="n">verify</span><span class="o">=</span><span class="n">CA_FILE</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;SUCCESS: </span><span class="si">{</span><span class="n">r</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">r</span><span class="o">.</span><span class="n">text</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;FAILURE: </span><span class="si">{</span><span class="n">exc</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+</div>
+<!-- ---------------------------------------------------------------- -->
+</section>
+<section class="aside">
+<h2 class="aside">This Is Hard</h2>
+<ul>
+<li>It took a full day and help from three other people to get this working</li>
+<li>And I&rsquo;m still not sure what these commands used to sign the server certificate are for</li>
+</ul>
+<p class="inclusion"><a href="src/extfile.txt">src/extfile.txt</a></p>
+<div class="language-txt">
+<div class="highlight"><pre><span></span><code>basicConstraints = CA:FALSE
+subjectAltName = DNS:localhost
+extendedKeyUsage = serverAuth
+</code></pre></div>
+</div>
+<ul>
+<li>Some of this difficulty is intrinsinc: security really is hard</li>
+<li>Some is accidental complexity introduced by evolution over time</li>
+</ul>
+<!-- ---------------------------------------------------------------- -->
+</section>
+<section class="topic">
+<h2 class="topic">19: Introducting FastAPI</h2>
 <p class="inclusion"><a href="src/bird_server_fastapi.py">src/bird_server_fastapi.py</a></p>
 <div class="language-py">
 <div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">fastapi</span> <span class="kn">import</span> <span class="n">FastAPI</span>
@@ -1091,6 +1232,8 @@ openssl<span class="w"> </span>req<span class="w"> </span>-x509<span class="w"> 
 
 <dt id="g:base64">base64 encoding</dt><dd>A representation of binary data that represents each group of 6 bits as one of 64 printable characters.</dd>
 
+<dt id="g:certificate_authority">certificate authority (CA)</dt><dd>An organization that issues, stores, and <a href="#digital_signature">signs</a> <a href="#digital_certificate">digital certificates</a>.</dd>
+
 <dt id="g:character_encoding">character encoding</dt><dd>A way to represent characters as bytes. Common examples include <a href="#ascii">ASCII</a> and <a href="#utf_8">UTF-8</a>.</dd>
 
 <dt id="g:cleartext">cleartext</dt><dd>Text that has not been <a href="#encryption">encrypted</a>.</dd>
@@ -1100,6 +1243,8 @@ openssl<span class="w"> </span>req<span class="w"> </span>-x509<span class="w"> 
 <dt id="g:concurrency">concurrency</dt><dd>The ability of different parts of a system to take action at the same time.</dd>
 
 <dt id="g:digital_certificate">digital certificate</dt><dd>A file containing a <a href="#public_key_crypto">public cryptography key</a> and potentially other information such as the owner&rsquo;s email address or an expiration date. Digital certificates are used to establish identity online.</dd>
+
+<dt id="g:digital_signature">digital signature</dt><dd>A means of establishing the authenticity of a message or document.</dd>
 
 <dt id="g:dynamic_content">dynamic content</dt><dd>Web site content that is generated on the fly. Dynamic content is usually customized according to the requester&rsquo;s identity, <a href="#query_parameter">query parameter</a>, etc.</dd>
 
@@ -1158,7 +1303,10 @@ openssl<span class="w"> </span>req<span class="w"> </span>-x509<span class="w"> 
 <dt id="g:wrap_object">wrap (an object)</dt><dd>To replace an object in a program with one that has the same external interface but which behaves differently or performs extra operations.</dd>
 </dl>
 <h3>Acknowledgments</h3>
-<ul><li>Robert Kern</li>
+<ul><li>Stefan Arentz</li>
+<li>Julia Evans</li>
+<li>Robert Kern</li>
+<li>Matt Panaro</li>
 <li>Jean-Marc Saffroy</li>
 </ul>
 <h3>Links</h3>
@@ -1184,7 +1332,7 @@ openssl<span class="w"> </span>req<span class="w"> </span>-x509<span class="w"> 
   <a href="https://github.com/gvwilson/safety-tutorial"><i class="fab fa-github" aria-hidden="true" title="GitHub repository"></i></a>
   <a href="license/"><i class="fab fa-creative-commons-by" aria-hidden="true" title="license"></i></a>
   &middot;
-  <time datetime="2024-02-25">Last built 2024-02-25</time>
+  <time datetime="2024-02-26">Last built 2024-02-26</time>
 </footer>
 
   </body>

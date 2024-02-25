@@ -407,9 +407,11 @@ Explain why the server should return JSON rather than HTML in the case of an err
     -   Give the server a [%g digital_certificate "digital certificate" %] so that it can establish its identity
     -   Have the client communicate with it via [%g https HTTPS %] (the encrypted version of HTTP)
 -   Certificate has private and public components
-    -   Answer questions for the second part
+    -   Answer questions with '.' to skip
+    -   `-nodes` is short for "no DES" so there isn't an interactive password on the certificate
 
 [% single "src/create_pem.sh" %]
+[% single "site/server_first_cert.pem" %]
 
 -   Modify file server to listen for secure connections on port 1443
     -   [%g wrap_object "Wrap" %] the server's [%g socket "socket" %] with a layer of security
@@ -423,6 +425,51 @@ Explain why the server should return JSON rather than HTML in the case of an err
 
 -   Point browser at `https://localhost:1443/motto.txt`
     -   Must have *both* `https` *and* the port `1443`
+
+<!-- ---------------------------------------------------------------- -->
+[% section_break class="topic" title="Securing the Client" %]
+
+-   Try `requests.get("https://localhost:1443/test.txt")`
+
+[% single "out/requests_secure_no_verify.out" %]
+
+-   Fair enough: `requests` shouldn't trust self-signed certificates by default
+-   Can tell it not to check at all by passing `verify=False` but turning off security is a bad idea
+-   Try `requests.get("https://localhost:1443/test.txt", verify="cert.pem")`
+    -   I.e., pass it the server's certificate
+
+[% single "out/requests_secure_server_cert.out" %]
+
+-   What we actually need is to sign the server's certificate with a certificate from some authority,
+    then tell `requests` it can use the authority's certificate to check the server's certificate
+    -   Seems roundabout, but it allows us to use a few hundred trusted certificates to check everyone else's
+-   `import certifi` and `certifi.where()` to see the PEM file that `requests` uses by default
+
+<!-- ---------------------------------------------------------------- -->
+[% section_break class="topic" title="Starting Over" %]
+
+-   Pretend to be our own [%g certificate_authority "certificate authority" %] (CA)
+-   Use our CA certificate to [%g digial_signature "sign" %] the server's certificate
+    -   We can use the CA to sign any number of certificates
+
+[% single "src/create_signed_cert.sh" %]
+
+-   Run the server with the newly-created certificate
+-   Point `requests` at the CA certificate
+    -   Which it then uses to check that the server's certificate is properly signed
+
+[% single "src/requests_signed_cert.py" %]
+
+<!-- ---------------------------------------------------------------- -->
+[% section_break class="aside" title="This Is Hard" %]
+
+-   It took a full day and help from three other people to get this working
+-   And I'm still not sure what these commands used to sign the server certificate are for
+
+[% single "src/extfile.txt" %]
+
+-   Some of this difficulty is intrinsinc: security really is hard
+-   Some is accidental complexity introduced by evolution over time
 
 <!-- ---------------------------------------------------------------- -->
 [% section_break class="topic" title="Introducting FastAPI" %]
