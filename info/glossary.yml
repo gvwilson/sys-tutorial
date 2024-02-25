@@ -26,6 +26,13 @@
 
 # B
 
+- key: base64
+  en:
+    term: base64 encoding
+    def: >
+      A representation of binary data that represents each group of 6 bits
+      as one of 64 printable characters.
+
 # C
 
 - key: character_encoding
@@ -54,6 +61,15 @@
       The ability of different parts of a system to take action at the same time.
 
 # D
+
+- key: digital_certificate
+  en:
+    term: digital certificate
+    def: >
+      A file containing a [public cryptography key](#public_key_crypto)
+      and potentially other information such as the owner's email address
+      or an expiration date.
+      Digital certificates are used to establish identity online.
 
 - key: dynamic_content
   en:
@@ -84,6 +100,15 @@
     term: hostname
     def: >
       A human-readable name for a computer on a network.
+
+- key: http
+  en:
+    term: HTTP
+    full: HyperText Transfer Protocol
+    def: >
+      The protocol used to exchange information between browsers and websites,
+      and more generally between other clients and servers.
+      Communication consists of [requests](#http_request) and [responses](#http_response).
 
 - key: http_header
   en:
@@ -125,6 +150,13 @@
       such as 200 (OK),
       404 (not found),
       or 500 (internal server error).
+
+- key: https
+  en:
+    term: HyperText Transfer Protocol Secure
+    acronym: HTTPS
+    def: >
+      An encrypted version of [HTTP](#http) used for secure communication.
 
 # I
 
@@ -184,6 +216,13 @@
     def: >
       A logical endpoint for communication,
       like a phone number in an office building.
+
+- key: public_key_crypto
+  en:
+    term: public key cryptography
+    def: >
+      A way to encrypt data in which each key undoes the effect of the other,
+      but it is practically impossible to determine one key given the other.
 
 # Q
 
@@ -267,6 +306,13 @@
     def: >
       The act of extracting data from HTML pages on the web.
 
+- key: wrap_object
+  en:
+    term: wrap (an object)
+    def: >
+      To replace an object in a program with one that has the same external interface
+      but which behaves differently or performs extra operations.
+      
 # X
 
 # Y

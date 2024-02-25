@@ -932,7 +932,124 @@ Explain why the server should return JSON rather than HTML in the case of an err
 <!-- ---------------------------------------------------------------- -->
 </section>
 <section class="topic">
-<h2 class="topic">15: Introducting FastAPI</h2>
+<h2 class="topic">15: Basic Authentication</h2>
+<ul>
+<li>Modify <code>do_GET</code></li>
+</ul>
+<p class="inclusion"><a href="src/bird_server_basicauth.py">src/bird_server_basicauth.py</a></p>
+<div class="language-py">
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">do_GET</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">identity</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">authorize</span><span class="p">()</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">filter_data</span><span class="p">()</span>
+            <span class="n">as_json</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">to_json</span><span class="p">(</span><span class="n">orient</span><span class="o">=</span><span class="s2">&quot;records&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">send_content</span><span class="p">(</span><span class="n">as_json</span><span class="p">,</span> <span class="n">HTTPStatus</span><span class="o">.</span><span class="n">OK</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">ServerException</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">send_error</span><span class="p">(</span><span class="n">exc</span><span class="p">)</span>
+</code></pre></div>
+</div>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Basic_access_authentication">Basic HTTP authentication</a>:<ul>
+<li>Header called <code>"Authorization"</code></li>
+<li>Value is <code>Basic <em>data</em></code></li>
+<li>Data is <a href="#g:base64">base-64 encoded</a> <code><em>username</em>:<em>password</em></code></li>
+</ul>
+</li>
+<li>Most of the code is checking that everything is OK and responding properly if it&rsquo;s not</li>
+<li>Test client</li>
+</ul>
+<p class="inclusion"><a href="src/bird_client_basicauth.py">src/bird_client_basicauth.py</a></p>
+<div class="language-py">
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">http</span> <span class="kn">import</span> <span class="n">HTTPStatus</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">from</span> <span class="nn">requests.auth</span> <span class="kn">import</span> <span class="n">HTTPBasicAuth</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+
+<span class="n">URL</span> <span class="o">=</span> <span class="s2">&quot;http://localhost:8000?species=stejay&quot;</span>
+
+<span class="n">user</span><span class="p">,</span> <span class="n">password</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">URL</span><span class="p">,</span> <span class="n">auth</span><span class="o">=</span><span class="n">HTTPBasicAuth</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">password</span><span class="p">))</span>
+<span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="n">HTTPStatus</span><span class="o">.</span><span class="n">OK</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">())</span><span class="si">}</span><span class="s2"> records returned&quot;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">j</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">j</span><span class="p">[</span><span class="s1">&#39;status&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">j</span><span class="p">[</span><span class="s1">&#39;error_message&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+</div>
+<p class="inclusion"><a href="src/bird_client_basicauth_correct.sh">src/bird_client_basicauth_correct.sh</a></p>
+<div class="language-sh">
+<div class="highlight"><pre><span></span><code>python<span class="w"> </span>src/bird_client_basicauth.py<span class="w"> </span>marlyn<span class="w"> </span>mumble
+</code></pre></div>
+</div>
+<!-- ---------------------------------------------------------------- -->
+</section>
+<section class="topic">
+<h2 class="topic">16: Securing the Server</h2>
+<ul>
+<li>Two components<ul>
+<li>Give the server a <a href="#g:digital_certificate">digital certificate</a> so that it can establish its identity</li>
+<li>Have the client communicate with it via <a href="#g:https">HTTPS</a> (the encrypted version of HTTP)</li>
+</ul>
+</li>
+<li>Certificate has private and public components<ul>
+<li>Answer questions for the second part</li>
+</ul>
+</li>
+</ul>
+<p class="inclusion"><a href="src/create_pem.sh">src/create_pem.sh</a></p>
+<div class="language-sh">
+<div class="highlight"><pre><span></span><code>openssl<span class="w"> </span>genrsa<span class="w"> </span><span class="m">2048</span><span class="w"> </span>&gt;<span class="w"> </span>private.pem
+openssl<span class="w"> </span>req<span class="w"> </span>-x509<span class="w"> </span>-days<span class="w"> </span><span class="m">1000</span><span class="w"> </span>-new<span class="w"> </span>-key<span class="w"> </span>private.pem<span class="w"> </span>-out<span class="w"> </span>public.pem
+</code></pre></div>
+</div>
+<ul>
+<li>Modify file server to listen for secure connections on port 1443<ul>
+<li><a href="#g:wrap_object">Wrap</a> the server&rsquo;s <a href="#g:socket">socket</a> with a layer of security</li>
+<li>Everything else stays the same</li>
+</ul>
+</li>
+</ul>
+<p class="inclusion"><a href="src/file_server_secure.py">src/file_server_secure.py</a></p>
+<div class="language-py">
+<div class="highlight"><pre><span></span><code><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">server_address</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="mi">1443</span><span class="p">)</span>
+    <span class="n">sandbox_dir</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">public_file</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+    <span class="n">private_file</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+
+    <span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="n">sandbox_dir</span><span class="p">)</span>
+
+    <span class="c1"># If check_hostname is True, only the hostname that matches the certificate</span>
+    <span class="c1"># will be accepted</span>
+    <span class="n">ssl_context</span> <span class="o">=</span> <span class="n">ssl</span><span class="o">.</span><span class="n">SSLContext</span><span class="p">(</span><span class="n">ssl</span><span class="o">.</span><span class="n">PROTOCOL_TLS_SERVER</span><span class="p">)</span>
+    <span class="n">ssl_context</span><span class="o">.</span><span class="n">check_hostname</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">ssl_context</span><span class="o">.</span><span class="n">load_cert_chain</span><span class="p">(</span><span class="n">certfile</span><span class="o">=</span><span class="n">public_file</span><span class="p">,</span> <span class="n">keyfile</span><span class="o">=</span><span class="n">private_file</span><span class="p">)</span>
+
+    <span class="n">server</span> <span class="o">=</span> <span class="n">HTTPServer</span><span class="p">(</span><span class="n">server_address</span><span class="p">,</span> <span class="n">RequestHandler</span><span class="p">)</span>
+    <span class="n">server</span><span class="o">.</span><span class="n">socket</span> <span class="o">=</span> <span class="n">ssl_context</span><span class="o">.</span><span class="n">wrap_socket</span><span class="p">(</span><span class="n">server</span><span class="o">.</span><span class="n">socket</span><span class="p">,</span> <span class="n">server_side</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;serving at </span><span class="si">{</span><span class="n">server_address</span><span class="si">}</span><span class="s2"> in </span><span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span><span class="si">}</span><span class="s2">...&quot;</span><span class="p">)</span>
+    <span class="n">server</span><span class="o">.</span><span class="n">serve_forever</span><span class="p">()</span>
+</code></pre></div>
+</div>
+<ul>
+<li>Run it like this</li>
+</ul>
+<p class="inclusion"><a href="src/file_server_secure.sh">src/file_server_secure.sh</a></p>
+<div class="language-sh">
+<div class="highlight"><pre><span></span><code>python<span class="w"> </span>src/message_server_secure.py<span class="w"> </span>site<span class="w"> </span>public.pem<span class="w"> </span>private.pem
+</code></pre></div>
+</div>
+<ul>
+<li>Point browser at <code>https://localhost:1443/motto.txt</code><ul>
+<li>Must have <em>both</em> <code>https</code> <em>and</em> the port <code>1443</code></li>
+</ul>
+</li>
+</ul>
+<!-- ---------------------------------------------------------------- -->
+</section>
+<section class="topic">
+<h2 class="topic">17: Introducting FastAPI</h2>
 <p class="inclusion"><a href="src/bird_server_fastapi.py">src/bird_server_fastapi.py</a></p>
 <div class="language-py">
 <div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">fastapi</span> <span class="kn">import</span> <span class="n">FastAPI</span>
@@ -972,6 +1089,8 @@ Explain why the server should return JSON rather than HTML in the case of an err
 
 <dt id="g:authorization">authorization</dt><dd>The act of establishing that one has a right to access certain information.</dd>
 
+<dt id="g:base64">base64 encoding</dt><dd>A representation of binary data that represents each group of 6 bits as one of 64 printable characters.</dd>
+
 <dt id="g:character_encoding">character encoding</dt><dd>A way to represent characters as bytes. Common examples include <a href="#ascii">ASCII</a> and <a href="#utf_8">UTF-8</a>.</dd>
 
 <dt id="g:cleartext">cleartext</dt><dd>Text that has not been <a href="#encryption">encrypted</a>.</dd>
@@ -979,6 +1098,8 @@ Explain why the server should return JSON rather than HTML in the case of an err
 <dt id="g:client">client</dt><dd>A program such as a browser that sends requests to a server and does something with the response.</dd>
 
 <dt id="g:concurrency">concurrency</dt><dd>The ability of different parts of a system to take action at the same time.</dd>
+
+<dt id="g:digital_certificate">digital certificate</dt><dd>A file containing a <a href="#public_key_crypto">public cryptography key</a> and potentially other information such as the owner&rsquo;s email address or an expiration date. Digital certificates are used to establish identity online.</dd>
 
 <dt id="g:dynamic_content">dynamic content</dt><dd>Web site content that is generated on the fly. Dynamic content is usually customized according to the requester&rsquo;s identity, <a href="#query_parameter">query parameter</a>, etc.</dd>
 
@@ -988,6 +1109,8 @@ Explain why the server should return JSON rather than HTML in the case of an err
 
 <dt id="g:hostname">hostname</dt><dd>A human-readable name for a computer on a network.</dd>
 
+<dt id="g:http">HTTP</dt><dd>The protocol used to exchange information between browsers and websites, and more generally between other clients and servers. Communication consists of <a href="#http_request">requests</a> and <a href="#http_response">responses</a>.</dd>
+
 <dt id="g:http_method">HTTP method</dt><dd>The verb in an <a href="#http_request">HTTP request</a> that defines what the <a href="#client">client</a> wants to do. Common methods are <code>GET</code> (to get data) and <code>POST</code> (to submit data).</dd>
 
 <dt id="g:http_request">HTTP request</dt><dd>A precisely-formatted block of text sent from a <a href="#client">client</a> such as a browser to a <a href="#server">server</a> that specifies what resource is being requested, what data formats the client will accept, etc.</dd>
@@ -995,6 +1118,8 @@ Explain why the server should return JSON rather than HTML in the case of an err
 <dt id="g:http_response">HTTP response</dt><dd>A precisely-formatted block of text sent from a <a href="#server">server</a> back to a <a href="#client">client</a> in reply to a <a href="#http_request">request</a>.</dd>
 
 <dt id="g:http_status_code">HTTP status code</dt><dd>A numerical code that indicates what happened when an <a href="#http_request">HTTP request</a> was processed, such as 200 (OK), 404 (not found), or 500 (internal server error).</dd>
+
+<dt id="g:https">HyperText Transfer Protocol Secure (HTTPS)</dt><dd>An encrypted version of <a href="#http">HTTP</a> used for secure communication.</dd>
 
 <dt id="g:json">JavaScript Object Notation (JSON)</dt><dd>A way to represent data by combining basic values like numbers and character strings in lists and key-value structures. Unlike other formats, it is unencumbered by a syntax for writing comments.</dd>
 
@@ -1007,6 +1132,8 @@ Explain why the server should return JSON rather than HTML in the case of an err
 <dt id="g:path">path (in filesystem)</dt><dd>An expression that refers to a file or directory in a filesystem.</dd>
 
 <dt id="g:port">port</dt><dd>A logical endpoint for communication, like a phone number in an office building.</dd>
+
+<dt id="g:public_key_crypto">public key cryptography</dt><dd>A way to encrypt data in which each key undoes the effect of the other, but it is practically impossible to determine one key given the other.</dd>
 
 <dt id="g:query_parameter">query parameter</dt><dd>A key-value pair included in a URL that the server may use to modify or customize its response.</dd>
 
@@ -1027,6 +1154,8 @@ Explain why the server should return JSON rather than HTML in the case of an err
 <dt id="g:utf_8">UTF-8</dt><dd>A way to store the numeric codes representing <a href="#unicode">Unicode</a> characters that is backward-compatible with the older <a href="#ascii">ASCII</a> standard.</dd>
 
 <dt id="g:web_scraping">web scraping</dt><dd>The act of extracting data from HTML pages on the web.</dd>
+
+<dt id="g:wrap_object">wrap (an object)</dt><dd>To replace an object in a program with one that has the same external interface but which behaves differently or performs extra operations.</dd>
 </dl>
 <h3>Acknowledgments</h3>
 <ul><li>Robert Kern</li>
@@ -1036,6 +1165,7 @@ Explain why the server should return JSON rather than HTML in the case of an err
 <ul>
 <li><em>Teaching Tech Together</em>: <a href="https://teachtogether.tech/">https://teachtogether.tech/</a></li>
 <li><em>Teaching Tech Together</em> lesson on learner personas: <a href="http://teachtogether.tech/en/index.html#s:process-personas">http://teachtogether.tech/en/index.html#s:process-personas</a></li>
+<li>Basic HTTP authentication: <a href="https://en.wikipedia.org/wiki/Basic_access_authentication">https://en.wikipedia.org/wiki/Basic_access_authentication</a></li>
 <li>Open Notify API for the International Space Station: <a href="http://api.open-notify.org/">http://api.open-notify.org/</a></li>
 <li>Polars dataframe library: <a href="https://pola.rs/">https://pola.rs/</a></li>
 <li>Python <code>http.server</code> module: <a href="https://docs.python.org/3/library/http.server.html">https://docs.python.org/3/library/http.server.html</a></li>
@@ -1054,7 +1184,7 @@ Explain why the server should return JSON rather than HTML in the case of an err
   <a href="https://github.com/gvwilson/safety-tutorial"><i class="fab fa-github" aria-hidden="true" title="GitHub repository"></i></a>
   <a href="license/"><i class="fab fa-creative-commons-by" aria-hidden="true" title="license"></i></a>
   &middot;
-  <time datetime="2024-02-24">Last built 2024-02-24</time>
+  <time datetime="2024-02-25">Last built 2024-02-25</time>
 </footer>
 
   </body>

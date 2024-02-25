@@ -388,13 +388,41 @@ Explain why the server should return JSON rather than HTML in the case of an err
 
 -   Modify `do_GET`
 
-[% single src/bird_server_basicauth.py" keep="get" %]
+[% single "src/bird_server_basicauth.py" keep="get" %]
 
 -   [Basic HTTP authentication][basic_http_auth]:
     -   Header called `"Authorization"`
     -   Value is <code>Basic <em>data</em></code>
     -   Data is [%g base64 "base-64 encoded" %] <code><em>username</em>:<em>password</em></code>
 -   Most of the code is checking that everything is OK and responding properly if it's not
+-   Test client
+
+[% single "src/bird_client_basicauth.py" %]
+[% single "src/bird_client_basicauth_correct.sh" %]
+
+<!-- ---------------------------------------------------------------- -->
+[% section_break class="topic" title="Securing the Server" %]
+
+-   Two components
+    -   Give the server a [%g digital_certificate "digital certificate" %] so that it can establish its identity
+    -   Have the client communicate with it via [%g https HTTPS %] (the encrypted version of HTTP)
+-   Certificate has private and public components
+    -   Answer questions for the second part
+
+[% single "src/create_pem.sh" %]
+
+-   Modify file server to listen for secure connections on port 1443
+    -   [%g wrap_object "Wrap" %] the server's [%g socket "socket" %] with a layer of security
+    -   Everything else stays the same
+
+[% single "src/file_server_secure.py" keep="main" %]
+
+-   Run it like this
+
+[% single "src/file_server_secure.sh" %]
+
+-   Point browser at `https://localhost:1443/motto.txt`
+    -   Must have *both* `https` *and* the port `1443`
 
 <!-- ---------------------------------------------------------------- -->
 [% section_break class="topic" title="Introducting FastAPI" %]
