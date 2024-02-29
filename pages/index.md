@@ -27,12 +27,49 @@
     -   Their work schedule is unpredictable and highly variable,
         so they need to be able to learn a bit at a time
 -   Prerequisites
-    -   Intermediate Unix command line: `find`, `grep`, shell scripts using `for`
-    -   Data analysis with Python: Polars, Plotly, Jupyter notebooks, argparse, regular expressions
-    -   Using Git and GitHub on months-long projects with two or three colleagues
+    -   Unix shell commands covered in [this Software Carpentry lesson][sc-shell]:
+        -   `pwd`; `ls`; `cd`; `.` and `..`; `rm` and `rmdir`; `mkdir`; `touch`;
+            `mv`; `cp`; `tree`; `cat`; `wc`; `head`; `tail`; `less`; `cut`; `echo`;
+            `history`; `find`; `grep`; `zip`; `man`
+        -   current working directory; absolute and relative paths; naming files;
+            editing with `nano`
+        -   standard input; standard output; standard error; redirection; pipes
+        -   `*` and `?` wildcards; shell variable with `$` expansion; `for` loop;
+            shell scripts with numbered arguments; the `PATH` variable; `$(…)` expansion
+    -   Git commands and workflow covered in [this Software Carpentry lesson][sc-git]
+        -   `git config` to set username, email address, and editor; `git init`;
+            `git status`; `git checkout`; `git add`; `git diff` (current state and history);
+            `git commit`; `git log`; `git merge`; `git remote`; `.gitignore`
+        -   Git vs. GitHub; local and remote repositories; authentication with SSH keys;
+            branching; merging; conflicts; pull requests; code review
+    -   Python for command-line scripting
+        -   variables; numbers and strings; lists; dictionaries; `for` and `while` loops;
+	    `if`/`else`; `with`; defining and calling functions; `sys.argv`, `sys.stdin`,
+	    and `sys.stdout`; simple regular expressions; reading JSON data;
+	    reading CSV files using [Pandas][pandas] or [Polars][polars]
+        -   `pip install` (but not virtual environments); `ruff` for linting;
+	    `pytest` (but not mock objects); writing docstrings (but not [Sphinx][sphinx])
 -   Learning outcomes
-    1.  What it means to deploy an application.
-    1.  How to store and access data securely.
+    1.  Create a virtual environment and explain what this actually does.
+    1.  Create `requirements.txt` file for [`pip`][pip] and explain version pinning.
+    1.  Explain what a filesystem is (disk partitions, inodes, symbolic links)
+        and use `df`, `ln`, similar commands to explore with them.
+    1.  Use Python in place of shell scripts:
+        1.  Operate on files matching glob patterns.
+        1.  Create/delete directories.
+        1.  Explain how Unix permissions work and read/modify them.
+	1.  Explain how file hashing works and how to use it in programs.
+    1.  Describe the HTTP request/response cycle and the format of HTTP requests and responses.
+    1.  Write scripts to fetch data programmatically from HTTP servers.
+    1.  Create digital certificates to enable HTTPS.
+    1.  Create and use authentication tokens for API access.
+    1.  Manage processes using `ps`, `kill`, and related commands.
+-   TODO:
+    -   what to teach about Docker and why?
+    -   what to teach about continuous integration, using what system?
+    -   what to teach about batch jobs, using what system?
+    -   what to teach about cron jobs (if anything)?
+    -   what if anything to teach about networking, firewalls, certificates, etc.?
 
 <!-- ---------------------------------------------------------------- -->
 [% section_break class="aside" title="What We're Going to Do" %]

@@ -73,15 +73,62 @@ without exposing confidential data or opening the Ministry up to attack</li>
 </ul>
 </li>
 <li>Prerequisites<ul>
-<li>Intermediate Unix command line: <code>find</code>, <code>grep</code>, shell scripts using <code>for</code></li>
-<li>Data analysis with Python: Polars, Plotly, Jupyter notebooks, argparse, regular expressions</li>
-<li>Using Git and GitHub on months-long projects with two or three colleagues</li>
+<li>Unix shell commands covered in [this Software Carpentry lesson][sc-shell]:<ul>
+<li><code>pwd</code>; <code>ls</code>; <code>cd</code>; <code>.</code> and <code>..</code>; <code>rm</code> and <code>rmdir</code>; <code>mkdir</code>; <code>touch</code>;
+    <code>mv</code>; <code>cp</code>; <code>tree</code>; <code>cat</code>; <code>wc</code>; <code>head</code>; <code>tail</code>; <code>less</code>; <code>cut</code>; <code>echo</code>;
+    <code>history</code>; <code>find</code>; <code>grep</code>; <code>zip</code>; <code>man</code></li>
+<li>current working directory; absolute and relative paths; naming files;
+    editing with <code>nano</code></li>
+<li>standard input; standard output; standard error; redirection; pipes</li>
+<li><code>*</code> and <code>?</code> wildcards; shell variable with <code>$</code> expansion; <code>for</code> loop;
+    shell scripts with numbered arguments; the <code>PATH</code> variable; <code>$(…)</code> expansion</li>
+</ul>
+</li>
+<li>Git commands and workflow covered in [this Software Carpentry lesson][sc-git]<ul>
+<li><code>git config</code> to set username, email address, and editor; <code>git init</code>;
+    <code>git status</code>; <code>git checkout</code>; <code>git add</code>; <code>git diff</code> (current state and history);
+    <code>git commit</code>; <code>git log</code>; <code>git merge</code>; <code>git remote</code>; <code>.gitignore</code></li>
+<li>Git vs. GitHub; local and remote repositories; authentication with SSH keys;
+    branching; merging; conflicts; pull requests; code review</li>
+</ul>
+</li>
+<li>Python for command-line scripting<ul>
+<li>variables; numbers and strings; lists; dictionaries; <code>for</code> and <code>while</code> loops;
+<code>if</code>/<code>else</code>; <code>with</code>; defining and calling functions; <code>sys.argv</code>, <code>sys.stdin</code>,
+and <code>sys.stdout</code>; simple regular expressions; reading JSON data;
+reading CSV files using [Pandas][pandas] or <a href="https://pola.rs/">Polars</a></li>
+<li><code>pip install</code> (but not virtual environments); <code>ruff</code> for linting;
+<code>pytest</code> (but not mock objects); writing docstrings (but not [Sphinx][sphinx])</li>
+</ul>
+</li>
 </ul>
 </li>
 <li>Learning outcomes<ol>
-<li>What it means to deploy an application.</li>
-<li>How to store and access data securely.</li>
+<li>Create a virtual environment and explain what this actually does.</li>
+<li>Create <code>requirements.txt</code> file for [<code>pip</code>][pip] and explain version pinning.</li>
+<li>Explain what a filesystem is (disk partitions, inodes, symbolic links)
+    and use <code>df</code>, <code>ln</code>, similar commands to explore with them.</li>
+<li>Use Python in place of shell scripts:<ol>
+<li>Operate on files matching glob patterns.</li>
+<li>Create/delete directories.</li>
+<li>Explain how Unix permissions work and read/modify them.</li>
 </ol>
+</li>
+<li>Explain how file hashing works and how to use it in programs.</li>
+<li>Describe the HTTP request/response cycle and the format of HTTP requests and responses.</li>
+<li>Write scripts to fetch data programmatically from HTTP servers.</li>
+<li>Create digital certificates to enable HTTPS.</li>
+<li>Create and use authentication tokens for API access.</li>
+<li>Manage processes using <code>ps</code>, <code>kill</code>, and related commands.</li>
+</ol>
+</li>
+<li>TODO:<ul>
+<li>what to teach about Docker and why?</li>
+<li>what to teach about continuous integration, using what system?</li>
+<li>what to teach about batch jobs, using what system?</li>
+<li>what to teach about cron jobs (if anything)?</li>
+<li>what if anything to teach about networking, firewalls, certificates, etc.?</li>
+</ul>
 </li>
 </ul>
 <!-- ---------------------------------------------------------------- -->
