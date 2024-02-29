@@ -1,0 +1,9 @@
+*~
+.DS_Store
+.ipynb_checkpoints
+.ruff_cache
+__pycache__
+*.bkp
+*.dtmp
+\#*
+.\#*
