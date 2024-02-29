@@ -31,7 +31,8 @@
     -   Data analysis with Python: Polars, Plotly, Jupyter notebooks, argparse, regular expressions
     -   Using Git and GitHub on months-long projects with two or three colleagues
 -   Learning outcomes
-    1.  TODO
+    1.  What it means to deploy an application.
+    1.  How to store and access data securely.
 
 <!-- ---------------------------------------------------------------- -->
 [% section_break class="aside" title="What We're Going to Do" %]
@@ -39,6 +40,7 @@
 1.  Show how the basic components of the web work.
 1.  Build a simple application that serves up data from files and a database.
 1.  Fix its safety issues one by one.
+1.  Along the way, introduce ideas about processes, file systems, certificates, and related topics.
 
 <!-- ---------------------------------------------------------------- -->
 [% section_break class="aside" title="Setup" %]
@@ -52,7 +54,7 @@
 <!-- ---------------------------------------------------------------- -->
 [% section_break class="aside" title="Start with Something Simple" %]
 
-[% double stem="requests_get_motto" suffix="py out" %]
+[% multi "src/requests_get_motto.py" "out/requests_get_motto.out" %]
 
 -   Use the [`requests`][requests] module (needs to be installed)
 -   The URL identifies the file we want
@@ -79,7 +81,7 @@
 <!-- ---------------------------------------------------------------- -->
 [% section_break class="topic" title="Request Structure" %]
 
-[% double stem="requests_prepared_structure" suffix="py out" %]
+[% multi "src/requests_prepared_structure.py" "out/requests_prepared_structure.out" %]
 
 -   First line is [%g http_method "method" %], URL, and protocol version
 -   Every HTTP request can have [%g http_header "headers" %] with extra information
@@ -89,7 +91,7 @@
 <!-- ---------------------------------------------------------------- -->
 [% section_break class="topic" title="Response Structure" %]
 
-[% double stem="show_response_headers" suffix="py out" %]
+[% multi "src/show_response_headers.py" "out/show_response_headers.out" %]
 
 -   Every HTTP response also has with extra information
     -   Does *not* include status code: that appears in the first line
@@ -112,7 +114,7 @@ What is the difference between the `Content-Type` and the `Content-Encoding` hea
 <!-- ---------------------------------------------------------------- -->
 [% section_break class="topic" title="When Things Go Wrong" %]
 
-[% double stem="get_nonexistent_file" suffix="py out" %]
+[% multi "src/get_nonexistent_file.py" "out/get_nonexistent_file.out" %]
 
 -   The 404 status code tells us something went wrong
 -   The 9 kilobyte response is an HTML page with an embedded image (the GitHub logo)
@@ -134,7 +136,7 @@ Look at [this list of HTTP status codes][http_status_codes].
 <!-- ---------------------------------------------------------------- -->
 [% section_break class="topic" title="Getting JSON" %]
 
-[% double stem="requests_get_json" suffix="py out" %]
+[% multi "src/requests_get_json.py" "out/requests_get_json.out" %]
 
 -   Parsing data out of HTML is called [%g web_scraping "web scraping" %]
     -   Painful and error prone
@@ -172,7 +174,7 @@ of [the International Space Station][iss_api].
 <!-- ---------------------------------------------------------------- -->
 [% section_break class="topic" title="Talk to Local Server" %]
 
-[% double stem="requests_local_motto" suffix="py out" %]
+[% multi "src/requests_local_motto.py" "out/requests_local_motto.out" %]
 
 -   [%g concurrency "Concurrent" %] systems are hard to debug
     -   Multiple streams of activity
@@ -289,7 +291,7 @@ Do you think making code easier to understand also makes it safer?
 
 -   Rarely have JSON lying around as [%g static_file "static files" %]
 
-[% double stem="show_birds_csv" suffix="sh out" %]
+[% multi "src/show_birds_csv.sh" "out/show_birds_csv.out" %]
 
 -   Modify server to generate it dynamically
 -   Main program
@@ -358,8 +360,8 @@ Explain why the server should return JSON rather than HTML in the case of an err
 -   Simplest possible is wrong in many ways: does the client know a password?
 
 [% single "src/bird_client_password.py" %]
-[% double stem="bird_client_password_correct" suffix="sh out" %]
-[% double stem="bird_client_password_incorrect" suffix="sh out" %]
+[% multi "src/bird_client_password_correct.sh" "out/bird_client_password_correct.out" %]
+[% multi "src/bird_client_password_incorrect.sh" "out/bird_client_password_incorrect.out" %]
 
 -   First change to server: get the password on the command line and save it
 
