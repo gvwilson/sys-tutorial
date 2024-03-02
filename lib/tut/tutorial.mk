@@ -33,7 +33,8 @@ lint:
 	--output ${OUT} \
 	--page ${PAGES}/index.md \
 	--source ${SRC} \
-	--unused ${UNUSED}
+	--unused ${UNUSED} \
+	--others ${LINT_OTHER_FILES}
 
 ## ordered: get all inclusions in order
 .PHONY: ordered

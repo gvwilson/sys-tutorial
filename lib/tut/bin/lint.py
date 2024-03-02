@@ -10,13 +10,6 @@ import yaml
 CROSSREF = re.compile(r"\]\(\#(.+?)\)", re.DOTALL)
 MAKE_INC = re.compile(r"\$\{(OUT|SRC)\}/(\w+?\.(sql|out|py))\b")
 
-@shortcodes.register("double")
-def double(pargs, kwargs, context):
-    stem = kwargs["stem"]
-    suffix = kwargs["suffix"].split()
-    context["inclusion"].add(f"{context['src']}/{stem}.{suffix[0]}")
-    context["inclusion"].add(f"{context['out']}/{stem}.{suffix[1]}")
-
 
 @shortcodes.register("multi")
 def multi(pargs, kwargs, context):
@@ -66,7 +59,7 @@ def do_inclusions(options, page_inc):
     """Handle inclusion checking."""
 
     make_inc = find_make_inc(options.makefile, options.unused)
-    actual = find_actual(options.source, options.output)
+    actual = find_actual(options.source, options.output) | set(options.others)
 
     report("in Make but do not exist", make_inc - actual)
     report("in page but do not exist", page_inc - actual)
@@ -106,6 +99,9 @@ def parse_args():
     parser.add_argument("--makefile", type=str, required=True, help="path to Makefile")
     parser.add_argument(
         "--lang", type=str, required=True, help="language"
+    )
+    parser.add_argument(
+        "--others", nargs="*", help="other included files"
     )
     parser.add_argument(
         "--output", type=str, required=True, help="path to output directory"

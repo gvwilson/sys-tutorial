@@ -1,1 +1,1 @@
-python src/file_server.py site/sandbox
+python src/file_server_unsafe.py site/sandbox

@@ -158,7 +158,7 @@ reading CSV files using [Pandas][pandas] or <a href="https://pola.rs/">Polars</a
 </section>
 <section class="aside">
 <h2 class="aside">Start with Something Simple</h2>
-<p class="inclusion"><a href="src/requests_get_motto.py">src/requests_get_motto.py</a></p>
+<p class="inclusion"><a href="src/get_remote.py">src/get_remote.py</a></p>
 <div class="language-py">
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">requests</span>
 
@@ -168,7 +168,7 @@ reading CSV files using [Pandas][pandas] or <a href="https://pola.rs/">Polars</a
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;body:</span><span class="se">\n</span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </code></pre></div>
 </div>
-<p class="inclusion"><a href="out/requests_get_motto.out">out/requests_get_motto.out</a></p>
+<p class="inclusion"><a href="out/get_remote.out">out/get_remote.out</a></p>
 <div class="language-plaintext">
 <div class="highlight"><pre><span></span><code>status code: 200
 body:
@@ -206,7 +206,7 @@ Start where you are, use what you have, help who you can.
 </section>
 <section class="topic">
 <h2 class="topic">1: Request Structure</h2>
-<p class="inclusion"><a href="src/requests_prepared_structure.py">src/requests_prepared_structure.py</a></p>
+<p class="inclusion"><a href="src/dump_structure.py">src/dump_structure.py</a></p>
 <div class="language-py">
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">requests</span>
 <span class="kn">from</span> <span class="nn">requests_toolbelt.utils</span> <span class="kn">import</span> <span class="n">dump</span>
@@ -217,7 +217,7 @@ Start where you are, use what you have, help who you can.
 <span class="nb">print</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s2">&quot;utf-8&quot;</span><span class="p">))</span>
 </code></pre></div>
 </div>
-<p class="inclusion"><a href="out/requests_prepared_structure.out">out/requests_prepared_structure.out</a></p>
+<p class="inclusion"><a href="out/dump_structure.out">out/dump_structure.out</a></p>
 <div class="language-plaintext">
 <div class="highlight"><pre><span></span><code>GET /safety-tutorial/site/motto.txt HTTP/1.1
 Host: gvwilson.github.io
@@ -237,7 +237,7 @@ Connection: keep-alive
 </section>
 <section class="topic">
 <h2 class="topic">2: Response Structure</h2>
-<p class="inclusion"><a href="src/show_response_headers.py">src/show_response_headers.py</a></p>
+<p class="inclusion"><a href="src/response_headers.py">src/response_headers.py</a></p>
 <div class="language-py">
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">requests</span>
 
@@ -247,7 +247,7 @@ Connection: keep-alive
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </code></pre></div>
 </div>
-<p class="inclusion"><a href="out/show_response_headers.out">out/show_response_headers.out</a></p>
+<p class="inclusion"><a href="out/response_headers.out">out/response_headers.out</a></p>
 <div class="language-plaintext">
 <div class="highlight"><pre><span></span><code>Connection: keep-alive
 Content-Length: 5142
@@ -296,7 +296,7 @@ What is the difference between the <code>Content-Type</code> and the <code>Conte
 </section>
 <section class="topic">
 <h2 class="topic">3: When Things Go Wrong</h2>
-<p class="inclusion"><a href="src/get_nonexistent_file.py">src/get_nonexistent_file.py</a></p>
+<p class="inclusion"><a href="src/get_404.py">src/get_404.py</a></p>
 <div class="language-py">
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">requests</span>
 
@@ -306,7 +306,7 @@ What is the difference between the <code>Content-Type</code> and the <code>Conte
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;body length: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </code></pre></div>
 </div>
-<p class="inclusion"><a href="out/get_nonexistent_file.out">out/get_nonexistent_file.out</a></p>
+<p class="inclusion"><a href="out/get_404.out">out/get_404.out</a></p>
 <div class="language-plaintext">
 <div class="highlight"><pre><span></span><code>status code: 404
 body length: 9115
@@ -341,7 +341,7 @@ Look at <a href="https://en.wikipedia.org/wiki/List_of_HTTP_status_codes">this l
 </section>
 <section class="topic">
 <h2 class="topic">4: Getting JSON</h2>
-<p class="inclusion"><a href="src/requests_get_json.py">src/requests_get_json.py</a></p>
+<p class="inclusion"><a href="src/get_json.py">src/get_json.py</a></p>
 <div class="language-py">
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">requests</span>
 
@@ -353,7 +353,7 @@ Look at <a href="https://en.wikipedia.org/wiki/List_of_HTTP_status_codes">this l
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;body as JSON:</span><span class="se">\n</span><span class="si">{</span><span class="n">as_json</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </code></pre></div>
 </div>
-<p class="inclusion"><a href="out/requests_get_json.out">out/requests_get_json.out</a></p>
+<p class="inclusion"><a href="out/get_json.out">out/get_json.out</a></p>
 <div class="language-plaintext">
 <div class="highlight"><pre><span></span><code>status code: 200
 body as text: 107 bytes
@@ -389,7 +389,7 @@ of <a href="http://api.open-notify.org/">the International Space Station</a>.</p
 </section>
 <section class="aside">
 <h2 class="aside">Local Web Server</h2>
-<p class="inclusion"><a href="src/run_local_server.sh">src/run_local_server.sh</a></p>
+<p class="inclusion"><a href="src/local_server.sh">src/local_server.sh</a></p>
 <div class="language-sh">
 <div class="highlight"><pre><span></span><code>python<span class="w"> </span>-m<span class="w"> </span>http.server<span class="w"> </span>-d<span class="w"> </span>site
 </code></pre></div>
@@ -414,7 +414,7 @@ of <a href="http://api.open-notify.org/">the International Space Station</a>.</p
 </section>
 <section class="topic">
 <h2 class="topic">5: Talk to Local Server</h2>
-<p class="inclusion"><a href="src/requests_local_motto.py">src/requests_local_motto.py</a></p>
+<p class="inclusion"><a href="src/get_local.py">src/get_local.py</a></p>
 <div class="language-py">
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">requests</span>
 
@@ -425,7 +425,7 @@ of <a href="http://api.open-notify.org/">the International Space Station</a>.</p
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;body:</span><span class="se">\n</span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </code></pre></div>
 </div>
-<p class="inclusion"><a href="out/requests_local_motto.out">out/requests_local_motto.out</a></p>
+<p class="inclusion"><a href="out/get_local.out">out/get_local.out</a></p>
 <div class="language-plaintext">
 <div class="highlight"><pre><span></span><code>::ffff:127.0.0.1 - - [18/Feb/2024 09:12:24] &quot;GET /motto.txt HTTP/1.1&quot; 200 -
 status code: 200
@@ -544,7 +544,7 @@ Start where you are, use what you have, help who you can.
 <ul>
 <li>Modify <code>requests</code> script to take URL as command-line parameter</li>
 </ul>
-<p class="inclusion"><a href="src/requests_local_url.py">src/requests_local_url.py</a></p>
+<p class="inclusion"><a href="src/get_url.py">src/get_url.py</a></p>
 <div class="language-py">
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">requests</span>
 <span class="kn">import</span> <span class="nn">sys</span>
@@ -562,24 +562,24 @@ Start where you are, use what you have, help who you can.
 </ul>
 <p class="inclusion"><a href="src/file_server_sandbox.sh">src/file_server_sandbox.sh</a></p>
 <div class="language-sh">
-<div class="highlight"><pre><span></span><code>python<span class="w"> </span>src/file_server.py<span class="w"> </span>site/sandbox
+<div class="highlight"><pre><span></span><code>python<span class="w"> </span>src/file_server_unsafe.py<span class="w"> </span>site/sandbox
 </code></pre></div>
 </div>
 <ul>
 <li>Can get files from that directory</li>
 </ul>
-<p class="inclusion"><a href="src/requests_local_url_allowed.sh">src/requests_local_url_allowed.sh</a></p>
+<p class="inclusion"><a href="src/get_url_allowed.sh">src/get_url_allowed.sh</a></p>
 <div class="language-sh">
-<div class="highlight"><pre><span></span><code>python<span class="w"> </span>src/requests_local_url.py<span class="w"> </span>http://localhost:8000/example.txt
+<div class="highlight"><pre><span></span><code>python<span class="w"> </span>src/get_url.py<span class="w"> </span>http://localhost:8000/example.txt
 </code></pre></div>
 </div>
-<p class="inclusion"><a href="out/file_server_allowed.out">out/file_server_allowed.out</a></p>
+<p class="inclusion"><a href="out/get_url_allowed_server.out">out/get_url_allowed_server.out</a></p>
 <div class="language-plaintext">
 <div class="highlight"><pre><span></span><code>&#39;/example.txt&#39; =&gt; &#39;/Users/gvwilson/safety/site/sandbox/example.txt&#39;
 127.0.0.1 - - [21/Feb/2024 06:04:32] &quot;GET /example.txt HTTP/1.1&quot; 200 -
 </code></pre></div>
 </div>
-<p class="inclusion"><a href="out/requests_local_url_allowed.out">out/requests_local_url_allowed.out</a></p>
+<p class="inclusion"><a href="out/get_url_allowed_client.out">out/get_url_allowed_client.out</a></p>
 <div class="language-plaintext">
 <div class="highlight"><pre><span></span><code>status code: 200
 body:
@@ -589,18 +589,18 @@ example file
 <ul>
 <li>But not from parent directory (which isn&rsquo;t part of sandbox)</li>
 </ul>
-<p class="inclusion"><a href="src/requests_local_url_disallowed.sh">src/requests_local_url_disallowed.sh</a></p>
+<p class="inclusion"><a href="src/get_url_disallowed.sh">src/get_url_disallowed.sh</a></p>
 <div class="language-sh">
 <div class="highlight"><pre><span></span><code>python<span class="w"> </span>src/requests_local_url.py<span class="w"> </span>http://localhost:8000/motto.txt
 </code></pre></div>
 </div>
-<p class="inclusion"><a href="out/file_server_disallowed.out">out/file_server_disallowed.out</a></p>
+<p class="inclusion"><a href="out/get_url_disallowed_server.out">out/get_url_disallowed_server.out</a></p>
 <div class="language-plaintext">
 <div class="highlight"><pre><span></span><code>&#39;/motto.txt&#39; =&gt; &#39;/Users/gvwilson/safety/site/sandbox/motto.txt&#39;
 127.0.0.1 - - [21/Feb/2024 06:04:38] &quot;GET /motto.txt HTTP/1.1&quot; 404 -
 </code></pre></div>
 </div>
-<p class="inclusion"><a href="out/requests_local_url_disallowed.out">out/requests_local_url_disallowed.out</a></p>
+<p class="inclusion"><a href="out/get_url_disallowed_client.out">out/get_url_disallowed_client.out</a></p>
 <div class="language-plaintext">
 <div class="highlight"><pre><span></span><code>status code: 404
 body:
@@ -626,7 +626,7 @@ body:
 <li><a href="https://en.wikipedia.org/wiki/Netcat"><code>netcat</code></a> (often just <code>nc</code>) is a computer networking tool</li>
 <li>Open a connection, send exactly what the user types, and show exactly what is sent in response</li>
 </ul>
-<p class="inclusion"><a href="src/nc_localhost_8000.sh">src/nc_localhost_8000.sh</a></p>
+<p class="inclusion"><a href="src/nc_localhost.sh">src/nc_localhost.sh</a></p>
 <div class="language-sh">
 <div class="highlight"><pre><span></span><code>nc<span class="w"> </span>localhost<span class="w"> </span><span class="m">8000</span>
 </code></pre></div>
@@ -727,12 +727,12 @@ Do you think making code easier to understand also makes it safer?</p>
 <ul>
 <li>Rarely have JSON lying around as <a href="#g:static_file">static files</a></li>
 </ul>
-<p class="inclusion"><a href="src/show_birds_csv.sh">src/show_birds_csv.sh</a></p>
+<p class="inclusion"><a href="src/birds_head.sh">src/birds_head.sh</a></p>
 <div class="language-sh">
 <div class="highlight"><pre><span></span><code>head<span class="w"> </span>-n<span class="w"> </span><span class="m">10</span><span class="w"> </span>site/birds.csv
 </code></pre></div>
 </div>
-<p class="inclusion"><a href="out/show_birds_csv.out">out/show_birds_csv.out</a></p>
+<p class="inclusion"><a href="out/birds_head.out">out/birds_head.out</a></p>
 <div class="language-plaintext">
 <div class="highlight"><pre><span></span><code>loc_id,latitude,longitude,region,year,month,day,species_id,num
 L13476859,60.8606726,-135.2015181,CA-YT,2021,2,1,redcro,3.0
@@ -950,7 +950,7 @@ Explain why the server should return JSON rather than HTML in the case of an err
 </code></pre></div>
 </div>
 <ul>
-<li>Add authorization taht checks header value</li>
+<li>Add authorization that checks header value</li>
 </ul>
 <p class="inclusion"><a href="src/bird_server_password.py">src/bird_server_password.py</a></p>
 <div class="language-py">
@@ -1175,7 +1175,7 @@ Hostname mismatch, certificate is not valid for &#39;localhost&#39;. (_ssl.c:100
 <h2 class="topic">18: Starting Over</h2>
 <ul>
 <li>Pretend to be our own <a href="#g:certificate_authority">certificate authority</a> (CA)</li>
-<li>Use our CA certificate to <a href="#g:digial_signature">sign</a> the server&rsquo;s certificate<ul>
+<li>Use our CA certificate to <a href="#g:digital_signature">sign</a> the server&rsquo;s certificate<ul>
 <li>We can use the CA to sign any number of certificates</li>
 </ul>
 </li>
@@ -1198,6 +1198,13 @@ openssl<span class="w"> </span>x509<span class="w"> </span>-req<span class="w"> 
 </div>
 <ul>
 <li>Run the server with the newly-created certificate</li>
+</ul>
+<p class="inclusion"><a href="src/file_server_signed.sh">src/file_server_signed.sh</a></p>
+<div class="language-sh">
+<div class="highlight"><pre><span></span><code>python<span class="w"> </span>src/file_server_secure.py<span class="w"> </span>site<span class="w"> </span>server.pem<span class="w"> </span>server.key
+</code></pre></div>
+</div>
+<ul>
 <li>Point <code>requests</code> at the CA certificate<ul>
 <li>Which it then uses to check that the server&rsquo;s certificate is properly signed</li>
 </ul>
@@ -1381,7 +1388,7 @@ extendedKeyUsage = serverAuth
   <a href="https://github.com/gvwilson/safety-tutorial"><i class="fab fa-github" aria-hidden="true" title="GitHub repository"></i></a>
   <a href="license/"><i class="fab fa-creative-commons-by" aria-hidden="true" title="license"></i></a>
   &middot;
-  <time datetime="2024-02-29">Last built 2024-02-29</time>
+  <time datetime="2024-03-02">Last built 2024-03-02</time>
 </footer>
 
   </body>

@@ -91,7 +91,7 @@
 <!-- ---------------------------------------------------------------- -->
 [% section_break class="aside" title="Start with Something Simple" %]
 
-[% multi "src/requests_get_motto.py" "out/requests_get_motto.out" %]
+[% multi "src/get_remote.py" "out/get_remote.out" %]
 
 -   Use the [`requests`][requests] module (needs to be installed)
 -   The URL identifies the file we want
@@ -118,7 +118,7 @@
 <!-- ---------------------------------------------------------------- -->
 [% section_break class="topic" title="Request Structure" %]
 
-[% multi "src/requests_prepared_structure.py" "out/requests_prepared_structure.out" %]
+[% multi "src/dump_structure.py" "out/dump_structure.out" %]
 
 -   First line is [%g http_method "method" %], URL, and protocol version
 -   Every HTTP request can have [%g http_header "headers" %] with extra information
@@ -128,7 +128,7 @@
 <!-- ---------------------------------------------------------------- -->
 [% section_break class="topic" title="Response Structure" %]
 
-[% multi "src/show_response_headers.py" "out/show_response_headers.out" %]
+[% multi "src/response_headers.py" "out/response_headers.out" %]
 
 -   Every HTTP response also has with extra information
     -   Does *not* include status code: that appears in the first line
@@ -151,7 +151,7 @@ What is the difference between the `Content-Type` and the `Content-Encoding` hea
 <!-- ---------------------------------------------------------------- -->
 [% section_break class="topic" title="When Things Go Wrong" %]
 
-[% multi "src/get_nonexistent_file.py" "out/get_nonexistent_file.out" %]
+[% multi "src/get_404.py" "out/get_404.out" %]
 
 -   The 404 status code tells us something went wrong
 -   The 9 kilobyte response is an HTML page with an embedded image (the GitHub logo)
@@ -173,7 +173,7 @@ Look at [this list of HTTP status codes][http_status_codes].
 <!-- ---------------------------------------------------------------- -->
 [% section_break class="topic" title="Getting JSON" %]
 
-[% multi "src/requests_get_json.py" "out/requests_get_json.out" %]
+[% multi "src/get_json.py" "out/get_json.out" %]
 
 -   Parsing data out of HTML is called [%g web_scraping "web scraping" %]
     -   Painful and error prone
@@ -195,7 +195,7 @@ of [the International Space Station][iss_api].
 <!-- ---------------------------------------------------------------- -->
 [% section_break class="aside" title="Local Web Server" %]
 
-[% single "src/run_local_server.sh" %]
+[% single "src/local_server.sh" %]
 
 -   Pushing files to GitHub so that we can use them is annoying
 -   And we want to show how to make things *wrong* so that we can then make them *right*
@@ -211,7 +211,7 @@ of [the International Space Station][iss_api].
 <!-- ---------------------------------------------------------------- -->
 [% section_break class="topic" title="Talk to Local Server" %]
 
-[% multi "src/requests_local_motto.py" "out/requests_local_motto.out" %]
+[% multi "src/get_local.py" "out/get_local.out" %]
 
 -   [%g concurrency "Concurrent" %] systems are hard to debug
     -   Multiple streams of activity
@@ -238,7 +238,6 @@ of [the International Space Station][iss_api].
 -   Handle errors
 
 [% single "src/file_server_unsafe.py" keep="error_page" %]
-
 [% single "src/file_server_unsafe.py" keep="handle_error" %]
 
 -   Define our own exceptions so we're sure we're only catching what we expect
@@ -257,7 +256,7 @@ of [the International Space Station][iss_api].
 
 -   Modify `requests` script to take URL as command-line parameter
 
-[% single "src/requests_local_url.py" %]
+[% single "src/get_url.py" %]
 
 -   Add a sub-directory to `site` called `sandbox` with a file `example.txt`
 -   Serve that sub-directory
@@ -266,11 +265,11 @@ of [the International Space Station][iss_api].
 
 -   Can get files from that directory
 
-[% multi "src/requests_local_url_allowed.sh" "out/file_server_allowed.out" "out/requests_local_url_allowed.out" %]
+[% multi "src/get_url_allowed.sh" "out/get_url_allowed_server.out" "out/get_url_allowed_client.out" %]
 
 -   But not from parent directory (which isn't part of sandbox)
 
-[% multi "src/requests_local_url_disallowed.sh" "out/file_server_disallowed.out" "out/requests_local_url_disallowed.out" %]
+[% multi "src/get_url_disallowed.sh" "out/get_url_disallowed_server.out" "out/get_url_disallowed_client.out" %]
 
 -   But why not?
 -   Looks like `requests` is stripping the leading `..` off the path
@@ -283,7 +282,7 @@ of [the International Space Station][iss_api].
 -   [`netcat`][netcat] (often just `nc`) is a computer networking tool
 -   Open a connection, send exactly what the user types, and show exactly what is sent in response
 
-[% multi "src/nc_localhost_8000.sh" "src/nc_allowed.text" "out/nc_allowed.out" %]
+[% multi "src/nc_localhost.sh" "src/nc_allowed.text" "out/nc_allowed.out" %]
 
 -   So far so good, but:
 
@@ -328,7 +327,7 @@ Do you think making code easier to understand also makes it safer?
 
 -   Rarely have JSON lying around as [%g static_file "static files" %]
 
-[% multi "src/show_birds_csv.sh" "out/show_birds_csv.out" %]
+[% multi "src/birds_head.sh" "out/birds_head.out" %]
 
 -   Modify server to generate it dynamically
 -   Main program
@@ -410,7 +409,7 @@ Explain why the server should return JSON rather than HTML in the case of an err
 
 [% single "src/bird_server_password.py" keep="get" %]
 
--   Add authorization taht checks header value
+-   Add authorization that checks header value
 
 [% single "src/bird_server_password.py" keep="auth" %]
 
@@ -488,12 +487,15 @@ Explain why the server should return JSON rather than HTML in the case of an err
 [% section_break class="topic" title="Starting Over" %]
 
 -   Pretend to be our own [%g certificate_authority "certificate authority" %] (CA)
--   Use our CA certificate to [%g digial_signature "sign" %] the server's certificate
+-   Use our CA certificate to [%g digital_signature "sign" %] the server's certificate
     -   We can use the CA to sign any number of certificates
 
 [% single "src/create_signed_cert.sh" %]
 
 -   Run the server with the newly-created certificate
+
+[% single "src/file_server_signed.sh" %]
+
 -   Point `requests` at the CA certificate
     -   Which it then uses to check that the server's certificate is properly signed
 

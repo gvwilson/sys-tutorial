@@ -3,9 +3,11 @@ include lib/tut/tutorial.mk
 PY_FILES := $(wildcard ${SRC}/*.py)
 PY_EXCLUDED := ${SRC}/headers.py
 OUT_FILES := $(patsubst ${SRC}/%.py,${OUT}/%.out,$(filter-out ${PY_EXCLUDED},${PY_FILES}))
+LINT_OTHER_FILES := site/server_first_cert.pem
 
+PORT := 8000
 RUNNER := bin/runner.sh
-SITE_SERVER := python -m http.server -d site
+SITE_SERVER := python -m http.server -d site ${PORT}
 
 ## release: create a release
 .PHONY: release
@@ -19,29 +21,29 @@ release:
 ## listen: listen on port 8000
 .PHONY: listen
 listen:
-	nc -l -p 8000
+	nc -l -p ${PORT}
 
 ## run: re-run all examples
 .PHONY: run
 run: ${OUT_FILES}
 
-${OUT}/get_nonexistent_file.out: ${SRC}/get_nonexistent_file.py
-	python $< > $@
-
-${OUT}/requests_get_json.out: ${SRC}/requests_get_json.py
-	python $< > $@
-
-${OUT}/requests_get_motto.out: ${SRC}/requests_get_motto.py
-	python $< > $@
-
-${OUT}/requests_local_motto.out: ${SRC}/requests_local_motto.py ${RUNNER}
-	${RUNNER} 8000 "${SITE_SERVER}" "python $<" &> $@
-
-${OUT}/requests_prepared_structure.out: ${SRC}/requests_prepared_structure.py
+${OUT}/dump_structure.out: ${SRC}/dump_structure.py
 	python $< | grep -e '< ' | sed -e 's/< //g' > $@
 
-${OUT}/show_birds_csv.out: ${SRC}/show_birds_csv.sh
-	bash $< > $@
-
-${OUT}/show_response_headers.out: ${SRC}/show_response_headers.py
+${OUT}/get_404.out: ${SRC}/get_404.py
 	python $< > $@
+
+${OUT}/get_json.out: ${SRC}/get_json.py
+	python $< > $@
+
+${OUT}/get_local.out: ${SRC}/get_local.py ${RUNNER}
+	${RUNNER} ${PORT} "${SITE_SERVER}" "python $<" &> $@
+
+${OUT}/get_remote.out: ${SRC}/get_remote.py
+	python $< > $@
+
+${OUT}/response_headers.out: ${SRC}/response_headers.py
+	python $< > $@
+
+${OUT}/birds_head.out: ${SRC}/birds_head.sh
+	bash $< > $@
