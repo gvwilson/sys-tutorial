@@ -3,6 +3,7 @@ include lib/tut/tutorial.mk
 PY_FILES := $(wildcard ${SRC}/*.py)
 PY_EXCLUDED := ${SRC}/headers.py
 OUT_FILES := $(patsubst ${SRC}/%.py,${OUT}/%.out,$(filter-out ${PY_EXCLUDED},${PY_FILES}))
+LINT_OTHER_PAGES := 
 LINT_OTHER_FILES := site/server_first_cert.pem
 
 PORT := 8000

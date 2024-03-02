@@ -37,7 +37,8 @@ def main():
         "out": options.output,
         "src": options.source,
     }
-    parser.parse(Path(options.page).read_text(), context)
+    for p in options.pages:
+        parser.parse(Path(p).read_text(), context)
     do_inclusions(options, context["inclusion"])
     do_glossary(options, context["glossref"])
 
@@ -82,16 +83,6 @@ def find_make_inc(makefile, unused):
     return make_inc - set(unused)
 
 
-def find_page_inc(filename):
-    """Find filenames in page."""
-    text = Path(filename).read_text()
-    result = {m for m in SINGLE_INC.findall(text)}
-    for m in DOUBLE_INC.findall(text):
-        for suffix in m[1].split():
-            result.add(f"{m[0]}.{suffix}")
-    return result
-
-
 def parse_args():
     """Parse command-line arguments."""
     parser = argparse.ArgumentParser()
@@ -107,7 +98,7 @@ def parse_args():
         "--output", type=str, required=True, help="path to output directory"
     )
     parser.add_argument(
-        "--page", type=str, required=True, help="path to tutorial source page"
+        "--pages", nargs="+", help="paths to tutorial source pages"
     )
     parser.add_argument(
         "--source", type=str, required=True, help="path to source directory"
