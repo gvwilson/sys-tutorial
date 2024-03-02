@@ -23,6 +23,11 @@ build:
 serve:
 	@ark serve
 
+## progress: count words
+.PHONY: progress
+progress:
+	@wc -w $$(find . -name \*.md -o -name \*.yml -o -name \*.text) | fgrep total
+
 ## lint: check project state
 .PHONY: lint
 lint:
@@ -31,7 +36,7 @@ lint:
 	--lang $$(python config.py lang) \
 	--makefile Makefile \
 	--output ${OUT} \
-	--page ${PAGES}/index.md \
+	--page ${PAGES}/index.md ${LINT_OTHER_PAGES} \
 	--source ${SRC} \
 	--unused ${UNUSED} \
 	--others ${LINT_OTHER_FILES}
