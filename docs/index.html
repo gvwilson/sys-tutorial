@@ -575,7 +575,7 @@ Start where you are, use what you have, help who you can.
 </div>
 <p class="inclusion"><a href="out/get_url_allowed_server.out">out/get_url_allowed_server.out</a></p>
 <div class="language-plaintext">
-<div class="highlight"><pre><span></span><code>&#39;/example.txt&#39; =&gt; &#39;/Users/gvwilson/safety/site/sandbox/example.txt&#39;
+<div class="highlight"><pre><span></span><code>&#39;/example.txt&#39; =&gt; &#39;/tut/safety/site/sandbox/example.txt&#39;
 127.0.0.1 - - [21/Feb/2024 06:04:32] &quot;GET /example.txt HTTP/1.1&quot; 200 -
 </code></pre></div>
 </div>
@@ -596,7 +596,7 @@ example file
 </div>
 <p class="inclusion"><a href="out/get_url_disallowed_server.out">out/get_url_disallowed_server.out</a></p>
 <div class="language-plaintext">
-<div class="highlight"><pre><span></span><code>&#39;/motto.txt&#39; =&gt; &#39;/Users/gvwilson/safety/site/sandbox/motto.txt&#39;
+<div class="highlight"><pre><span></span><code>&#39;/motto.txt&#39; =&gt; &#39;/tut/safety/site/sandbox/motto.txt&#39;
 127.0.0.1 - - [21/Feb/2024 06:04:38] &quot;GET /motto.txt HTTP/1.1&quot; 404 -
 </code></pre></div>
 </div>
@@ -1245,8 +1245,308 @@ extendedKeyUsage = serverAuth
 </ul>
 <!-- ---------------------------------------------------------------- -->
 </section>
+<section class="aside">
+<h2 class="aside">Processes</h2>
+<ul>
+<li>We&rsquo;ve been running clients and servers interactively</li>
+<li>How can we automate this?<ul>
+<li>The heart of <a href="#g:deployment">deploying</a> applications</li>
+</ul>
+</li>
+<li>A <a href="#g:process">process</a> is a running instance of a program<ul>
+<li>Code plus variables in memory plus open files plus some IDs</li>
+</ul>
+</li>
+<li>Tools to manage them were invented when most users only had a single terminal</li>
+<li>Some repurposed, some replaced: result is unfortunately as messy as certificates</li>
+</ul>
+<!-- ---------------------------------------------------------------- -->
+</section>
 <section class="topic">
-<h2 class="topic">19: Introducting FastAPI</h2>
+<h2 class="topic">19: Viewing Processes</h2>
+<ul>
+<li>Use <code>ps -a -l</code> to see currently running processes in terminal</li>
+<li>Or <code>ps -a -x</code> to see (almost) all processes running on computer<ul>
+<li><code>UID</code>: numeric ID of the user that the process belongs to</li>
+<li><code>PID</code>: process&rsquo;s unique ID</li>
+<li><code>PPID</code>: ID of the process&rsquo;s parent (i.e., the process that created it)</li>
+<li><code>CMD</code>: the command the process is running</li>
+</ul>
+</li>
+</ul>
+<p class="inclusion"><a href="src/ps_a_l.sh">src/ps_a_l.sh</a></p>
+<div class="language-sh">
+<div class="highlight"><pre><span></span><code>ps<span class="w"> </span>-a<span class="w"> </span>-l
+</code></pre></div>
+</div>
+<p class="inclusion"><a href="out/ps_a_l.out">out/ps_a_l.out</a></p>
+<div class="language-plaintext">
+<div class="highlight"><pre><span></span><code>UID   PID  PPID        F CPU PRI NI        SZ    RSS       TTY       TIME CMD
+    0 13215 83470     4106   0  31  0 408655632   9504   ttys001    0:00.02 login -pfl gvwilson /
+  501 13216 13215     4006   0  31  0 408795632   5424   ttys001    0:00.04 -bash
+  501 13569 13216     4046   0  31  0 408895008  20864   ttys001    0:00.10 python -m http.server
+    0 13577 13216     4106   0  31  0 408766128   1888   ttys001    0:00.01 ps -a -l
+</code></pre></div>
+</div>
+<!-- ---------------------------------------------------------------- -->
+</section>
+<section class="topic">
+<h2 class="topic">20: Signals</h2>
+<ul>
+<li>Can send a <a href="#g:signal">signal</a> to a process<ul>
+<li>Something extraordinary happened, please deal with it immediately</li>
+</ul>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align: right;">Number</th>
+<th>Name</th>
+<th>Default Action</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: right;">1</td>
+<td><code>SIGHUP</code></td>
+<td>terminate process</td>
+<td>terminal line hangup</td>
+</tr>
+<tr>
+<td style="text-align: right;">2</td>
+<td><code>SIGINT</code></td>
+<td>terminate process</td>
+<td>interrupt program</td>
+</tr>
+<tr>
+<td style="text-align: right;">3</td>
+<td><code>SIGQUIT</code></td>
+<td>create core image</td>
+<td>quit program</td>
+</tr>
+<tr>
+<td style="text-align: right;">4</td>
+<td><code>SIGILL</code></td>
+<td>create core image</td>
+<td>illegal instruction</td>
+</tr>
+<tr>
+<td style="text-align: right;">8</td>
+<td><code>SIGFPE</code></td>
+<td>create core image</td>
+<td>floating-point exception</td>
+</tr>
+<tr>
+<td style="text-align: right;">9</td>
+<td><code>SIGKILL</code></td>
+<td>terminate process</td>
+<td>kill program</td>
+</tr>
+<tr>
+<td style="text-align: right;">11</td>
+<td><code>SIGSEGV</code></td>
+<td>create core image</td>
+<td>segmentation violation</td>
+</tr>
+<tr>
+<td style="text-align: right;">12</td>
+<td><code>SIGSYS</code></td>
+<td>create core image</td>
+<td>non-existent system call invoked</td>
+</tr>
+<tr>
+<td style="text-align: right;">14</td>
+<td><code>SIGALRM</code></td>
+<td>terminate process</td>
+<td>real-time timer expired</td>
+</tr>
+<tr>
+<td style="text-align: right;">15</td>
+<td><code>SIGTERM</code></td>
+<td>terminate process</td>
+<td>software termination signal</td>
+</tr>
+<tr>
+<td style="text-align: right;">17</td>
+<td><code>SIGSTOP</code></td>
+<td>stop process</td>
+<td>stop (cannot be caught or ignored)</td>
+</tr>
+<tr>
+<td style="text-align: right;">24</td>
+<td><code>SIGXCPU</code></td>
+<td>terminate process</td>
+<td>CPU time limit exceeded</td>
+</tr>
+<tr>
+<td style="text-align: right;">25</td>
+<td><code>SIGXFSZ</code></td>
+<td>terminate process</td>
+<td>file size limit exceeded</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>Create a <a href="#g:callback_function">callback function</a> to act as a <a href="#g:signal_handler">signal handler</a></li>
+</ul>
+<p class="inclusion"><a href="src/catch_interrupt.py">src/catch_interrupt.py</a></p>
+<div class="language-py">
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">signal</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+
+<span class="n">COUNT</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="k">def</span> <span class="nf">handler</span><span class="p">(</span><span class="n">sig</span><span class="p">,</span> <span class="n">frame</span><span class="p">):</span>
+    <span class="k">global</span> <span class="n">COUNT</span>
+    <span class="n">COUNT</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;interrupt </span><span class="si">{</span><span class="n">COUNT</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">COUNT</span> <span class="o">&gt;=</span> <span class="mi">3</span><span class="p">:</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="n">signal</span><span class="o">.</span><span class="n">signal</span><span class="p">(</span><span class="n">signal</span><span class="o">.</span><span class="n">SIGINT</span><span class="p">,</span> <span class="n">handler</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;use Ctrl-C three times&quot;</span><span class="p">)</span>
+<span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+    <span class="n">signal</span><span class="o">.</span><span class="n">pause</span><span class="p">()</span>
+</code></pre></div>
+</div>
+<p class="inclusion"><a href="out/catch_interrupt.out">out/catch_interrupt.out</a></p>
+<div class="language-plaintext">
+<div class="highlight"><pre><span></span><code>python src/catch_interrupt.py
+use Ctrl-C three times
+^Cinterrupt 1
+^Cinterrupt 2
+^Cinterrupt 3
+</code></pre></div>
+</div>
+<ul>
+<li><code>^C</code> shows where user typed Ctrl-C</li>
+</ul>
+<!-- ---------------------------------------------------------------- -->
+</section>
+<section class="topic">
+<h2 class="topic">21: Background Processes</h2>
+<ul>
+<li>Can run a process in the <a href="#g:process_background">background</a><ul>
+<li>Only difference is that it&rsquo;s not connected to the terminal</li>
+</ul>
+</li>
+</ul>
+<p class="inclusion"><a href="src/show_timer.py">src/show_timer.py</a></p>
+<div class="language-py">
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">time</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;loop </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;loop finished&quot;</span><span class="p">)</span>
+</code></pre></div>
+</div>
+<p class="inclusion"><a href="src/show_timer.sh">src/show_timer.sh</a></p>
+<div class="language-sh">
+<div class="highlight"><pre><span></span><code>python<span class="w"> </span>src/show_timer.py<span class="w"> </span><span class="p">&amp;</span>
+ls<span class="w"> </span>site
+</code></pre></div>
+</div>
+<p class="inclusion"><a href="out/show_timer.out">out/show_timer.out</a></p>
+<div class="language-plaintext">
+<div class="highlight"><pre><span></span><code>$ src/show_timer.sh
+birds.csv       cert_authority.srl  sandbox         server.pem      species.csv
+cert_authority.key  motto.json      server.csr      server_first_cert.pem   yukon.db
+cert_authority.pem  motto.txt       server.key      server_first_key.pem
+loop 0
+$ loop 1
+loop 2
+loop finished
+</code></pre></div>
+</div>
+<ul>
+<li><code>&amp;</code> at end of command to run <code>show_timer.py</code> means &ldquo;run in the background&rdquo;</li>
+<li>So <code>ls</code> command executes immediately</li>
+<li>But <code>show_timer.py</code> keeps running until it finishes<ul>
+<li>Or needs keyboard input</li>
+</ul>
+</li>
+<li>Can also start process and then <a href="#g:process_suspend">suspend</a> it with Ctrl-Z<ul>
+<li>Sends <code>SIGSTOP</code> instead of <code>SIGINT</code></li>
+</ul>
+</li>
+<li>Use <code>jobs</code> to see all suspended processes</li>
+<li>Then <code>bg %<em>num</em></code> to resume in the background</li>
+<li>Or <code>fg %<em>num</em></code> to <a href="#g:process_foreground">foreground</a> the process
+    to <a href="#g:process_resume">resume</a> its execution</li>
+</ul>
+<p class="inclusion"><a href="src/ctrl_z_background.sh">src/ctrl_z_background.sh</a></p>
+<div class="language-sh">
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>python<span class="w"> </span>src/show_timer.py
+loop<span class="w"> </span><span class="m">0</span>
+^Z
+<span class="o">[</span><span class="m">1</span><span class="o">]</span>+<span class="w">  </span>Stopped<span class="w">                 </span>python<span class="w"> </span>src/show_timer.py
+$<span class="w"> </span><span class="nb">jobs</span>
+<span class="o">[</span><span class="m">1</span><span class="o">]</span>+<span class="w">  </span>Stopped<span class="w">                 </span>python<span class="w"> </span>src/show_timer.py
+$<span class="w"> </span><span class="nb">bg</span>
+<span class="o">[</span><span class="m">1</span><span class="o">]</span>+<span class="w"> </span>python<span class="w"> </span>src/show_timer.py<span class="w"> </span><span class="p">&amp;</span>
+loop<span class="w"> </span><span class="m">1</span>
+$<span class="w"> </span>loop<span class="w"> </span><span class="m">2</span>
+loop<span class="w"> </span>finished
+<span class="o">[</span><span class="m">1</span><span class="o">]</span>+<span class="w">  </span>Done<span class="w">                    </span>python<span class="w"> </span>src/show_timer.py
+</code></pre></div>
+</div>
+<ul>
+<li>Note that input and output are mixed together</li>
+<li>One of our goals is to build something that will re-run something like this
+    <em>and</em> show input and output in the order a user would see them
+    <em>while also</em> labeling input and output correctly</li>
+</ul>
+<!-- ---------------------------------------------------------------- -->
+</section>
+<section class="topic">
+<h2 class="topic">22: Killing Processes</h2>
+<ul>
+<li>Use <code>kill</code> to send a signal to a process<ul>
+<li>Not necessarily to stop it</li>
+</ul>
+</li>
+</ul>
+<p class="inclusion"><a href="src/kill_process.sh">src/kill_process.sh</a></p>
+<div class="language-sh">
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>python<span class="w"> </span>src/show_timer.py
+loop<span class="w"> </span><span class="m">0</span>
+^Z
+<span class="o">[</span><span class="m">1</span><span class="o">]</span>+<span class="w">  </span>Stopped<span class="w">                 </span>python<span class="w"> </span>src/show_timer.py
+$<span class="w"> </span><span class="nb">kill</span><span class="w"> </span>%1
+<span class="o">[</span><span class="m">1</span><span class="o">]</span>+<span class="w">  </span>Terminated:<span class="w"> </span><span class="m">15</span><span class="w">          </span>python<span class="w"> </span>src/show_timer.py
+</code></pre></div>
+</div>
+<ul>
+<li>By default, <code>kill</code> sends <code>SIGTERM</code> (terminate process)</li>
+<li>Variations:<ul>
+<li>Give a process ID: <code>kill 1234</code></li>
+<li>Send a different signal: <code>kill -s INT %1</code></li>
+</ul>
+</li>
+</ul>
+<p class="inclusion"><a href="src/kill_int.sh">src/kill_int.sh</a></p>
+<div class="language-sh">
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>python<span class="w"> </span>src/show_timer.py
+loop<span class="w"> </span><span class="m">0</span>
+^Z
+<span class="o">[</span><span class="m">1</span><span class="o">]</span>+<span class="w">  </span>Stopped<span class="w">                 </span>python<span class="w"> </span>src/show_timer.py
+$<span class="w"> </span><span class="nb">kill</span><span class="w"> </span>-s<span class="w"> </span>INT<span class="w"> </span>%1
+<span class="o">[</span><span class="m">1</span><span class="o">]</span>+<span class="w">  </span>Stopped<span class="w">                 </span>python<span class="w"> </span>src/show_timer.py
+$<span class="w"> </span><span class="nb">fg</span>
+python<span class="w"> </span>src/show_timer.py
+Traceback<span class="w"> </span><span class="o">(</span>most<span class="w"> </span>recent<span class="w"> </span>call<span class="w"> </span>last<span class="o">)</span>:
+<span class="w">  </span>File<span class="w"> </span><span class="s2">&quot;/tut/sys/src/show_timer.py&quot;</span>,<span class="w"> </span>line<span class="w"> </span><span class="m">5</span>,<span class="w"> </span><span class="k">in</span><span class="w"> </span>&lt;module&gt;
+<span class="w">    </span>time.sleep<span class="o">(</span><span class="m">1</span><span class="o">)</span>
+KeyboardInterrupt
+</code></pre></div>
+</div>
+<!-- ---------------------------------------------------------------- -->
+</section>
+<section class="topic">
+<h2 class="topic">23: Introducting FastAPI</h2>
 <p class="inclusion"><a href="src/bird_server_fastapi.py">src/bird_server_fastapi.py</a></p>
 <div class="language-py">
 <div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">fastapi</span> <span class="kn">import</span> <span class="n">FastAPI</span>
@@ -1286,7 +1586,11 @@ extendedKeyUsage = serverAuth
 
 <dt id="g:authorization">authorization</dt><dd>The act of establishing that one has a right to access certain information.</dd>
 
+<dt id="g:process_background">background a process</dt><dd>To disconnect a <a href="#process">process</a> from the terminal but keep it running.</dd>
+
 <dt id="g:base64">base64 encoding</dt><dd>A representation of binary data that represents each group of 6 bits as one of 64 printable characters.</dd>
+
+<dt id="g:callback_function">callback function</dt><dd>A function A that is passed to another function B so that B can call it at some later point.</dd>
 
 <dt id="g:certificate_authority">certificate authority (CA)</dt><dd>An organization that issues, stores, and <a href="#digital_signature">signs</a> <a href="#digital_certificate">digital certificates</a>.</dd>
 
@@ -1298,6 +1602,8 @@ extendedKeyUsage = serverAuth
 
 <dt id="g:concurrency">concurrency</dt><dd>The ability of different parts of a system to take action at the same time.</dd>
 
+<dt id="g:deployment">deployment</dt><dd>The act of making software available for use, e.g., by distributing it as package or by running a <a href="#service">service</a>.</dd>
+
 <dt id="g:digital_certificate">digital certificate</dt><dd>A file containing a <a href="#public_key_crypto">public cryptography key</a> and potentially other information such as the owner&rsquo;s email address or an expiration date. Digital certificates are used to establish identity online.</dd>
 
 <dt id="g:digital_signature">digital signature</dt><dd>A means of establishing the authenticity of a message or document.</dd>
@@ -1305,6 +1611,8 @@ extendedKeyUsage = serverAuth
 <dt id="g:dynamic_content">dynamic content</dt><dd>Web site content that is generated on the fly. Dynamic content is usually customized according to the requester&rsquo;s identity, <a href="#query_parameter">query parameter</a>, etc.</dd>
 
 <dt id="g:encryption">encryption</dt><dd>The process of converting data from a representation that anyone can read to one that can only be read by someone with the right algorithm and/or key.</dd>
+
+<dt id="g:process_foreground">foreground a process</dt><dd>To reconnect a <a href="#process">process</a> to the terminal after it has been <a href="#process_background">backgrounded</a> or <a href="#process_suspend">suspended</a>.</dd>
 
 <dt id="g:http_header">header (of HTTP request or response)</dt><dd>A name-value pair at the start of an <a href="#http_request">HTTP request</a> or <a href="#http_response">response</a>. Headers are used to specify what data formats the sender can handle, the date and time the message was sent, and so on.</dd>
 
@@ -1334,6 +1642,8 @@ extendedKeyUsage = serverAuth
 
 <dt id="g:port">port</dt><dd>A logical endpoint for communication, like a phone number in an office building.</dd>
 
+<dt id="g:process">process</dt><dd>A running instance of a program.</dd>
+
 <dt id="g:public_key_crypto">public key cryptography</dt><dd>A way to encrypt data in which each key undoes the effect of the other, but it is practically impossible to determine one key given the other.</dd>
 
 <dt id="g:query_parameter">query parameter</dt><dd>A key-value pair included in a URL that the server may use to modify or customize its response.</dd>
@@ -1342,11 +1652,21 @@ extendedKeyUsage = serverAuth
 
 <dt id="g:resolve_path">resolve (a path)</dt><dd>To translate a <a href="#path">path</a> into the canonical name of the file or directory it refers to.</dd>
 
+<dt id="g:process_resume">resume a process</dt><dd>To continue the execution of a <a href="#process_suspend">suspended</a> <a href="#process">process</a>.</dd>
+
 <dt id="g:server">server</dt><dd>A program that waits for requests from <a href="#client">clients</a> and sends them data in response.</dd>
+
+<dt id="g:service">service</dt><dd>A long-running program that provides functionality to other programs (or people). A service may run on a local computer for personal use, or may be networked for wider use.</dd>
+
+<dt id="g:signal">signal</dt><dd>A message sent to a running <a href="#process">process</a> separate from its normal execution, such as an interrupt or a timer notification.</dd>
+
+<dt id="g:signal_handler">signal handler</dt><dd>A <a href="#callback_function">callback function</a> that is called when a <a href="#process">process</a> receives a <a href="#signal">signal</a>.</dd>
 
 <dt id="g:socket">socket</dt><dd>A communication channel between two computers that provides an interface similar to reading and writing files.</dd>
 
 <dt id="g:static_file">static file</dt><dd>Web site content that is stored as a file on disk that is served as-is. Serving static files is usually faster than generating <a href="#dynamic_content">dynamic content</a>, but can only be done if what&rsquo;s wanted is unchanging and known in advance.</dd>
+
+<dt id="g:process_suspend">suspend a process</dt><dd>To pause the execution of a <a href="#process">process</a> but leave it intact so that it can <a href="#process_resume">resume</a> later.</dd>
 
 <dt id="g:tls_ssl">Transport Layer Security/Secure Sockets Layer (TLS/SSL)</dt><dd>A cryptographic protocol for secure communication over a computer network.</dd>
 

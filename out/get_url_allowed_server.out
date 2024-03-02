@@ -1,2 +1,2 @@
-'/example.txt' => '/Users/gvwilson/safety/site/sandbox/example.txt'
+'/example.txt' => '/tut/safety/site/sandbox/example.txt'
 127.0.0.1 - - [21/Feb/2024 06:04:32] "GET /example.txt HTTP/1.1" 200 -

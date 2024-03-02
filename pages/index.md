@@ -513,6 +513,98 @@ Explain why the server should return JSON rather than HTML in the case of an err
 -   Some is accidental complexity introduced by evolution over time
 
 <!-- ---------------------------------------------------------------- -->
+[% section_break class="aside" title="Processes" %]
+
+-   We've been running clients and servers interactively
+-   How can we automate this?
+    -   The heart of [%g deployment "deploying" %] applications
+-   A [%g process "process" %] is a running instance of a program
+    -   Code plus variables in memory plus open files plus some IDs
+-   Tools to manage them were invented when most users only had a single terminal
+-   Some repurposed, some replaced: result is unfortunately as messy as certificates
+
+<!-- ---------------------------------------------------------------- -->
+[% section_break class="topic" title="Viewing Processes" %]
+
+-   Use `ps -a -l` to see currently running processes in terminal
+-   Or `ps -a -x` to see (almost) all processes running on computer
+    -   `UID`: numeric ID of the user that the process belongs to
+    -   `PID`: process's unique ID
+    -   `PPID`: ID of the process's parent (i.e., the process that created it)
+    -   `CMD`: the command the process is running
+
+[% multi "src/ps_a_l.sh" "out/ps_a_l.out" %]
+
+<!-- ---------------------------------------------------------------- -->
+[% section_break class="topic" title="Signals" %]
+
+-   Can send a [%g signal "signal" %] to a process
+    -   Something extraordinary happened, please deal with it immediately
+
+| Number | Name      | Default Action    | Description |
+| -----: | --------- | ----------------- | ----------- |
+|      1 | `SIGHUP`  | terminate process | terminal line hangup |
+|      2 | `SIGINT`  | terminate process | interrupt program |
+|      3 | `SIGQUIT` | create core image | quit program |
+|      4 | `SIGILL`  | create core image | illegal instruction |
+|      8 | `SIGFPE`  | create core image | floating-point exception |
+|      9 | `SIGKILL` | terminate process | kill program |
+|     11 | `SIGSEGV` | create core image | segmentation violation |
+|     12 | `SIGSYS`  | create core image | non-existent system call invoked |
+|     14 | `SIGALRM` | terminate process | real-time timer expired |
+|     15 | `SIGTERM` | terminate process | software termination signal |
+|     17 | `SIGSTOP` | stop process      | stop (cannot be caught or ignored) |
+|     24 | `SIGXCPU` | terminate process | CPU time limit exceeded |
+|     25 | `SIGXFSZ` | terminate process | file size limit exceeded |
+
+-   Create a [%g callback_function "callback function" %] to act as a [%g signal_handler "signal handler" %]
+
+[% multi "src/catch_interrupt.py" "out/catch_interrupt.out" %]
+
+-   `^C` shows where user typed Ctrl-C
+
+<!-- ---------------------------------------------------------------- -->
+[% section_break class="topic" title="Background Processes" %]
+
+-   Can run a process in the [%g process_background "background" %]
+    -   Only difference is that it's not connected to the terminal
+
+[% multi "src/show_timer.py" "src/show_timer.sh" "out/show_timer.out" %]
+
+-   `&` at end of command to run `show_timer.py` means "run in the background"
+-   So `ls` command executes immediately
+-   But `show_timer.py` keeps running until it finishes
+    -   Or needs keyboard input
+-   Can also start process and then [%g process_suspend "suspend" %] it with Ctrl-Z
+    -   Sends `SIGSTOP` instead of `SIGINT`
+-   Use `jobs` to see all suspended processes
+-   Then <code>bg %<em>num</em></code> to resume in the background
+-   Or <code>fg %<em>num</em></code> to [%g process_foreground "foreground" %] the process
+    to [%g process_resume "resume" %] its execution
+
+[% single "src/ctrl_z_background.sh" %]
+
+-   Note that input and output are mixed together
+-   One of our goals is to build something that will re-run something like this
+    *and* show input and output in the order a user would see them
+    *while also* labeling input and output correctly
+
+<!-- ---------------------------------------------------------------- -->
+[% section_break class="topic" title="Killing Processes" %]
+
+-   Use `kill` to send a signal to a process
+    -   Not necessarily to stop it
+
+[% single "src/kill_process.sh" %]
+
+-   By default, `kill` sends `SIGTERM` (terminate process)
+-   Variations:
+    -   Give a process ID: `kill 1234`
+    -   Send a different signal: `kill -s INT %1`
+
+[% single "src/kill_int.sh" %]
+
+<!-- ---------------------------------------------------------------- -->
 [% section_break class="topic" title="Introducting FastAPI" %]
 
 [% single "src/bird_server_fastapi.py" %]

@@ -1,0 +1,5 @@
+python src/catch_interrupt.py
+use Ctrl-C three times
+^Cinterrupt 1
+^Cinterrupt 2
+^Cinterrupt 3

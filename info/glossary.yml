@@ -35,6 +35,13 @@
 
 # C
 
+- key: callback_function
+  en:
+    term: callback function
+    def: >
+      A function A that is passed to another function B so that B can call it at
+      some later point.
+
 - key: certificate_authority
   en:
     term: certificate authority
@@ -68,6 +75,13 @@
       The ability of different parts of a system to take action at the same time.
 
 # D
+
+- key: deployment
+  en:
+    term: deployment
+    def: >
+      The act of making software available for use, e.g., by distributing it as
+      package or by running a [service](#service).
 
 - key: digital_certificate
   en:
@@ -230,6 +244,39 @@
       A logical endpoint for communication,
       like a phone number in an office building.
 
+- key: process
+  en:
+    term: process
+    def: >
+      A running instance of a program.
+
+- key: process_background
+  en:
+    term: background a process
+    def: >
+      To disconnect a [process](#process) from the terminal but keep it
+      running.
+
+- key: process_foreground
+  en:
+    term: foreground a process
+    def: >
+      To reconnect a [process](#process) to the terminal after it has
+      been [backgrounded](#process_background) or [suspended](#process_suspend).
+
+- key: process_resume
+  en:
+    term: resume a process
+    def: >
+      To continue the execution of a [suspended](#process_suspend) [process](#process).
+
+- key: process_suspend
+  en:
+    term: suspend a process
+    def: >
+      To pause the execution of a [process](#process) but leave it intact so that it
+      can [resume](#process_resume) later.
+
 - key: public_key_crypto
   en:
     term: public key cryptography
@@ -267,6 +314,28 @@
     def: >
       A program that waits for requests from [clients](#client)
       and sends them data in response.
+
+- key: service
+  en:
+    term: service
+    def: >
+      A long-running program that provides functionality to other programs
+      (or people). A service may run on a local computer for personal use,
+      or may be networked for wider use.
+
+- key: signal
+  en:
+    term: signal
+    def: >
+      A message sent to a running [process](#process) separate from its
+      normal execution, such as an interrupt or a timer notification.
+
+- key: signal_handler
+  en:
+    term: signal handler
+    def: >
+      A [callback function](#callback_function) that is called when
+      a [process](#process) receives a [signal](#signal).
 
 - key: socket
   en:

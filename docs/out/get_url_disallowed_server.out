@@ -1,2 +1,2 @@
-'/motto.txt' => '/Users/gvwilson/safety/site/sandbox/motto.txt'
+'/motto.txt' => '/tut/safety/site/sandbox/motto.txt'
 127.0.0.1 - - [21/Feb/2024 06:04:38] "GET /motto.txt HTTP/1.1" 404 -
