@@ -17,24 +17,36 @@
 - key: "persona"
   url: "http://teachtogether.tech/en/index.html#s:process-personas"
   title: "*Teaching Tech Together* lesson on learner personas"
-- key: polars
-  url: https://pola.rs/
+- key: "pip"
+  url: "https://pip.pypa.io/en/stable/"
+  title: "pip package manager for Python"
+- key: "pandas"
+  url: "https://pandas.pydata.org/"
+  title: "Pandas dataframe library"
+- key: "polars"
+  url: "https://pola.rs/"
   title: "Polars dataframe library"
-- key: py_http_server
+- key: "py_http_server"
   url: "https://docs.python.org/3/library/http.server.html"
   title: "Python `http.server` module"
-- key: py_urllib_parse
+- key: "py_urllib_parse"
   url: "https://docs.python.org/3/library/urllib.parse.html"
   title: "Python `urllib.parse` module"
 - key: "requests"
   url: "https://requests.readthedocs.io/en/latest/"
   title: "`requests` module"
+- key: "sc_git"
+  url: "https://swcarpentry.github.io/git-novice/"
+  title: "Software Carpentry lesson on Git"
+- key: "sc_shell"
+  url: "https://swcarpentry.github.io/shell-novice/"
+  title: "Software Carpentry lesson on the Unix shell"
 - key: "t3"
   url: "https://teachtogether.tech/"
   title: "*Teaching Tech Together*"
 
 # People
-- key: wilson-greg
+- key: "wilson_greg"
   url: "https://third-bit.com/"
 
 # Colophon

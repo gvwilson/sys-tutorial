@@ -9,7 +9,7 @@
 -   Please see [the license](./license/) for terms of use,
     the [Code of Conduct](./conduct/) for community standards,
     and [these guidelines](./contributing/) for notes on contributing
--   [Greg Wilson][wilson-greg] is a programmer, author, and educator based in Toronto
+-   [Greg Wilson][wilson_greg] is a programmer, author, and educator based in Toronto
 
 <!-- ---------------------------------------------------------------- -->
 [% section_break class="aside" title="Scope" %]
@@ -27,7 +27,7 @@
     -   Their work schedule is unpredictable and highly variable,
         so they need to be able to learn a bit at a time
 -   Prerequisites
-    -   Unix shell commands covered in [this Software Carpentry lesson][sc-shell]:
+    -   Unix shell commands covered in [this Software Carpentry lesson][sc_shell]:
         -   `pwd`; `ls`; `cd`; `.` and `..`; `rm` and `rmdir`; `mkdir`; `touch`;
             `mv`; `cp`; `tree`; `cat`; `wc`; `head`; `tail`; `less`; `cut`; `echo`;
             `history`; `find`; `grep`; `zip`; `man`
@@ -36,7 +36,7 @@
         -   standard input; standard output; standard error; redirection; pipes
         -   `*` and `?` wildcards; shell variable with `$` expansion; `for` loop;
             shell scripts with numbered arguments; the `PATH` variable; `$(…)` expansion
-    -   Git commands and workflow covered in [this Software Carpentry lesson][sc-git]
+    -   Git commands and workflow covered in [this Software Carpentry lesson][sc_git]
         -   `git config` to set username, email address, and editor; `git init`;
             `git status`; `git checkout`; `git add`; `git diff` (current state and history);
             `git commit`; `git log`; `git merge`; `git remote`; `.gitignore`
@@ -48,7 +48,7 @@
 	    and `sys.stdout`; simple regular expressions; reading JSON data;
 	    reading CSV files using [Pandas][pandas] or [Polars][polars]
         -   `pip install` (but not virtual environments); `ruff` for linting;
-	    `pytest` (but not mock objects); writing docstrings (but not [Sphinx][sphinx])
+	    `pytest` (but not mock objects); writing docstrings
 -   Learning outcomes
     1.  Create a virtual environment and explain what this actually does.
     1.  Create `requirements.txt` file for [`pip`][pip] and explain version pinning.
