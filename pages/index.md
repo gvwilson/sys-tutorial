@@ -605,7 +605,30 @@ Explain why the server should return JSON rather than HTML in the case of an err
 [% single "src/kill_int.sh" %]
 
 <!-- ---------------------------------------------------------------- -->
-[% section_break class="topic" title="Introducting FastAPI" %]
+[% section_break class="topic" title="Redirection" %]
+
+[% todo "Explain redirection of standard error (with diagrams)" %]
+
+<!-- ---------------------------------------------------------------- -->
+[% section_break class="topic" title="Running Processes Together" %]
+
+-   Want to run a client and server side by side and capture their output
+-   First attempt: start the server, wait one second, and run the client
+-   When the client finishes, stop the script and its children
+    -   Shuts down the server and anything else that may have started
+
+[% single "src/run_2_sleep.sh" %]
+
+-   Use this for the first script and something similar for the second
+
+[% single "src/run_2_left.sh" %]
+
+-   Run it
+
+[% multi "src/run_2_example.sh" "out/run_2_example.out" %]
+
+<!-- ---------------------------------------------------------------- -->
+[% section_break class="topic" title="Introducing FastAPI" %]
 
 [% single "src/bird_server_fastapi.py" %]
 

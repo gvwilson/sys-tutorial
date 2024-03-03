@@ -1546,7 +1546,79 @@ KeyboardInterrupt
 <!-- ---------------------------------------------------------------- -->
 </section>
 <section class="topic">
-<h2 class="topic">23: Introducting FastAPI</h2>
+<h2 class="topic">23: Redirection</h2>
+<p class="center"><span class="todo">TODO: Explain redirection of standard error (with diagrams)</span></p>
+<!-- ---------------------------------------------------------------- -->
+</section>
+<section class="topic">
+<h2 class="topic">24: Running Processes Together</h2>
+<ul>
+<li>Want to run a client and server side by side and capture their output</li>
+<li>First attempt: start the server, wait one second, and run the client</li>
+<li>When the client finishes, stop the script and its children<ul>
+<li>Shuts down the server and anything else that may have started</li>
+</ul>
+</li>
+</ul>
+<p class="inclusion"><a href="src/run_2_sleep.sh">src/run_2_sleep.sh</a></p>
+<div class="language-sh">
+<div class="highlight"><pre><span></span><code><span class="ch">#!/usr/bin/env bash</span>
+
+<span class="c1"># Save the process group ID of this script.</span>
+<span class="nv">pgid</span><span class="o">=</span><span class="sb">`</span>ps<span class="w"> </span>-o<span class="w"> </span><span class="nv">pgid</span><span class="o">=</span><span class="nv">$$</span><span class="sb">`</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;PGID </span><span class="nv">$pgid</span><span class="s2">&quot;</span>
+
+<span class="c1"># Trap a Ctrl-C SIGINT and kill everything running inside this script.</span>
+<span class="nb">trap</span><span class="w"> </span><span class="s2">&quot;pkill -TERM -g </span><span class="nv">$pgid</span><span class="s2">&quot;</span><span class="w"> </span>INT
+
+<span class="c1"># Redirect server stderr to stdout and background the process.</span>
+<span class="nv">$1</span><span class="w"> </span><span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span><span class="w"> </span><span class="p">&amp;</span>
+
+<span class="c1"># Wait one second.</span>
+sleep<span class="w"> </span><span class="m">1</span>
+
+<span class="c1"># Redirect client stderr to stdout as well but run in foreground.</span>
+<span class="nv">$2</span><span class="w"> </span><span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span>
+
+<span class="c1"># Kill this script and its children (client and server) when client finishes.</span>
+pkill<span class="w"> </span>-TERM<span class="w"> </span>-g<span class="w"> </span><span class="nv">$pgid</span>
+</code></pre></div>
+</div>
+<ul>
+<li>Use this for the first script and something similar for the second</li>
+</ul>
+<p class="inclusion"><a href="src/run_2_left.sh">src/run_2_left.sh</a></p>
+<div class="language-sh">
+<div class="highlight"><pre><span></span><code><span class="k">for</span><span class="w"> </span>i<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="k">$(</span>seq<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="m">3</span><span class="k">)</span>
+<span class="k">do</span>
+<span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;left </span><span class="nv">$i</span><span class="s2">&quot;</span>
+<span class="w">    </span>sleep<span class="w"> </span><span class="m">1</span>
+<span class="k">done</span>
+</code></pre></div>
+</div>
+<ul>
+<li>Run it</li>
+</ul>
+<p class="inclusion"><a href="src/run_2_example.sh">src/run_2_example.sh</a></p>
+<div class="language-sh">
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>bash<span class="w"> </span>src/run_2_sleep.sh<span class="w"> </span><span class="s2">&quot;bash src/run_2_left.sh&quot;</span><span class="w"> </span><span class="s2">&quot;bash src/run_2_right.sh&quot;</span>
+</code></pre></div>
+</div>
+<p class="inclusion"><a href="out/run_2_example.out">out/run_2_example.out</a></p>
+<div class="language-plaintext">
+<div class="highlight"><pre><span></span><code>PGID  5299
+left 1
+left 2
+right 1
+left 3
+right 2
+right 3
+</code></pre></div>
+</div>
+<!-- ---------------------------------------------------------------- -->
+</section>
+<section class="topic">
+<h2 class="topic">25: Introducing FastAPI</h2>
 <p class="inclusion"><a href="src/bird_server_fastapi.py">src/bird_server_fastapi.py</a></p>
 <div class="language-py">
 <div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">fastapi</span> <span class="kn">import</span> <span class="n">FastAPI</span>
@@ -1713,7 +1785,7 @@ KeyboardInterrupt
   <a href="license/"><i class="fab fa-creative-commons-by" aria-hidden="true" title="license"></i></a>
   &middot;
   <i class="fas fa-clock"></i>
-  <time datetime="2024-03-02">Last built 2024-03-02</time>
+  <time datetime="2024-03-03">Last built 2024-03-03</time>
   &middot;
   <i class="fas fa-user-check"></i> 100% human content
 </footer>
