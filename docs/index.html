@@ -1617,8 +1617,154 @@ right 3
 </div>
 <!-- ---------------------------------------------------------------- -->
 </section>
+<section class="aside">
+<h2 class="aside">Partial Ordering</h2>
+<ul>
+<li>There are <em>choose(x+y, x)</em> ways to interleave two sequences of length <em>x</em> and <em>y</em></li>
+<li>Which is <em>(x+y)!/x!y!</em></li>
+<li>So two programs that open a file, write a line, and close the file
+    can be interleaved in 20 different ways</li>
+<li>A <a href="#g:robustness">robust</a> application works in all 20 ways<ul>
+<li>Because sleeping for one second is no guarantee
+    that another process has run far enough to open a socket</li>
+</ul>
+</li>
+</ul>
+<!-- ---------------------------------------------------------------- -->
+</section>
+<section class="aside">
+<h2 class="aside">Listing Open Files</h2>
+<ul>
+<li>Unix tries hard to make (almost) everything look like a file<ul>
+<li>Read/write as <a href="#g:stream">stream</a> or in <a href="#g:block_device">blocks</a></li>
+</ul>
+</li>
+<li>In particular, a socket makes a network connection look like a file</li>
+<li>Use <code>lsof</code> to list open files<ul>
+<li>Operating system keeps track of what &ldquo;files&rdquo; a process is interacting with</li>
+<li>So we can ask it</li>
+</ul>
+</li>
+</ul>
+<p class="inclusion"><a href="src/run_lsof.sh">src/run_lsof.sh</a></p>
+<div class="language-sh">
+<div class="highlight"><pre><span></span><code>lsof<span class="w"> </span>-n<span class="w"> </span>-iTCP<span class="w"> </span><span class="p">|</span><span class="w"> </span>head<span class="w"> </span>-n<span class="w"> </span><span class="m">10</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>cut<span class="w"> </span>-c<span class="w"> </span>-72
+</code></pre></div>
+</div>
+<p class="inclusion"><a href="out/run_lsof.out">out/run_lsof.out</a></p>
+<div class="language-plaintext">
+<div class="highlight"><pre><span></span><code>COMMAND     PID       USER   FD   TYPE             DEVICE SIZE/OFF NODE 
+corespeec   585 gregwilson    3u  IPv6 0x5f5fb0f69522963b      0t0  TCP 
+jetbrains  1609 gregwilson   59u  IPv6 0x5f5fb0f69523863b      0t0  TCP 
+PowerChim 46752 gregwilson    3u  IPv6 0x5f5fb0f69524ae3b      0t0  TCP 
+PowerChim 46752 gregwilson    6u  IPv6 0x5f5fb0f695228e3b      0t0  TCP 
+Google    53670 gregwilson   22u  IPv6 0x5f5fb0f695246e3b      0t0  TCP 
+Google    53670 gregwilson   24u  IPv6 0x5f5fb0f69523d63b      0t0  TCP 
+Google    53670 gregwilson   29u  IPv4 0x5f5fb0fb588afdd3      0t0  TCP 
+Google    53670 gregwilson   33u  IPv6 0x5f5fb0f69524663b      0t0  TCP 
+Google    53670 gregwilson   34u  IPv6 0x5f5fb0f69523de3b      0t0  TCP
+</code></pre></div>
+</div>
+<ul>
+<li>Which means we can start a process and wait until it opens a particular port</li>
+</ul>
+<!-- ---------------------------------------------------------------- -->
+</section>
 <section class="topic">
-<h2 class="topic">25: Introducing FastAPI</h2>
+<h2 class="topic">25: A Better Runner</h2>
+<p class="inclusion"><a href="src/run_and_wait.sh">src/run_and_wait.sh</a></p>
+<div class="language-sh">
+<div class="highlight"><pre><span></span><code><span class="c1"># assume first arg is a set of TCP ports</span>
+<span class="c1"># followed by one command per server listening to the port</span>
+<span class="c1"># followed by client commands</span>
+<span class="c1"># bash run_and_wait.sh &quot;8000&quot; &quot;server 8000&quot; &quot;client&quot;</span>
+
+<span class="nv">PORTS</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$1</span><span class="s2">&quot;</span>
+<span class="nb">shift</span>
+
+<span class="nv">CHILDREN</span><span class="o">=</span>
+
+await_port_free<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="nv">PORTNUM</span><span class="o">=</span><span class="nv">$1</span>
+<span class="w">    </span><span class="k">while</span><span class="w"> </span>lsof<span class="w"> </span>-n<span class="w"> </span>-iTCP:<span class="si">${</span><span class="nv">PORTNUM</span><span class="si">}</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="k">do</span>
+<span class="w">        </span>sleep<span class="w"> </span><span class="m">0</span>.5
+<span class="w">        </span><span class="nb">printf</span><span class="w"> </span><span class="s2">&quot;*&quot;</span>
+<span class="w">    </span><span class="k">done</span>
+<span class="w">    </span><span class="nb">printf</span><span class="w"> </span><span class="s2">&quot;\nport </span><span class="nv">$PORTNUM</span><span class="s2"> free\n&quot;</span>
+<span class="o">}</span>
+
+await_port_listen<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="nv">PORTNUM</span><span class="o">=</span><span class="nv">$1</span>
+<span class="w">    </span><span class="k">while</span><span class="w"> </span>!<span class="w"> </span>lsof<span class="w"> </span>-n<span class="w"> </span>-iTCP:<span class="si">${</span><span class="nv">PORTNUM</span><span class="si">}</span><span class="p">|</span>grep<span class="w"> </span>-qw<span class="w"> </span>LISTEN<span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="k">do</span>
+<span class="w">        </span>sleep<span class="w"> </span><span class="m">0</span>.5
+<span class="w">        </span><span class="nb">printf</span><span class="w"> </span><span class="s2">&quot;*&quot;</span>
+<span class="w">    </span><span class="k">done</span>
+<span class="w">    </span><span class="nb">printf</span><span class="w"> </span><span class="s2">&quot;\nport </span><span class="nv">$PORTNUM</span><span class="s2"> in LISTEN state\n&quot;</span>
+<span class="o">}</span>
+
+on_exit<span class="o">(){</span>
+<span class="w">    </span><span class="c1"># disable trap</span>
+<span class="w">    </span><span class="nb">trap</span><span class="w"> </span>-<span class="w"> </span><span class="nb">exit</span><span class="w"> </span>int
+<span class="w">    </span><span class="c1"># gently kill every child</span>
+<span class="w">    </span><span class="nb">kill</span><span class="w"> </span>-INT<span class="w"> </span><span class="nv">$CHILDREN</span><span class="w"> </span><span class="p">&amp;</span>&gt;/dev/null
+<span class="w">    </span>sleep<span class="w"> </span><span class="m">1</span>
+<span class="w">    </span><span class="c1"># thorough cleanup</span>
+<span class="w">    </span>pkill<span class="w"> </span>-TERM<span class="w"> </span>-g<span class="w"> </span><span class="m">0</span>
+<span class="o">}</span>
+
+<span class="c1"># exiting or ^C runs on_exit</span>
+<span class="nb">trap</span><span class="w"> </span>on_exit<span class="w"> </span><span class="nb">exit</span><span class="w"> </span>int
+
+<span class="c1"># server commands</span>
+
+<span class="k">for</span><span class="w"> </span>PORT<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="nv">$PORTS</span><span class="p">;</span><span class="w"> </span><span class="k">do</span>
+<span class="w">    </span>await_port_free<span class="w"> </span><span class="nv">$PORT</span>
+
+<span class="w">    </span><span class="nv">CMD</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$1</span><span class="s2">&quot;</span>
+<span class="w">    </span><span class="nb">shift</span>
+<span class="w">    </span><span class="nv">$CMD</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">    </span><span class="nv">CHILDREN</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$CHILDREN</span><span class="s2"> </span><span class="nv">$!</span><span class="s2">&quot;</span>
+
+<span class="w">    </span>await_port_listen<span class="w"> </span><span class="nv">$PORT</span>
+<span class="k">done</span>
+
+<span class="c1"># client commands</span>
+
+<span class="k">for</span><span class="w"> </span>CMD<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$@</span><span class="s2">&quot;</span><span class="p">;</span><span class="w"> </span><span class="k">do</span>
+<span class="w">    </span><span class="nv">$CMD</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">    </span><span class="nv">CHILDREN</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$CHILDREN</span><span class="s2"> </span><span class="nv">$!</span><span class="s2">&quot;</span>
+<span class="k">done</span>
+
+<span class="c1"># wait until any child process exits</span>
+<span class="k">while</span><span class="w"> </span>true<span class="p">;</span><span class="w"> </span><span class="k">do</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span>CHILD<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="nv">$CHILDREN</span><span class="p">;</span><span class="w"> </span><span class="k">do</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span>!<span class="w"> </span><span class="nb">kill</span><span class="w"> </span>-0<span class="w"> </span><span class="nv">$CHILD</span><span class="w"> </span><span class="p">&amp;</span>&gt;/dev/null<span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">            </span><span class="nb">exit</span><span class="w"> </span><span class="c1"># to on_exit</span>
+<span class="w">        </span><span class="k">fi</span>
+<span class="w">    </span><span class="k">done</span>
+<span class="w">    </span>sleep<span class="w"> </span><span class="m">0</span>.5
+<span class="k">done</span>
+</code></pre></div>
+</div>
+<ul>
+<li>There&rsquo;s a lot going on here<ul>
+<li>Shell functions</li>
+<li>Using <code>shift</code> and <code>$!</code> to handle arguments</li>
+<li>Using <code>trap</code> to handle interrupts</li>
+<li>Using <code>printf</code> instead of <code>echo</code></li>
+</ul>
+</li>
+<li>The most important part is the <code>while</code> loop<ul>
+<li><code>await_port_listen</code> function waits for someone to listen to a port</li>
+</ul>
+</li>
+<li>We can either learn a new language (shell scripting)
+    or figure out how to do this in Python</li>
+</ul>
+<!-- ---------------------------------------------------------------- -->
+</section>
+<section class="topic">
+<h2 class="topic">26: Introducing FastAPI</h2>
 <p class="inclusion"><a href="src/bird_server_fastapi.py">src/bird_server_fastapi.py</a></p>
 <div class="language-py">
 <div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">fastapi</span> <span class="kn">import</span> <span class="n">FastAPI</span>
@@ -1662,6 +1808,10 @@ right 3
 
 <dt id="g:base64">base64 encoding</dt><dd>A representation of binary data that represents each group of 6 bits as one of 64 printable characters.</dd>
 
+<dt id="g:block">block</dt><dd>A set of bytes of a fixed size.</dd>
+
+<dt id="g:block_device">block device</dt><dd>An I/O interface that reads or writes fixed-size <a href="#block">blocks</a>.</dd>
+
 <dt id="g:callback_function">callback function</dt><dd>A function A that is passed to another function B so that B can call it at some later point.</dd>
 
 <dt id="g:certificate_authority">certificate authority (CA)</dt><dd>An organization that issues, stores, and <a href="#digital_signature">signs</a> <a href="#digital_certificate">digital certificates</a>.</dd>
@@ -1685,6 +1835,8 @@ right 3
 <dt id="g:encryption">encryption</dt><dd>The process of converting data from a representation that anyone can read to one that can only be read by someone with the right algorithm and/or key.</dd>
 
 <dt id="g:process_foreground">foreground a process</dt><dd>To reconnect a <a href="#process">process</a> to the terminal after it has been <a href="#process_background">backgrounded</a> or <a href="#process_suspend">suspended</a>.</dd>
+
+<dt id="g:fragility">fragility</dt><dd>Used to describe a system that only works correctly if everything goes well; the opposite of <a href="#robustness">robust</a>.</dd>
 
 <dt id="g:http_header">header (of HTTP request or response)</dt><dd>A name-value pair at the start of an <a href="#http_request">HTTP request</a> or <a href="#http_response">response</a>. Headers are used to specify what data formats the sender can handle, the date and time the message was sent, and so on.</dd>
 
@@ -1726,6 +1878,8 @@ right 3
 
 <dt id="g:process_resume">resume a process</dt><dd>To continue the execution of a <a href="#process_suspend">suspended</a> <a href="#process">process</a>.</dd>
 
+<dt id="g:robustness">robustness</dt><dd>The ability to cope with errors or unlikely events while executing; the opposite of <a href="#fragility">fragile</a>.</dd>
+
 <dt id="g:server">server</dt><dd>A program that waits for requests from <a href="#client">clients</a> and sends them data in response.</dd>
 
 <dt id="g:service">service</dt><dd>A long-running program that provides functionality to other programs (or people). A service may run on a local computer for personal use, or may be networked for wider use.</dd>
@@ -1736,7 +1890,15 @@ right 3
 
 <dt id="g:socket">socket</dt><dd>A communication channel between two computers that provides an interface similar to reading and writing files.</dd>
 
+<dt id="g:stderr">standard error</dt><dd>A predefined communication channel typically used to report errors.</dd>
+
+<dt id="g:stdin">standard input</dt><dd>A predefined communication channel typically used to read input from the keyboard or from the previous process in a <a href="#pipe_shell">pipe</a>.</dd>
+
+<dt id="g:stdout">standard output</dt><dd>A predefined communication channel typically used to send output to the screen or to the next process in a <a href="#pipe_shell">pipe</a>.</dd>
+
 <dt id="g:static_file">static file</dt><dd>Web site content that is stored as a file on disk that is served as-is. Serving static files is usually faster than generating <a href="#dynamic_content">dynamic content</a>, but can only be done if what&rsquo;s wanted is unchanging and known in advance.</dd>
+
+<dt id="g:stream">stream</dt><dd>A sequence of bytes or other data of variable length that can only be processed in sequential order.</dd>
 
 <dt id="g:process_suspend">suspend a process</dt><dd>To pause the execution of a <a href="#process">process</a> but leave it intact so that it can <a href="#process_resume">resume</a> later.</dd>
 
@@ -1785,7 +1947,7 @@ right 3
   <a href="license/"><i class="fab fa-creative-commons-by" aria-hidden="true" title="license"></i></a>
   &middot;
   <i class="fas fa-clock"></i>
-  <time datetime="2024-03-03">Last built 2024-03-03</time>
+  <time datetime="2024-03-05">Last built 2024-03-05</time>
   &middot;
   <i class="fas fa-user-check"></i> 100% human content
 </footer>

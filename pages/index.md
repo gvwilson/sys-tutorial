@@ -628,6 +628,46 @@ Explain why the server should return JSON rather than HTML in the case of an err
 [% multi "src/run_2_example.sh" "out/run_2_example.out" %]
 
 <!-- ---------------------------------------------------------------- -->
+[% section_break class="aside" title="Partial Ordering" %]
+
+-   There are *choose(x+y, x)* ways to interleave two sequences of length *x* and *y*
+-   Which is *(x+y)!/x!y!*
+-   So two programs that open a file, write a line, and close the file
+    can be interleaved in 20 different ways
+-   A [%g robustness "robust" %] application works in all 20 ways
+    -   Because sleeping for one second is no guarantee
+        that another process has run far enough to open a socket
+
+<!-- ---------------------------------------------------------------- -->
+[% section_break class="aside" title="Listing Open Files" %]
+
+-   Unix tries hard to make (almost) everything look like a file
+    -   Read/write as [%g stream "stream" %] or in [%g block_device "blocks" %]
+-   In particular, a socket makes a network connection look like a file
+-   Use `lsof` to list open files
+    -   Operating system keeps track of what "files" a process is interacting with
+    -   So we can ask it
+
+[% multi "src/run_lsof.sh" "out/run_lsof.out" %]
+
+-   Which means we can start a process and wait until it opens a particular port
+
+<!-- ---------------------------------------------------------------- -->
+[% section_break class="topic" title="A Better Runner" %]
+
+[% single "src/run_and_wait.sh" %]
+
+-   There's a lot going on here
+    -   Shell functions
+    -   Using `shift` and `$!` to handle arguments
+    -   Using `trap` to handle interrupts
+    -   Using `printf` instead of `echo`
+-   The most important part is the `while` loop
+    -   `await_port_listen` function waits for someone to listen to a port
+-   We can either learn a new language (shell scripting)
+    or figure out how to do this in Python
+
+<!-- ---------------------------------------------------------------- -->
 [% section_break class="topic" title="Introducing FastAPI" %]
 
 [% single "src/bird_server_fastapi.py" %]

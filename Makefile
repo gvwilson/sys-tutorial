@@ -28,6 +28,9 @@ listen:
 .PHONY: run
 run: ${OUT_FILES}
 
+${OUT}/birds_head.out: ${SRC}/birds_head.sh
+	bash $< > $@
+
 ${OUT}/dump_structure.out: ${SRC}/dump_structure.py
 	python $< | grep -e '< ' | sed -e 's/< //g' > $@
 
@@ -46,5 +49,5 @@ ${OUT}/get_remote.out: ${SRC}/get_remote.py
 ${OUT}/response_headers.out: ${SRC}/response_headers.py
 	python $< > $@
 
-${OUT}/birds_head.out: ${SRC}/birds_head.sh
+${OUT}/run_lsof.out: ${SRC}/run_lsof.sh
 	bash $< > $@
