@@ -1,7 +1,6 @@
 DOCS := docs
 OUT := out
 PAGES := pages
-SITE := site
 SRC := src
 TEMPLATE := lib/tut
 
@@ -16,7 +15,8 @@ commands:
 .PHONY: build
 build:
 	@ark build
-	@rm -rf ${DOCS}/${SRC} ${DOCS}/${OUT} ${DOCS}/${SITE} && cp -r ${SRC} ${OUT} ${SITE} ${DOCS}
+	@rm -rf $(patsubst %,${DOCS}/%,${OTHER_DIRS}) ${DOCS}/${SRC} ${DOCS}/${OUT}
+	@cp -r ${SRC} ${OUT} ${OTHER_DIRS} ${DOCS}
 
 ## serve: rebuild and serve website
 .PHONY: serve
@@ -26,7 +26,7 @@ serve:
 ## progress: count words
 .PHONY: progress
 progress:
-	@wc -w $$(find . -name \*.md -o -name \*.yml -o -name \*.text) | fgrep total
+	@wc -w $$(find . -not -path "./old/*" -name \*.md -o -name \*.yml -o -name \*.text) | fgrep total
 
 ## lint: check project state
 .PHONY: lint

@@ -1,12 +1,13 @@
 # Tutorial data.
-title = "The Safetynomicon"
-subtitle = "An Introduction to Computer Security for Weary Data Scientists"
-repo = "https://github.com/gvwilson/safety-tutorial"
-release = "https://github.com/gvwilson/safety-tutorial/raw/main/safety-tutorial.zip"
-plausible = "gvwilson.github.io/safety-tutorial"
+title = "The Sudonomicon"
+subtitle = "Unix Systems for Weary Data Scientists"
+repo = "https://github.com/gvwilson/sys-tutorial"
+release = "https://github.com/gvwilson/sys-tutorial/raw/main/sys-tutorial.zip"
+plausible = "gvwilson.github.io/sys-tutorial"
 author = {
     "name": "Greg Wilson",
     "email": "gvwilson@third-bit.com",
+    "site": "https://third-bit.com/",
 }
 
 # Theme information.

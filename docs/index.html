@@ -8,8 +8,8 @@
 <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
 <link rel="stylesheet" href="github.css" type="text/css">
 <link rel="stylesheet" href="tutorial.css" type="text/css">
-<script defer data-domain="gvwilson.github.io/safety-tutorial" src="https://plausible.io/js/script.js"></script>
-<title>The Safetynomicon</title>
+<script defer data-domain="gvwilson.github.io/sys-tutorial" src="https://plausible.io/js/script.js"></script>
+<title>The Sudonomicon</title>
 
   </head>
   <body>
@@ -19,8 +19,8 @@
       <a class="navlink" href="#">Home</a>
     </div>
     <div class="col-10 right">
-      <a href="https://github.com/gvwilson/safety-tutorial">repo</a>
-      <a href="https://github.com/gvwilson/safety-tutorial/raw/main/safety-tutorial.zip">download</a>
+      <a href="https://github.com/gvwilson/sys-tutorial">repo</a>
+      <a href="https://github.com/gvwilson/sys-tutorial/raw/main/sys-tutorial.zip">download</a>
       <a class="navlink" href="license/">license</a>
       <a class="navlink" href="conduct/">conduct</a>
       <a class="navlink" href="contributing/">contributing</a>
@@ -31,16 +31,43 @@
 
     <main>
       
-  <h1>The Safetynomicon</h1>
-  <p class="subtitle">An Introduction to Computer Security for Weary Data Scientists</p>
+  <h1>The Sudonomicon</h1>
+  <p class="subtitle">Unix Systems for Weary Data Scientists</p>
 
 
-      <!-- ---------------------------------------------------------------- -->
+      <div class="row">
+  <div class="col-4 center">
+    <img src="advent_05_356-resized.png" alt="cover art by Danielle Navarro" width="80%"/>
+  </div>
+  <div class="col-8">
+    <p>
+      Many think they know Unix.
+      Few realize that what they know is just a shell.
+      Beneath it lie mysteries both bewildering and wonderful:
+      ports and permissions and processes,
+      files that are not files,
+      and components built atop other, older components
+      that occasionally rise to the surface like ancient sea creatures believed long extinct.
+    </p>
+    <p>
+      Like such creatures,
+      Unix is perfectly adapted to its environment
+      and will outlive those who mock it.
+      Welcome, then, to a world in which the strange will become familiar, and the familiar, strange.
+      Welcome, thrice welcome, to Unix systems programming.
+    </p>
+    <p class="italic">
+      "The Sudonomicon" is a <a href="https://third-bit.com/">Third Bit</a> production.
+    </p>
+  </div>
+</div>
+
+<!-- ---------------------------------------------------------------- -->
 <section class="aside">
 <h2 class="aside">What This Is</h2>
 <ul>
 <li>Notes and working examples that instructors can use to perform a lesson<ul>
-<li>Do <em>not</em> expect novices with no prior Python or Unix experience to be able to learn from them</li>
+<li>Do <em>not</em> expect novices with no prior Unix experience to be able to learn from them on their own</li>
 </ul>
 </li>
 <li>Musical analogy<ul>
@@ -61,13 +88,13 @@
 <li><a href="http://teachtogether.tech/en/index.html#s:process-personas">Intended audience</a><ul>
 <li>Ning did a bachelor&rsquo;s degree in economics
     and now works as a data analyst for the Ministry of Health</li>
-<li>They learned Python in an intensive 16-week data science bootcamp program
-    and are comfortable working with Unix command-line tools,
+<li>They are comfortable working with Unix command-line tools,
     writing data analysis programs in Python,
-and downloading data from the web to use in those programs</li>
-<li>Ning wants to build real-time dashboards for people in the Ministry,
-    but doesn&rsquo;t understand how to do that
-without exposing confidential data or opening the Ministry up to attack</li>
+and downloading data from the web manually</li>
+<li>Ning wants to understand how applications actually work,
+    i.e., what happens when they install a package
+or run a pipeline in the cloud,
+in part so that they can have meaningful conversations with IT</li>
 <li>Their work schedule is unpredictable and highly variable,
     so they need to be able to learn a bit at a time</li>
 </ul>
@@ -80,16 +107,7 @@ without exposing confidential data or opening the Ministry up to attack</li>
 <li>current working directory; absolute and relative paths; naming files;
     editing with <code>nano</code></li>
 <li>standard input; standard output; standard error; redirection; pipes</li>
-<li><code>*</code> and <code>?</code> wildcards; shell variable with <code>$</code> expansion; <code>for</code> loop;
-    shell scripts with numbered arguments; the <code>PATH</code> variable; <code>$(…)</code> expansion</li>
-</ul>
-</li>
-<li>Git commands and workflow covered in <a href="https://swcarpentry.github.io/git-novice/">this Software Carpentry lesson</a><ul>
-<li><code>git config</code> to set username, email address, and editor; <code>git init</code>;
-    <code>git status</code>; <code>git checkout</code>; <code>git add</code>; <code>git diff</code> (current state and history);
-    <code>git commit</code>; <code>git log</code>; <code>git merge</code>; <code>git remote</code>; <code>.gitignore</code></li>
-<li>Git vs. GitHub; local and remote repositories; authentication with SSH keys;
-    branching; merging; conflicts; pull requests; code review</li>
+<li><code>*</code> and <code>?</code> wildcards; shell variable with <code>$</code> expansion; <code>for</code> loop</li>
 </ul>
 </li>
 <li>Python for command-line scripting<ul>
@@ -97,1701 +115,45 @@ without exposing confidential data or opening the Ministry up to attack</li>
 <code>if</code>/<code>else</code>; <code>with</code>; defining and calling functions; <code>sys.argv</code>, <code>sys.stdin</code>,
 and <code>sys.stdout</code>; simple regular expressions; reading JSON data;
 reading CSV files using <a href="https://pandas.pydata.org/">Pandas</a> or <a href="https://pola.rs/">Polars</a></li>
-<li><code>pip install</code> (but not virtual environments); <code>ruff</code> for linting;
-<code>pytest</code> (but not mock objects); writing docstrings</li>
+<li><code>pip install</code> (but not virtual environments); <code>pytest</code> (but not mock objects);
+writing docstrings</li>
 </ul>
 </li>
 </ul>
 </li>
 <li>Learning outcomes<ol>
+<li>Explain the difference between shell variables and environment variables
+    and write shell scripts that use each.</li>
 <li>Create a virtual environment and explain what this actually does.</li>
 <li>Create <code>requirements.txt</code> file for <a href="https://pip.pypa.io/en/stable/"><code>pip</code></a> and explain version pinning.</li>
 <li>Explain what a filesystem is (disk partitions, inodes, symbolic links)
     and use <code>df</code>, <code>ln</code>, similar commands to explore with them.</li>
-<li>Use Python in place of shell scripts:<ol>
-<li>Operate on files matching glob patterns.</li>
-<li>Create/delete directories.</li>
-<li>Explain how Unix permissions work and read/modify them.</li>
+<li>Explain what a process is and use commands like <code>ps</code> and <code>kill</code> to explore and manage them.</li>
+<li>Explain what a job is and use commands like <code>jobs</code>, <code>bg</code>, and <code>fg</code> to manage them.</li>
+<li>Explain what <code>cron</code> jobs are and how to create them.</li>
+<li>Explain the difference between a container and a virtual machine.</li>
+<li>Create and manage Docker images.</li>
+<li>Explain what ports are and write Python code that uses sockets and HTTP.</li>
+<li>Explain what certificates are and how they are used to support HTTPS.</li>
+<li>Explain what key pairs are and how they are stored, and create and manage key pairs.</li>
+<li>Explain what IP addresses are and how they are resolved.</li>
+<li>Explain how traditional password authentication works and describe its weaknesses.</li>
 </ol>
-</li>
-<li>Explain how file hashing works and how to use it in programs.</li>
-<li>Describe the HTTP request/response cycle and the format of HTTP requests and responses.</li>
-<li>Write scripts to fetch data programmatically from HTTP servers.</li>
-<li>Create digital certificates to enable HTTPS.</li>
-<li>Create and use authentication tokens for API access.</li>
-<li>Manage processes using <code>ps</code>, <code>kill</code>, and related commands.</li>
-</ol>
-</li>
-<li>TODO:<ul>
-<li>what to teach about Docker and why?</li>
-<li>what to teach about continuous integration, using what system?</li>
-<li>what to teach about batch jobs, using what system?</li>
-<li>what to teach about cron jobs (if anything)?</li>
-<li>what if anything to teach about networking, firewalls, certificates, etc.?</li>
-</ul>
 </li>
 </ul>
-<!-- ---------------------------------------------------------------- -->
-</section>
-<section class="aside">
-<h2 class="aside">What We&rsquo;re Going to Do</h2>
-<ol>
-<li>Show how the basic components of the web work.</li>
-<li>Build a simple application that serves up data from files and a database.</li>
-<li>Fix its safety issues one by one.</li>
-<li>Along the way, introduce ideas about processes, file systems, certificates, and related topics.</li>
-</ol>
 <!-- ---------------------------------------------------------------- -->
 </section>
 <section class="aside">
 <h2 class="aside">Setup</h2>
 <ul>
-<li>Download <a href="https://github.com/gvwilson/safety-tutorial/raw/main/safety-tutorial.zip">the latest release</a></li>
+<li>Download <a href="https://github.com/gvwilson/sys-tutorial/raw/main/sys-tutorial.zip">the latest release</a></li>
 <li>Unzip the file in a temporary directory to create:<ul>
+<li><code>./site/*.*</code>: files and directories used in examples</li>
 <li><code>./src/*.*</code>: shell scripts and Python programs</li>
-<li><code>./site/*.*</code>: the pages and data files used in the examples</li>
 <li><code>./out/*.*</code>: expected output for examples</li>
 </ul>
 </li>
 </ul>
-<!-- ---------------------------------------------------------------- -->
-</section>
-<section class="aside">
-<h2 class="aside">Start with Something Simple</h2>
-<p class="inclusion"><a href="src/get_remote.py">src/get_remote.py</a></p>
-<div class="language-py">
-<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">requests</span>
-
-<span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;https://gvwilson.github.io/safety-tutorial/site/motto.txt&quot;</span>
-<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;status code: </span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;body:</span><span class="se">\n</span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-</code></pre></div>
-</div>
-<p class="inclusion"><a href="out/get_remote.out">out/get_remote.out</a></p>
-<div class="language-plaintext">
-<div class="highlight"><pre><span></span><code>status code: 200
-body:
-Start where you are, use what you have, help who you can.
-</code></pre></div>
-</div>
-<ul>
-<li>Use the <a href="https://requests.readthedocs.io/en/latest/"><code>requests</code></a> module (needs to be installed)</li>
-<li>The URL identifies the file we want<ul>
-<li>Though as we&rsquo;ll see, the server can interpret it differently</li>
-</ul>
-</li>
-<li>Response includes:<ul>
-<li><a href="#g:http_status_code">HTTP status code</a> such as 200 (OK) or 404 (Not Found)</li>
-<li>The text of the response</li>
-</ul>
-</li>
-</ul>
-<!-- ---------------------------------------------------------------- -->
-</section>
-<section class="aside">
-<h2 class="aside">What Just Happened</h2>
-<figure id="figure_1">
-<img src="img/http_lifecycle.svg" alt="HTTP request/response lifecycle"/>
-<figcaption>Figure 1: Lifecycle of an HTTP request and response</figcaption>
-</figure>
-<ul>
-<li>Open a connection to the server</li>
-<li>Send an <a href="#g:http_request">HTTP request</a> for the file we want</li>
-<li>Server creates a <a href="#g:http_response">response</a> that includes the contents of the file</li>
-<li>Sends it back</li>
-<li><code>requests</code> parses the response and creates a Python object for us</li>
-</ul>
-<!-- ---------------------------------------------------------------- -->
-</section>
-<section class="topic">
-<h2 class="topic">1: Request Structure</h2>
-<p class="inclusion"><a href="src/dump_structure.py">src/dump_structure.py</a></p>
-<div class="language-py">
-<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">requests</span>
-<span class="kn">from</span> <span class="nn">requests_toolbelt.utils</span> <span class="kn">import</span> <span class="n">dump</span>
-
-<span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;https://gvwilson.github.io/safety-tutorial/site/motto.txt&quot;</span>
-<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
-<span class="n">data</span> <span class="o">=</span> <span class="n">dump</span><span class="o">.</span><span class="n">dump_all</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s2">&quot;utf-8&quot;</span><span class="p">))</span>
-</code></pre></div>
-</div>
-<p class="inclusion"><a href="out/dump_structure.out">out/dump_structure.out</a></p>
-<div class="language-plaintext">
-<div class="highlight"><pre><span></span><code>GET /safety-tutorial/site/motto.txt HTTP/1.1
-Host: gvwilson.github.io
-User-Agent: python-requests/2.31.0
-Accept-Encoding: gzip, deflate
-Accept: */*
-Connection: keep-alive
-</code></pre></div>
-</div>
-<ul>
-<li>First line is <a href="#g:http_method">method</a>, URL, and protocol version</li>
-<li>Every HTTP request can have <a href="#g:http_header">headers</a> with extra information</li>
-<li>And optionally data being uploaded (which we will see later)</li>
-<li>Yes, it&rsquo;s all just text</li>
-</ul>
-<!-- ---------------------------------------------------------------- -->
-</section>
-<section class="topic">
-<h2 class="topic">2: Response Structure</h2>
-<p class="inclusion"><a href="src/response_headers.py">src/response_headers.py</a></p>
-<div class="language-py">
-<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">requests</span>
-
-<span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;https://gvwilson.github.io/web-tutorial/site/motto.txt&quot;</span>
-<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
-<span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">response</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-</code></pre></div>
-</div>
-<p class="inclusion"><a href="out/response_headers.out">out/response_headers.out</a></p>
-<div class="language-plaintext">
-<div class="highlight"><pre><span></span><code>Connection: keep-alive
-Content-Length: 5142
-Server: GitHub.com
-Content-Type: text/html; charset=utf-8
-permissions-policy: interest-cohort=()
-ETag: W/&quot;65c56fc7-239b&quot;
-Content-Security-Policy: default-src &#39;none&#39;; style-src &#39;unsafe-inline&#39;; img-src data:; connect-src &#39;self&#39;
-Content-Encoding: gzip
-X-GitHub-Request-Id: A08C:5A357:7CF794:9CEA06:65D13923
-Accept-Ranges: bytes
-Date: Sat, 17 Feb 2024 22:54:27 GMT
-Via: 1.1 varnish
-Age: 0
-X-Served-By: cache-yyz4563-YYZ
-X-Cache: MISS
-X-Cache-Hits: 0
-X-Timer: S1708210467.301651,VS0,VE20
-Vary: Accept-Encoding
-X-Fastly-Request-ID: cb16df2dfa73aaf6de87924c743dd1e50a0ce570
-</code></pre></div>
-</div>
-<ul>
-<li>Every HTTP response also has with extra information<ul>
-<li>Does <em>not</em> include status code: that appears in the first line</li>
-</ul>
-</li>
-<li>Most important for now are:<ul>
-<li><code>Content-Length</code>: number of bytes in response data (i.e., how much to read)</li>
-<li><code>Content-Type</code>: <a href="#g:mime_type">MIME type</a> of data (e.g., <code>text/plain</code>)</li>
-</ul>
-</li>
-<li>From now on we will only show interesting headers</li>
-</ul>
-<!-- ---------------------------------------------------------------- -->
-</section>
-<section class="exercise">
-<h2 class="exercise">Practice</h2>
-<p><strong>Exercise 1</strong>:
-Add header called <code>Studying</code> with the value <code>safety</code> to the <code>requests</code> script shown above.
-Does it make a difference to the response?
-Should it?</p>
-<p><strong>Exercise 2</strong>:
-What is the difference between the <code>Content-Type</code> and the <code>Content-Encoding</code> headers?</p>
-<!-- ---------------------------------------------------------------- -->
-</section>
-<section class="topic">
-<h2 class="topic">3: When Things Go Wrong</h2>
-<p class="inclusion"><a href="src/get_404.py">src/get_404.py</a></p>
-<div class="language-py">
-<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">requests</span>
-
-<span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;https://gvwilson.github.io/web-tutorial/site/nonexistent.txt&quot;</span>
-<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;status code: </span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;body length: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-</code></pre></div>
-</div>
-<p class="inclusion"><a href="out/get_404.out">out/get_404.out</a></p>
-<div class="language-plaintext">
-<div class="highlight"><pre><span></span><code>status code: 404
-body length: 9115
-</code></pre></div>
-</div>
-<ul>
-<li>The 404 status code tells us something went wrong</li>
-<li>The 9 kilobyte response is an HTML page with an embedded image (the GitHub logo)</li>
-<li>The page contains human-readable error messages<ul>
-<li>But we have to know page format to pull them out</li>
-</ul>
-</li>
-</ul>
-<!-- ---------------------------------------------------------------- -->
-</section>
-<section class="exercise">
-<h2 class="exercise">Practice</h2>
-<p><strong>Exercise 3</strong>:
-Look at <a href="https://en.wikipedia.org/wiki/List_of_HTTP_status_codes">this list of HTTP status codes</a>.</p>
-<ol>
-<li>
-<p>What is the difference between status code 403 and status code 404?</p>
-</li>
-<li>
-<p>What is status code 418 used for?</p>
-</li>
-<li>
-<p>Under what circumstances would you expect to get a response whose status code is 505?</p>
-</li>
-</ol>
-<!-- ---------------------------------------------------------------- -->
-</section>
-<section class="topic">
-<h2 class="topic">4: Getting JSON</h2>
-<p class="inclusion"><a href="src/get_json.py">src/get_json.py</a></p>
-<div class="language-py">
-<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">requests</span>
-
-<span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;https://gvwilson.github.io/web-tutorial/site/motto.json&quot;</span>
-<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;status code: </span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;body as text: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">)</span><span class="si">}</span><span class="s2"> bytes&quot;</span><span class="p">)</span>
-<span class="n">as_json</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;body as JSON:</span><span class="se">\n</span><span class="si">{</span><span class="n">as_json</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-</code></pre></div>
-</div>
-<p class="inclusion"><a href="out/get_json.out">out/get_json.out</a></p>
-<div class="language-plaintext">
-<div class="highlight"><pre><span></span><code>status code: 200
-body as text: 107 bytes
-body as JSON:
-{&#39;first&#39;: &#39;Start where you are&#39;, &#39;second&#39;: &#39;Use what you have&#39;, &#39;third&#39;: &#39;Help who you can&#39;}
-</code></pre></div>
-</div>
-<ul>
-<li>Parsing data out of HTML is called <a href="#g:web_scraping">web scraping</a><ul>
-<li>Painful and error prone</li>
-</ul>
-</li>
-<li>Better to have the server return data as data<ul>
-<li>Preferred format these days is <a href="#g:json">JSON</a></li>
-<li>So common that <code>requests</code> has built-in support</li>
-</ul>
-</li>
-<li>There is no standard for representing tabular data as JSON<ul>
-<li>A list with one list with column names + N lists of values</li>
-<li>A list with N dictionaries, all with the same keys</li>
-<li>A dictionary with column names and lists of values, all the same length</li>
-</ul>
-</li>
-</ul>
-<!-- ---------------------------------------------------------------- -->
-</section>
-<section class="exercise">
-<h2 class="exercise">Practice</h2>
-<p><strong>Exercise 4</strong>:
-Write a <code>requests</code> script that gets the current location and crew roster
-of <a href="http://api.open-notify.org/">the International Space Station</a>.</p>
-<!-- ---------------------------------------------------------------- -->
-</section>
-<section class="aside">
-<h2 class="aside">Local Web Server</h2>
-<p class="inclusion"><a href="src/local_server.sh">src/local_server.sh</a></p>
-<div class="language-sh">
-<div class="highlight"><pre><span></span><code>python<span class="w"> </span>-m<span class="w"> </span>http.server<span class="w"> </span>-d<span class="w"> </span>site
-</code></pre></div>
-</div>
-<ul>
-<li>Pushing files to GitHub so that we can use them is annoying</li>
-<li>And we want to show how to make things <em>wrong</em> so that we can then make them <em>right</em></li>
-<li>Use Python&rsquo;s <a href="https://docs.python.org/3/library/http.server.html"><code>http.server</code></a> module
-    to run a <a href="#g:local_server">local server</a><ul>
-<li>Host name is <a href="#g:localhost"><code>localhost</code></a></li>
-<li>Uses <a href="#g:port">port</a> 8000 by default</li>
-<li>So URLs look like <code>http://localhost:8000/path/to/file</code></li>
-</ul>
-</li>
-<li><code>-d site</code> tells the server to use <code>site</code> as its root directory</li>
-<li>Use this local server for the next few examples<ul>
-<li>Build our own server later on to show how it works</li>
-</ul>
-</li>
-</ul>
-<!-- ---------------------------------------------------------------- -->
-</section>
-<section class="topic">
-<h2 class="topic">5: Talk to Local Server</h2>
-<p class="inclusion"><a href="src/get_local.py">src/get_local.py</a></p>
-<div class="language-py">
-<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">requests</span>
-
-<span class="n">URL</span> <span class="o">=</span> <span class="s2">&quot;http://localhost:8000/motto.txt&quot;</span>
-
-<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">URL</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;status code: </span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;body:</span><span class="se">\n</span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-</code></pre></div>
-</div>
-<p class="inclusion"><a href="out/get_local.out">out/get_local.out</a></p>
-<div class="language-plaintext">
-<div class="highlight"><pre><span></span><code>::ffff:127.0.0.1 - - [18/Feb/2024 09:12:24] &quot;GET /motto.txt HTTP/1.1&quot; 200 -
-status code: 200
-body:
-Start where you are, use what you have, help who you can.
-</code></pre></div>
-</div>
-<ul>
-<li><a href="#g:concurrency">Concurrent</a> systems are hard to debug<ul>
-<li>Multiple streams of activity</li>
-<li>Order may change from run to run</li>
-</ul>
-</li>
-<li>Use <code>S</code> and <code>c</code> to show output from server and client respectively</li>
-</ul>
-<!-- ---------------------------------------------------------------- -->
-</section>
-<section class="topic">
-<h2 class="topic">6: Our Own File Server</h2>
-<p class="inclusion"><a href="src/file_server_unsafe.py">src/file_server_unsafe.py</a></p>
-<div class="language-py">
-<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">RequestHandler</span><span class="p">(</span><span class="n">BaseHTTPRequestHandler</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">do_GET</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="n">url_path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">lstrip</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
-            <span class="n">full_path</span> <span class="o">=</span> <span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">()</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="n">url_path</span><span class="p">)</span>
-            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="si">}</span><span class="s2">&#39; =&gt; &#39;</span><span class="si">{</span><span class="n">full_path</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">full_path</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
-                <span class="k">raise</span> <span class="n">ServerException</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="si">}</span><span class="s2"> not found&quot;</span><span class="p">)</span>
-            <span class="k">elif</span> <span class="ow">not</span> <span class="n">full_path</span><span class="o">.</span><span class="n">is_file</span><span class="p">():</span>
-                <span class="k">raise</span> <span class="n">ServerException</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="si">}</span><span class="s2"> not file&quot;</span><span class="p">)</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">handle_file</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="n">full_path</span><span class="p">)</span>
-        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">msg</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">handle_error</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
-</code></pre></div>
-</div>
-<ul>
-<li>Our <code>RequestHandler</code> handles a single HTTP request<ul>
-<li>More specifically, handles the <code>GET</code> method</li>
-</ul>
-</li>
-<li>Combine working directory with requested file path to get local path to file</li>
-<li>Return that if it exists and is a file or raise an error</li>
-</ul>
-<!-- ---------------------------------------------------------------- -->
-</section>
-<section class="topic">
-<h2 class="topic">7: Support Code</h2>
-<ul>
-<li>Send content</li>
-</ul>
-<p class="inclusion"><a href="src/file_server_unsafe.py">src/file_server_unsafe.py</a></p>
-<div class="language-py">
-<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">send_content</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">content</span><span class="p">,</span> <span class="n">status</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">send_response</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">status</span><span class="p">))</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">send_header</span><span class="p">(</span><span class="s2">&quot;Content-Type&quot;</span><span class="p">,</span> <span class="s2">&quot;text/html; charset=utf-8&quot;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">send_header</span><span class="p">(</span><span class="s2">&quot;Content-Length&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">content</span><span class="p">)))</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">end_headers</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">wfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
-</code></pre></div>
-</div>
-<ul>
-<li>Handle errors</li>
-</ul>
-<p class="inclusion"><a href="src/file_server_unsafe.py">src/file_server_unsafe.py</a></p>
-<div class="language-py">
-<div class="highlight"><pre><span></span><code><span class="n">ERROR_PAGE</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span><span class="se">\</span>
-<span class="s2">&lt;html&gt;</span>
-<span class="s2">  &lt;head&gt;&lt;title&gt;Error accessing </span><span class="si">{path}</span><span class="s2">&lt;/title&gt;&lt;/head&gt;</span>
-<span class="s2">  &lt;body&gt;</span>
-<span class="s2">    &lt;h1&gt;Error accessing </span><span class="si">{path}</span><span class="s2">: </span><span class="si">{msg}</span><span class="s2">&lt;/h1&gt;</span>
-<span class="s2">  &lt;/body&gt;</span>
-<span class="s2">&lt;/html&gt;</span>
-<span class="s2">&quot;&quot;&quot;</span>
-</code></pre></div>
-</div>
-<p class="inclusion"><a href="src/file_server_unsafe.py">src/file_server_unsafe.py</a></p>
-<div class="language-py">
-<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">handle_error</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msg</span><span class="p">):</span>
-        <span class="n">content</span> <span class="o">=</span> <span class="n">ERROR_PAGE</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="n">msg</span><span class="o">=</span><span class="n">msg</span><span class="p">)</span>
-        <span class="n">content</span> <span class="o">=</span> <span class="nb">bytes</span><span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">send_content</span><span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">HTTPStatus</span><span class="o">.</span><span class="n">NOT_FOUND</span><span class="p">)</span>
-</code></pre></div>
-</div>
-<ul>
-<li>Define our own exceptions so we&rsquo;re sure we&rsquo;re only catching what we expect</li>
-</ul>
-<p class="inclusion"><a href="src/file_server_unsafe.py">src/file_server_unsafe.py</a></p>
-<div class="language-py">
-<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">ServerException</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
-    <span class="k">pass</span>
-</code></pre></div>
-</div>
-<!-- ---------------------------------------------------------------- -->
-</section>
-<section class="topic">
-<h2 class="topic">8: Running Our File Server</h2>
-<p class="inclusion"><a href="src/file_server_unsafe.py">src/file_server_unsafe.py</a></p>
-<div class="language-py">
-<div class="highlight"><pre><span></span><code><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
-    <span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-    <span class="n">serverAddress</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="mi">8000</span><span class="p">)</span>
-    <span class="n">server</span> <span class="o">=</span> <span class="n">HTTPServer</span><span class="p">(</span><span class="n">serverAddress</span><span class="p">,</span> <span class="n">RequestHandler</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;serving in </span><span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span><span class="si">}</span><span class="s2">...&quot;</span><span class="p">)</span>
-    <span class="n">server</span><span class="o">.</span><span class="n">serve_forever</span><span class="p">()</span>
-</code></pre></div>
-</div>
-<ul>
-<li>And then get <code>motto.txt</code> as before</li>
-</ul>
-<!-- ---------------------------------------------------------------- -->
-</section>
-<section class="topic">
-<h2 class="topic">9: Built-in Safety</h2>
-<ul>
-<li>Modify <code>requests</code> script to take URL as command-line parameter</li>
-</ul>
-<p class="inclusion"><a href="src/get_url.py">src/get_url.py</a></p>
-<div class="language-py">
-<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">requests</span>
-<span class="kn">import</span> <span class="nn">sys</span>
-
-<span class="n">URL</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-
-<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">URL</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;status code: </span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;body:</span><span class="se">\n</span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-</code></pre></div>
-</div>
-<ul>
-<li>Add a sub-directory to <code>site</code> called <code>sandbox</code> with a file <code>example.txt</code></li>
-<li>Serve that sub-directory</li>
-</ul>
-<p class="inclusion"><a href="src/file_server_sandbox.sh">src/file_server_sandbox.sh</a></p>
-<div class="language-sh">
-<div class="highlight"><pre><span></span><code>python<span class="w"> </span>src/file_server_unsafe.py<span class="w"> </span>site/sandbox
-</code></pre></div>
-</div>
-<ul>
-<li>Can get files from that directory</li>
-</ul>
-<p class="inclusion"><a href="src/get_url_allowed.sh">src/get_url_allowed.sh</a></p>
-<div class="language-sh">
-<div class="highlight"><pre><span></span><code>python<span class="w"> </span>src/get_url.py<span class="w"> </span>http://localhost:8000/example.txt
-</code></pre></div>
-</div>
-<p class="inclusion"><a href="out/get_url_allowed_server.out">out/get_url_allowed_server.out</a></p>
-<div class="language-plaintext">
-<div class="highlight"><pre><span></span><code>&#39;/example.txt&#39; =&gt; &#39;/tut/safety/site/sandbox/example.txt&#39;
-127.0.0.1 - - [21/Feb/2024 06:04:32] &quot;GET /example.txt HTTP/1.1&quot; 200 -
-</code></pre></div>
-</div>
-<p class="inclusion"><a href="out/get_url_allowed_client.out">out/get_url_allowed_client.out</a></p>
-<div class="language-plaintext">
-<div class="highlight"><pre><span></span><code>status code: 200
-body:
-example file
-</code></pre></div>
-</div>
-<ul>
-<li>But not from parent directory (which isn&rsquo;t part of sandbox)</li>
-</ul>
-<p class="inclusion"><a href="src/get_url_disallowed.sh">src/get_url_disallowed.sh</a></p>
-<div class="language-sh">
-<div class="highlight"><pre><span></span><code>python<span class="w"> </span>src/requests_local_url.py<span class="w"> </span>http://localhost:8000/motto.txt
-</code></pre></div>
-</div>
-<p class="inclusion"><a href="out/get_url_disallowed_server.out">out/get_url_disallowed_server.out</a></p>
-<div class="language-plaintext">
-<div class="highlight"><pre><span></span><code>&#39;/motto.txt&#39; =&gt; &#39;/tut/safety/site/sandbox/motto.txt&#39;
-127.0.0.1 - - [21/Feb/2024 06:04:38] &quot;GET /motto.txt HTTP/1.1&quot; 404 -
-</code></pre></div>
-</div>
-<p class="inclusion"><a href="out/get_url_disallowed_client.out">out/get_url_disallowed_client.out</a></p>
-<div class="language-plaintext">
-<div class="highlight"><pre><span></span><code>status code: 404
-body:
-&lt;html&gt;
-  &lt;head&gt;&lt;title&gt;Error accessing /motto.txt&lt;/title&gt;&lt;/head&gt;
-  &lt;body&gt;
-    &lt;h1&gt;Error accessing /motto.txt: /motto.txt not found&lt;/h1&gt;
-  &lt;/body&gt;
-&lt;/html&gt;
-</code></pre></div>
-</div>
-<ul>
-<li>But why not?</li>
-<li>Looks like <code>requests</code> is stripping the leading <code>..</code> off the path</li>
-<li>And if we try that URL in the browser, same thing happens</li>
-<li>So we&rsquo;re safe, right?</li>
-</ul>
-<!-- ---------------------------------------------------------------- -->
-</section>
-<section class="topic">
-<h2 class="topic">10: Introducing netcat</h2>
-<ul>
-<li><a href="https://en.wikipedia.org/wiki/Netcat"><code>netcat</code></a> (often just <code>nc</code>) is a computer networking tool</li>
-<li>Open a connection, send exactly what the user types, and show exactly what is sent in response</li>
-</ul>
-<p class="inclusion"><a href="src/nc_localhost.sh">src/nc_localhost.sh</a></p>
-<div class="language-sh">
-<div class="highlight"><pre><span></span><code>nc<span class="w"> </span>localhost<span class="w"> </span><span class="m">8000</span>
-</code></pre></div>
-</div>
-<p class="inclusion"><a href="src/nc_allowed.text">src/nc_allowed.text</a></p>
-<div class="language-text">
-<div class="highlight"><pre><span></span><code>GET /example.txt HTTP/1.1
-</code></pre></div>
-</div>
-<p class="inclusion"><a href="out/nc_allowed.out">out/nc_allowed.out</a></p>
-<div class="language-plaintext">
-<div class="highlight"><pre><span></span><code>HTTP/1.0 200 OK
-Server: BaseHTTP/0.6 Python/3.12.1
-Date: Thu, 22 Feb 2024 18:37:37 GMT
-Content-Type: text/html; charset=utf-8
-Content-Length: 13
-
-example file
-</code></pre></div>
-</div>
-<ul>
-<li>So far so good, but:</li>
-</ul>
-<p class="inclusion"><a href="src/nc_disallowed.text">src/nc_disallowed.text</a></p>
-<div class="language-text">
-<div class="highlight"><pre><span></span><code>GET ../motto.txt HTTP/1.1
-</code></pre></div>
-</div>
-<p class="inclusion"><a href="out/nc_disallowed.out">out/nc_disallowed.out</a></p>
-<div class="language-plaintext">
-<div class="highlight"><pre><span></span><code>HTTP/1.0 200 OK
-Server: BaseHTTP/0.6 Python/3.12.1
-Date: Thu, 22 Feb 2024 18:38:50 GMT
-Content-Type: text/html; charset=utf-8
-Content-Length: 58
-
-Start where you are, use what you have, help who you can.
-</code></pre></div>
-</div>
-<ul>
-<li>We shouldn&rsquo;t be able to see files outside the sandbox</li>
-<li>But if someone doesn&rsquo;t strip out the <code>..</code> characters, users can escape</li>
-</ul>
-<!-- ---------------------------------------------------------------- -->
-</section>
-<section class="exercise">
-<h2 class="exercise">Practice</h2>
-<p><strong>Exercise 5</strong>:
-The shortcut <code>~<em>username</em></code> means &ldquo;the specified user&rsquo;s home directory&rdquo; in the shell,
-while <code>~</code> on its own means &ldquo;the current user&rsquo;s home directory&rdquo;.
-create a file called <code>test.txt</code> in your home directory
-and then try to get <code>~/test.txt</code> using your browser,
-<code>requests</code>,
-and Telnet.
-What happens with each and why?</p>
-<!-- ---------------------------------------------------------------- -->
-</section>
-<section class="topic">
-<h2 class="topic">11: A Safer File Server</h2>
-<p class="inclusion"><a href="src/file_server_safe.py">src/file_server_safe.py</a></p>
-<div class="language-py">
-<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">handle_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">given_path</span><span class="p">,</span> <span class="n">full_path</span><span class="p">):</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="n">resolved_path</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">full_path</span><span class="o">.</span><span class="n">resolve</span><span class="p">())</span>
-            <span class="n">sandbox</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">()</span><span class="o">.</span><span class="n">resolve</span><span class="p">())</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">resolved_path</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">sandbox</span><span class="p">):</span>
-                <span class="k">raise</span> <span class="n">ServerException</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Cannot access </span><span class="si">{</span><span class="n">given_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">full_path</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">reader</span><span class="p">:</span>
-                <span class="n">content</span> <span class="o">=</span> <span class="n">reader</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">send_content</span><span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">HTTPStatus</span><span class="o">.</span><span class="n">OK</span><span class="p">)</span>
-        <span class="k">except</span> <span class="ne">FileNotFoundError</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">ServerException</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Cannot find </span><span class="si">{</span><span class="n">given_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-        <span class="k">except</span> <span class="ne">IOError</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">ServerException</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Cannot read </span><span class="si">{</span><span class="n">given_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-</code></pre></div>
-</div>
-<ul>
-<li><a href="#g:resolve_path">Resolve</a> the constructed path</li>
-<li>Check that it&rsquo;s below the current working directory (i.e., the sandbox)</li>
-<li>Fail if not<ul>
-<li>Using <code>ServerException</code> guarantees that all errors are handled the same way</li>
-</ul>
-</li>
-</ul>
-<!-- ---------------------------------------------------------------- -->
-</section>
-<section class="exercise">
-<h2 class="exercise">Practice</h2>
-<p><strong>Exercise 6</strong>:
-<a href="#g:refactor">Refactor</a> the <code>do_GET</code> and <code>handle_file</code> methods in <code>RequestHandler</code>
-so that all checks are in one place.
-Does this make the code easier to understand overall?
-Do you think making code easier to understand also makes it safer?</p>
-<!-- ---------------------------------------------------------------- -->
-</section>
-<section class="topic">
-<h2 class="topic">12: Serving Data</h2>
-<ul>
-<li>Rarely have JSON lying around as <a href="#g:static_file">static files</a></li>
-</ul>
-<p class="inclusion"><a href="src/birds_head.sh">src/birds_head.sh</a></p>
-<div class="language-sh">
-<div class="highlight"><pre><span></span><code>head<span class="w"> </span>-n<span class="w"> </span><span class="m">10</span><span class="w"> </span>site/birds.csv
-</code></pre></div>
-</div>
-<p class="inclusion"><a href="out/birds_head.out">out/birds_head.out</a></p>
-<div class="language-plaintext">
-<div class="highlight"><pre><span></span><code>loc_id,latitude,longitude,region,year,month,day,species_id,num
-L13476859,60.8606726,-135.2015181,CA-YT,2021,2,1,redcro,3.0
-L13476859,60.8606726,-135.2015181,CA-YT,2021,2,1,rebnut,1.0
-L13476859,60.8606726,-135.2015181,CA-YT,2021,2,1,comred,13.0
-L13476859,60.8606726,-135.2015181,CA-YT,2021,2,1,dowwoo,1.0
-L13476859,60.8606726,-135.2015181,CA-YT,2021,2,1,bkcchi,3.0
-L13476859,60.8606726,-135.2015181,CA-YT,2021,2,1,haiwoo,1.0
-L13476859,60.8606726,-135.2015181,CA-YT,2021,2,8,nobird,
-L13476859,60.8606726,-135.2015181,CA-YT,2021,2,15,rebnut,2.0
-L13476859,60.8606726,-135.2015181,CA-YT,2021,2,15,bkcchi,3.0
-</code></pre></div>
-</div>
-<ul>
-<li>Modify server to generate it dynamically</li>
-<li>Main program</li>
-</ul>
-<p class="inclusion"><a href="src/bird_server_whole.py">src/bird_server_whole.py</a></p>
-<div class="language-py">
-<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
-    <span class="n">sandbox</span><span class="p">,</span> <span class="n">filename</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
-    <span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="n">sandbox</span><span class="p">)</span>
-    <span class="n">df</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
-    <span class="n">serverAddress</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="mi">8000</span><span class="p">)</span>
-    <span class="n">server</span> <span class="o">=</span> <span class="n">BirdServer</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">serverAddress</span><span class="p">,</span> <span class="n">RequestHandler</span><span class="p">)</span>
-    <span class="n">server</span><span class="o">.</span><span class="n">serve_forever</span><span class="p">()</span>
-</code></pre></div>
-</div>
-<ul>
-<li>Create our own server class because we want to pass the dataframe in the constructor</li>
-</ul>
-<p class="inclusion"><a href="src/bird_server_whole.py">src/bird_server_whole.py</a></p>
-<div class="language-py">
-<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">BirdServer</span><span class="p">(</span><span class="n">HTTPServer</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">server_address</span><span class="p">,</span> <span class="n">request_handler</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">server_address</span><span class="p">,</span> <span class="n">request_handler</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_data</span> <span class="o">=</span> <span class="n">data</span>
-</code></pre></div>
-</div>
-<ul>
-<li><code>do_GET</code> converts the dataframe to JSON (will modify later to do more than this)</li>
-</ul>
-<p class="inclusion"><a href="src/bird_server_whole.py">src/bird_server_whole.py</a></p>
-<div class="language-py">
-<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">RequestHandler</span><span class="p">(</span><span class="n">BaseHTTPRequestHandler</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">do_GET</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">server</span><span class="o">.</span><span class="n">_data</span><span class="o">.</span><span class="n">write_json</span><span class="p">(</span><span class="n">row_oriented</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">send_content</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">HTTPStatus</span><span class="o">.</span><span class="n">OK</span><span class="p">)</span>
-</code></pre></div>
-</div>
-<ul>
-<li><code>send_content</code> <a href="#g:character_encoding">encodes</a> the JSON string as <a href="#g:utf_8">UTF-8</a>
-    and sets the MIME type to <code>application/json</code></li>
-</ul>
-<p class="inclusion"><a href="src/bird_server_whole.py">src/bird_server_whole.py</a></p>
-<div class="language-py">
-<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">send_content</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">content</span><span class="p">,</span> <span class="n">status</span><span class="p">):</span>
-        <span class="n">content</span> <span class="o">=</span> <span class="nb">bytes</span><span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">send_response</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">status</span><span class="p">))</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">send_header</span><span class="p">(</span><span class="s2">&quot;Content-Type&quot;</span><span class="p">,</span> <span class="s2">&quot;application/json; charset=utf-8&quot;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">send_header</span><span class="p">(</span><span class="s2">&quot;Content-Length&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">content</span><span class="p">)))</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">end_headers</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">wfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
-</code></pre></div>
-</div>
-<ul>
-<li>Can view in browser at <code>http://localhost:8000</code> or use <code>requests</code> to fetch as before</li>
-</ul>
-<!-- ---------------------------------------------------------------- -->
-</section>
-<section class="topic">
-<h2 class="topic">13: Slicing Data</h2>
-<ul>
-<li>URL can contain <a href="#g:query_parameter">query parameters</a></li>
-<li>Want <code>http://localhost:8000/?year=2021&amp;species=rebnut</code> to select red-breasted nuthatches in 2021</li>
-<li>Put slicing in a method of its own</li>
-</ul>
-<p class="inclusion"><a href="src/bird_server_slice.py">src/bird_server_slice.py</a></p>
-<div class="language-py">
-<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">do_GET</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">filter_data</span><span class="p">()</span>
-        <span class="n">as_json</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">to_json</span><span class="p">(</span><span class="n">orient</span><span class="o">=</span><span class="s2">&quot;records&quot;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">send_content</span><span class="p">(</span><span class="n">as_json</span><span class="p">,</span> <span class="n">HTTPStatus</span><span class="o">.</span><span class="n">OK</span><span class="p">)</span>
-</code></pre></div>
-</div>
-<ul>
-<li>Use <code>urlparse</code> and <code>parse_qs</code> from <a href="https://docs.python.org/3/library/urllib.parse.html"><code>urllib.parse</code></a> to get query parameters<ul>
-<li>(Key, list) dictionary</li>
-</ul>
-</li>
-<li>Then filter data as requested</li>
-</ul>
-<p class="inclusion"><a href="src/bird_server_slice.py">src/bird_server_slice.py</a></p>
-<div class="language-py">
-<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">filter_data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">params</span> <span class="o">=</span> <span class="n">parse_qs</span><span class="p">(</span><span class="n">urlparse</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">)</span><span class="o">.</span><span class="n">query</span><span class="p">)</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">server</span><span class="o">.</span><span class="n">_data</span>
-        <span class="k">if</span> <span class="s2">&quot;species&quot;</span> <span class="ow">in</span> <span class="n">params</span><span class="p">:</span>
-            <span class="n">species</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s2">&quot;species&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
-            <span class="n">result</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="n">result</span><span class="p">[</span><span class="s2">&quot;species_id&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">species</span><span class="p">]</span>
-        <span class="k">if</span> <span class="s2">&quot;year&quot;</span> <span class="ow">in</span> <span class="n">params</span><span class="p">:</span>
-            <span class="n">year</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;year&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
-            <span class="n">result</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="n">result</span><span class="p">[</span><span class="s2">&quot;year&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">year</span><span class="p">]</span>
-        <span class="k">return</span> <span class="n">result</span>
-</code></pre></div>
-</div>
-<!-- ---------------------------------------------------------------- -->
-</section>
-<section class="exercise">
-<h2 class="exercise">Practice</h2>
-<p><strong>Exercise 7</strong>:
-Write a function that takes a URL as input
-and returns a dictionary whose keys are the query parameters&rsquo; names
-and whose values are lists of their values.
-Do you now see why you should use the library function to do this?</p>
-<p><strong>Exercise 8</strong>:
-Modify the server so that clients can specify which columns they want returned
-as a comma-separated list of names.
-If the client asks for a column that doesn&rsquo;t exist, ignore it.</p>
-<p><strong>Exercise 9</strong>:
-Modify your solution to the previous exercise so that
-if the client asks for a column that doesn&rsquo;t exist
-the server returns a status code 400 (Bad Request)
-and a JSON blog with two keys:
-<code>status_code</code> (set to 400)
-and <code>error_message</code> (set to something informative).
-Explain why the server should return JSON rather than HTML in the case of an error.</p>
-<!-- ---------------------------------------------------------------- -->
-</section>
-<section class="topic">
-<h2 class="topic">14: What&rsquo;s the Magic Word?</h2>
-<ul>
-<li>Only allow access to data if client:<ul>
-<li><a href="#g:authentication">Authenticates</a> (i.e., establishes their identity)</li>
-<li>Is <a href="#g:authorization">authorized</a> (i.e., has the right to view the data)</li>
-</ul>
-</li>
-<li>Simplest possible is wrong in many ways: does the client know a password?</li>
-</ul>
-<p class="inclusion"><a href="src/bird_client_password.py">src/bird_client_password.py</a></p>
-<div class="language-py">
-<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">http</span> <span class="kn">import</span> <span class="n">HTTPStatus</span>
-<span class="kn">import</span> <span class="nn">requests</span>
-<span class="kn">import</span> <span class="nn">sys</span>
-
-<span class="n">URL</span> <span class="o">=</span> <span class="s2">&quot;http://localhost:8000?species=stejay&quot;</span>
-<span class="n">headers</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;Password&quot;</span><span class="p">:</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]}</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span> <span class="k">else</span> <span class="p">{}</span>
-<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">URL</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
-<span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="n">HTTPStatus</span><span class="o">.</span><span class="n">OK</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">())</span><span class="si">}</span><span class="s2"> records returned&quot;</span><span class="p">)</span>
-<span class="k">else</span><span class="p">:</span>
-    <span class="n">j</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">j</span><span class="p">[</span><span class="s1">&#39;status&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">j</span><span class="p">[</span><span class="s1">&#39;error_message&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-</code></pre></div>
-</div>
-<p class="inclusion"><a href="src/bird_client_password_correct.sh">src/bird_client_password_correct.sh</a></p>
-<div class="language-sh">
-<div class="highlight"><pre><span></span><code>python<span class="w"> </span>src/bird_client_password.py<span class="w"> </span>mumble
-</code></pre></div>
-</div>
-<p class="inclusion"><a href="out/bird_client_password_correct.out">out/bird_client_password_correct.out</a></p>
-<div class="language-plaintext">
-<div class="highlight"><pre><span></span><code>16 records returned
-</code></pre></div>
-</div>
-<p class="inclusion"><a href="src/bird_client_password_incorrect.sh">src/bird_client_password_incorrect.sh</a></p>
-<div class="language-sh">
-<div class="highlight"><pre><span></span><code>python<span class="w"> </span>src/bird_client_password.py<span class="w"> </span>bad_password
-</code></pre></div>
-</div>
-<p class="inclusion"><a href="out/bird_client_password_incorrect.out">out/bird_client_password_incorrect.out</a></p>
-<div class="language-plaintext">
-<div class="highlight"><pre><span></span><code>403: incorrect or missing password
-</code></pre></div>
-</div>
-<ul>
-<li>First change to server: get the password on the command line and save it</li>
-</ul>
-<p class="inclusion"><a href="src/bird_server_password.py">src/bird_server_password.py</a></p>
-<div class="language-py">
-<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
-    <span class="n">sandbox</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">password</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
-    <span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="n">sandbox</span><span class="p">)</span>
-    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
-    <span class="n">serverAddress</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="mi">8000</span><span class="p">)</span>
-    <span class="n">server</span> <span class="o">=</span> <span class="n">BirdServer</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">password</span><span class="p">,</span> <span class="n">serverAddress</span><span class="p">,</span> <span class="n">RequestHandler</span><span class="p">)</span>
-    <span class="n">server</span><span class="o">.</span><span class="n">serve_forever</span><span class="p">()</span>
-</code></pre></div>
-</div>
-<p class="inclusion"><a href="src/bird_server_password.py">src/bird_server_password.py</a></p>
-<div class="language-py">
-<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">BirdServer</span><span class="p">(</span><span class="n">HTTPServer</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">password</span><span class="p">,</span> <span class="n">server_address</span><span class="p">,</span> <span class="n">request_handler</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">server_address</span><span class="p">,</span> <span class="n">request_handler</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_data</span> <span class="o">=</span> <span class="n">data</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_password</span> <span class="o">=</span> <span class="n">password</span>
-</code></pre></div>
-</div>
-<ul>
-<li>Second change: add authorization to <code>do_GET</code><ul>
-<li>Once again use our own exception class to handle unhappy cases</li>
-</ul>
-</li>
-</ul>
-<p class="inclusion"><a href="src/bird_server_password.py">src/bird_server_password.py</a></p>
-<div class="language-py">
-<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">do_GET</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">authorize</span><span class="p">()</span>
-            <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">filter_data</span><span class="p">()</span>
-            <span class="n">as_json</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">to_json</span><span class="p">(</span><span class="n">orient</span><span class="o">=</span><span class="s2">&quot;records&quot;</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">send_content</span><span class="p">(</span><span class="n">as_json</span><span class="p">,</span> <span class="n">HTTPStatus</span><span class="o">.</span><span class="n">OK</span><span class="p">)</span>
-        <span class="k">except</span> <span class="n">ServerException</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">send_error</span><span class="p">(</span><span class="n">exc</span><span class="p">)</span>
-</code></pre></div>
-</div>
-<ul>
-<li>Add authorization that checks header value</li>
-</ul>
-<p class="inclusion"><a href="src/bird_server_password.py">src/bird_server_password.py</a></p>
-<div class="language-py">
-<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">authorize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">expected</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">server</span><span class="o">.</span><span class="n">_password</span>
-        <span class="n">actual</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;Password&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">actual</span> <span class="o">!=</span> <span class="n">expected</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">ServerException</span><span class="p">(</span><span class="s2">&quot;incorrect or missing password&quot;</span><span class="p">,</span> <span class="n">HTTPStatus</span><span class="o">.</span><span class="n">FORBIDDEN</span><span class="p">)</span>
-</code></pre></div>
-</div>
-<ul>
-<li>Handle errors by constructing JSON</li>
-</ul>
-<p class="inclusion"><a href="src/bird_server_password.py">src/bird_server_password.py</a></p>
-<div class="language-py">
-<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">send_error</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exc</span><span class="p">):</span>
-        <span class="n">content</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;status&quot;</span><span class="p">:</span> <span class="n">exc</span><span class="o">.</span><span class="n">_status</span><span class="p">,</span> <span class="s2">&quot;error_message&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">exc</span><span class="p">)}</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">send_content</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">content</span><span class="p">),</span> <span class="n">exc</span><span class="o">.</span><span class="n">_status</span><span class="p">)</span>
-</code></pre></div>
-</div>
-<ul>
-<li>It works but:<ul>
-<li>One password for everyone</li>
-<li>Sent as <a href="#g:cleartext">cleartext</a> over an unencrypted connection</li>
-</ul>
-</li>
-</ul>
-<!-- ---------------------------------------------------------------- -->
-</section>
-<section class="topic">
-<h2 class="topic">15: Basic Authentication</h2>
-<ul>
-<li>Modify <code>do_GET</code></li>
-</ul>
-<p class="inclusion"><a href="src/bird_server_basicauth.py">src/bird_server_basicauth.py</a></p>
-<div class="language-py">
-<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">do_GET</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="n">identity</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">authorize</span><span class="p">()</span>
-            <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">filter_data</span><span class="p">()</span>
-            <span class="n">as_json</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">to_json</span><span class="p">(</span><span class="n">orient</span><span class="o">=</span><span class="s2">&quot;records&quot;</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">send_content</span><span class="p">(</span><span class="n">as_json</span><span class="p">,</span> <span class="n">HTTPStatus</span><span class="o">.</span><span class="n">OK</span><span class="p">)</span>
-        <span class="k">except</span> <span class="n">ServerException</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">send_error</span><span class="p">(</span><span class="n">exc</span><span class="p">)</span>
-</code></pre></div>
-</div>
-<ul>
-<li><a href="https://en.wikipedia.org/wiki/Basic_access_authentication">Basic HTTP authentication</a>:<ul>
-<li>Header called <code>"Authorization"</code></li>
-<li>Value is <code>Basic <em>data</em></code></li>
-<li>Data is <a href="#g:base64">base-64 encoded</a> <code><em>username</em>:<em>password</em></code></li>
-</ul>
-</li>
-<li>Most of the code is checking that everything is OK and responding properly if it&rsquo;s not</li>
-<li>Test client</li>
-</ul>
-<p class="inclusion"><a href="src/bird_client_basicauth.py">src/bird_client_basicauth.py</a></p>
-<div class="language-py">
-<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">http</span> <span class="kn">import</span> <span class="n">HTTPStatus</span>
-<span class="kn">import</span> <span class="nn">requests</span>
-<span class="kn">from</span> <span class="nn">requests.auth</span> <span class="kn">import</span> <span class="n">HTTPBasicAuth</span>
-<span class="kn">import</span> <span class="nn">sys</span>
-
-<span class="n">URL</span> <span class="o">=</span> <span class="s2">&quot;http://localhost:8000?species=stejay&quot;</span>
-
-<span class="n">user</span><span class="p">,</span> <span class="n">password</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
-<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">URL</span><span class="p">,</span> <span class="n">auth</span><span class="o">=</span><span class="n">HTTPBasicAuth</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">password</span><span class="p">))</span>
-<span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="n">HTTPStatus</span><span class="o">.</span><span class="n">OK</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">())</span><span class="si">}</span><span class="s2"> records returned&quot;</span><span class="p">)</span>
-<span class="k">else</span><span class="p">:</span>
-    <span class="n">j</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">j</span><span class="p">[</span><span class="s1">&#39;status&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">j</span><span class="p">[</span><span class="s1">&#39;error_message&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-</code></pre></div>
-</div>
-<p class="inclusion"><a href="src/bird_client_basicauth_correct.sh">src/bird_client_basicauth_correct.sh</a></p>
-<div class="language-sh">
-<div class="highlight"><pre><span></span><code>python<span class="w"> </span>src/bird_client_basicauth.py<span class="w"> </span>marlyn<span class="w"> </span>mumble
-</code></pre></div>
-</div>
-<!-- ---------------------------------------------------------------- -->
-</section>
-<section class="topic">
-<h2 class="topic">16: Securing the Server</h2>
-<ul>
-<li>Two components<ul>
-<li>Give the server a <a href="#g:digital_certificate">digital certificate</a> so that it can establish its identity</li>
-<li>Have the client communicate with it via <a href="#g:https">HTTPS</a> (the encrypted version of HTTP)</li>
-</ul>
-</li>
-<li>Certificate has private and public components<ul>
-<li>Answer questions with &lsquo;.&rsquo; to skip</li>
-<li><code>-nodes</code> is short for &ldquo;no DES&rdquo; so there isn&rsquo;t an interactive password on the certificate</li>
-</ul>
-</li>
-</ul>
-<p class="inclusion"><a href="src/create_pem.sh">src/create_pem.sh</a></p>
-<div class="language-sh">
-<div class="highlight"><pre><span></span><code>openssl<span class="w"> </span>req<span class="w"> </span>-x509<span class="w"> </span>-newkey<span class="w"> </span>rsa:4096<span class="w"> </span>-sha256<span class="w"> </span>-days<span class="w"> </span><span class="m">1000</span><span class="w"> </span>-nodes<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>-keyout<span class="w"> </span>server_first_key.pem<span class="w"> </span>-out<span class="w"> </span>server_first_cert.pem
-</code></pre></div>
-</div>
-<p class="inclusion"><a href="site/server_first_cert.pem">site/server_first_cert.pem</a></p>
-<div class="language-pem">
-<div class="highlight"><pre><span></span><code><span class="gh">-----BEGIN CERTIFICATE-----</span>
-<span class="s">MIIE+zCCAuOgAwIBAgIUfqV4WLyo+hCSjqfLxt8gxP2SqWMwDQYJKoZIhvcNAQEL</span>
-<span class="s">BQAwDTELMAkGA1UEBhMCQ0EwHhcNMjQwMjI1MjI1OTMyWhcNMjYxMTIxMjI1OTMy</span>
-<span class="s">WjANMQswCQYDVQQGEwJDQTCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIB</span>
-<span class="s">AL3+7HzDMcRLBUONmN65OSrk23ZitOXenyYaOmbkKH//lM6qMVDRJUA5FRiVuTV8</span>
-<span class="s">lx8uw2QKwCfgpcf3y6jk1L3p+eOY333BE38m7GCjysTMc7//aDxdEYu8rkzCeG/G</span>
-<span class="s">afA0osXvLBMKMJ5DvPTo47pOS0Fd4QpT7Q5Xmntv1u5oSbzm1VHBHeZiiAaLBn5n</span>
-<span class="s">mcEc0Ha86iEAjasqTEGlB6iGKCdqq8y6k9ftVNQ/6W/oKRDaBZxbczwjiFmtVFHD</span>
-<span class="s">L18fXN7ZOL85ZrLs4aP10lQb8TUdxYJG0R0iAgUlTvpPOsV0t6UwsSf7Dux+o3Dk</span>
-<span class="s">wA5F80AA3zOql0PsnPfqHLwsQE115NnTbLGLP2bvzJDs6+m0hZxsyneE834oWmzL</span>
-<span class="s">a1deaWf6+/PjKT6a4mc4a00JkhL3fd9O6mWNw27j+wk0ZZhbVdpgXwwgBvUMwQhs</span>
-<span class="s">ECuKv/a7NI/IlnlmF6/e7oJdmeMoxMwgwWpuHh5FiYVBQOZm4riNqWyYNGWhzWbY</span>
-<span class="s">+1pzJpF6j4ZIPSnlC1PhRYvz1v3ytOz4cmst2PGklFhQB7pW1zCvtQLCPthLttKH</span>
-<span class="s">bjhHryJ+fUWMadsxKYXQUpt/fwd7iv3fQk29DaHAe/aZ9VrMK1q9xJUUvhEF/DEb</span>
-<span class="s">+/RezMYX0DnJv+1IPh5nBO/vK79a/flWiOI869geFm+zAgMBAAGjUzBRMB0GA1Ud</span>
-<span class="s">DgQWBBRjmUKJdgbEWqmlgIwcWc4LJr8vLjAfBgNVHSMEGDAWgBRjmUKJdgbEWqml</span>
-<span class="s">gIwcWc4LJr8vLjAPBgNVHRMBAf8EBTADAQH/MA0GCSqGSIb3DQEBCwUAA4ICAQCg</span>
-<span class="s">sYsPVYwNXulIezaDLPZO08lzMJHaAdcXLRayCBH84M7UwEyZtoUvOc2iLoJ8gjgx</span>
-<span class="s">kngK9uv6de55G1qXL/7Na8i1hMSe4D2mS9QvGQIQdhKm+wZ+BNcGi4ZM2n4yIaIh</span>
-<span class="s">gt6remAx5PrRrrIU6xWznSDFXiWTlhUtDlzkQHL+riOto5vCMIcamCFqwRs9CePm</span>
-<span class="s">OzEbCSBlOphQyeckO1Ao03s2MRR9+KsM/bJTzZ7bgWJ7shO5kz7bB8rR3FC61TZj</span>
-<span class="s">JqUkBDvivVWsJmKJy0zh0GkvFwWmppF1Cx4Ay+uFPneTxnNUBoCyQlA5M8/kU/nP</span>
-<span class="s">9xsL795HC8t1AcxmOD25PWeQueh/NYywbGAz6q1aS8uiYhnwxy3NEjIAw5mBISru</span>
-<span class="s">kazb+1pMO+Pkxn03mYbcXm8iujYO3Nayor/n1L6HActlPWcnFczvJbl588WaD1Xm</span>
-<span class="s">sd84cTV5Qe7w9KfpPnvOrHIlUcHt1F2H+251HT8ImftW9vhUZT5O78I262ejiVwU</span>
-<span class="s">vtJJlHeEbSTadL75GZD10kkMDkzJx417daHv1RblMnXJMoykry5ZUFFcUM3F02dv</span>
-<span class="s">41X6fP1kQObr5rSXff9uffGo7QCi0/yFluWe5x71tEWuIpSn6RX2gy2eNFkT5hhr</span>
-<span class="s">XWcP6H9eIGJ4IaOombNYJ1Cm5dnKFMECKTRQijharQ==</span>
-<span class="gh">-----END CERTIFICATE-----</span>
-</code></pre></div>
-</div>
-<ul>
-<li>Modify file server to listen for secure connections on port 1443<ul>
-<li><a href="#g:wrap_object">Wrap</a> the server&rsquo;s <a href="#g:socket">socket</a> with a layer of security</li>
-<li>Everything else stays the same</li>
-</ul>
-</li>
-</ul>
-<p class="inclusion"><a href="src/file_server_secure.py">src/file_server_secure.py</a></p>
-<div class="language-py">
-<div class="highlight"><pre><span></span><code><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
-    <span class="n">server_address</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="mi">1443</span><span class="p">)</span>
-    <span class="n">sandbox</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-    <span class="n">certfile</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
-    <span class="n">keyfile</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
-
-    <span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="n">sandbox</span><span class="p">)</span>
-
-    <span class="c1"># If check_hostname is True, only the hostname that matches the certificate</span>
-    <span class="c1"># will be accepted</span>
-    <span class="n">ssl_context</span> <span class="o">=</span> <span class="n">ssl</span><span class="o">.</span><span class="n">SSLContext</span><span class="p">(</span><span class="n">ssl</span><span class="o">.</span><span class="n">PROTOCOL_TLS_SERVER</span><span class="p">)</span>
-    <span class="n">ssl_context</span><span class="o">.</span><span class="n">check_hostname</span> <span class="o">=</span> <span class="kc">False</span>
-    <span class="n">ssl_context</span><span class="o">.</span><span class="n">load_cert_chain</span><span class="p">(</span><span class="n">certfile</span><span class="o">=</span><span class="n">certfile</span><span class="p">,</span> <span class="n">keyfile</span><span class="o">=</span><span class="n">keyfile</span><span class="p">)</span>
-
-    <span class="n">server</span> <span class="o">=</span> <span class="n">HTTPServer</span><span class="p">(</span><span class="n">server_address</span><span class="p">,</span> <span class="n">RequestHandler</span><span class="p">)</span>
-    <span class="n">server</span><span class="o">.</span><span class="n">socket</span> <span class="o">=</span> <span class="n">ssl_context</span><span class="o">.</span><span class="n">wrap_socket</span><span class="p">(</span><span class="n">server</span><span class="o">.</span><span class="n">socket</span><span class="p">,</span> <span class="n">server_side</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;serving at </span><span class="si">{</span><span class="n">server_address</span><span class="si">}</span><span class="s2"> in </span><span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span><span class="si">}</span><span class="s2">...&quot;</span><span class="p">)</span>
-    <span class="n">server</span><span class="o">.</span><span class="n">serve_forever</span><span class="p">()</span>
-</code></pre></div>
-</div>
-<ul>
-<li>Run it like this</li>
-</ul>
-<p class="inclusion"><a href="src/file_server_secure.sh">src/file_server_secure.sh</a></p>
-<div class="language-sh">
-<div class="highlight"><pre><span></span><code>python<span class="w"> </span>src/file_server_secure.py<span class="w"> </span>site<span class="w"> </span>server_first_cert.pem<span class="w"> </span>server_first_key.pem
-</code></pre></div>
-</div>
-<ul>
-<li>Point browser at <code>https://localhost:1443/motto.txt</code><ul>
-<li>Must have <em>both</em> <code>https</code> <em>and</em> the port <code>1443</code></li>
-</ul>
-</li>
-</ul>
-<!-- ---------------------------------------------------------------- -->
-</section>
-<section class="topic">
-<h2 class="topic">17: Securing the Client</h2>
-<ul>
-<li>Try <code>requests.get("https://localhost:1443/test.txt")</code></li>
-</ul>
-<p class="inclusion"><a href="out/requests_secure_no_verify.out">out/requests_secure_no_verify.out</a></p>
-<div class="language-plaintext">
-<div class="highlight"><pre><span></span><code>ERROR: HTTPSConnectionPool(host=&#39;localhost&#39;, port=1443):
-Max retries exceeded with url: /test.txt
-(Caused by SSLError(SSLCertVerificationError(1,
-&#39;[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: self-signed certificate (_ssl.c:1000)&#39;)))
-</code></pre></div>
-</div>
-<ul>
-<li>Fair enough: <code>requests</code> shouldn&rsquo;t trust self-signed certificates by default</li>
-<li>Can tell it not to check at all by passing <code>verify=False</code> but turning off security is a bad idea</li>
-<li>Try <code>requests.get("https://localhost:1443/test.txt", verify="cert.pem")</code><ul>
-<li>I.e., pass it the server&rsquo;s certificate</li>
-</ul>
-</li>
-</ul>
-<p class="inclusion"><a href="out/requests_secure_server_cert.out">out/requests_secure_server_cert.out</a></p>
-<div class="language-plaintext">
-<div class="highlight"><pre><span></span><code>ERROR: HTTPSConnectionPool(host=&#39;localhost&#39;, port=1443):
-Max retries exceeded with url: /test.txt
-(Caused by SSLError(SSLCertVerificationError(1,
-&quot;[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed:
-Hostname mismatch, certificate is not valid for &#39;localhost&#39;. (_ssl.c:1000)&quot;)))
-</code></pre></div>
-</div>
-<ul>
-<li>What we actually need is to sign the server&rsquo;s certificate with a certificate from some authority,
-    then tell <code>requests</code> it can use the authority&rsquo;s certificate to check the server&rsquo;s certificate<ul>
-<li>Seems roundabout, but it allows us to use a few hundred trusted certificates to check everyone else&rsquo;s</li>
-</ul>
-</li>
-<li><code>import certifi</code> and <code>certifi.where()</code> to see the PEM file that <code>requests</code> uses by default</li>
-</ul>
-<!-- ---------------------------------------------------------------- -->
-</section>
-<section class="topic">
-<h2 class="topic">18: Starting Over</h2>
-<ul>
-<li>Pretend to be our own <a href="#g:certificate_authority">certificate authority</a> (CA)</li>
-<li>Use our CA certificate to <a href="#g:digital_signature">sign</a> the server&rsquo;s certificate<ul>
-<li>We can use the CA to sign any number of certificates</li>
-</ul>
-</li>
-</ul>
-<p class="inclusion"><a href="src/create_signed_cert.sh">src/create_signed_cert.sh</a></p>
-<div class="language-sh">
-<div class="highlight"><pre><span></span><code><span class="c1"># create CA key and cert simultaneously</span>
-openssl<span class="w"> </span>req<span class="w"> </span>-x509<span class="w"> </span>-newkey<span class="w"> </span>RSA<span class="w"> </span>-nodes<span class="w"> </span>-keyout<span class="w"> </span>CA.key<span class="w"> </span>-days<span class="w"> </span><span class="m">10</span><span class="w"> </span>-out<span class="w"> </span>CA.pem<span class="w"> </span>-reqexts<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>v3_ca<span class="w"> </span>-subj<span class="w"> </span><span class="s2">&quot;/C=CA/ST=ON/L=Toronto/O=Third Bit/OU=x509&quot;</span>
-
-<span class="c1"># create server key and cert</span>
-openssl<span class="w"> </span>req<span class="w"> </span>-new<span class="w"> </span>-newkey<span class="w"> </span>RSA<span class="w"> </span>-nodes<span class="w"> </span>-keyout<span class="w"> </span>server.key<span class="w"> </span>-out<span class="w"> </span>server.csr<span class="w"> </span>-batch<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>-reqexts<span class="w"> </span>v3_req<span class="w"> </span>-subj<span class="w"> </span><span class="s2">&quot;/CN=localhost&quot;</span>
-
-<span class="c1"># sign server CSR with CA key</span>
-openssl<span class="w"> </span>x509<span class="w"> </span>-req<span class="w"> </span>-days<span class="w"> </span><span class="m">10</span><span class="w"> </span>-in<span class="w"> </span>server.csr<span class="w"> </span>-CAkey<span class="w"> </span>CA.key<span class="w"> </span>-CA<span class="w"> </span>CA.pem<span class="w"> </span>-CAcreateserial<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>-out<span class="w"> </span>server.pem<span class="w"> </span>-extfile<span class="w"> </span>extfile.txt
-<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;certificates created&quot;</span>
-</code></pre></div>
-</div>
-<ul>
-<li>Run the server with the newly-created certificate</li>
-</ul>
-<p class="inclusion"><a href="src/file_server_signed.sh">src/file_server_signed.sh</a></p>
-<div class="language-sh">
-<div class="highlight"><pre><span></span><code>python<span class="w"> </span>src/file_server_secure.py<span class="w"> </span>site<span class="w"> </span>server.pem<span class="w"> </span>server.key
-</code></pre></div>
-</div>
-<ul>
-<li>Point <code>requests</code> at the CA certificate<ul>
-<li>Which it then uses to check that the server&rsquo;s certificate is properly signed</li>
-</ul>
-</li>
-</ul>
-<p class="inclusion"><a href="src/requests_signed_cert.py">src/requests_signed_cert.py</a></p>
-<div class="language-py">
-<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">requests</span>
-
-<span class="n">CA_FILE</span> <span class="o">=</span> <span class="s2">&quot;CA.pem&quot;</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;trying request with verify=</span><span class="si">{</span><span class="n">CA_FILE</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="k">try</span><span class="p">:</span>
-    <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;https://localhost:1443/motto.txt&quot;</span><span class="p">,</span> <span class="n">verify</span><span class="o">=</span><span class="n">CA_FILE</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;SUCCESS: </span><span class="si">{</span><span class="n">r</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">r</span><span class="o">.</span><span class="n">text</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;FAILURE: </span><span class="si">{</span><span class="n">exc</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-</code></pre></div>
-</div>
-<!-- ---------------------------------------------------------------- -->
-</section>
-<section class="aside">
-<h2 class="aside">This Is Hard</h2>
-<ul>
-<li>It took a full day and help from three other people to get this working</li>
-<li>And I&rsquo;m still not sure what these commands used to sign the server certificate are for</li>
-</ul>
-<p class="inclusion"><a href="src/extfile.txt">src/extfile.txt</a></p>
-<div class="language-txt">
-<div class="highlight"><pre><span></span><code>basicConstraints = CA:FALSE
-subjectAltName = DNS:localhost
-extendedKeyUsage = serverAuth
-</code></pre></div>
-</div>
-<ul>
-<li>Some of this difficulty is intrinsinc: security really is hard</li>
-<li>Some is accidental complexity introduced by evolution over time</li>
-</ul>
-<!-- ---------------------------------------------------------------- -->
-</section>
-<section class="aside">
-<h2 class="aside">Processes</h2>
-<ul>
-<li>We&rsquo;ve been running clients and servers interactively</li>
-<li>How can we automate this?<ul>
-<li>The heart of <a href="#g:deployment">deploying</a> applications</li>
-</ul>
-</li>
-<li>A <a href="#g:process">process</a> is a running instance of a program<ul>
-<li>Code plus variables in memory plus open files plus some IDs</li>
-</ul>
-</li>
-<li>Tools to manage them were invented when most users only had a single terminal</li>
-<li>Some repurposed, some replaced: result is unfortunately as messy as certificates</li>
-</ul>
-<!-- ---------------------------------------------------------------- -->
-</section>
-<section class="topic">
-<h2 class="topic">19: Viewing Processes</h2>
-<ul>
-<li>Use <code>ps -a -l</code> to see currently running processes in terminal</li>
-<li>Or <code>ps -a -x</code> to see (almost) all processes running on computer<ul>
-<li><code>UID</code>: numeric ID of the user that the process belongs to</li>
-<li><code>PID</code>: process&rsquo;s unique ID</li>
-<li><code>PPID</code>: ID of the process&rsquo;s parent (i.e., the process that created it)</li>
-<li><code>CMD</code>: the command the process is running</li>
-</ul>
-</li>
-</ul>
-<p class="inclusion"><a href="src/ps_a_l.sh">src/ps_a_l.sh</a></p>
-<div class="language-sh">
-<div class="highlight"><pre><span></span><code>ps<span class="w"> </span>-a<span class="w"> </span>-l
-</code></pre></div>
-</div>
-<p class="inclusion"><a href="out/ps_a_l.out">out/ps_a_l.out</a></p>
-<div class="language-plaintext">
-<div class="highlight"><pre><span></span><code>UID   PID  PPID        F CPU PRI NI        SZ    RSS       TTY       TIME CMD
-    0 13215 83470     4106   0  31  0 408655632   9504   ttys001    0:00.02 login -pfl gvwilson /
-  501 13216 13215     4006   0  31  0 408795632   5424   ttys001    0:00.04 -bash
-  501 13569 13216     4046   0  31  0 408895008  20864   ttys001    0:00.10 python -m http.server
-    0 13577 13216     4106   0  31  0 408766128   1888   ttys001    0:00.01 ps -a -l
-</code></pre></div>
-</div>
-<!-- ---------------------------------------------------------------- -->
-</section>
-<section class="topic">
-<h2 class="topic">20: Signals</h2>
-<ul>
-<li>Can send a <a href="#g:signal">signal</a> to a process<ul>
-<li>Something extraordinary happened, please deal with it immediately</li>
-</ul>
-</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th style="text-align: right;">Number</th>
-<th>Name</th>
-<th>Default Action</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align: right;">1</td>
-<td><code>SIGHUP</code></td>
-<td>terminate process</td>
-<td>terminal line hangup</td>
-</tr>
-<tr>
-<td style="text-align: right;">2</td>
-<td><code>SIGINT</code></td>
-<td>terminate process</td>
-<td>interrupt program</td>
-</tr>
-<tr>
-<td style="text-align: right;">3</td>
-<td><code>SIGQUIT</code></td>
-<td>create core image</td>
-<td>quit program</td>
-</tr>
-<tr>
-<td style="text-align: right;">4</td>
-<td><code>SIGILL</code></td>
-<td>create core image</td>
-<td>illegal instruction</td>
-</tr>
-<tr>
-<td style="text-align: right;">8</td>
-<td><code>SIGFPE</code></td>
-<td>create core image</td>
-<td>floating-point exception</td>
-</tr>
-<tr>
-<td style="text-align: right;">9</td>
-<td><code>SIGKILL</code></td>
-<td>terminate process</td>
-<td>kill program</td>
-</tr>
-<tr>
-<td style="text-align: right;">11</td>
-<td><code>SIGSEGV</code></td>
-<td>create core image</td>
-<td>segmentation violation</td>
-</tr>
-<tr>
-<td style="text-align: right;">12</td>
-<td><code>SIGSYS</code></td>
-<td>create core image</td>
-<td>non-existent system call invoked</td>
-</tr>
-<tr>
-<td style="text-align: right;">14</td>
-<td><code>SIGALRM</code></td>
-<td>terminate process</td>
-<td>real-time timer expired</td>
-</tr>
-<tr>
-<td style="text-align: right;">15</td>
-<td><code>SIGTERM</code></td>
-<td>terminate process</td>
-<td>software termination signal</td>
-</tr>
-<tr>
-<td style="text-align: right;">17</td>
-<td><code>SIGSTOP</code></td>
-<td>stop process</td>
-<td>stop (cannot be caught or ignored)</td>
-</tr>
-<tr>
-<td style="text-align: right;">24</td>
-<td><code>SIGXCPU</code></td>
-<td>terminate process</td>
-<td>CPU time limit exceeded</td>
-</tr>
-<tr>
-<td style="text-align: right;">25</td>
-<td><code>SIGXFSZ</code></td>
-<td>terminate process</td>
-<td>file size limit exceeded</td>
-</tr>
-</tbody>
-</table>
-<ul>
-<li>Create a <a href="#g:callback_function">callback function</a> to act as a <a href="#g:signal_handler">signal handler</a></li>
-</ul>
-<p class="inclusion"><a href="src/catch_interrupt.py">src/catch_interrupt.py</a></p>
-<div class="language-py">
-<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">signal</span>
-<span class="kn">import</span> <span class="nn">sys</span>
-
-<span class="n">COUNT</span> <span class="o">=</span> <span class="mi">0</span>
-
-<span class="k">def</span> <span class="nf">handler</span><span class="p">(</span><span class="n">sig</span><span class="p">,</span> <span class="n">frame</span><span class="p">):</span>
-    <span class="k">global</span> <span class="n">COUNT</span>
-    <span class="n">COUNT</span> <span class="o">+=</span> <span class="mi">1</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;interrupt </span><span class="si">{</span><span class="n">COUNT</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">COUNT</span> <span class="o">&gt;=</span> <span class="mi">3</span><span class="p">:</span>
-        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-
-<span class="n">signal</span><span class="o">.</span><span class="n">signal</span><span class="p">(</span><span class="n">signal</span><span class="o">.</span><span class="n">SIGINT</span><span class="p">,</span> <span class="n">handler</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;use Ctrl-C three times&quot;</span><span class="p">)</span>
-<span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
-    <span class="n">signal</span><span class="o">.</span><span class="n">pause</span><span class="p">()</span>
-</code></pre></div>
-</div>
-<p class="inclusion"><a href="out/catch_interrupt.out">out/catch_interrupt.out</a></p>
-<div class="language-plaintext">
-<div class="highlight"><pre><span></span><code>python src/catch_interrupt.py
-use Ctrl-C three times
-^Cinterrupt 1
-^Cinterrupt 2
-^Cinterrupt 3
-</code></pre></div>
-</div>
-<ul>
-<li><code>^C</code> shows where user typed Ctrl-C</li>
-</ul>
-<!-- ---------------------------------------------------------------- -->
-</section>
-<section class="topic">
-<h2 class="topic">21: Background Processes</h2>
-<ul>
-<li>Can run a process in the <a href="#g:process_background">background</a><ul>
-<li>Only difference is that it&rsquo;s not connected to the terminal</li>
-</ul>
-</li>
-</ul>
-<p class="inclusion"><a href="src/show_timer.py">src/show_timer.py</a></p>
-<div class="language-py">
-<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">time</span>
-
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;loop </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;loop finished&quot;</span><span class="p">)</span>
-</code></pre></div>
-</div>
-<p class="inclusion"><a href="src/show_timer.sh">src/show_timer.sh</a></p>
-<div class="language-sh">
-<div class="highlight"><pre><span></span><code>python<span class="w"> </span>src/show_timer.py<span class="w"> </span><span class="p">&amp;</span>
-ls<span class="w"> </span>site
-</code></pre></div>
-</div>
-<p class="inclusion"><a href="out/show_timer.out">out/show_timer.out</a></p>
-<div class="language-plaintext">
-<div class="highlight"><pre><span></span><code>$ src/show_timer.sh
-birds.csv       cert_authority.srl  sandbox         server.pem      species.csv
-cert_authority.key  motto.json      server.csr      server_first_cert.pem   yukon.db
-cert_authority.pem  motto.txt       server.key      server_first_key.pem
-loop 0
-$ loop 1
-loop 2
-loop finished
-</code></pre></div>
-</div>
-<ul>
-<li><code>&amp;</code> at end of command to run <code>show_timer.py</code> means &ldquo;run in the background&rdquo;</li>
-<li>So <code>ls</code> command executes immediately</li>
-<li>But <code>show_timer.py</code> keeps running until it finishes<ul>
-<li>Or needs keyboard input</li>
-</ul>
-</li>
-<li>Can also start process and then <a href="#g:process_suspend">suspend</a> it with Ctrl-Z<ul>
-<li>Sends <code>SIGSTOP</code> instead of <code>SIGINT</code></li>
-</ul>
-</li>
-<li>Use <code>jobs</code> to see all suspended processes</li>
-<li>Then <code>bg %<em>num</em></code> to resume in the background</li>
-<li>Or <code>fg %<em>num</em></code> to <a href="#g:process_foreground">foreground</a> the process
-    to <a href="#g:process_resume">resume</a> its execution</li>
-</ul>
-<p class="inclusion"><a href="src/ctrl_z_background.sh">src/ctrl_z_background.sh</a></p>
-<div class="language-sh">
-<div class="highlight"><pre><span></span><code>$<span class="w"> </span>python<span class="w"> </span>src/show_timer.py
-loop<span class="w"> </span><span class="m">0</span>
-^Z
-<span class="o">[</span><span class="m">1</span><span class="o">]</span>+<span class="w">  </span>Stopped<span class="w">                 </span>python<span class="w"> </span>src/show_timer.py
-$<span class="w"> </span><span class="nb">jobs</span>
-<span class="o">[</span><span class="m">1</span><span class="o">]</span>+<span class="w">  </span>Stopped<span class="w">                 </span>python<span class="w"> </span>src/show_timer.py
-$<span class="w"> </span><span class="nb">bg</span>
-<span class="o">[</span><span class="m">1</span><span class="o">]</span>+<span class="w"> </span>python<span class="w"> </span>src/show_timer.py<span class="w"> </span><span class="p">&amp;</span>
-loop<span class="w"> </span><span class="m">1</span>
-$<span class="w"> </span>loop<span class="w"> </span><span class="m">2</span>
-loop<span class="w"> </span>finished
-<span class="o">[</span><span class="m">1</span><span class="o">]</span>+<span class="w">  </span>Done<span class="w">                    </span>python<span class="w"> </span>src/show_timer.py
-</code></pre></div>
-</div>
-<ul>
-<li>Note that input and output are mixed together</li>
-<li>One of our goals is to build something that will re-run something like this
-    <em>and</em> show input and output in the order a user would see them
-    <em>while also</em> labeling input and output correctly</li>
-</ul>
-<!-- ---------------------------------------------------------------- -->
-</section>
-<section class="topic">
-<h2 class="topic">22: Killing Processes</h2>
-<ul>
-<li>Use <code>kill</code> to send a signal to a process<ul>
-<li>Not necessarily to stop it</li>
-</ul>
-</li>
-</ul>
-<p class="inclusion"><a href="src/kill_process.sh">src/kill_process.sh</a></p>
-<div class="language-sh">
-<div class="highlight"><pre><span></span><code>$<span class="w"> </span>python<span class="w"> </span>src/show_timer.py
-loop<span class="w"> </span><span class="m">0</span>
-^Z
-<span class="o">[</span><span class="m">1</span><span class="o">]</span>+<span class="w">  </span>Stopped<span class="w">                 </span>python<span class="w"> </span>src/show_timer.py
-$<span class="w"> </span><span class="nb">kill</span><span class="w"> </span>%1
-<span class="o">[</span><span class="m">1</span><span class="o">]</span>+<span class="w">  </span>Terminated:<span class="w"> </span><span class="m">15</span><span class="w">          </span>python<span class="w"> </span>src/show_timer.py
-</code></pre></div>
-</div>
-<ul>
-<li>By default, <code>kill</code> sends <code>SIGTERM</code> (terminate process)</li>
-<li>Variations:<ul>
-<li>Give a process ID: <code>kill 1234</code></li>
-<li>Send a different signal: <code>kill -s INT %1</code></li>
-</ul>
-</li>
-</ul>
-<p class="inclusion"><a href="src/kill_int.sh">src/kill_int.sh</a></p>
-<div class="language-sh">
-<div class="highlight"><pre><span></span><code>$<span class="w"> </span>python<span class="w"> </span>src/show_timer.py
-loop<span class="w"> </span><span class="m">0</span>
-^Z
-<span class="o">[</span><span class="m">1</span><span class="o">]</span>+<span class="w">  </span>Stopped<span class="w">                 </span>python<span class="w"> </span>src/show_timer.py
-$<span class="w"> </span><span class="nb">kill</span><span class="w"> </span>-s<span class="w"> </span>INT<span class="w"> </span>%1
-<span class="o">[</span><span class="m">1</span><span class="o">]</span>+<span class="w">  </span>Stopped<span class="w">                 </span>python<span class="w"> </span>src/show_timer.py
-$<span class="w"> </span><span class="nb">fg</span>
-python<span class="w"> </span>src/show_timer.py
-Traceback<span class="w"> </span><span class="o">(</span>most<span class="w"> </span>recent<span class="w"> </span>call<span class="w"> </span>last<span class="o">)</span>:
-<span class="w">  </span>File<span class="w"> </span><span class="s2">&quot;/tut/sys/src/show_timer.py&quot;</span>,<span class="w"> </span>line<span class="w"> </span><span class="m">5</span>,<span class="w"> </span><span class="k">in</span><span class="w"> </span>&lt;module&gt;
-<span class="w">    </span>time.sleep<span class="o">(</span><span class="m">1</span><span class="o">)</span>
-KeyboardInterrupt
-</code></pre></div>
-</div>
-<!-- ---------------------------------------------------------------- -->
-</section>
-<section class="topic">
-<h2 class="topic">23: Redirection</h2>
-<p class="center"><span class="todo">TODO: Explain redirection of standard error (with diagrams)</span></p>
-<!-- ---------------------------------------------------------------- -->
-</section>
-<section class="topic">
-<h2 class="topic">24: Running Processes Together</h2>
-<ul>
-<li>Want to run a client and server side by side and capture their output</li>
-<li>First attempt: start the server, wait one second, and run the client</li>
-<li>When the client finishes, stop the script and its children<ul>
-<li>Shuts down the server and anything else that may have started</li>
-</ul>
-</li>
-</ul>
-<p class="inclusion"><a href="src/run_2_sleep.sh">src/run_2_sleep.sh</a></p>
-<div class="language-sh">
-<div class="highlight"><pre><span></span><code><span class="ch">#!/usr/bin/env bash</span>
-
-<span class="c1"># Save the process group ID of this script.</span>
-<span class="nv">pgid</span><span class="o">=</span><span class="sb">`</span>ps<span class="w"> </span>-o<span class="w"> </span><span class="nv">pgid</span><span class="o">=</span><span class="nv">$$</span><span class="sb">`</span>
-<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;PGID </span><span class="nv">$pgid</span><span class="s2">&quot;</span>
-
-<span class="c1"># Trap a Ctrl-C SIGINT and kill everything running inside this script.</span>
-<span class="nb">trap</span><span class="w"> </span><span class="s2">&quot;pkill -TERM -g </span><span class="nv">$pgid</span><span class="s2">&quot;</span><span class="w"> </span>INT
-
-<span class="c1"># Redirect server stderr to stdout and background the process.</span>
-<span class="nv">$1</span><span class="w"> </span><span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span><span class="w"> </span><span class="p">&amp;</span>
-
-<span class="c1"># Wait one second.</span>
-sleep<span class="w"> </span><span class="m">1</span>
-
-<span class="c1"># Redirect client stderr to stdout as well but run in foreground.</span>
-<span class="nv">$2</span><span class="w"> </span><span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span>
-
-<span class="c1"># Kill this script and its children (client and server) when client finishes.</span>
-pkill<span class="w"> </span>-TERM<span class="w"> </span>-g<span class="w"> </span><span class="nv">$pgid</span>
-</code></pre></div>
-</div>
-<ul>
-<li>Use this for the first script and something similar for the second</li>
-</ul>
-<p class="inclusion"><a href="src/run_2_left.sh">src/run_2_left.sh</a></p>
-<div class="language-sh">
-<div class="highlight"><pre><span></span><code><span class="k">for</span><span class="w"> </span>i<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="k">$(</span>seq<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="m">3</span><span class="k">)</span>
-<span class="k">do</span>
-<span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;left </span><span class="nv">$i</span><span class="s2">&quot;</span>
-<span class="w">    </span>sleep<span class="w"> </span><span class="m">1</span>
-<span class="k">done</span>
-</code></pre></div>
-</div>
-<ul>
-<li>Run it</li>
-</ul>
-<p class="inclusion"><a href="src/run_2_example.sh">src/run_2_example.sh</a></p>
-<div class="language-sh">
-<div class="highlight"><pre><span></span><code>$<span class="w"> </span>bash<span class="w"> </span>src/run_2_sleep.sh<span class="w"> </span><span class="s2">&quot;bash src/run_2_left.sh&quot;</span><span class="w"> </span><span class="s2">&quot;bash src/run_2_right.sh&quot;</span>
-</code></pre></div>
-</div>
-<p class="inclusion"><a href="out/run_2_example.out">out/run_2_example.out</a></p>
-<div class="language-plaintext">
-<div class="highlight"><pre><span></span><code>PGID  5299
-left 1
-left 2
-right 1
-left 3
-right 2
-right 3
-</code></pre></div>
-</div>
-<!-- ---------------------------------------------------------------- -->
-</section>
-<section class="aside">
-<h2 class="aside">Partial Ordering</h2>
-<ul>
-<li>There are <em>choose(x+y, x)</em> ways to interleave two sequences of length <em>x</em> and <em>y</em></li>
-<li>Which is <em>(x+y)!/x!y!</em></li>
-<li>So two programs that open a file, write a line, and close the file
-    can be interleaved in 20 different ways</li>
-<li>A <a href="#g:robustness">robust</a> application works in all 20 ways<ul>
-<li>Because sleeping for one second is no guarantee
-    that another process has run far enough to open a socket</li>
-</ul>
-</li>
-</ul>
-<!-- ---------------------------------------------------------------- -->
-</section>
-<section class="aside">
-<h2 class="aside">Listing Open Files</h2>
-<ul>
-<li>Unix tries hard to make (almost) everything look like a file<ul>
-<li>Read/write as <a href="#g:stream">stream</a> or in <a href="#g:block_device">blocks</a></li>
-</ul>
-</li>
-<li>In particular, a socket makes a network connection look like a file</li>
-<li>Use <code>lsof</code> to list open files<ul>
-<li>Operating system keeps track of what &ldquo;files&rdquo; a process is interacting with</li>
-<li>So we can ask it</li>
-</ul>
-</li>
-</ul>
-<p class="inclusion"><a href="src/run_lsof.sh">src/run_lsof.sh</a></p>
-<div class="language-sh">
-<div class="highlight"><pre><span></span><code>lsof<span class="w"> </span>-n<span class="w"> </span>-iTCP<span class="w"> </span><span class="p">|</span><span class="w"> </span>head<span class="w"> </span>-n<span class="w"> </span><span class="m">10</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>cut<span class="w"> </span>-c<span class="w"> </span>-72
-</code></pre></div>
-</div>
-<p class="inclusion"><a href="out/run_lsof.out">out/run_lsof.out</a></p>
-<div class="language-plaintext">
-<div class="highlight"><pre><span></span><code>COMMAND     PID       USER   FD   TYPE             DEVICE SIZE/OFF NODE 
-corespeec   585 gregwilson    3u  IPv6 0x5f5fb0f69522963b      0t0  TCP 
-jetbrains  1609 gregwilson   59u  IPv6 0x5f5fb0f69523863b      0t0  TCP 
-PowerChim 46752 gregwilson    3u  IPv6 0x5f5fb0f69524ae3b      0t0  TCP 
-PowerChim 46752 gregwilson    6u  IPv6 0x5f5fb0f695228e3b      0t0  TCP 
-Google    53670 gregwilson   22u  IPv6 0x5f5fb0f695246e3b      0t0  TCP 
-Google    53670 gregwilson   24u  IPv6 0x5f5fb0f69523d63b      0t0  TCP 
-Google    53670 gregwilson   29u  IPv4 0x5f5fb0fb588afdd3      0t0  TCP 
-Google    53670 gregwilson   33u  IPv6 0x5f5fb0f69524663b      0t0  TCP 
-Google    53670 gregwilson   34u  IPv6 0x5f5fb0f69523de3b      0t0  TCP
-</code></pre></div>
-</div>
-<ul>
-<li>Which means we can start a process and wait until it opens a particular port</li>
-</ul>
-<!-- ---------------------------------------------------------------- -->
-</section>
-<section class="topic">
-<h2 class="topic">25: A Better Runner</h2>
-<p class="inclusion"><a href="src/run_and_wait.sh">src/run_and_wait.sh</a></p>
-<div class="language-sh">
-<div class="highlight"><pre><span></span><code><span class="c1"># assume first arg is a set of TCP ports</span>
-<span class="c1"># followed by one command per server listening to the port</span>
-<span class="c1"># followed by client commands</span>
-<span class="c1"># bash run_and_wait.sh &quot;8000&quot; &quot;server 8000&quot; &quot;client&quot;</span>
-
-<span class="nv">PORTS</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$1</span><span class="s2">&quot;</span>
-<span class="nb">shift</span>
-
-<span class="nv">CHILDREN</span><span class="o">=</span>
-
-await_port_free<span class="o">()</span><span class="w"> </span><span class="o">{</span>
-<span class="w">    </span><span class="nv">PORTNUM</span><span class="o">=</span><span class="nv">$1</span>
-<span class="w">    </span><span class="k">while</span><span class="w"> </span>lsof<span class="w"> </span>-n<span class="w"> </span>-iTCP:<span class="si">${</span><span class="nv">PORTNUM</span><span class="si">}</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="k">do</span>
-<span class="w">        </span>sleep<span class="w"> </span><span class="m">0</span>.5
-<span class="w">        </span><span class="nb">printf</span><span class="w"> </span><span class="s2">&quot;*&quot;</span>
-<span class="w">    </span><span class="k">done</span>
-<span class="w">    </span><span class="nb">printf</span><span class="w"> </span><span class="s2">&quot;\nport </span><span class="nv">$PORTNUM</span><span class="s2"> free\n&quot;</span>
-<span class="o">}</span>
-
-await_port_listen<span class="o">()</span><span class="w"> </span><span class="o">{</span>
-<span class="w">    </span><span class="nv">PORTNUM</span><span class="o">=</span><span class="nv">$1</span>
-<span class="w">    </span><span class="k">while</span><span class="w"> </span>!<span class="w"> </span>lsof<span class="w"> </span>-n<span class="w"> </span>-iTCP:<span class="si">${</span><span class="nv">PORTNUM</span><span class="si">}</span><span class="p">|</span>grep<span class="w"> </span>-qw<span class="w"> </span>LISTEN<span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="k">do</span>
-<span class="w">        </span>sleep<span class="w"> </span><span class="m">0</span>.5
-<span class="w">        </span><span class="nb">printf</span><span class="w"> </span><span class="s2">&quot;*&quot;</span>
-<span class="w">    </span><span class="k">done</span>
-<span class="w">    </span><span class="nb">printf</span><span class="w"> </span><span class="s2">&quot;\nport </span><span class="nv">$PORTNUM</span><span class="s2"> in LISTEN state\n&quot;</span>
-<span class="o">}</span>
-
-on_exit<span class="o">(){</span>
-<span class="w">    </span><span class="c1"># disable trap</span>
-<span class="w">    </span><span class="nb">trap</span><span class="w"> </span>-<span class="w"> </span><span class="nb">exit</span><span class="w"> </span>int
-<span class="w">    </span><span class="c1"># gently kill every child</span>
-<span class="w">    </span><span class="nb">kill</span><span class="w"> </span>-INT<span class="w"> </span><span class="nv">$CHILDREN</span><span class="w"> </span><span class="p">&amp;</span>&gt;/dev/null
-<span class="w">    </span>sleep<span class="w"> </span><span class="m">1</span>
-<span class="w">    </span><span class="c1"># thorough cleanup</span>
-<span class="w">    </span>pkill<span class="w"> </span>-TERM<span class="w"> </span>-g<span class="w"> </span><span class="m">0</span>
-<span class="o">}</span>
-
-<span class="c1"># exiting or ^C runs on_exit</span>
-<span class="nb">trap</span><span class="w"> </span>on_exit<span class="w"> </span><span class="nb">exit</span><span class="w"> </span>int
-
-<span class="c1"># server commands</span>
-
-<span class="k">for</span><span class="w"> </span>PORT<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="nv">$PORTS</span><span class="p">;</span><span class="w"> </span><span class="k">do</span>
-<span class="w">    </span>await_port_free<span class="w"> </span><span class="nv">$PORT</span>
-
-<span class="w">    </span><span class="nv">CMD</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$1</span><span class="s2">&quot;</span>
-<span class="w">    </span><span class="nb">shift</span>
-<span class="w">    </span><span class="nv">$CMD</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">    </span><span class="nv">CHILDREN</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$CHILDREN</span><span class="s2"> </span><span class="nv">$!</span><span class="s2">&quot;</span>
-
-<span class="w">    </span>await_port_listen<span class="w"> </span><span class="nv">$PORT</span>
-<span class="k">done</span>
-
-<span class="c1"># client commands</span>
-
-<span class="k">for</span><span class="w"> </span>CMD<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$@</span><span class="s2">&quot;</span><span class="p">;</span><span class="w"> </span><span class="k">do</span>
-<span class="w">    </span><span class="nv">$CMD</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">    </span><span class="nv">CHILDREN</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$CHILDREN</span><span class="s2"> </span><span class="nv">$!</span><span class="s2">&quot;</span>
-<span class="k">done</span>
-
-<span class="c1"># wait until any child process exits</span>
-<span class="k">while</span><span class="w"> </span>true<span class="p">;</span><span class="w"> </span><span class="k">do</span>
-<span class="w">    </span><span class="k">for</span><span class="w"> </span>CHILD<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="nv">$CHILDREN</span><span class="p">;</span><span class="w"> </span><span class="k">do</span>
-<span class="w">        </span><span class="k">if</span><span class="w"> </span>!<span class="w"> </span><span class="nb">kill</span><span class="w"> </span>-0<span class="w"> </span><span class="nv">$CHILD</span><span class="w"> </span><span class="p">&amp;</span>&gt;/dev/null<span class="p">;</span><span class="w"> </span><span class="k">then</span>
-<span class="w">            </span><span class="nb">exit</span><span class="w"> </span><span class="c1"># to on_exit</span>
-<span class="w">        </span><span class="k">fi</span>
-<span class="w">    </span><span class="k">done</span>
-<span class="w">    </span>sleep<span class="w"> </span><span class="m">0</span>.5
-<span class="k">done</span>
-</code></pre></div>
-</div>
-<ul>
-<li>There&rsquo;s a lot going on here<ul>
-<li>Shell functions</li>
-<li>Using <code>shift</code> and <code>$!</code> to handle arguments</li>
-<li>Using <code>trap</code> to handle interrupts</li>
-<li>Using <code>printf</code> instead of <code>echo</code></li>
-</ul>
-</li>
-<li>The most important part is the <code>while</code> loop<ul>
-<li><code>await_port_listen</code> function waits for someone to listen to a port</li>
-</ul>
-</li>
-<li>We can either learn a new language (shell scripting)
-    or figure out how to do this in Python</li>
-</ul>
-<!-- ---------------------------------------------------------------- -->
-</section>
-<section class="topic">
-<h2 class="topic">26: Introducing FastAPI</h2>
-<p class="inclusion"><a href="src/bird_server_fastapi.py">src/bird_server_fastapi.py</a></p>
-<div class="language-py">
-<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">fastapi</span> <span class="kn">import</span> <span class="n">FastAPI</span>
-<span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">import</span> <span class="nn">uvicorn</span>
-<span class="kn">import</span> <span class="nn">sys</span>
-
-<span class="n">sandbox</span><span class="p">,</span> <span class="n">filename</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
-<span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="n">sandbox</span><span class="p">)</span>
-<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
-
-<span class="n">app</span> <span class="o">=</span> <span class="n">FastAPI</span><span class="p">()</span>
-
-<span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
-<span class="k">async</span> <span class="k">def</span> <span class="nf">get_birds</span><span class="p">(</span><span class="n">year</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">species</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-    <span class="n">result</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-    <span class="k">if</span> <span class="n">species</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="n">result</span><span class="p">[</span><span class="s2">&quot;species_id&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">species</span><span class="p">]</span>
-    <span class="k">if</span> <span class="n">year</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="n">result</span><span class="p">[</span><span class="s2">&quot;year&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">year</span><span class="p">]</span>
-    <span class="n">result</span><span class="p">[</span><span class="s2">&quot;num&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">result</span><span class="o">.</span><span class="n">to_dict</span><span class="p">(</span><span class="n">orient</span><span class="o">=</span><span class="s2">&quot;records&quot;</span><span class="p">)</span>
-
-<span class="n">uvicorn</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>
-</code></pre></div>
-</div>
 <!-- ---------------------------------------------------------------- -->
 </section>
 <section class="aside">
@@ -1863,6 +225,8 @@ on_exit<span class="o">(){</span>
 <dt id="g:mime_type">MIME type</dt><dd>A standard that defines types of file content, such as <code>text/plain</code> for plain text and <code>image/jpeg</code> for JPEG images.</dd>
 
 <dt id="g:path">path (in filesystem)</dt><dd>An expression that refers to a file or directory in a filesystem.</dd>
+
+<dt id="g:pipe_shell">pipe</dt><dd>To use the output of one computation as the input for the next, or the connection between the two computations responsible for the data transfer.</dd>
 
 <dt id="g:port">port</dt><dd>A logical endpoint for communication, like a phone number in an office building.</dd>
 
@@ -1937,17 +301,68 @@ on_exit<span class="o">(){</span>
 <li>netcat: <a href="https://en.wikipedia.org/wiki/Netcat">https://en.wikipedia.org/wiki/Netcat</a></li>
 <li>pip package manager for Python: <a href="https://pip.pypa.io/en/stable/">https://pip.pypa.io/en/stable/</a></li>
 </ul>
+<h3>To Do</h3>
+<ul>
+<li>What is Docker and why do I care?<ul>
+<li>Introduce it early so people don&rsquo;t screw up their laptop</li>
+</ul>
+</li>
+<li>How can I find things on my system?<ul>
+<li><code>find | xargs</code> and alternatives</li>
+</ul>
+</li>
+<li>What is <code>sudo</code> and when should I use it?</li>
+<li>How can I found out what kind of system I&rsquo;m using (<code>uname</code>)</li>
+<li>How do I see who has accounts on a machine?</li>
+<li>How do I create a new account?</li>
+<li>How do I delete an account?</li>
+<li>How do I see who owns a file?</li>
+<li>What does it actually mean to own a file?</li>
+<li>What other kinds of permissions are there?</li>
+<li>How can I specify what program to use to run a file?</li>
+<li>How can I tell what kind of file a file is?</li>
+<li>How can I see what processes are running on a computer (<code>ps</code>, <code>pgrep</code>, <code>top</code>)?</li>
+<li>How can I see what&rsquo;s using a computer&rsquo;s processor/memory/disk/network?</li>
+<li>How are files and directories stored (i.e., what is an inode)?</li>
+<li>How can I see how much disk space is in use (<code>df</code>, <code>du</code>)?</li>
+<li>When is a file not a file?</li>
+<li>How can I create a shortcut (link) for a file?</li>
+<li>What is a port?</li>
+<li>How can I tell which ports are being used and by which processes?</li>
+<li>How can I run a job repeatedly (<code>cron</code> and <code>watch</code>)?</li>
+<li>How do new programs start (the fork/exec model)?</li>
+<li>What does it mean to suspend, background, or foreground a process?</li>
+<li>How can I interrupt a process (<code>kill</code>, <code>pkill</code>) and what kinds of interrupts are there?</li>
+<li>What is a process group?</li>
+<li>What are keys and how do I manage them?</li>
+<li>What are certificates and how do I manage them?</li>
+<li>How can I run a web server?</li>
+<li>What other services might I want to run, when, and why?</li>
+<li>How can I change my identity (sudo)?</li>
+<li>How can I check my network connection (ping, traceroute)?</li>
+<li>What is an IP address?</li>
+<li>How can I connect to another computer (ssh)?</li>
+<li>What is a user group and why do I care?</li>
+<li>How can I view the computer&rsquo;s system log and what will I find there?</li>
+<li>What are virtual environments and when would I use one?</li>
+<li>How does package installation work?<ul>
+<li>For Unix and for Python and why they are different</li>
+</ul>
+</li>
+<li>How does authentication work?</li>
+<li>What are alternatives to classic password authentication?</li>
+</ul>
 </section>
     </main>
     <footer>
   <i class="fa fa-copyright"></i> 2024 Greg Wilson
   &middot;
   <a href="mailto:gvwilson@third-bit.com"><i class="fas fa-envelope-square" aria-hidden="true" title="author email"></i></a>
-  <a href="https://github.com/gvwilson/safety-tutorial"><i class="fab fa-github" aria-hidden="true" title="GitHub repository"></i></a>
+  <a href="https://github.com/gvwilson/sys-tutorial"><i class="fab fa-github" aria-hidden="true" title="GitHub repository"></i></a>
   <a href="license/"><i class="fab fa-creative-commons-by" aria-hidden="true" title="license"></i></a>
   &middot;
   <i class="fas fa-clock"></i>
-  <time datetime="2024-03-05">Last built 2024-03-05</time>
+  <time datetime="2024-03-10">Last built 2024-03-10</time>
   &middot;
   <i class="fas fa-user-check"></i> 100% human content
 </footer>

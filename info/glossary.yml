@@ -256,6 +256,13 @@
     def: >
       An expression that refers to a file or directory in a filesystem.
 
+- key: pipe_shell
+  en:
+    term: pipe
+    def: >
+      To use the output of one computation as the input for the next, or the
+      connection between the two computations responsible for the data transfer.
+
 - key: port
   en:
     term: port
