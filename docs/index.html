@@ -44,15 +44,14 @@
       Many think they know Unix.
       Few realize that what they know is just a shell.
       Beneath it lie mysteries both bewildering and wonderful:
-      ports and permissions and processes,
+      ports, processes, permissions,
       files that are not files,
       and components built atop other, older components
       that occasionally rise to the surface like ancient sea creatures believed long extinct.
     </p>
     <p>
       Like such creatures,
-      Unix is perfectly adapted to its environment
-      and will outlive those who mock it.
+      Unix will outlive those who mock it.
       Welcome, then, to a world in which the strange will become familiar, and the familiar, strange.
       Welcome, thrice welcome, to Unix systems programming.
     </p>
@@ -91,10 +90,8 @@
 <li>They are comfortable working with Unix command-line tools,
     writing data analysis programs in Python,
 and downloading data from the web manually</li>
-<li>Ning wants to understand how applications actually work,
-    i.e., what happens when they install a package
-or run a pipeline in the cloud,
-in part so that they can have meaningful conversations with IT</li>
+<li>Ning wants to understand what happens when they install a package
+or run a pipeline in the cloud</li>
 <li>Their work schedule is unpredictable and highly variable,
     so they need to be able to learn a bit at a time</li>
 </ul>
@@ -115,10 +112,10 @@ in part so that they can have meaningful conversations with IT</li>
 <code>if</code>/<code>else</code>; <code>with</code>; defining and calling functions; <code>sys.argv</code>, <code>sys.stdin</code>,
 and <code>sys.stdout</code>; simple regular expressions; reading JSON data;
 reading CSV files using <a href="https://pandas.pydata.org/">Pandas</a> or <a href="https://pola.rs/">Polars</a></li>
-<li><code>pip install</code> (but not virtual environments); <code>pytest</code> (but not mock objects);
-writing docstrings</li>
+<li><code>pip install</code></li>
 </ul>
 </li>
+<li><code>python -m venv</code> or <code>conda create</code></li>
 </ul>
 </li>
 <li>Learning outcomes<ol>
@@ -154,6 +151,123 @@ writing docstrings</li>
 </ul>
 </li>
 </ul>
+<!-- ---------------------------------------------------------------- -->
+</section>
+<section class="topic">
+<h2 class="topic">1: Operating System vs. Shell</h2>
+<ul>
+<li>OS is…</li>
+<li>Shell is…</li>
+<li>Many different shells</li>
+<li><p class="center"><span class="todo">TODO: how to tell what shell you are using</span></p></li>
+</ul>
+<!-- ---------------------------------------------------------------- -->
+</section>
+<section class="topic">
+<h2 class="topic">2: Program vs. Process</h2>
+<ul>
+<li>A program is…</li>
+<li>A <a href="#g:process">process</a> is a running instance of a program<ul>
+<li>Code plus variables in memory plus open files plus some IDs</li>
+</ul>
+</li>
+<li>Tools to manage them were invented when most users only had a single terminal</li>
+</ul>
+<!-- ---------------------------------------------------------------- -->
+</section>
+<section class="topic">
+<h2 class="topic">3: Viewing Processes</h2>
+<ul>
+<li>Use <code>ps -a -l</code> to see currently running processes in terminal<ul>
+<li><code>UID</code>: numeric ID of the user that the process belongs to</li>
+<li><code>PID</code>: process&rsquo;s unique ID</li>
+<li><code>PPID</code>: ID of the process&rsquo;s parent (i.e., the process that created it)</li>
+<li><code>CMD</code>: the command the process is running</li>
+</ul>
+</li>
+</ul>
+<p class="inclusion"><a href="src/ps_a_l.sh">src/ps_a_l.sh</a></p>
+<div class="language-sh">
+<div class="highlight"><pre><span></span><code>ps<span class="w"> </span>-a<span class="w"> </span>-l
+</code></pre></div>
+</div>
+<p class="inclusion"><a href="out/ps_a_l.out">out/ps_a_l.out</a></p>
+<div class="language-plaintext">
+<div class="highlight"><pre><span></span><code>UID   PID  PPID        F CPU PRI NI        SZ    RSS       TTY       TIME CMD
+    0 13215 83470     4106   0  31  0 408655632   9504   ttys001    0:00.02 login -pfl gvwilson /
+  501 13216 13215     4006   0  31  0 408795632   5424   ttys001    0:00.04 -bash
+  501 13569 13216     4046   0  31  0 408895008  20864   ttys001    0:00.10 python -m http.server
+    0 13577 13216     4106   0  31  0 408766128   1888   ttys001    0:00.01 ps -a -l
+</code></pre></div>
+</div>
+<ul>
+<li>Use <code>ps -a -x</code> to see (almost) all processes running on computer<ul>
+<li><code>ps -a -x | wc</code> tells me there are 655 processes running on my laptop right now</li>
+</ul>
+</li>
+</ul>
+<!-- ---------------------------------------------------------------- -->
+</section>
+<section class="exercise">
+<h2 class="exercise">Practice</h2>
+<p><strong>Exercise 1</strong>:
+What does the <code>top</code> command do?
+What does <code>top -o cpu</code> do?</p>
+<!-- ---------------------------------------------------------------- -->
+</section>
+<section class="topic">
+<h2 class="topic">4: Parent and Child Processes</h2>
+<ul>
+<li>Every process is created by another process<ul>
+<li>Except the first</li>
+</ul>
+</li>
+<li>Refer to <a href="#g:process_child">child process</a> and <a href="#g:process_parent">parent process</a></li>
+<li><code>echo $$</code> shows <a href="#g:process_id">process ID</a> of current process<ul>
+<li><code>$$</code> shortcut because it&rsquo;s used so often</li>
+</ul>
+</li>
+<li><code>echo $PPID</code> (parent process ID) to get parent</li>
+<li><code>pstree $$</code> to see <a href="#g:process_tree">process tree</a></li>
+</ul>
+<!-- ---------------------------------------------------------------- -->
+</section>
+<section class="topic">
+<h2 class="topic">5: Shell Variables vs. Environment Variables</h2>
+<ul>
+<li>The shell is a program and programs have variables</li>
+<li><a href="#g:shell_var">Shell variable</a> stays in the process</li>
+<li><a href="#g:env_var">Environment variable</a> is inherited by new processes</li>
+</ul>
+<p class="inclusion"><a href="src/shell_vs_env_outer.sh">src/shell_vs_env_outer.sh</a></p>
+<div class="language-sh">
+<div class="highlight"><pre><span></span><code><span class="c1"># shell_vs_env_outer.sh</span>
+<span class="nv">window</span><span class="o">=</span><span class="s2">&quot;neighbor&quot;</span>
+<span class="nv">threshold</span><span class="o">=</span><span class="m">0</span>.5
+
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;outer: window is </span><span class="si">${</span><span class="nv">window</span><span class="si">}</span><span class="s2"> and threshold is </span><span class="si">${</span><span class="nv">threshold</span><span class="si">}</span><span class="s2">&quot;</span>
+bash<span class="w"> </span>src/shell_vs_env_inner.sh
+</code></pre></div>
+</div>
+<p class="inclusion"><a href="src/shell_vs_env_inner.sh">src/shell_vs_env_inner.sh</a></p>
+<div class="language-sh">
+<div class="highlight"><pre><span></span><code><span class="c1"># shell_vs_env_inner.sh</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;inner: window is </span><span class="si">${</span><span class="nv">window</span><span class="si">}</span><span class="s2"> and threshold is </span><span class="si">${</span><span class="nv">threshold</span><span class="si">}</span><span class="s2">&quot;</span>
+</code></pre></div>
+</div>
+<p class="inclusion"><a href="out/shell_vs_env_outer.out">out/shell_vs_env_outer.out</a></p>
+<div class="language-plaintext">
+<div class="highlight"><pre><span></span><code>outer: window is neighbor and threshold is 0.5
+inner: window is  and threshold is
+</code></pre></div>
+</div>
+<!-- ---------------------------------------------------------------- -->
+</section>
+<section class="exercise">
+<h2 class="exercise">Practice</h2>
+<p><strong>Exercise 2</strong>:
+If a child process sets shell or environment variables,
+are they visible in the parent once the child finishes executing?</p>
 <!-- ---------------------------------------------------------------- -->
 </section>
 <section class="aside">
@@ -362,7 +476,7 @@ writing docstrings</li>
   <a href="license/"><i class="fab fa-creative-commons-by" aria-hidden="true" title="license"></i></a>
   &middot;
   <i class="fas fa-clock"></i>
-  <time datetime="2024-03-10">Last built 2024-03-10</time>
+  <time datetime="2024-03-15">Last built 2024-03-15</time>
   &middot;
   <i class="fas fa-user-check"></i> 100% human content
 </footer>

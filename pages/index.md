@@ -7,15 +7,14 @@
       Many think they know Unix.
       Few realize that what they know is just a shell.
       Beneath it lie mysteries both bewildering and wonderful:
-      ports and permissions and processes,
+      ports, processes, permissions,
       files that are not files,
       and components built atop other, older components
       that occasionally rise to the surface like ancient sea creatures believed long extinct.
     </p>
     <p>
       Like such creatures,
-      Unix is perfectly adapted to its environment
-      and will outlive those who mock it.
+      Unix will outlive those who mock it.
       Welcome, then, to a world in which the strange will become familiar, and the familiar, strange.
       Welcome, thrice welcome, to Unix systems programming.
     </p>
@@ -47,10 +46,8 @@
     -   They are comfortable working with Unix command-line tools,
         writing data analysis programs in Python,
 	and downloading data from the web manually
-    -   Ning wants to understand how applications actually work,
-        i.e., what happens when they install a package
-	or run a pipeline in the cloud,
-	in part so that they can have meaningful conversations with IT
+    -   Ning wants to understand what happens when they install a package
+	or run a pipeline in the cloud
     -   Their work schedule is unpredictable and highly variable,
         so they need to be able to learn a bit at a time
 -   Prerequisites
@@ -67,8 +64,8 @@
 	    `if`/`else`; `with`; defining and calling functions; `sys.argv`, `sys.stdin`,
 	    and `sys.stdout`; simple regular expressions; reading JSON data;
 	    reading CSV files using [Pandas][pandas] or [Polars][polars]
-        -   `pip install` (but not virtual environments); `pytest` (but not mock objects);
-	    writing docstrings
+        -   `pip install`
+	-   `python -m venv` or `conda create`
 -   Learning outcomes
     1.  Explain the difference between shell variables and environment variables
         and write shell scripts that use each.
@@ -95,6 +92,70 @@
     -   `./site/*.*`: files and directories used in examples
     -   `./src/*.*`: shell scripts and Python programs
     -   `./out/*.*`: expected output for examples
+
+<!-- ---------------------------------------------------------------- -->
+[% section_break class="topic" title="Operating System vs. Shell" %]
+
+-   OS is…
+-   Shell is…
+-   Many different shells
+-   [% todo "how to tell what shell you are using" %]
+
+<!-- ---------------------------------------------------------------- -->
+[% section_break class="topic" title="Program vs. Process" %]
+
+-   A program is…
+-   A [%g process "process" %] is a running instance of a program
+    -   Code plus variables in memory plus open files plus some IDs
+-   Tools to manage them were invented when most users only had a single terminal
+
+<!-- ---------------------------------------------------------------- -->
+[% section_break class="topic" title="Viewing Processes" %]
+
+-   Use `ps -a -l` to see currently running processes in terminal
+    -   `UID`: numeric ID of the user that the process belongs to
+    -   `PID`: process's unique ID
+    -   `PPID`: ID of the process's parent (i.e., the process that created it)
+    -   `CMD`: the command the process is running
+
+[% multi "src/ps_a_l.sh" "out/ps_a_l.out" %]
+
+-   Use `ps -a -x` to see (almost) all processes running on computer
+    -   `ps -a -x | wc` tells me there are 655 processes running on my laptop right now
+
+<!-- ---------------------------------------------------------------- -->
+[% section_break class="exercise" %]
+
+[% exercise %]
+What does the `top` command do?
+What does `top -o cpu` do?
+
+<!-- ---------------------------------------------------------------- -->
+[% section_break class="topic" title="Parent and Child Processes" %]
+
+-   Every process is created by another process
+    -   Except the first
+-   Refer to [%g process_child "child process" %] and [%g process_parent "parent process" %]
+-   `echo $$` shows [%g process_id "process ID" %] of current process
+    -   `$$` shortcut because it's used so often
+-   `echo $PPID` (parent process ID) to get parent
+-   `pstree $$` to see [%g process_tree "process tree" %]
+
+<!-- ---------------------------------------------------------------- -->
+[% section_break class="topic" title="Shell Variables vs. Environment Variables" %]
+
+-   The shell is a program and programs have variables
+-   [%g shell_var "Shell variable" %] stays in the process
+-   [%g env_var "Environment variable" %] is inherited by new processes
+
+[%multi src/shell_vs_env_outer.sh src/shell_vs_env_inner.sh out/shell_vs_env_outer.out %]
+
+<!-- ---------------------------------------------------------------- -->
+[% section_break class="exercise" %]
+
+[% exercise %]
+If a child process sets shell or environment variables,
+are they visible in the parent once the child finishes executing?
 
 <!-- ---------------------------------------------------------------- -->
 [% section_break class="aside" title="Appendices" %]

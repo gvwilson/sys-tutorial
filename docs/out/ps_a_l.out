@@ -1,0 +1,5 @@
+  UID   PID  PPID        F CPU PRI NI        SZ    RSS       TTY       TIME CMD
+    0 13215 83470     4106   0  31  0 408655632   9504   ttys001    0:00.02 login -pfl gvwilson /
+  501 13216 13215     4006   0  31  0 408795632   5424   ttys001    0:00.04 -bash
+  501 13569 13216     4046   0  31  0 408895008  20864   ttys001    0:00.10 python -m http.server
+    0 13577 13216     4106   0  31  0 408766128   1888   ttys001    0:00.01 ps -a -l

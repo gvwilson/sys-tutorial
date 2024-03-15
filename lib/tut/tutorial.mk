@@ -15,8 +15,7 @@ commands:
 .PHONY: build
 build:
 	@ark build
-	@rm -rf $(patsubst %,${DOCS}/%,${OTHER_DIRS}) ${DOCS}/${SRC} ${DOCS}/${OUT}
-	@cp -r ${SRC} ${OUT} ${OTHER_DIRS} ${DOCS}
+	@cp -r ${SRC} ${OUT} ${DOCS}
 
 ## serve: rebuild and serve website
 .PHONY: serve
