@@ -204,7 +204,7 @@ are they visible in the parent once the child finishes executing?
 -   Or <code>fg %<em>num</em></code> to [%g process_foreground "foreground" %] the process
     to [%g process_resume "resume" %] its execution
 
-[% single src/ctrl_z_background.sh %]
+[% single src/ctrl_z_background.text %]
 
 -   Note that input and output are mixed together
 
@@ -214,14 +214,32 @@ are they visible in the parent once the child finishes executing?
 -   Use `kill` to send a signal to a process
     -   Not necessarily to stop it
 
-[% single src/kill_process.sh %]
+[% single src/kill_process.text %]
 
 -   By default, `kill` sends `SIGTERM` (terminate process)
 -   Variations:
     -   Give a process ID: `kill 1234`
     -   Send a different signal: `kill -s INT %1`
 
-[% single src/kill_int.sh %]
+[% single src/kill_int.text %]
+
+<!-- ---------------------------------------------------------------- -->
+[% section_break class="topic" title="Where Do Processes Come From?" %]
+
+-   [%g fork "Fork" %] creates a duplicate of a process
+    -   Creator is parent, gets process ID of child as return value
+    -   Child gets 0 as return value (but has something else as its process ID)
+
+[% multi src/fork.py out/fork.out %]
+
+<!-- ---------------------------------------------------------------- -->
+[% section_break class="topic" title="Flushing I/O" %]
+
+-   Example above works interactively
+-   Run as `python fork.py > temp.out`, the "starting" line is duplicated
+-   [% todo "explain I/O flushing" %]
+
+[% multi src/flush.py %]
 
 <!-- ---------------------------------------------------------------- -->
 [% section_break class="aside" title="Appendices" %]

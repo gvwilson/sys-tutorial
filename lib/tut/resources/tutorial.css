@@ -281,7 +281,6 @@ p.inclusion {
 }
 
 span.todo {
-    text-align: center;
     background-color: var(--stamp-red-light);
 }
 
