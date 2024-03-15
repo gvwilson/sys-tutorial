@@ -106,15 +106,23 @@ div.cthulhu {
     background-color: var(--background-cthulhu);
 }
 
-div.language-sh, div.language-text {
-    font-style: italic;
+div.language-sh {
     border-left: solid var(--heavyborder) var(--stamp-green-light);
     border-top: solid var(--lightborder) var(--stamp-green-light);
     border-bottom: solid var(--lightborder) var(--stamp-green-light);
     padding-left: var(--heavyborder);
 }
 
+div.language-text {
+    font-style: italic;
+    border-left: solid var(--heavyborder) var(--stamp-purple-light);
+    border-top: solid var(--lightborder) var(--stamp-purple-light);
+    border-bottom: solid var(--lightborder) var(--stamp-purple-light);
+    padding-left: var(--heavyborder);
+}
+
 div.language-plaintext {
+    font-style: italic;
     border-left: solid var(--heavyborder) var(--stamp-red-light);
     border-top: solid var(--lightborder) var(--stamp-red-light);
     border-bottom: solid var(--lightborder) var(--stamp-red-light);

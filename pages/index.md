@@ -158,6 +158,72 @@ If a child process sets shell or environment variables,
 are they visible in the parent once the child finishes executing?
 
 <!-- ---------------------------------------------------------------- -->
+[% section_break class="topic" title="Signals" %]
+
+-   Can send a [%g signal "signal" %] to a process
+    -   Something extraordinary happened, please deal with it immediately
+
+| Number | Name      | Default Action    | Description |
+| -----: | --------- | ----------------- | ----------- |
+|      1 | `SIGHUP`  | terminate process | terminal line hangup |
+|      2 | `SIGINT`  | terminate process | interrupt program |
+|      3 | `SIGQUIT` | create core image | quit program |
+|      4 | `SIGILL`  | create core image | illegal instruction |
+|      8 | `SIGFPE`  | create core image | floating-point exception |
+|      9 | `SIGKILL` | terminate process | kill program |
+|     11 | `SIGSEGV` | create core image | segmentation violation |
+|     12 | `SIGSYS`  | create core image | non-existent system call invoked |
+|     14 | `SIGALRM` | terminate process | real-time timer expired |
+|     15 | `SIGTERM` | terminate process | software termination signal |
+|     17 | `SIGSTOP` | stop process      | stop (cannot be caught or ignored) |
+|     24 | `SIGXCPU` | terminate process | CPU time limit exceeded |
+|     25 | `SIGXFSZ` | terminate process | file size limit exceeded |
+
+-   Create a [%g callback_function "callback function" %] to act as a [%g signal_handler "signal handler" %]
+
+[% multi src/catch_interrupt.py out/catch_interrupt.out %]
+
+-   `^C` shows where user typed Ctrl-C
+
+<!-- ---------------------------------------------------------------- -->
+[% section_break class="topic" title="Background Processes" %]
+
+-   Can run a process in the [%g process_background "background" %]
+    -   Only difference is that it's not connected to the terminal
+
+[% multi src/show_timer.py src/show_timer.sh out/show_timer.out %]
+
+-   `&` at end of command to run `show_timer.py` means "run in the background"
+-   So `ls` command executes immediately
+-   But `show_timer.py` keeps running until it finishes
+    -   Or needs keyboard input
+-   Can also start process and then [%g process_suspend "suspend" %] it with Ctrl-Z
+    -   Sends `SIGSTOP` instead of `SIGINT`
+-   Use `jobs` to see all suspended processes
+-   Then <code>bg %<em>num</em></code> to resume in the background
+-   Or <code>fg %<em>num</em></code> to [%g process_foreground "foreground" %] the process
+    to [%g process_resume "resume" %] its execution
+
+[% single src/ctrl_z_background.sh %]
+
+-   Note that input and output are mixed together
+
+<!-- ---------------------------------------------------------------- -->
+[% section_break class="topic" title="Killing Processes" %]
+
+-   Use `kill` to send a signal to a process
+    -   Not necessarily to stop it
+
+[% single src/kill_process.sh %]
+
+-   By default, `kill` sends `SIGTERM` (terminate process)
+-   Variations:
+    -   Give a process ID: `kill 1234`
+    -   Send a different signal: `kill -s INT %1`
+
+[% single src/kill_int.sh %]
+
+<!-- ---------------------------------------------------------------- -->
 [% section_break class="aside" title="Appendices" %]
 
 ### Terms
