@@ -224,7 +224,7 @@ are they visible in the parent once the child finishes executing?
 [% single src/kill_int.text %]
 
 <!-- ---------------------------------------------------------------- -->
-[% section_break class="topic" title="Forking" %]
+[% section_break class="topic" title="Fork" %]
 
 -   [%g fork "Fork" %] creates a duplicate of a process
     -   Creator is parent, gets process ID of child as return value
@@ -249,6 +249,12 @@ are they visible in the parent once the child finishes executing?
 -   So `fork`/`exec` to run a program
 
 [% multi src/fork_exec.py out/fork_exec.out %]
+
+<!-- ---------------------------------------------------------------- -->
+[% section_break class="exercise" %]
+
+[% exercise %]
+What are the differences between `os.execl`, `os.execlp`, and `os.execv`?
 
 <!-- ---------------------------------------------------------------- -->
 [% section_break class="aside" title="Appendices" %]
