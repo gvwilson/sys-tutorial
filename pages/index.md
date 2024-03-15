@@ -224,7 +224,7 @@ are they visible in the parent once the child finishes executing?
 [% single src/kill_int.text %]
 
 <!-- ---------------------------------------------------------------- -->
-[% section_break class="topic" title="Where Do Processes Come From?" %]
+[% section_break class="topic" title="Forking" %]
 
 -   [%g fork "Fork" %] creates a duplicate of a process
     -   Creator is parent, gets process ID of child as return value
@@ -239,7 +239,16 @@ are they visible in the parent once the child finishes executing?
 -   Run as `python fork.py > temp.out`, the "starting" line is duplicated
 -   [% todo "explain I/O flushing" %]
 
-[% multi src/flush.py %]
+[% single src/flush.py %]
+
+<!-- ---------------------------------------------------------------- -->
+[% section_break class="topic" title="Exec" %]
+
+-   The `exec` family of functions in `os` execute a new program *inside the calling process*
+    -   Replace existing program and start a new one
+-   So `fork`/`exec` to run a program
+
+[% multi src/fork_exec.py out/fork_exec.out %]
 
 <!-- ---------------------------------------------------------------- -->
 [% section_break class="aside" title="Appendices" %]

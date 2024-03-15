@@ -523,7 +523,7 @@ KeyboardInterrupt
 <!-- ---------------------------------------------------------------- -->
 </section>
 <section class="topic">
-<h2 class="topic">9: Where Do Processes Come From?</h2>
+<h2 class="topic">9: Forking</h2>
 <ul>
 <li><a href="#g:fork">Fork</a> creates a duplicate of a process<ul>
 <li>Creator is parent, gets process ID of child as return value</li>
@@ -571,6 +571,38 @@ child got 0 is 41619
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;child got </span><span class="si">{</span><span class="n">pid</span><span class="si">}</span><span class="s2"> is </span><span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">getpid</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 <span class="k">else</span><span class="p">:</span>
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;parent got </span><span class="si">{</span><span class="n">pid</span><span class="si">}</span><span class="s2"> is </span><span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">getpid</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+</div>
+<!-- ---------------------------------------------------------------- -->
+</section>
+<section class="topic">
+<h2 class="topic">11: Exec</h2>
+<ul>
+<li>The <code>exec</code> family of functions in <code>os</code> execute a new program <em>inside the calling process</em><ul>
+<li>Replace existing program and start a new one</li>
+</ul>
+</li>
+<li>So <code>fork</code>/<code>exec</code> to run a program</li>
+</ul>
+<p class="inclusion"><a href="src/fork_exec.py">src/fork_exec.py</a></p>
+<div class="language-py">
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;starting </span><span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">getpid</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
+<span class="n">pid</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">fork</span><span class="p">()</span>
+<span class="k">if</span> <span class="n">pid</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">execl</span><span class="p">(</span><span class="s2">&quot;/bin/echo&quot;</span><span class="p">,</span> <span class="s2">&quot;echo&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;child echoing </span><span class="si">{</span><span class="n">pid</span><span class="si">}</span><span class="s2"> from </span><span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">getpid</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;parent got </span><span class="si">{</span><span class="n">pid</span><span class="si">}</span><span class="s2"> is </span><span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">getpid</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+</div>
+<p class="inclusion"><a href="out/fork_exec.out">out/fork_exec.out</a></p>
+<div class="language-plaintext">
+<div class="highlight"><pre><span></span><code>starting 46713
+parent got 46714 is 46713
+child echoing 0 from 46714
 </code></pre></div>
 </div>
 <!-- ---------------------------------------------------------------- -->

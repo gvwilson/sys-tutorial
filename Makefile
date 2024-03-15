@@ -24,5 +24,8 @@ run: ${OUT_FILES}
 out/flush.out: src/flush.py
 	python $< > $@
 
+out/fork_exec.out: src/fork_exec.py
+	python $< > $@
+
 out/shell_vs_env_outer.out: src/shell_vs_env_outer.sh src/shell_vs_env_inner.sh
 	bash $< > $@
