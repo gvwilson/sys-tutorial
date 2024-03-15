@@ -130,6 +130,9 @@
 What does the `top` command do?
 What does `top -o cpu` do?
 
+[% exercise %]
+What does the `pgrep` command do?
+
 <!-- ---------------------------------------------------------------- -->
 [% section_break class="topic" title="Parent and Child Processes" %]
 
@@ -287,7 +290,6 @@ What are the differences between `os.execl`, `os.execlp`, and `os.execv`?
 -   What other kinds of permissions are there?
 -   How can I specify what program to use to run a file?
 -   How can I tell what kind of file a file is?
--   How can I see what processes are running on a computer (`ps`, `pgrep`, `top`)?
 -   How can I see what's using a computer's processor/memory/disk/network?
 -   How are files and directories stored (i.e., what is an inode)?
 -   How can I see how much disk space is in use (`df`, `du`)?
@@ -296,9 +298,6 @@ What are the differences between `os.execl`, `os.execlp`, and `os.execv`?
 -   What is a port?
 -   How can I tell which ports are being used and by which processes?
 -   How can I run a job repeatedly (`cron` and `watch`)?
--   How do new programs start (the fork/exec model)?
--   What does it mean to suspend, background, or foreground a process?
--   How can I interrupt a process (`kill`, `pkill`) and what kinds of interrupts are there?
 -   What is a process group?
 -   What are keys and how do I manage them?
 -   What are certificates and how do I manage them?
