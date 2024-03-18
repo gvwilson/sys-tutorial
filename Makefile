@@ -2,7 +2,8 @@ include lib/tut/tutorial.mk
 
 SRC_FILES := $(wildcard src/*.sh)
 SRC_EXCLUDE := \
-	src/shell_vs_env_inner.sh
+	src/env_var_inner.sh \
+	src/shell_var_inner.sh
 OUT_FILES := $(patsubst src/%.sh,out/%.out,$(filter-out ${SRC_EXCLUDE},${SRC_FILES}))
 
 LINT_OTHER_PAGES := 
@@ -21,11 +22,17 @@ release:
 .PHONY: run
 run: ${OUT_FILES}
 
+out/env_var_outer.out: src/env_var_outer.sh src/env_var_inner.sh
+	bash $< > $@
+
+out/env_var_py.out: src/env_var_py.sh src/env_var_py.py
+	bash $< > $@
+
 out/flush.out: src/flush.py
 	python $< > $@
 
 out/fork_exec.out: src/fork_exec.py
 	python $< > $@
 
-out/shell_vs_env_outer.out: src/shell_vs_env_outer.sh src/shell_vs_env_inner.sh
+out/shell_var_outer.out: src/shell_var_outer.sh src/shell_var_inner.sh
 	bash $< > $@
