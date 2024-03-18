@@ -682,6 +682,49 @@ inner: window is not set and threshold is 0.5
 </div>
 <!-- ---------------------------------------------------------------- -->
 </section>
+<section class="topic">
+<h2 class="topic">14: Inspecting Variables</h2>
+<ul>
+<li><code>set</code> on its own lists variables, functions, etc.</li>
+<li><code>env</code> shows all environment variables</li>
+</ul>
+<p class="inclusion"><a href="src/show_env_vars.sh">src/show_env_vars.sh</a></p>
+<div class="language-sh">
+<div class="highlight"><pre><span></span><code>env<span class="w"> </span><span class="p">|</span><span class="w"> </span>cut<span class="w"> </span>-d<span class="w"> </span><span class="o">=</span><span class="w"> </span>-f<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sort<span class="w"> </span><span class="p">|</span><span class="w"> </span>head<span class="w"> </span>-n<span class="w"> </span><span class="m">10</span>
+</code></pre></div>
+</div>
+<p class="inclusion"><a href="out/show_env_vars.out">out/show_env_vars.out</a></p>
+<div class="language-plaintext">
+<div class="highlight"><pre><span></span><code>BASH_SILENCE_DEPRECATION_WARNING
+CONDA_DEFAULT_ENV
+CONDA_EXE
+CONDA_PREFIX
+CONDA_PREFIX_1
+CONDA_PROMPT_MODIFIER
+CONDA_PYTHON_EXE
+CONDA_SHLVL
+EDITOR
+GEM_HOME
+</code></pre></div>
+</div>
+<ul>
+<li>Many tools create variables to manage configuration<ul>
+<li>No guarantees that they don&rsquo;t collide with each other</li>
+</ul>
+</li>
+</ul>
+<!-- ---------------------------------------------------------------- -->
+</section>
+<section class="exercise">
+<h2 class="exercise">Practice</h2>
+<p><strong>Exercise 5</strong>:
+The <code>os.environ</code> variable in Python&rsquo;s <code>os</code> module
+is an easy way to get all of the process&rsquo;s environment variables.
+Compare it to what <code>env</code> shows.
+Are there differences?
+If so, what are they and why do they exist?</p>
+<!-- ---------------------------------------------------------------- -->
+</section>
 <section class="aside">
 <h2 class="aside">Appendices</h2>
 <h3>Terms</h3>

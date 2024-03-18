@@ -36,3 +36,6 @@ out/fork_exec.out: src/fork_exec.py
 
 out/shell_var_outer.out: src/shell_var_outer.sh src/shell_var_inner.sh
 	bash $< > $@
+
+out/show_env_vars.out: src/show_env_vars.sh
+	bash $< > $@

@@ -280,6 +280,27 @@ are they visible in the parent once the child finishes executing?
 [%multi src/env_var_py.sh src/env_var_py.py out/env_var_py.out %]
 
 <!-- ---------------------------------------------------------------- -->
+[% section_break class="topic" title="Inspecting Variables" %]
+
+-   `set` on its own lists variables, functions, etc.
+-   `env` shows all environment variables
+
+[%multi src/show_env_vars.sh out/show_env_vars.out %]
+
+-   Many tools create variables to manage configuration
+    -   No guarantees that they don't collide with each other
+
+<!-- ---------------------------------------------------------------- -->
+[% section_break class="exercise" %]
+
+[% exercise %]
+The `os.environ` variable in Python's `os` module
+is an easy way to get all of the process's environment variables.
+Compare it to what `env` shows.
+Are there differences?
+If so, what are they and why do they exist?
+
+<!-- ---------------------------------------------------------------- -->
 [% section_break class="aside" title="Appendices" %]
 
 ### Terms
