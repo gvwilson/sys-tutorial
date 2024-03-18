@@ -351,11 +351,9 @@ If so, what are they and why do they exist?
 -   Bash shell runs commands in `~/.bashrc` for interactive shells
 -   Yes, the terminology is confusing
 -   Common to have `~/.bash_profile` [%g source_shell "source" %] `~/.bashrc`
+    -   I.e., run those commands in the current shell
 
 [% single src/source_bashrc.sh %]
-
--   The `.` at the front means "run this now in the same process"
-    -   Not the most obscure piece of syntax but not the easiest either
 
 <!-- ---------------------------------------------------------------- -->
 [% section_break class="aside" title="Command Interpolation" %]
@@ -379,6 +377,37 @@ Write a shell script that:
 
 This exercise may remind you why complicated operations should be done in Python
 rather than in the shell.
+
+<!-- ---------------------------------------------------------------- -->
+[% section_break class="topic" title="Virtual Environments" %]
+
+-   If two directories `A` and `B` contain a program `xyz` and `A` comes before `B`,
+    `xyz` on its own will run `A/xyz` instead of `B/xyz`
+-   This is how [%g virtual_env "virtual environments" %] work
+
+[% multi src/show_virtual_env.sh out/show_virtual_env.out %]
+
+-   Virtual environment is initially a minimal Python installation
+-   Installing new packages puts them in the environment's directory
+
+<!-- ---------------------------------------------------------------- -->
+[% section_break class="exercise" %]
+
+[% exercise %]
+To explore virtual environments:
+
+1.  Create a new virtual environment called `example`.
+2.  Activate that virtual environment.
+3.  Install the `faker` package with `pip install faker`.
+4.  Find `faker` in `$HOME/conda/envs/example`.
+
+<!-- ---------------------------------------------------------------- -->
+[% section_break class="aside" title="Limits of Virtual Environments" %]
+
+-   `conda` and `python -m venv` work for Python
+-   But what about Rust, JavaScript, and other languages?
+-   In particular, what if you need an isolated environment for several languages at once?
+-   And you want other people to be able to reproduce it?
 
 <!-- ---------------------------------------------------------------- -->
 [% section_break class="aside" title="Appendices" %]

@@ -866,19 +866,16 @@ If so, what are they and why do they exist?</p>
 <li>Bash shell runs commands in <code>~/.bash_profile</code> for login shells</li>
 <li>Bash shell runs commands in <code>~/.bashrc</code> for interactive shells</li>
 <li>Yes, the terminology is confusing</li>
-<li>Common to have <code>~/.bash_profile</code> <a href="#g:source_shell">source</a> <code>~/.bashrc</code></li>
-</ul>
-<p class="inclusion"><a href="src/source_bashrc.sh">src/source_bashrc.sh</a></p>
-<div class="language-sh">
-<div class="highlight"><pre><span></span><code>.<span class="w"> </span><span class="nv">$HOME</span>/.bashrc
-</code></pre></div>
-</div>
-<ul>
-<li>The <code>.</code> at the front means &ldquo;run this now in the same process&rdquo;<ul>
-<li>Not the most obscure piece of syntax but not the easiest either</li>
+<li>Common to have <code>~/.bash_profile</code> <a href="#g:source_shell">source</a> <code>~/.bashrc</code><ul>
+<li>I.e., run those commands in the current shell</li>
 </ul>
 </li>
 </ul>
+<p class="inclusion"><a href="src/source_bashrc.sh">src/source_bashrc.sh</a></p>
+<div class="language-sh">
+<div class="highlight"><pre><span></span><code><span class="nb">source</span><span class="w"> </span><span class="nv">$HOME</span>/.bashrc
+</code></pre></div>
+</div>
 <!-- ---------------------------------------------------------------- -->
 </section>
 <section class="aside">
@@ -915,6 +912,54 @@ Write a shell script that:</p>
 </ol>
 <p>This exercise may remind you why complicated operations should be done in Python
 rather than in the shell.</p>
+<!-- ---------------------------------------------------------------- -->
+</section>
+<section class="topic">
+<h2 class="topic">19: Virtual Environments</h2>
+<ul>
+<li>If two directories <code>A</code> and <code>B</code> contain a program <code>xyz</code> and <code>A</code> comes before <code>B</code>,
+    <code>xyz</code> on its own will run <code>A/xyz</code> instead of <code>B/xyz</code></li>
+<li>This is how <a href="#g:virtual_env">virtual environments</a> work</li>
+</ul>
+<p class="inclusion"><a href="src/show_virtual_env.sh">src/show_virtual_env.sh</a></p>
+<div class="language-sh">
+<div class="highlight"><pre><span></span><code><span class="nb">echo</span><span class="w"> </span><span class="nv">$PATH</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>tr<span class="w"> </span>:<span class="w"> </span><span class="s1">&#39;\n&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>conda
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;python is&quot;</span><span class="w"> </span><span class="k">$(</span>which<span class="w"> </span>python<span class="k">)</span>
+</code></pre></div>
+</div>
+<p class="inclusion"><a href="out/show_virtual_env.out">out/show_virtual_env.out</a></p>
+<div class="language-plaintext">
+<div class="highlight"><pre><span></span><code>/Users/tut/conda/envs/sys/bin
+/Users/tut/conda/condabin
+python is /Users/tut/conda/envs/sys/bin/python
+</code></pre></div>
+</div>
+<ul>
+<li>Virtual environment is initially a minimal Python installation</li>
+<li>Installing new packages puts them in the environment&rsquo;s directory</li>
+</ul>
+<!-- ---------------------------------------------------------------- -->
+</section>
+<section class="exercise">
+<h2 class="exercise">Practice</h2>
+<p><strong>Exercise 8</strong>:
+To explore virtual environments:</p>
+<ol>
+<li>Create a new virtual environment called <code>example</code>.</li>
+<li>Activate that virtual environment.</li>
+<li>Install the <code>faker</code> package with <code>pip install faker</code>.</li>
+<li>Find <code>faker</code> in <code>$HOME/conda/envs/example</code>.</li>
+</ol>
+<!-- ---------------------------------------------------------------- -->
+</section>
+<section class="aside">
+<h2 class="aside">Limits of Virtual Environments</h2>
+<ul>
+<li><code>conda</code> and <code>python -m venv</code> work for Python</li>
+<li>But what about Rust, JavaScript, and other languages?</li>
+<li>In particular, what if you need an isolated environment for several languages at once?</li>
+<li>And you want other people to be able to reproduce it?</li>
+</ul>
 <!-- ---------------------------------------------------------------- -->
 </section>
 <section class="aside">
@@ -956,6 +1001,8 @@ rather than in the shell.</p>
 <dt id="g:source_shell">source (in shell script)</dt><dd>To run one <a href="#shell_script">shell script</a> in the same process as another.</dd>
 
 <dt id="g:suspend_process">suspend (a process)</dt><dd>To pause the execution of a <a href="#process">process</a> but leave it intact so that it can <a href="#resume_process">resume</a> later.</dd>
+
+<dt id="g:virtual_env">virtual environment</dt><dd>A set of libraries, applications, and other resources that are isolated from the main system and other virtual environments.</dd>
 </dl>
 <h3>Acknowledgments</h3>
 <ul><li>Stefan Arentz</li>

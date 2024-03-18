@@ -163,6 +163,13 @@
 
 # V
 
+- key: virtual_env
+  en:
+    term: virtual environment
+    def: >
+      A set of libraries, applications, and other resources that are isolated from the main system
+      and other virtual environments.
+
 # W
 
 # X

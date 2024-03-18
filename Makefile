@@ -48,3 +48,6 @@ out/show_env_vars.out: src/show_env_vars.sh
 
 out/show_path.out: src/show_path.sh
 	bash $< | grep -v ruby | grep -v nightly | grep -v draw.io | sed -e 's/gregwilson/tut/' > $@
+
+out/show_virtual_env.out: src/show_virtual_env.sh
+	bash $< | sed -e 's/gregwilson/tut/' > $@
