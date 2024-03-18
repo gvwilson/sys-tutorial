@@ -250,11 +250,20 @@ When and why would you use each?
 -   The shell is a program and programs have variables
 -   Create or change with <code><em>name</em>=<em>value</em></code>
 -   [%g shell_var "Shell variable" %] stays in the process
+-   Use <code>$<em>name</em></code> to get value
+    -   Because people type file and directory names more often
 
-[%multi src/shell_var_outer.sh src/shell_var_inner.sh out/shell_var_outer.out %]
+[% multi src/shell_var_outer.sh src/shell_var_inner.sh out/shell_var_outer.out %]
 
 -   Note: variables usually written in upper case to distinguish them from filenames
     -   So underscores as separators
+
+<!-- ---------------------------------------------------------------- -->
+[% section_break class="exercise" %]
+
+[% exercise %]
+What happens if you modify the scripts shown above
+to use single quotes instead of double quotes?
 
 <!-- ---------------------------------------------------------------- -->
 [% section_break class="topic" title="Environment Variables" %]
@@ -262,7 +271,7 @@ When and why would you use each?
 -   [%g env_var "Environment variable" %] is inherited by new processes
 -   Use <code>export <em>name</em>=<em>value</em></code>
 
-[%multi src/env_var_outer.sh src/env_var_inner.sh out/env_var_outer.out %]
+[% multi src/env_var_outer.sh src/env_var_inner.sh out/env_var_outer.out %]
 
 <!-- ---------------------------------------------------------------- -->
 [% section_break class="exercise" %]
@@ -277,7 +286,7 @@ are they visible in the parent once the child finishes executing?
 -   Environment variables are inherited by child process…
 -   …so they are inherited by programs (not just shell scripts)
 
-[%multi src/env_var_py.sh src/env_var_py.py out/env_var_py.out %]
+[% multi src/env_var_py.sh src/env_var_py.py out/env_var_py.out %]
 
 <!-- ---------------------------------------------------------------- -->
 [% section_break class="topic" title="Inspecting Variables" %]
@@ -285,7 +294,7 @@ are they visible in the parent once the child finishes executing?
 -   `set` on its own lists variables, functions, etc.
 -   `env` shows all environment variables
 
-[%multi src/show_env_vars.sh out/show_env_vars.out %]
+[% multi src/show_env_vars.sh out/show_env_vars.out %]
 
 -   Many tools create variables to manage configuration
     -   No guarantees that they don't collide with each other
@@ -299,6 +308,56 @@ is an easy way to get all of the process's environment variables.
 Compare it to what `env` shows.
 Are there differences?
 If so, what are they and why do they exist?
+
+<!-- ---------------------------------------------------------------- -->
+[% section_break class="topic" title="Important Environment Variables" %]
+
+| Name     | Typical Value    | Purpose                           |
+| -------- | ---------------- | --------------------------------- |
+| `EDITOR` | `nano`           | default text editor               |
+| `HOME`   | `/Users/tut`     | user's home directory             |
+| `LANG`   | `en_CA.UTF-8`    | user's preferred (human) language |
+| `PATH`   | see below        | search path for programs          |
+| `PWD`    | `/Users/tut/sys` | present working directory         |
+| `SHELL`  | `/bin/bash`      | user's default shell              |
+| `TERM`   | `xterm-256color` | type of terminal                  |
+| `TMPDIR` | `/var/tmp`       | storage for temporary files       |
+| `USER`   | `tut`            | current user's name               |
+
+<!-- ---------------------------------------------------------------- -->
+[% section_break class="topic" title="Search Path" %]
+
+-   `PATH` holds a colon-separated list of directories
+-   Shell looks in these *in order* to find commands
+-   Looking at them all on one line is annoying, so use `tr` to split
+
+[% multi src/show_path.sh src/show_path.out %]
+
+-   Notice `/Users/tut/bin`
+-   Common to have a `~/bin` directory with the user's own utilities
+
+<!-- ---------------------------------------------------------------- -->
+[% section_break class="topic" title="Adding to the Search Path" %]
+
+-   Shell variables (of both kinds) are just strings
+-   So redefine the variable to the old value with a new directory at the front
+
+[% multi src/change_path.sh src/change_path.out %]
+
+<!-- ---------------------------------------------------------------- -->
+[% section_break class="topic" title="Startup Files" %]
+
+-   Bash shell runs commands in `~/.bash_profile` for login shells
+-   Bash shell runs commands in `~/.bashrc` for interactive shells
+-   Yes, the terminology is confusing
+-   Common to have `~/.bash_profile` [%g source_shell "source" %] `~/.bashrc`
+
+<!-- ---------------------------------------------------------------- -->
+[% section_break class="exercise" %]
+
+[% exercise %]
+Removing a directory from `PATH` is harder than adding one.
+[% todo use `paste -s -d :` after introducing command interpolation %]
 
 <!-- ---------------------------------------------------------------- -->
 [% section_break class="aside" title="Appendices" %]

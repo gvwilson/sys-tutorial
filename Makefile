@@ -22,6 +22,9 @@ release:
 .PHONY: run
 run: ${OUT_FILES}
 
+out/change_path.out: src/change_path.sh
+	bash $< > $@
+
 out/env_var_outer.out: src/env_var_outer.sh src/env_var_inner.sh
 	bash $< > $@
 
@@ -39,3 +42,6 @@ out/shell_var_outer.out: src/shell_var_outer.sh src/shell_var_inner.sh
 
 out/show_env_vars.out: src/show_env_vars.sh
 	bash $< > $@
+
+out/show_path.out: src/show_path.sh
+	bash $< | grep -v ruby | grep -v nightly | grep -v draw.io | sed -e 's/gregwilson/tut/' > $@
