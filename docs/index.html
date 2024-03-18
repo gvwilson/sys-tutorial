@@ -224,7 +224,7 @@ What does the <code>pgrep</code> command do?</p>
 <li>Except the first</li>
 </ul>
 </li>
-<li>Refer to <a href="#g:process_child">child process</a> and <a href="#g:process_parent">parent process</a></li>
+<li>Refer to <a href="#g:child_process">child process</a> and <a href="#g:parent_process">parent process</a></li>
 <li><code>echo $$</code> shows <a href="#g:process_id">process ID</a> of current process<ul>
 <li><code>$$</code> shortcut because it&rsquo;s used so often</li>
 </ul>
@@ -235,45 +235,7 @@ What does the <code>pgrep</code> command do?</p>
 <!-- ---------------------------------------------------------------- -->
 </section>
 <section class="topic">
-<h2 class="topic">5: Shell Variables vs. Environment Variables</h2>
-<ul>
-<li>The shell is a program and programs have variables</li>
-<li><a href="#g:shell_var">Shell variable</a> stays in the process</li>
-<li><a href="#g:env_var">Environment variable</a> is inherited by new processes</li>
-</ul>
-<p class="inclusion"><a href="src/shell_vs_env_outer.sh">src/shell_vs_env_outer.sh</a></p>
-<div class="language-sh">
-<div class="highlight"><pre><span></span><code><span class="c1"># shell_vs_env_outer.sh</span>
-<span class="nv">window</span><span class="o">=</span><span class="s2">&quot;neighbor&quot;</span>
-<span class="nv">threshold</span><span class="o">=</span><span class="m">0</span>.5
-
-<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;outer: window is </span><span class="si">${</span><span class="nv">window</span><span class="si">}</span><span class="s2"> and threshold is </span><span class="si">${</span><span class="nv">threshold</span><span class="si">}</span><span class="s2">&quot;</span>
-bash<span class="w"> </span>src/shell_vs_env_inner.sh
-</code></pre></div>
-</div>
-<p class="inclusion"><a href="src/shell_vs_env_inner.sh">src/shell_vs_env_inner.sh</a></p>
-<div class="language-sh">
-<div class="highlight"><pre><span></span><code><span class="c1"># shell_vs_env_inner.sh</span>
-<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;inner: window is </span><span class="si">${</span><span class="nv">window</span><span class="si">}</span><span class="s2"> and threshold is </span><span class="si">${</span><span class="nv">threshold</span><span class="si">}</span><span class="s2">&quot;</span>
-</code></pre></div>
-</div>
-<p class="inclusion"><a href="out/shell_vs_env_outer.out">out/shell_vs_env_outer.out</a></p>
-<div class="language-plaintext">
-<div class="highlight"><pre><span></span><code>outer: window is neighbor and threshold is 0.5
-inner: window is  and threshold is
-</code></pre></div>
-</div>
-<!-- ---------------------------------------------------------------- -->
-</section>
-<section class="exercise">
-<h2 class="exercise">Practice</h2>
-<p><strong>Exercise 3</strong>:
-If a child process sets shell or environment variables,
-are they visible in the parent once the child finishes executing?</p>
-<!-- ---------------------------------------------------------------- -->
-</section>
-<section class="topic">
-<h2 class="topic">6: Signals</h2>
+<h2 class="topic">5: Signals</h2>
 <ul>
 <li>Can send a <a href="#g:signal">signal</a> to a process<ul>
 <li>Something extraordinary happened, please deal with it immediately</li>
@@ -408,9 +370,9 @@ use Ctrl-C three times
 <!-- ---------------------------------------------------------------- -->
 </section>
 <section class="topic">
-<h2 class="topic">7: Background Processes</h2>
+<h2 class="topic">6: Background Processes</h2>
 <ul>
-<li>Can run a process in the <a href="#g:process_background">background</a><ul>
+<li>Can run a process in the <a href="#g:background_process">background</a><ul>
 <li>Only difference is that it&rsquo;s not connected to the terminal</li>
 </ul>
 </li>
@@ -450,14 +412,14 @@ loop finished
 <li>Or needs keyboard input</li>
 </ul>
 </li>
-<li>Can also start process and then <a href="#g:process_suspend">suspend</a> it with Ctrl-Z<ul>
+<li>Can also start process and then <a href="#g:suspend_process">suspend</a> it with Ctrl-Z<ul>
 <li>Sends <code>SIGSTOP</code> instead of <code>SIGINT</code></li>
 </ul>
 </li>
 <li>Use <code>jobs</code> to see all suspended processes</li>
 <li>Then <code>bg %<em>num</em></code> to resume in the background</li>
-<li>Or <code>fg %<em>num</em></code> to <a href="#g:process_foreground">foreground</a> the process
-    to <a href="#g:process_resume">resume</a> its execution</li>
+<li>Or <code>fg %<em>num</em></code> to <a href="#g:foreground_process">foreground</a> the process
+    to <a href="#g:resume_process">resume</a> its execution</li>
 </ul>
 <p class="inclusion"><a href="src/ctrl_z_background.text">src/ctrl_z_background.text</a></p>
 <div class="language-text">
@@ -481,7 +443,7 @@ loop finished
 <!-- ---------------------------------------------------------------- -->
 </section>
 <section class="topic">
-<h2 class="topic">8: Killing Processes</h2>
+<h2 class="topic">7: Killing Processes</h2>
 <ul>
 <li>Use <code>kill</code> to send a signal to a process<ul>
 <li>Not necessarily to stop it</li>
@@ -525,9 +487,9 @@ KeyboardInterrupt
 <!-- ---------------------------------------------------------------- -->
 </section>
 <section class="topic">
-<h2 class="topic">9: Fork</h2>
+<h2 class="topic">8: Fork</h2>
 <ul>
-<li><a href="#g:fork">Fork</a> creates a duplicate of a process<ul>
+<li><a href="#g:fork_process">Fork</a> creates a duplicate of a process<ul>
 <li>Creator is parent, gets process ID of child as return value</li>
 <li>Child gets 0 as return value (but has something else as its process ID)</li>
 </ul>
@@ -555,7 +517,7 @@ child got 0 is 41619
 <!-- ---------------------------------------------------------------- -->
 </section>
 <section class="topic">
-<h2 class="topic">10: Flushing I/O</h2>
+<h2 class="topic">9: Flushing I/O</h2>
 <ul>
 <li>Example above works interactively</li>
 <li>Run as <code>python fork.py &gt; temp.out</code>, the &ldquo;starting&rdquo; line is duplicated</li>
@@ -578,7 +540,7 @@ child got 0 is 41619
 <!-- ---------------------------------------------------------------- -->
 </section>
 <section class="topic">
-<h2 class="topic">11: Exec</h2>
+<h2 class="topic">10: Exec</h2>
 <ul>
 <li>The <code>exec</code> family of functions in <code>os</code> execute a new program <em>inside the calling process</em><ul>
 <li>Replace existing program and start a new one</li>
@@ -611,129 +573,436 @@ child echoing 0 from 46714
 </section>
 <section class="exercise">
 <h2 class="exercise">Practice</h2>
+<p><strong>Exercise 3</strong>:
+What are the differences between <code>os.execl</code>, <code>os.execlp</code>, and <code>os.execv</code>?
+When and why would you use each?</p>
+<!-- ---------------------------------------------------------------- -->
+</section>
+<section class="topic">
+<h2 class="topic">11: Shell Variables</h2>
+<ul>
+<li>The shell is a program and programs have variables</li>
+<li>Create or change with <code><em>name</em>=<em>value</em></code></li>
+<li><a href="#g:shell_var">Shell variable</a> stays in the process</li>
+<li>Use <code>$<em>name</em></code> to get value<ul>
+<li>Because people type file and directory names more often</li>
+</ul>
+</li>
+</ul>
+<p class="inclusion"><a href="src/shell_var_outer.sh">src/shell_var_outer.sh</a></p>
+<div class="language-sh">
+<div class="highlight"><pre><span></span><code><span class="c1"># shell_var_outer.sh</span>
+<span class="nv">WINDOW</span><span class="o">=</span><span class="s2">&quot;neighbor&quot;</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;outer: window is </span><span class="si">${</span><span class="nv">WINDOW</span><span class="si">}</span><span class="s2">&quot;</span>
+bash<span class="w"> </span>src/shell_var_inner.sh
+</code></pre></div>
+</div>
+<p class="inclusion"><a href="src/shell_var_inner.sh">src/shell_var_inner.sh</a></p>
+<div class="language-sh">
+<div class="highlight"><pre><span></span><code><span class="c1"># shell_var_inner.sh</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;inner: window is </span><span class="si">${</span><span class="nv">window</span><span class="si">}</span><span class="s2">&quot;</span>
+</code></pre></div>
+</div>
+<p class="inclusion"><a href="out/shell_var_outer.out">out/shell_var_outer.out</a></p>
+<div class="language-plaintext">
+<div class="highlight"><pre><span></span><code>outer: window is neighbor
+inner: window is
+</code></pre></div>
+</div>
+<ul>
+<li>Note: variables usually written in upper case to distinguish them from filenames<ul>
+<li>So underscores as separators</li>
+</ul>
+</li>
+</ul>
+<!-- ---------------------------------------------------------------- -->
+</section>
+<section class="exercise">
+<h2 class="exercise">Practice</h2>
 <p><strong>Exercise 4</strong>:
-What are the differences between <code>os.execl</code>, <code>os.execlp</code>, and <code>os.execv</code>?</p>
+What happens if you modify the scripts shown above
+to use single quotes instead of double quotes?</p>
+<!-- ---------------------------------------------------------------- -->
+</section>
+<section class="topic">
+<h2 class="topic">12: Environment Variables</h2>
+<ul>
+<li><a href="#g:env_var">Environment variable</a> is inherited by new processes</li>
+<li>Use <code>export <em>name</em>=<em>value</em></code></li>
+</ul>
+<p class="inclusion"><a href="src/env_var_outer.sh">src/env_var_outer.sh</a></p>
+<div class="language-sh">
+<div class="highlight"><pre><span></span><code><span class="c1"># env_var_outer.sh</span>
+<span class="nv">WINDOW</span><span class="o">=</span><span class="s2">&quot;neighbor&quot;</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">THRESHOLD</span><span class="o">=</span><span class="m">0</span>.5
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;outer: window is </span><span class="si">${</span><span class="nv">WINDOW</span><span class="si">}</span><span class="s2"> and threshold is </span><span class="si">${</span><span class="nv">THRESHOLD</span><span class="si">}</span><span class="s2">&quot;</span>
+bash<span class="w"> </span>src/env_var_inner.sh
+</code></pre></div>
+</div>
+<p class="inclusion"><a href="src/env_var_inner.sh">src/env_var_inner.sh</a></p>
+<div class="language-sh">
+<div class="highlight"><pre><span></span><code><span class="c1"># env_var_inner.sh</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;inner: window is </span><span class="si">${</span><span class="nv">window</span><span class="si">}</span><span class="s2"> and threshold is </span><span class="si">${</span><span class="nv">threshold</span><span class="si">}</span><span class="s2">&quot;</span>
+</code></pre></div>
+</div>
+<p class="inclusion"><a href="out/env_var_outer.out">out/env_var_outer.out</a></p>
+<div class="language-plaintext">
+<div class="highlight"><pre><span></span><code>outer: window is neighbor and threshold is 0.5
+inner: window is  and threshold is
+</code></pre></div>
+</div>
+<!-- ---------------------------------------------------------------- -->
+</section>
+<section class="exercise">
+<h2 class="exercise">Practice</h2>
+<p><strong>Exercise 5</strong>:
+If a child process sets shell or environment variables,
+are they visible in the parent once the child finishes executing?</p>
+<!-- ---------------------------------------------------------------- -->
+</section>
+<section class="topic">
+<h2 class="topic">13: Environment Variables in Programs</h2>
+<ul>
+<li>Environment variables are inherited by child process…</li>
+<li>…so they are inherited by programs (not just shell scripts)</li>
+</ul>
+<p class="inclusion"><a href="src/env_var_py.sh">src/env_var_py.sh</a></p>
+<div class="language-sh">
+<div class="highlight"><pre><span></span><code><span class="c1"># env_var_py.sh</span>
+<span class="nv">WINDOW</span><span class="o">=</span><span class="s2">&quot;neighbor&quot;</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">THRESHOLD</span><span class="o">=</span><span class="m">0</span>.5
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;outer: window is </span><span class="si">${</span><span class="nv">WINDOW</span><span class="si">}</span><span class="s2"> and threshold is </span><span class="si">${</span><span class="nv">THRESHOLD</span><span class="si">}</span><span class="s2">&quot;</span>
+python<span class="w"> </span>src/env_var_py.py
+</code></pre></div>
+</div>
+<p class="inclusion"><a href="src/env_var_py.py">src/env_var_py.py</a></p>
+<div class="language-py">
+<div class="highlight"><pre><span></span><code><span class="c1"># env_var_py.py</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="n">window</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;WINDOW&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">&quot;not set&quot;</span><span class="p">)</span>
+<span class="n">threshold</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;THRESHOLD&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">&quot;not set&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;inner: window is </span><span class="si">{</span><span class="n">window</span><span class="si">}</span><span class="s2"> and threshold is </span><span class="si">{</span><span class="n">threshold</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+</div>
+<p class="inclusion"><a href="out/env_var_py.out">out/env_var_py.out</a></p>
+<div class="language-plaintext">
+<div class="highlight"><pre><span></span><code>outer: window is neighbor and threshold is 0.5
+inner: window is not set and threshold is 0.5
+</code></pre></div>
+</div>
+<!-- ---------------------------------------------------------------- -->
+</section>
+<section class="topic">
+<h2 class="topic">14: Inspecting Variables</h2>
+<ul>
+<li><code>set</code> on its own lists variables, functions, etc.</li>
+<li><code>env</code> shows all environment variables</li>
+</ul>
+<p class="inclusion"><a href="src/show_env_vars.sh">src/show_env_vars.sh</a></p>
+<div class="language-sh">
+<div class="highlight"><pre><span></span><code>env<span class="w"> </span><span class="p">|</span><span class="w"> </span>cut<span class="w"> </span>-d<span class="w"> </span><span class="o">=</span><span class="w"> </span>-f<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sort<span class="w"> </span><span class="p">|</span><span class="w"> </span>head<span class="w"> </span>-n<span class="w"> </span><span class="m">10</span>
+</code></pre></div>
+</div>
+<p class="inclusion"><a href="out/show_env_vars.out">out/show_env_vars.out</a></p>
+<div class="language-plaintext">
+<div class="highlight"><pre><span></span><code>BASH_SILENCE_DEPRECATION_WARNING
+CONDA_DEFAULT_ENV
+CONDA_EXE
+CONDA_PREFIX
+CONDA_PREFIX_1
+CONDA_PROMPT_MODIFIER
+CONDA_PYTHON_EXE
+CONDA_SHLVL
+EDITOR
+GEM_HOME
+</code></pre></div>
+</div>
+<ul>
+<li>Many tools create variables to manage configuration<ul>
+<li>No guarantees that they don&rsquo;t collide with each other</li>
+</ul>
+</li>
+</ul>
+<!-- ---------------------------------------------------------------- -->
+</section>
+<section class="exercise">
+<h2 class="exercise">Practice</h2>
+<p><strong>Exercise 6</strong>:
+The <code>os.environ</code> variable in Python&rsquo;s <code>os</code> module
+is an easy way to get all of the process&rsquo;s environment variables.
+Compare it to what <code>env</code> shows.
+Are there differences?
+If so, what are they and why do they exist?</p>
+<!-- ---------------------------------------------------------------- -->
+</section>
+<section class="topic">
+<h2 class="topic">15: Important Environment Variables</h2>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Typical Value</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>EDITOR</code></td>
+<td><code>nano</code></td>
+<td>default text editor</td>
+</tr>
+<tr>
+<td><code>HOME</code></td>
+<td><code>/Users/tut</code></td>
+<td>user&rsquo;s home directory</td>
+</tr>
+<tr>
+<td><code>LANG</code></td>
+<td><code>en_CA.UTF-8</code></td>
+<td>user&rsquo;s preferred (human) language</td>
+</tr>
+<tr>
+<td><code>PATH</code></td>
+<td>see below</td>
+<td>search path for programs</td>
+</tr>
+<tr>
+<td><code>PWD</code></td>
+<td><code>/Users/tut/sys</code></td>
+<td>present working directory</td>
+</tr>
+<tr>
+<td><code>SHELL</code></td>
+<td><code>/bin/bash</code></td>
+<td>user&rsquo;s default shell</td>
+</tr>
+<tr>
+<td><code>TERM</code></td>
+<td><code>xterm-256color</code></td>
+<td>type of terminal</td>
+</tr>
+<tr>
+<td><code>TMPDIR</code></td>
+<td><code>/var/tmp</code></td>
+<td>storage for temporary files</td>
+</tr>
+<tr>
+<td><code>USER</code></td>
+<td><code>tut</code></td>
+<td>current user&rsquo;s name</td>
+</tr>
+</tbody>
+</table>
+<!-- ---------------------------------------------------------------- -->
+</section>
+<section class="topic">
+<h2 class="topic">16: Search Path</h2>
+<ul>
+<li><code>PATH</code> holds a colon-separated list of directories</li>
+<li>Shell looks in these <em>in order</em> to find commands</li>
+<li>Looking at them all on one line is annoying, so use <code>tr</code> to split</li>
+</ul>
+<p class="inclusion"><a href="src/show_path.sh">src/show_path.sh</a></p>
+<div class="language-sh">
+<div class="highlight"><pre><span></span><code><span class="nb">echo</span><span class="w"> </span><span class="nv">$PATH</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>tr<span class="w"> </span>:<span class="w"> </span><span class="s1">&#39;\n&#39;</span>
+</code></pre></div>
+</div>
+<p class="inclusion"><a href="out/show_path.out">out/show_path.out</a></p>
+<div class="language-plaintext">
+<div class="highlight"><pre><span></span><code>/Users/tut/google-cloud-sdk/bin
+/Users/tut/conda/envs/sys/bin
+/Users/tut/conda/condabin
+/Users/tut/.nvm/versions/node/v20.8.0/bin
+/Users/tut/bin
+/Applications/Postgres.app/Contents/Versions/14/bin
+/Users/tut/go/bin
+/usr/local/bin
+/System/Cryptexes/App/usr/bin
+/usr/bin
+/bin
+/usr/sbin
+/sbin
+/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin
+/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin
+/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin
+/Library/Apple/usr/bin
+/Library/TeX/texbin
+/usr/local/bin
+</code></pre></div>
+</div>
+<ul>
+<li>Notice <code>/Users/tut/bin</code></li>
+<li>Common to have a <code>~/bin</code> directory with the user&rsquo;s own utilities</li>
+</ul>
+<!-- ---------------------------------------------------------------- -->
+</section>
+<section class="topic">
+<h2 class="topic">17: Adding to the Search Path</h2>
+<ul>
+<li>Shell variables (of both kinds) are just strings</li>
+<li>So redefine the variable to the old value with a new directory at the front</li>
+</ul>
+<p class="inclusion"><a href="src/change_path.sh">src/change_path.sh</a></p>
+<div class="language-sh">
+<div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">PATH</span><span class="o">=</span><span class="s2">&quot;/tmp/bin:</span><span class="si">${</span><span class="nv">PATH</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="nb">echo</span><span class="w"> </span><span class="nv">$PATH</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>tr<span class="w"> </span>:<span class="w"> </span><span class="s1">&#39;\n&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>head<span class="w"> </span>-n<span class="w"> </span><span class="m">5</span>
+</code></pre></div>
+</div>
+<p class="inclusion"><a href="out/change_path.out">out/change_path.out</a></p>
+<div class="language-plaintext">
+<div class="highlight"><pre><span></span><code>/tmp/bin
+/Users/gregwilson/google-cloud-sdk/bin
+/Users/gregwilson/conda/envs/sys/bin
+/Users/gregwilson/conda/condabin
+/Users/gregwilson/.gem/ruby/3.1.2/bin
+</code></pre></div>
+</div>
+<!-- ---------------------------------------------------------------- -->
+</section>
+<section class="topic">
+<h2 class="topic">18: Startup Files</h2>
+<ul>
+<li>Bash shell runs commands in <code>~/.bash_profile</code> for login shells</li>
+<li>Bash shell runs commands in <code>~/.bashrc</code> for interactive shells</li>
+<li>Yes, the terminology is confusing</li>
+<li>Common to have <code>~/.bash_profile</code> <a href="#g:source_shell">source</a> <code>~/.bashrc</code><ul>
+<li>I.e., run those commands in the current shell</li>
+</ul>
+</li>
+</ul>
+<p class="inclusion"><a href="src/source_bashrc.sh">src/source_bashrc.sh</a></p>
+<div class="language-sh">
+<div class="highlight"><pre><span></span><code><span class="nb">source</span><span class="w"> </span><span class="nv">$HOME</span>/.bashrc
+</code></pre></div>
+</div>
+<!-- ---------------------------------------------------------------- -->
+</section>
+<section class="aside">
+<h2 class="aside">Command Interpolation</h2>
+<ul>
+<li>Can use <code>outer $(<em>inner</em>)</code> to run <code>inner</code> and use its output as arguments to <code>outer</code></li>
+<li>Long-winded way to count lines in some text files</li>
+</ul>
+<p class="inclusion"><a href="src/interpolate.sh">src/interpolate.sh</a></p>
+<div class="language-sh">
+<div class="highlight"><pre><span></span><code>wc<span class="w"> </span>-l<span class="w"> </span><span class="k">$(</span>ls<span class="w"> </span>src/*.text<span class="k">)</span>
+</code></pre></div>
+</div>
+<p class="inclusion"><a href="out/interpolate.out">out/interpolate.out</a></p>
+<div class="language-plaintext">
+<div class="highlight"><pre><span></span><code>12 src/ctrl_z_background.text
+      12 src/kill_int.text
+       6 src/kill_process.text
+      30 total
+</code></pre></div>
+</div>
+<!-- ---------------------------------------------------------------- -->
+</section>
+<section class="exercise">
+<h2 class="exercise">Practice</h2>
+<p><strong>Exercise 7</strong>:
+Removing a directory from <code>PATH</code> is harder than adding one.
+Write a shell script that:</p>
+<ol>
+<li>Splits <code>PATH</code> on colons to put one entry on each line.</li>
+<li>Uses <code>grep</code> to remove the undesired line.</li>
+<li>Uses <code>paste -s -d :</code> to recombine the lines.</li>
+<li>Uses command interpolation to assign the result back to <code>PATH</code>.</li>
+</ol>
+<p>This exercise may remind you why complicated operations should be done in Python
+rather than in the shell.</p>
+<!-- ---------------------------------------------------------------- -->
+</section>
+<section class="topic">
+<h2 class="topic">19: Virtual Environments</h2>
+<ul>
+<li>If two directories <code>A</code> and <code>B</code> contain a program <code>xyz</code> and <code>A</code> comes before <code>B</code>,
+    <code>xyz</code> on its own will run <code>A/xyz</code> instead of <code>B/xyz</code></li>
+<li>This is how <a href="#g:virtual_env">virtual environments</a> work</li>
+</ul>
+<p class="inclusion"><a href="src/show_virtual_env.sh">src/show_virtual_env.sh</a></p>
+<div class="language-sh">
+<div class="highlight"><pre><span></span><code><span class="nb">echo</span><span class="w"> </span><span class="nv">$PATH</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>tr<span class="w"> </span>:<span class="w"> </span><span class="s1">&#39;\n&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>conda
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;python is&quot;</span><span class="w"> </span><span class="k">$(</span>which<span class="w"> </span>python<span class="k">)</span>
+</code></pre></div>
+</div>
+<p class="inclusion"><a href="out/show_virtual_env.out">out/show_virtual_env.out</a></p>
+<div class="language-plaintext">
+<div class="highlight"><pre><span></span><code>/Users/tut/conda/envs/sys/bin
+/Users/tut/conda/condabin
+python is /Users/tut/conda/envs/sys/bin/python
+</code></pre></div>
+</div>
+<ul>
+<li>Virtual environment is initially a minimal Python installation</li>
+<li>Installing new packages puts them in the environment&rsquo;s directory</li>
+</ul>
+<!-- ---------------------------------------------------------------- -->
+</section>
+<section class="exercise">
+<h2 class="exercise">Practice</h2>
+<p><strong>Exercise 8</strong>:
+To explore virtual environments:</p>
+<ol>
+<li>Create a new virtual environment called <code>example</code>.</li>
+<li>Activate that virtual environment.</li>
+<li>Install the <code>faker</code> package with <code>pip install faker</code>.</li>
+<li>Find <code>faker</code> in <code>$HOME/conda/envs/example</code>.</li>
+</ol>
+<!-- ---------------------------------------------------------------- -->
+</section>
+<section class="aside">
+<h2 class="aside">Limits of Virtual Environments</h2>
+<ul>
+<li><code>conda</code> and <code>python -m venv</code> work for Python</li>
+<li>But what about Rust, JavaScript, and other languages?</li>
+<li>In particular, what if you need an isolated environment for several languages at once?</li>
+<li>And you want other people to be able to reproduce it?</li>
+</ul>
 <!-- ---------------------------------------------------------------- -->
 </section>
 <section class="aside">
 <h2 class="aside">Appendices</h2>
 <h3>Terms</h3>
 <dl class="glossary">
-<dt id="g:ascii">ASCII character encoding</dt><dd>A standard way to represent the characters commonly used in the Western European languages as 7-bit integers, now largely superceded by <a href="#unicode">Unicode</a>.</dd>
-
-<dt id="g:authentication">authentication</dt><dd>The act of establishing one&rsquo;s identity.</dd>
-
-<dt id="g:authorization">authorization</dt><dd>The act of establishing that one has a right to access certain information.</dd>
-
-<dt id="g:process_background">background a process</dt><dd>To disconnect a <a href="#process">process</a> from the terminal but keep it running.</dd>
-
-<dt id="g:base64">base64 encoding</dt><dd>A representation of binary data that represents each group of 6 bits as one of 64 printable characters.</dd>
-
-<dt id="g:block">block</dt><dd>A set of bytes of a fixed size.</dd>
-
-<dt id="g:block_device">block device</dt><dd>An I/O interface that reads or writes fixed-size <a href="#block">blocks</a>.</dd>
+<dt id="g:background_process">background a process</dt><dd>To disconnect a <a href="#process">process</a> from the terminal but keep it running.</dd>
 
 <dt id="g:callback_function">callback function</dt><dd>A function A that is passed to another function B so that B can call it at some later point.</dd>
 
-<dt id="g:certificate_authority">certificate authority (CA)</dt><dd>An organization that issues, stores, and <a href="#digital_signature">signs</a> <a href="#digital_certificate">digital certificates</a>.</dd>
+<dt id="g:child_process">child process</dt><dd>A <a href="#process">process</a> created by another process, which is called its <a href="#parent_process">parent process</a>.</dd>
 
-<dt id="g:character_encoding">character encoding</dt><dd>A way to represent characters as bytes. Common examples include <a href="#ascii">ASCII</a> and <a href="#utf_8">UTF-8</a>.</dd>
+<dt id="g:env_var">environment variable</dt><dd>A <a href="#shell_var">shell variable</a> that is inherited by <a href="#child_process">child processes</a></dd>
 
-<dt id="g:cleartext">cleartext</dt><dd>Text that has not been <a href="#encryption">encrypted</a>.</dd>
+<dt id="g:foreground_process">foreground a process</dt><dd>To reconnect a <a href="#process">process</a> to the terminal after it has been <a href="#background_process">backgrounded</a> or <a href="#suspend_process">suspended</a>.</dd>
 
-<dt id="g:client">client</dt><dd>A program such as a browser that sends requests to a server and does something with the response.</dd>
+<dt id="g:fork_process">fork (a process)</dt><dd>To create a duplicate of an existing <a href="#process">process</a>, typically in order to run a new program.</dd>
 
-<dt id="g:concurrency">concurrency</dt><dd>The ability of different parts of a system to take action at the same time.</dd>
-
-<dt id="g:deployment">deployment</dt><dd>The act of making software available for use, e.g., by distributing it as package or by running a <a href="#service">service</a>.</dd>
-
-<dt id="g:digital_certificate">digital certificate</dt><dd>A file containing a <a href="#public_key_crypto">public cryptography key</a> and potentially other information such as the owner&rsquo;s email address or an expiration date. Digital certificates are used to establish identity online.</dd>
-
-<dt id="g:digital_signature">digital signature</dt><dd>A means of establishing the authenticity of a message or document.</dd>
-
-<dt id="g:dynamic_content">dynamic content</dt><dd>Web site content that is generated on the fly. Dynamic content is usually customized according to the requester&rsquo;s identity, <a href="#query_parameter">query parameter</a>, etc.</dd>
-
-<dt id="g:encryption">encryption</dt><dd>The process of converting data from a representation that anyone can read to one that can only be read by someone with the right algorithm and/or key.</dd>
-
-<dt id="g:process_foreground">foreground a process</dt><dd>To reconnect a <a href="#process">process</a> to the terminal after it has been <a href="#process_background">backgrounded</a> or <a href="#process_suspend">suspended</a>.</dd>
-
-<dt id="g:fragility">fragility</dt><dd>Used to describe a system that only works correctly if everything goes well; the opposite of <a href="#robustness">robust</a>.</dd>
-
-<dt id="g:http_header">header (of HTTP request or response)</dt><dd>A name-value pair at the start of an <a href="#http_request">HTTP request</a> or <a href="#http_response">response</a>. Headers are used to specify what data formats the sender can handle, the date and time the message was sent, and so on.</dd>
-
-<dt id="g:hostname">hostname</dt><dd>A human-readable name for a computer on a network.</dd>
-
-<dt id="g:http">HTTP</dt><dd>The protocol used to exchange information between browsers and websites, and more generally between other clients and servers. Communication consists of <a href="#http_request">requests</a> and <a href="#http_response">responses</a>.</dd>
-
-<dt id="g:http_method">HTTP method</dt><dd>The verb in an <a href="#http_request">HTTP request</a> that defines what the <a href="#client">client</a> wants to do. Common methods are <code>GET</code> (to get data) and <code>POST</code> (to submit data).</dd>
-
-<dt id="g:http_request">HTTP request</dt><dd>A precisely-formatted block of text sent from a <a href="#client">client</a> such as a browser to a <a href="#server">server</a> that specifies what resource is being requested, what data formats the client will accept, etc.</dd>
-
-<dt id="g:http_response">HTTP response</dt><dd>A precisely-formatted block of text sent from a <a href="#server">server</a> back to a <a href="#client">client</a> in reply to a <a href="#http_request">request</a>.</dd>
-
-<dt id="g:http_status_code">HTTP status code</dt><dd>A numerical code that indicates what happened when an <a href="#http_request">HTTP request</a> was processed, such as 200 (OK), 404 (not found), or 500 (internal server error).</dd>
-
-<dt id="g:https">HyperText Transfer Protocol Secure (HTTPS)</dt><dd>An encrypted version of <a href="#http">HTTP</a> used for secure communication.</dd>
-
-<dt id="g:json">JavaScript Object Notation (JSON)</dt><dd>A way to represent data by combining basic values like numbers and character strings in lists and key-value structures. Unlike other formats, it is unencumbered by a syntax for writing comments.</dd>
-
-<dt id="g:local_server">local server</dt><dd>A <a href="#server">server</a> running on the programmer&rsquo;s own computer, typically for development purposes.</dd>
-
-<dt id="g:localhost">localhost</dt><dd>A special <a href="#hostname">host name</a> that identifies the computer that the software is running on.</dd>
-
-<dt id="g:mime_type">MIME type</dt><dd>A standard that defines types of file content, such as <code>text/plain</code> for plain text and <code>image/jpeg</code> for JPEG images.</dd>
-
-<dt id="g:path">path (in filesystem)</dt><dd>An expression that refers to a file or directory in a filesystem.</dd>
-
-<dt id="g:pipe_shell">pipe</dt><dd>To use the output of one computation as the input for the next, or the connection between the two computations responsible for the data transfer.</dd>
-
-<dt id="g:port">port</dt><dd>A logical endpoint for communication, like a phone number in an office building.</dd>
+<dt id="g:parent_process">parent process</dt><dd>A <a href="#process">process</a> which has created one or more other processes, which are called its <a href="#child_process">child processes</a>.</dd>
 
 <dt id="g:process">process</dt><dd>A running instance of a program.</dd>
 
-<dt id="g:public_key_crypto">public key cryptography</dt><dd>A way to encrypt data in which each key undoes the effect of the other, but it is practically impossible to determine one key given the other.</dd>
+<dt id="g:process_id">process ID</dt><dd>The unique numerical identifier of a running <a href="#process">process</a>.</dd>
 
-<dt id="g:query_parameter">query parameter</dt><dd>A key-value pair included in a URL that the server may use to modify or customize its response.</dd>
+<dt id="g:process_tree">process tree</dt><dd>The set of processes created directly or indirectly by one process and the <a href="#parent_process">parent</a>-<a href="#child_process">child</a> relationships between them.</dd>
 
-<dt id="g:refactor">refactor</dt><dd>To reorganize code without changing its overall behavior.</dd>
+<dt id="g:resume_process">resume (a process)</dt><dd>To continue the execution of a <a href="#suspend_process">suspended</a> <a href="#process">process</a>.</dd>
 
-<dt id="g:resolve_path">resolve (a path)</dt><dd>To translate a <a href="#path">path</a> into the canonical name of the file or directory it refers to.</dd>
+<dt id="g:shell">shell</dt><dd>A program that allows a user to interact with a computer&rsquo;s operating system and other programs through a textual user interface.</dd>
 
-<dt id="g:process_resume">resume a process</dt><dd>To continue the execution of a <a href="#process_suspend">suspended</a> <a href="#process">process</a>.</dd>
+<dt id="g:shell_var">shell variable</dt><dd>A variable set and used in the <a href="#shell">shell</a>.</dd>
 
-<dt id="g:robustness">robustness</dt><dd>The ability to cope with errors or unlikely events while executing; the opposite of <a href="#fragility">fragile</a>.</dd>
-
-<dt id="g:server">server</dt><dd>A program that waits for requests from <a href="#client">clients</a> and sends them data in response.</dd>
-
-<dt id="g:service">service</dt><dd>A long-running program that provides functionality to other programs (or people). A service may run on a local computer for personal use, or may be networked for wider use.</dd>
+<dt id="g:shell_script">shell_script</dt><dd>A program that uses <a href="#shell">shell</a> commands as its programming language.</dd>
 
 <dt id="g:signal">signal</dt><dd>A message sent to a running <a href="#process">process</a> separate from its normal execution, such as an interrupt or a timer notification.</dd>
 
 <dt id="g:signal_handler">signal handler</dt><dd>A <a href="#callback_function">callback function</a> that is called when a <a href="#process">process</a> receives a <a href="#signal">signal</a>.</dd>
 
-<dt id="g:socket">socket</dt><dd>A communication channel between two computers that provides an interface similar to reading and writing files.</dd>
+<dt id="g:source_shell">source (in shell script)</dt><dd>To run one <a href="#shell_script">shell script</a> in the same process as another.</dd>
 
-<dt id="g:stderr">standard error</dt><dd>A predefined communication channel typically used to report errors.</dd>
+<dt id="g:suspend_process">suspend (a process)</dt><dd>To pause the execution of a <a href="#process">process</a> but leave it intact so that it can <a href="#resume_process">resume</a> later.</dd>
 
-<dt id="g:stdin">standard input</dt><dd>A predefined communication channel typically used to read input from the keyboard or from the previous process in a <a href="#pipe_shell">pipe</a>.</dd>
-
-<dt id="g:stdout">standard output</dt><dd>A predefined communication channel typically used to send output to the screen or to the next process in a <a href="#pipe_shell">pipe</a>.</dd>
-
-<dt id="g:static_file">static file</dt><dd>Web site content that is stored as a file on disk that is served as-is. Serving static files is usually faster than generating <a href="#dynamic_content">dynamic content</a>, but can only be done if what&rsquo;s wanted is unchanging and known in advance.</dd>
-
-<dt id="g:stream">stream</dt><dd>A sequence of bytes or other data of variable length that can only be processed in sequential order.</dd>
-
-<dt id="g:process_suspend">suspend a process</dt><dd>To pause the execution of a <a href="#process">process</a> but leave it intact so that it can <a href="#process_resume">resume</a> later.</dd>
-
-<dt id="g:tls_ssl">Transport Layer Security/Secure Sockets Layer (TLS/SSL)</dt><dd>A cryptographic protocol for secure communication over a computer network.</dd>
-
-<dt id="g:unicode">Unicode</dt><dd>A standard that defines numeric codes for many thousands of characters and symbols. Unicode does not define how those numbers are stored; that is done by standards like <a href="#utf_8">UTF-8</a>.</dd>
-
-<dt id="g:utf_8">UTF-8</dt><dd>A way to store the numeric codes representing <a href="#unicode">Unicode</a> characters that is backward-compatible with the older <a href="#ascii">ASCII</a> standard.</dd>
-
-<dt id="g:web_scraping">web scraping</dt><dd>The act of extracting data from HTML pages on the web.</dd>
-
-<dt id="g:wrap_object">wrap (an object)</dt><dd>To replace an object in a program with one that has the same external interface but which behaves differently or performs extra operations.</dd>
+<dt id="g:virtual_env">virtual environment</dt><dd>A set of libraries, applications, and other resources that are isolated from the main system and other virtual environments.</dd>
 </dl>
 <h3>Acknowledgments</h3>
 <ul><li>Stefan Arentz</li>
@@ -817,7 +1086,7 @@ What are the differences between <code>os.execl</code>, <code>os.execlp</code>, 
   <a href="license/"><i class="fab fa-creative-commons-by" aria-hidden="true" title="license"></i></a>
   &middot;
   <i class="fas fa-clock"></i>
-  <time datetime="2024-03-15">Last built 2024-03-15</time>
+  <time datetime="2024-03-18">Last built 2024-03-18</time>
   &middot;
   <i class="fas fa-user-check"></i> 100% human content
 </footer>

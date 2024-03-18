@@ -1,0 +1,2 @@
+outer: window is neighbor and threshold is 0.5
+inner: window is not set and threshold is 0.5

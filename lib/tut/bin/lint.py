@@ -46,7 +46,7 @@ def main():
 def do_glossary(options, used):
     """Handle glossary checks."""
     with open(options.glossary, "r") as reader:
-        glossary = yaml.load(reader, Loader=yaml.FullLoader)
+        glossary = yaml.load(reader, Loader=yaml.FullLoader) or []
         known = set()
         for entry in glossary:
             known.add(entry["key"])
