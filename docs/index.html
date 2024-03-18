@@ -584,6 +584,10 @@ When and why would you use each?</p>
 <li>The shell is a program and programs have variables</li>
 <li>Create or change with <code><em>name</em>=<em>value</em></code></li>
 <li><a href="#g:shell_var">Shell variable</a> stays in the process</li>
+<li>Use <code>$<em>name</em></code> to get value<ul>
+<li>Because people type file and directory names more often</li>
+</ul>
+</li>
 </ul>
 <p class="inclusion"><a href="src/shell_var_outer.sh">src/shell_var_outer.sh</a></p>
 <div class="language-sh">
@@ -611,6 +615,13 @@ inner: window is
 </ul>
 </li>
 </ul>
+<!-- ---------------------------------------------------------------- -->
+</section>
+<section class="exercise">
+<h2 class="exercise">Practice</h2>
+<p><strong>Exercise 4</strong>:
+What happens if you modify the scripts shown above
+to use single quotes instead of double quotes?</p>
 <!-- ---------------------------------------------------------------- -->
 </section>
 <section class="topic">
@@ -644,7 +655,7 @@ inner: window is  and threshold is
 </section>
 <section class="exercise">
 <h2 class="exercise">Practice</h2>
-<p><strong>Exercise 4</strong>:
+<p><strong>Exercise 5</strong>:
 If a child process sets shell or environment variables,
 are they visible in the parent once the child finishes executing?</p>
 <!-- ---------------------------------------------------------------- -->
@@ -717,12 +728,193 @@ GEM_HOME
 </section>
 <section class="exercise">
 <h2 class="exercise">Practice</h2>
-<p><strong>Exercise 5</strong>:
+<p><strong>Exercise 6</strong>:
 The <code>os.environ</code> variable in Python&rsquo;s <code>os</code> module
 is an easy way to get all of the process&rsquo;s environment variables.
 Compare it to what <code>env</code> shows.
 Are there differences?
 If so, what are they and why do they exist?</p>
+<!-- ---------------------------------------------------------------- -->
+</section>
+<section class="topic">
+<h2 class="topic">15: Important Environment Variables</h2>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Typical Value</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>EDITOR</code></td>
+<td><code>nano</code></td>
+<td>default text editor</td>
+</tr>
+<tr>
+<td><code>HOME</code></td>
+<td><code>/Users/tut</code></td>
+<td>user&rsquo;s home directory</td>
+</tr>
+<tr>
+<td><code>LANG</code></td>
+<td><code>en_CA.UTF-8</code></td>
+<td>user&rsquo;s preferred (human) language</td>
+</tr>
+<tr>
+<td><code>PATH</code></td>
+<td>see below</td>
+<td>search path for programs</td>
+</tr>
+<tr>
+<td><code>PWD</code></td>
+<td><code>/Users/tut/sys</code></td>
+<td>present working directory</td>
+</tr>
+<tr>
+<td><code>SHELL</code></td>
+<td><code>/bin/bash</code></td>
+<td>user&rsquo;s default shell</td>
+</tr>
+<tr>
+<td><code>TERM</code></td>
+<td><code>xterm-256color</code></td>
+<td>type of terminal</td>
+</tr>
+<tr>
+<td><code>TMPDIR</code></td>
+<td><code>/var/tmp</code></td>
+<td>storage for temporary files</td>
+</tr>
+<tr>
+<td><code>USER</code></td>
+<td><code>tut</code></td>
+<td>current user&rsquo;s name</td>
+</tr>
+</tbody>
+</table>
+<!-- ---------------------------------------------------------------- -->
+</section>
+<section class="topic">
+<h2 class="topic">16: Search Path</h2>
+<ul>
+<li><code>PATH</code> holds a colon-separated list of directories</li>
+<li>Shell looks in these <em>in order</em> to find commands</li>
+<li>Looking at them all on one line is annoying, so use <code>tr</code> to split</li>
+</ul>
+<p class="inclusion"><a href="src/show_path.sh">src/show_path.sh</a></p>
+<div class="language-sh">
+<div class="highlight"><pre><span></span><code><span class="nb">echo</span><span class="w"> </span><span class="nv">$PATH</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>tr<span class="w"> </span>:<span class="w"> </span><span class="s1">&#39;\n&#39;</span>
+</code></pre></div>
+</div>
+<p class="inclusion"><a href="out/show_path.out">out/show_path.out</a></p>
+<div class="language-plaintext">
+<div class="highlight"><pre><span></span><code>/Users/tut/google-cloud-sdk/bin
+/Users/tut/conda/envs/sys/bin
+/Users/tut/conda/condabin
+/Users/tut/.nvm/versions/node/v20.8.0/bin
+/Users/tut/bin
+/Applications/Postgres.app/Contents/Versions/14/bin
+/Users/tut/go/bin
+/usr/local/bin
+/System/Cryptexes/App/usr/bin
+/usr/bin
+/bin
+/usr/sbin
+/sbin
+/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin
+/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin
+/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin
+/Library/Apple/usr/bin
+/Library/TeX/texbin
+/usr/local/bin
+</code></pre></div>
+</div>
+<ul>
+<li>Notice <code>/Users/tut/bin</code></li>
+<li>Common to have a <code>~/bin</code> directory with the user&rsquo;s own utilities</li>
+</ul>
+<!-- ---------------------------------------------------------------- -->
+</section>
+<section class="topic">
+<h2 class="topic">17: Adding to the Search Path</h2>
+<ul>
+<li>Shell variables (of both kinds) are just strings</li>
+<li>So redefine the variable to the old value with a new directory at the front</li>
+</ul>
+<p class="inclusion"><a href="src/change_path.sh">src/change_path.sh</a></p>
+<div class="language-sh">
+<div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">PATH</span><span class="o">=</span><span class="s2">&quot;/tmp/bin:</span><span class="si">${</span><span class="nv">PATH</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="nb">echo</span><span class="w"> </span><span class="nv">$PATH</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>tr<span class="w"> </span>:<span class="w"> </span><span class="s1">&#39;\n&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>head<span class="w"> </span>-n<span class="w"> </span><span class="m">5</span>
+</code></pre></div>
+</div>
+<p class="inclusion"><a href="out/change_path.out">out/change_path.out</a></p>
+<div class="language-plaintext">
+<div class="highlight"><pre><span></span><code>/tmp/bin
+/Users/gregwilson/google-cloud-sdk/bin
+/Users/gregwilson/conda/envs/sys/bin
+/Users/gregwilson/conda/condabin
+/Users/gregwilson/.gem/ruby/3.1.2/bin
+</code></pre></div>
+</div>
+<!-- ---------------------------------------------------------------- -->
+</section>
+<section class="topic">
+<h2 class="topic">18: Startup Files</h2>
+<ul>
+<li>Bash shell runs commands in <code>~/.bash_profile</code> for login shells</li>
+<li>Bash shell runs commands in <code>~/.bashrc</code> for interactive shells</li>
+<li>Yes, the terminology is confusing</li>
+<li>Common to have <code>~/.bash_profile</code> <a href="#g:source_shell">source</a> <code>~/.bashrc</code></li>
+</ul>
+<p class="inclusion"><a href="src/source_bashrc.sh">src/source_bashrc.sh</a></p>
+<div class="language-sh">
+<div class="highlight"><pre><span></span><code>.<span class="w"> </span><span class="nv">$HOME</span>/.bashrc
+</code></pre></div>
+</div>
+<ul>
+<li>The <code>.</code> at the front means &ldquo;run this now in the same process&rdquo;<ul>
+<li>Not the most obscure piece of syntax but not the easiest either</li>
+</ul>
+</li>
+</ul>
+<!-- ---------------------------------------------------------------- -->
+</section>
+<section class="aside">
+<h2 class="aside">Command Interpolation</h2>
+<ul>
+<li>Can use <code>outer $(<em>inner</em>)</code> to run <code>inner</code> and use its output as arguments to <code>outer</code></li>
+<li>Long-winded way to count lines in some text files</li>
+</ul>
+<p class="inclusion"><a href="src/interpolate.sh">src/interpolate.sh</a></p>
+<div class="language-sh">
+<div class="highlight"><pre><span></span><code>wc<span class="w"> </span>-l<span class="w"> </span><span class="k">$(</span>ls<span class="w"> </span>src/*.text<span class="k">)</span>
+</code></pre></div>
+</div>
+<p class="inclusion"><a href="out/interpolate.out">out/interpolate.out</a></p>
+<div class="language-plaintext">
+<div class="highlight"><pre><span></span><code>12 src/ctrl_z_background.text
+      12 src/kill_int.text
+       6 src/kill_process.text
+      30 total
+</code></pre></div>
+</div>
+<!-- ---------------------------------------------------------------- -->
+</section>
+<section class="exercise">
+<h2 class="exercise">Practice</h2>
+<p><strong>Exercise 7</strong>:
+Removing a directory from <code>PATH</code> is harder than adding one.
+Write a shell script that:</p>
+<ol>
+<li>Splits <code>PATH</code> on colons to put one entry on each line.</li>
+<li>Uses <code>grep</code> to remove the undesired line.</li>
+<li>Uses <code>paste -s -d :</code> to recombine the lines.</li>
+<li>Uses command interpolation to assign the result back to <code>PATH</code>.</li>
+</ol>
+<p>This exercise may remind you why complicated operations should be done in Python
+rather than in the shell.</p>
 <!-- ---------------------------------------------------------------- -->
 </section>
 <section class="aside">
@@ -755,9 +947,13 @@ If so, what are they and why do they exist?</p>
 
 <dt id="g:shell_var">shell variable</dt><dd>A variable set and used in the <a href="#shell">shell</a>.</dd>
 
+<dt id="g:shell_script">shell_script</dt><dd>A program that uses <a href="#shell">shell</a> commands as its programming language.</dd>
+
 <dt id="g:signal">signal</dt><dd>A message sent to a running <a href="#process">process</a> separate from its normal execution, such as an interrupt or a timer notification.</dd>
 
 <dt id="g:signal_handler">signal handler</dt><dd>A <a href="#callback_function">callback function</a> that is called when a <a href="#process">process</a> receives a <a href="#signal">signal</a>.</dd>
+
+<dt id="g:source_shell">source (in shell script)</dt><dd>To run one <a href="#shell_script">shell script</a> in the same process as another.</dd>
 
 <dt id="g:suspend_process">suspend (a process)</dt><dd>To pause the execution of a <a href="#process">process</a> but leave it intact so that it can <a href="#resume_process">resume</a> later.</dd>
 </dl>

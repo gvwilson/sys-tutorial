@@ -331,7 +331,7 @@ If so, what are they and why do they exist?
 -   Shell looks in these *in order* to find commands
 -   Looking at them all on one line is annoying, so use `tr` to split
 
-[% multi src/show_path.sh src/show_path.out %]
+[% multi src/show_path.sh out/show_path.out %]
 
 -   Notice `/Users/tut/bin`
 -   Common to have a `~/bin` directory with the user's own utilities
@@ -342,7 +342,7 @@ If so, what are they and why do they exist?
 -   Shell variables (of both kinds) are just strings
 -   So redefine the variable to the old value with a new directory at the front
 
-[% multi src/change_path.sh src/change_path.out %]
+[% multi src/change_path.sh out/change_path.out %]
 
 <!-- ---------------------------------------------------------------- -->
 [% section_break class="topic" title="Startup Files" %]
@@ -352,12 +352,33 @@ If so, what are they and why do they exist?
 -   Yes, the terminology is confusing
 -   Common to have `~/.bash_profile` [%g source_shell "source" %] `~/.bashrc`
 
+[% single src/source_bashrc.sh %]
+
+-   The `.` at the front means "run this now in the same process"
+    -   Not the most obscure piece of syntax but not the easiest either
+
+<!-- ---------------------------------------------------------------- -->
+[% section_break class="aside" title="Command Interpolation" %]
+
+-   Can use <code>outer $(<em>inner</em>)</code> to run `inner` and use its output as arguments to `outer`
+-   Long-winded way to count lines in some text files
+
+[% multi src/interpolate.sh out/interpolate.out %]
+
 <!-- ---------------------------------------------------------------- -->
 [% section_break class="exercise" %]
 
 [% exercise %]
 Removing a directory from `PATH` is harder than adding one.
-[% todo use `paste -s -d :` after introducing command interpolation %]
+Write a shell script that:
+
+1.  Splits `PATH` on colons to put one entry on each line.
+2.  Uses `grep` to remove the undesired line.
+3.  Uses `paste -s -d :` to recombine the lines.
+4.  Uses command interpolation to assign the result back to `PATH`.
+
+This exercise may remind you why complicated operations should be done in Python
+rather than in the shell.
 
 <!-- ---------------------------------------------------------------- -->
 [% section_break class="aside" title="Appendices" %]

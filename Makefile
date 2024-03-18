@@ -37,6 +37,9 @@ out/flush.out: src/flush.py
 out/fork_exec.out: src/fork_exec.py
 	python $< > $@
 
+out/interpolate.out: src/interpolate.sh
+	bash $< > $@
+
 out/shell_var_outer.out: src/shell_var_outer.sh src/shell_var_inner.sh
 	bash $< > $@
 

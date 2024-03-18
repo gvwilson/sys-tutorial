@@ -118,6 +118,12 @@
       A program that allows a user to interact with a computer's operating system
       and other programs through a textual user interface.
 
+- key: shell_script
+  en:
+    term: shell_script
+    def: >
+      A program that uses [shell](#shell) commands as its programming language.
+
 - key: shell_var
   en:
     term: shell variable
@@ -137,6 +143,12 @@
     def: >
       A [callback function](#callback_function) that is called when
       a [process](#process) receives a [signal](#signal).
+
+- key: source_shell
+  en:
+    term: source (in shell script)
+    def: >
+      To run one [shell script](#shell_script) in the same process as another.
 
 - key: suspend_process
   en:

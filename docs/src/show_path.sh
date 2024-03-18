@@ -1,0 +1,2 @@
+echo $PATH | tr : '\n'
+
