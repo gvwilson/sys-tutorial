@@ -117,7 +117,7 @@
     -   `PPID`: ID of the process's parent (i.e., the process that created it)
     -   `CMD`: the command the process is running
 
-[% multi "src/ps_a_l.sh" "out/ps_a_l.out" %]
+[% inc "src/ps_a_l.sh" "out/ps_a_l.out" %]
 
 -   Use `ps -a -x` to see (almost) all processes running on computer
     -   `ps -a -x | wc` tells me there are 655 processes running on my laptop right now
@@ -167,7 +167,7 @@ What does the `pgrep` command do?
 
 -   Create a [%g callback_function "callback function" %] to act as a [%g signal_handler "signal handler" %]
 
-[% multi src/catch_interrupt.py out/catch_interrupt.out %]
+[% inc src/catch_interrupt.py out/catch_interrupt.out %]
 
 -   `^C` shows where user typed Ctrl-C
 
@@ -177,7 +177,7 @@ What does the `pgrep` command do?
 -   Can run a process in the [%g background_process "background" %]
     -   Only difference is that it's not connected to the terminal
 
-[% multi src/show_timer.py src/show_timer.sh out/show_timer.out %]
+[% inc src/show_timer.py src/show_timer.sh out/show_timer.out %]
 
 -   `&` at end of command to run `show_timer.py` means "run in the background"
 -   So `ls` command executes immediately
@@ -190,7 +190,7 @@ What does the `pgrep` command do?
 -   Or <code>fg %<em>num</em></code> to [%g foreground_process "foreground" %] the process
     to [%g resume_process "resume" %] its execution
 
-[% single src/ctrl_z_background.text %]
+[% inc src/ctrl_z_background.text %]
 
 -   Note that input and output are mixed together
 
@@ -200,14 +200,14 @@ What does the `pgrep` command do?
 -   Use `kill` to send a signal to a process
     -   Not necessarily to stop it
 
-[% single src/kill_process.text %]
+[% inc src/kill_process.text %]
 
 -   By default, `kill` sends `SIGTERM` (terminate process)
 -   Variations:
     -   Give a process ID: `kill 1234`
     -   Send a different signal: `kill -s INT %1`
 
-[% single src/kill_int.text %]
+[% inc src/kill_int.text %]
 
 <!-- ---------------------------------------------------------------- -->
 [% section_break class="topic" title="Fork" %]
@@ -216,7 +216,7 @@ What does the `pgrep` command do?
     -   Creator is parent, gets process ID of child as return value
     -   Child gets 0 as return value (but has something else as its process ID)
 
-[% multi src/fork.py out/fork.out %]
+[% inc src/fork.py out/fork.out %]
 
 <!-- ---------------------------------------------------------------- -->
 [% section_break class="topic" title="Flushing I/O" %]
@@ -225,7 +225,7 @@ What does the `pgrep` command do?
 -   Run as `python fork.py > temp.out`, the "starting" line is duplicated
 -   [% todo "explain I/O flushing" %]
 
-[% single src/flush.py %]
+[% inc src/flush.py %]
 
 <!-- ---------------------------------------------------------------- -->
 [% section_break class="topic" title="Exec" %]
@@ -234,7 +234,7 @@ What does the `pgrep` command do?
     -   Replace existing program and start a new one
 -   So `fork`/`exec` to run a program
 
-[% multi src/fork_exec.py out/fork_exec.out %]
+[% inc src/fork_exec.py out/fork_exec.out %]
 
 <!-- ---------------------------------------------------------------- -->
 [% section_break class="exercise" %]
@@ -252,7 +252,7 @@ When and why would you use each?
 -   Use <code>$<em>name</em></code> to get value
     -   Because people type file and directory names more often
 
-[% multi src/shell_var_outer.sh src/shell_var_inner.sh out/shell_var_outer.out %]
+[% inc src/shell_var_outer.sh src/shell_var_inner.sh out/shell_var_outer.out %]
 
 -   Note: variables usually written in upper case to distinguish them from filenames
     -   So underscores as separators
@@ -270,7 +270,7 @@ to use single quotes instead of double quotes?
 -   [%g env_var "Environment variable" %] is inherited by new processes
 -   Use <code>export <em>name</em>=<em>value</em></code>
 
-[% multi src/env_var_outer.sh src/env_var_inner.sh out/env_var_outer.out %]
+[% inc src/env_var_outer.sh src/env_var_inner.sh out/env_var_outer.out %]
 
 <!-- ---------------------------------------------------------------- -->
 [% section_break class="exercise" %]
@@ -285,7 +285,7 @@ are they visible in the parent once the child finishes executing?
 -   Environment variables are inherited by child process…
 -   …so they are inherited by programs (not just shell scripts)
 
-[% multi src/env_var_py.sh src/env_var_py.py out/env_var_py.out %]
+[% inc src/env_var_py.sh src/env_var_py.py out/env_var_py.out %]
 
 <!-- ---------------------------------------------------------------- -->
 [% section_break class="topic" title="Inspecting Variables" %]
@@ -293,7 +293,7 @@ are they visible in the parent once the child finishes executing?
 -   `set` on its own lists variables, functions, etc.
 -   `env` shows all environment variables
 
-[% multi src/show_env_vars.sh out/show_env_vars.out %]
+[% inc src/show_env_vars.sh out/show_env_vars.out %]
 
 -   Many tools create variables to manage configuration
     -   No guarantees that they don't collide with each other
@@ -330,7 +330,7 @@ If so, what are they and why do they exist?
 -   Shell looks in these *in order* to find commands
 -   Looking at them all on one line is annoying, so use `tr` to split
 
-[% multi src/show_path.sh out/show_path.out %]
+[% inc src/show_path.sh out/show_path.out %]
 
 -   Notice `/Users/tut/bin`
 -   Common to have a `~/bin` directory with the user's own utilities
@@ -341,7 +341,7 @@ If so, what are they and why do they exist?
 -   Shell variables (of both kinds) are just strings
 -   So redefine the variable to the old value with a new directory at the front
 
-[% multi src/change_path.sh out/change_path.out %]
+[% inc src/change_path.sh out/change_path.out %]
 
 <!-- ---------------------------------------------------------------- -->
 [% section_break class="topic" title="Startup Files" %]
@@ -352,7 +352,7 @@ If so, what are they and why do they exist?
 -   Common to have `~/.bash_profile` [%g source_shell "source" %] `~/.bashrc`
     -   I.e., run those commands in the current shell
 
-[% single src/source_bashrc.sh %]
+[% inc src/source_bashrc.sh %]
 
 <!-- ---------------------------------------------------------------- -->
 [% section_break class="aside" title="Command Interpolation" %]
@@ -360,7 +360,7 @@ If so, what are they and why do they exist?
 -   Can use <code>outer $(<em>inner</em>)</code> to run `inner` and use its output as arguments to `outer`
 -   Long-winded way to count lines in some text files
 
-[% multi src/interpolate.sh out/interpolate.out %]
+[% inc src/interpolate.sh out/interpolate.out %]
 
 <!-- ---------------------------------------------------------------- -->
 [% section_break class="exercise" %]
@@ -384,7 +384,7 @@ rather than in the shell.
     `xyz` on its own will run `A/xyz` instead of `B/xyz`
 -   This is how [%g virtual_env "virtual environments" %] work
 
-[% multi src/show_virtual_env.sh out/show_virtual_env.out %]
+[% inc src/show_virtual_env.sh out/show_virtual_env.out %]
 
 -   Virtual environment is initially a minimal Python installation
 -   Installing new packages puts them in the environment's directory
@@ -396,11 +396,11 @@ rather than in the shell.
 2.  Activate that virtual environment: `conda activate example`
 3.  Install the `faker` package: `pip install faker`
 
-[% multi src/find_faker.sh out/find_faker.out %]
+[% inc src/find_faker.sh out/find_faker.out %]
 
 -   The script in `bin` loads the module and runs it
 
-[% single src/faker_bin.py %]
+[% inc src/faker_bin.py %]
 
 -   The directory under `site-packages` has 642 Python files (as of version 24.3.0)
 -   The `python` in the virtual environment' `bin` directory

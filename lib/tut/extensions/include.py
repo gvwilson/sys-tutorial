@@ -11,18 +11,17 @@ COMMENT = {
 }
 
 
-@shortcodes.register("multi")
-def multi(pargs, kwargs, node):
+@shortcodes.register("inc")
+def inc(pargs, kwargs, node):
     """Handle inclusion of multiple files."""
     util.require(
-        (len(pargs) > 0) and (not kwargs),
+        len(pargs) > 0,
         f"Bad 'multi' shortcode in {node.path} with '{pargs}' and '{kwargs}'",
     )
-    return "\n".join([single([filename], {}, node) for filename in pargs])
+    return "\n".join([_single([filename], kwargs, node) for filename in pargs])
 
 
-@shortcodes.register("single")
-def single(pargs, kwargs, node):
+def _single(pargs, kwargs, node):
     """Handle inclusion of a single file."""
     util.require(
         (len(pargs) == 1) and set(kwargs.keys()).issubset({"keep"}),
