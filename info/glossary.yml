@@ -29,6 +29,26 @@
 
 # D
 
+- key: daemon
+  en:
+    term: daemon
+    def: >
+      A long-lived process managed by an operating system
+      that provides a service such as printer management to other processes.
+
+- key: docker_container
+  en:
+    term: Docker container
+    def: >
+     A particular running (or runnable) instance of a [Docker image](#docker_image).
+
+- key: docker_image
+  en:
+    term: Docker image
+    def: >
+      A package containing the software and supporting files
+      needed to run an application in isolation.
+
 # E
 
 - key: env_var

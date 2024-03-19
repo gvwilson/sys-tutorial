@@ -449,6 +449,23 @@ What is the `re.sub` call in the `faker` script doing and why?
     break them without breaking anything else
 
 <!-- ---------------------------------------------------------------- -->
+[% section_break class="topic" title="Docker" %]
+
+-   [Docker][docker] solves all of these problems
+-   Define an [%g docker_image "image" %] with its own copy of the operating system, filesystem, etc.
+-   Run it in a [%g docker_container "container" %] that is isolated from the rest of your computer
+
+[% inc src/docker_image_ls.sh out/docker_image_ls.out %]
+[% inc src/docker_container_ls.sh out/docker_container_ls.out %]
+
+<!-- ---------------------------------------------------------------- -->
+[% section_break class="aside" title="Common Error Message" %]
+
+-   Docker requires a [%g daemon "daemon" %] process to be running in the background to start up
+
+[% inc src/docker_image_ls.sh out/docker_image_ls_err.out %]
+
+<!-- ---------------------------------------------------------------- -->
 [% section_break class="aside" title="Appendices" %]
 
 ### Terms

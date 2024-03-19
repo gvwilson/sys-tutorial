@@ -1052,6 +1052,53 @@ chroot: echo: No such file or directory
 </ul>
 <!-- ---------------------------------------------------------------- -->
 </section>
+<section class="topic">
+<h2 class="topic">23: Docker</h2>
+<ul>
+<li><a href="https://www.docker.com/">Docker</a> solves all of these problems</li>
+<li>Define an <a href="#g:docker_image">image</a> with its own copy of the operating system, filesystem, etc.</li>
+<li>Run it in a <a href="#g:docker_container">container</a> that is isolated from the rest of your computer</li>
+</ul>
+<p class="inclusion"><a href="src/docker_image_ls.sh">src/docker_image_ls.sh</a></p>
+<div class="language-sh">
+<div class="highlight"><pre><span></span><code>docker<span class="w"> </span>image<span class="w"> </span>ls
+</code></pre></div>
+</div>
+<p class="inclusion"><a href="out/docker_image_ls.out">out/docker_image_ls.out</a></p>
+<div class="language-plaintext">
+<div class="highlight"><pre><span></span><code>REPOSITORY   TAG       IMAGE ID   CREATED   SIZE
+</code></pre></div>
+</div>
+<p class="inclusion"><a href="src/docker_container_ls.sh">src/docker_container_ls.sh</a></p>
+<div class="language-sh">
+<div class="highlight"><pre><span></span><code>docker<span class="w"> </span>container<span class="w"> </span>ls
+</code></pre></div>
+</div>
+<p class="inclusion"><a href="out/docker_container_ls.out">out/docker_container_ls.out</a></p>
+<div class="language-plaintext">
+<div class="highlight"><pre><span></span><code>CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+</code></pre></div>
+</div>
+<!-- ---------------------------------------------------------------- -->
+</section>
+<section class="aside">
+<h2 class="aside">Common Error Message</h2>
+<ul>
+<li>Docker requires a <a href="#g:daemon">daemon</a> process to be running in the background to start up</li>
+</ul>
+<p class="inclusion"><a href="src/docker_image_ls.sh">src/docker_image_ls.sh</a></p>
+<div class="language-sh">
+<div class="highlight"><pre><span></span><code>docker<span class="w"> </span>image<span class="w"> </span>ls
+</code></pre></div>
+</div>
+<p class="inclusion"><a href="out/docker_image_ls_err.out">out/docker_image_ls_err.out</a></p>
+<div class="language-plaintext">
+<div class="highlight"><pre><span></span><code>Cannot connect to the Docker daemon at unix:///Users/tut/.docker/run/docker.sock.
+Is the docker daemon running?
+</code></pre></div>
+</div>
+<!-- ---------------------------------------------------------------- -->
+</section>
 <section class="aside">
 <h2 class="aside">Appendices</h2>
 <h3>Terms</h3>
@@ -1061,6 +1108,12 @@ chroot: echo: No such file or directory
 <dt id="g:callback_function">callback function</dt><dd>A function A that is passed to another function B so that B can call it at some later point.</dd>
 
 <dt id="g:child_process">child process</dt><dd>A <a href="#process">process</a> created by another process, which is called its <a href="#parent_process">parent process</a>.</dd>
+
+<dt id="g:daemon">daemon</dt><dd>A long-lived process managed by an operating system that provides a service such as printer management to other processes.</dd>
+
+<dt id="g:docker_container">Docker container</dt><dd>A particular running (or runnable) instance of a <a href="#docker_image">Docker image</a>.</dd>
+
+<dt id="g:docker_image">Docker image</dt><dd>A package containing the software and supporting files needed to run an application in isolation.</dd>
 
 <dt id="g:env_var">environment variable</dt><dd>A <a href="#shell_var">shell variable</a> that is inherited by <a href="#child_process">child processes</a></dd>
 
@@ -1114,6 +1167,7 @@ chroot: echo: No such file or directory
 <li><em>Teaching Tech Together</em>: <a href="https://teachtogether.tech/">https://teachtogether.tech/</a></li>
 <li><em>Teaching Tech Together</em> lesson on learner personas: <a href="http://teachtogether.tech/en/index.html#s:process-personas">http://teachtogether.tech/en/index.html#s:process-personas</a></li>
 <li>Basic HTTP authentication: <a href="https://en.wikipedia.org/wiki/Basic_access_authentication">https://en.wikipedia.org/wiki/Basic_access_authentication</a></li>
+<li>Docker: <a href="https://www.docker.com/">https://www.docker.com/</a></li>
 <li>Open Notify API for the International Space Station: <a href="http://api.open-notify.org/">http://api.open-notify.org/</a></li>
 <li>Pandas dataframe library: <a href="https://pandas.pydata.org/">https://pandas.pydata.org/</a></li>
 <li>Polars dataframe library: <a href="https://pola.rs/">https://pola.rs/</a></li>
