@@ -390,15 +390,27 @@ rather than in the shell.
 -   Installing new packages puts them in the environment's directory
 
 <!-- ---------------------------------------------------------------- -->
+[% section_break class="topic" title="Package Installation" %]
+
+1.  Create a new virtual environment called `example`: `conda create -n example python=3.12`
+2.  Activate that virtual environment: `conda activate example`
+3.  Install the `faker` package: `pip install faker`
+
+[% multi src/find_faker.sh out/find_faker.out %]
+
+-   The script in `bin` loads the module and runs it
+
+[% single src/faker_bin.py %]
+
+-   The directory under `site-packages` has 642 Python files (as of version 24.3.0)
+-   The `python` in the virtual environment' `bin` directory
+    knows to look in that environment's `site-packages` directory
+
+<!-- ---------------------------------------------------------------- -->
 [% section_break class="exercise" %]
 
 [% exercise %]
-To explore virtual environments:
-
-1.  Create a new virtual environment called `example`.
-2.  Activate that virtual environment.
-3.  Install the `faker` package with `pip install faker`.
-4.  Find `faker` in `$HOME/conda/envs/example`.
+What is the `re.sub` call in the `faker` script doing and why?
 
 <!-- ---------------------------------------------------------------- -->
 [% section_break class="aside" title="Limits of Virtual Environments" %]
@@ -458,7 +470,6 @@ To explore virtual environments:
 -   How can I connect to another computer (ssh)?
 -   What is a user group and why do I care?
 -   How can I view the computer's system log and what will I find there?
--   What are virtual environments and when would I use one?
 -   How does package installation work?
     -   For Unix and for Python and why they are different
 -   How does authentication work?

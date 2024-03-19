@@ -159,7 +159,6 @@ reading CSV files using <a href="https://pandas.pydata.org/">Pandas</a> or <a hr
 <li>OS is…</li>
 <li>Shell is…</li>
 <li>Many different shells</li>
-<li><p class="center"><span class="todo">TODO: how to tell what shell you are using</span></p></li>
 </ul>
 <!-- ---------------------------------------------------------------- -->
 </section>
@@ -940,16 +939,50 @@ python is /Users/tut/conda/envs/sys/bin/python
 </ul>
 <!-- ---------------------------------------------------------------- -->
 </section>
+<section class="topic">
+<h2 class="topic">20: Package Installation</h2>
+<ol>
+<li>Create a new virtual environment called <code>example</code>: <code>conda create -n example python=3.12</code></li>
+<li>Activate that virtual environment: <code>conda activate example</code></li>
+<li>Install the <code>faker</code> package: <code>pip install faker</code></li>
+</ol>
+<p class="inclusion"><a href="src/find_faker.sh">src/find_faker.sh</a></p>
+<div class="language-sh">
+<div class="highlight"><pre><span></span><code>find<span class="w"> </span><span class="nv">$HOME</span>/conda/envs/example<span class="w"> </span>-name<span class="w"> </span>faker
+</code></pre></div>
+</div>
+<p class="inclusion"><a href="out/find_faker.out">out/find_faker.out</a></p>
+<div class="language-plaintext">
+<div class="highlight"><pre><span></span><code>/Users/tut/conda/envs/example/bin/faker
+/Users/tut/conda/envs/example/lib/python3.12/site-packages/faker
+</code></pre></div>
+</div>
+<ul>
+<li>The script in <code>bin</code> loads the module and runs it</li>
+</ul>
+<p class="inclusion"><a href="src/faker_bin.py">src/faker_bin.py</a></p>
+<div class="language-py">
+<div class="highlight"><pre><span></span><code><span class="ch">#!/Users/gregwilson/conda/envs/example/bin/python3.12</span>
+<span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">from</span> <span class="nn">faker.cli</span> <span class="kn">import</span> <span class="n">execute_from_command_line</span>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;(-script\.pyw|\.exe)?$&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="n">execute_from_command_line</span><span class="p">())</span>
+</code></pre></div>
+</div>
+<ul>
+<li>The directory under <code>site-packages</code> has 642 Python files (as of version 24.3.0)</li>
+<li>The <code>python</code> in the virtual environment&rsquo; <code>bin</code> directory
+    knows to look in that environment&rsquo;s <code>site-packages</code> directory</li>
+</ul>
+<!-- ---------------------------------------------------------------- -->
+</section>
 <section class="exercise">
 <h2 class="exercise">Practice</h2>
 <p><strong>Exercise 8</strong>:
-To explore virtual environments:</p>
-<ol>
-<li>Create a new virtual environment called <code>example</code>.</li>
-<li>Activate that virtual environment.</li>
-<li>Install the <code>faker</code> package with <code>pip install faker</code>.</li>
-<li>Find <code>faker</code> in <code>$HOME/conda/envs/example</code>.</li>
-</ol>
+What is the <code>re.sub</code> call in the <code>faker</code> script doing and why?</p>
 <!-- ---------------------------------------------------------------- -->
 </section>
 <section class="aside">
@@ -1068,7 +1101,6 @@ To explore virtual environments:</p>
 <li>How can I connect to another computer (ssh)?</li>
 <li>What is a user group and why do I care?</li>
 <li>How can I view the computer&rsquo;s system log and what will I find there?</li>
-<li>What are virtual environments and when would I use one?</li>
 <li>How does package installation work?<ul>
 <li>For Unix and for Python and why they are different</li>
 </ul>
@@ -1086,7 +1118,7 @@ To explore virtual environments:</p>
   <a href="license/"><i class="fab fa-creative-commons-by" aria-hidden="true" title="license"></i></a>
   &middot;
   <i class="fas fa-clock"></i>
-  <time datetime="2024-03-18">Last built 2024-03-18</time>
+  <time datetime="2024-03-19">Last built 2024-03-19</time>
   &middot;
   <i class="fas fa-user-check"></i> 100% human content
 </footer>
