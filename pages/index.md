@@ -421,6 +421,34 @@ What is the `re.sub` call in the `faker` script doing and why?
 -   And you want other people to be able to reproduce it?
 
 <!-- ---------------------------------------------------------------- -->
+[% section_break class="topic" title="Changing the Root Directory" %]
+
+-   The `chroot` command
+    -   Changes the process's idea of the [%g root_directory "root directory" %]
+    -   Runs a command
+-   But…
+
+[% inc src/chroot_example.sh out/chroot_example.out %]
+
+-   Need special permission (discussed below)
+-   Everything needed to run `echo` and other commands needs to be in the new filesystem
+-   Only isolates the filesystem
+
+<!-- ---------------------------------------------------------------- -->
+[% section_break class="topic" title="sudo" %]
+
+-   Every machine has a [%g superuser "superuser" %] account called [%g root_user "root" %]
+    -   Which has nothing to do with the root directory of the filesystem
+-   Use `sudo` ("superuser do") to change identity temporarily
+
+[% inc src/sudo_example.sh out/sudo_example.out %]
+
+-   At least it's a different error message…
+-   `sudo` is a way to give yourself permission to mess up everything on your computer
+-   So another requirement for virtual environments:
+    break them without breaking anything else
+
+<!-- ---------------------------------------------------------------- -->
 [% section_break class="aside" title="Appendices" %]
 
 ### Terms
@@ -441,7 +469,6 @@ What is the `re.sub` call in the `faker` script doing and why?
     -   Introduce it early so people don't screw up their laptop
 -   How can I find things on my system?
     -   `find | xargs` and alternatives
--   What is `sudo` and when should I use it?
 -   How can I found out what kind of system I'm using (`uname`)
 -   How do I see who has accounts on a machine?
 -   How do I create a new account?
@@ -464,7 +491,6 @@ What is the `re.sub` call in the `faker` script doing and why?
 -   What are certificates and how do I manage them?
 -   How can I run a web server?
 -   What other services might I want to run, when, and why?
--   How can I change my identity (sudo)?
 -   How can I check my network connection (ping, traceroute)?
 -   What is an IP address?
 -   How can I connect to another computer (ssh)?

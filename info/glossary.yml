@@ -39,6 +39,13 @@
 
 # F
 
+- key: filesystem
+  en:
+    term: filesystem
+    def: >
+      The set of files and directories making up a computer's permanent storage,
+      or the software component used to manage them.
+
 - key: foreground_process
   en:
     term: foreground a process
@@ -109,6 +116,19 @@
     def: >
       To continue the execution of a [suspended](#suspend_process) [process](#process).
 
+- key: root_directory
+  en:
+    term: root directory
+    def: >
+      The top-most directory in the [filesystem](#filesystem)
+      that contains all other directories and files.
+
+- key: root_user
+  en:
+    term: root (user account)
+    def: >
+      The usual ID of the [superuser](#superuser) account on a computer.
+
 # S
 
 - key: shell
@@ -149,6 +169,13 @@
     term: source (in shell script)
     def: >
       To run one [shell script](#shell_script) in the same process as another.
+
+- key: superuser
+  en:
+    term: superuser
+    def: >
+      An administrative account on a computer that has permission
+      to see, change, and run everything.
 
 - key: suspend_process
   en:

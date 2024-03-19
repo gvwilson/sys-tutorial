@@ -25,6 +25,9 @@ run: ${OUT_FILES}
 out/change_path.out: src/change_path.sh
 	bash $< > $@
 
+out/chroot_example.out: src/chroot_example.sh
+	bash $< >& $@
+
 out/env_var_outer.out: src/env_var_outer.sh src/env_var_inner.sh
 	bash $< > $@
 

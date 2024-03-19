@@ -995,6 +995,63 @@ What is the <code>re.sub</code> call in the <code>faker</code> script doing and 
 </ul>
 <!-- ---------------------------------------------------------------- -->
 </section>
+<section class="topic">
+<h2 class="topic">21: Changing the Root Directory</h2>
+<ul>
+<li>The <code>chroot</code> command<ul>
+<li>Changes the process&rsquo;s idea of the <a href="#g:root_directory">root directory</a></li>
+<li>Runs a command</li>
+</ul>
+</li>
+<li>But…</li>
+</ul>
+<p class="inclusion"><a href="src/chroot_example.sh">src/chroot_example.sh</a></p>
+<div class="language-sh">
+<div class="highlight"><pre><span></span><code>mkdir<span class="w"> </span>-p<span class="w"> </span>/tmp/filesystem
+chroot<span class="w"> </span>/tmp/filesystem<span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;it worked&quot;</span>
+</code></pre></div>
+</div>
+<p class="inclusion"><a href="out/chroot_example.out">out/chroot_example.out</a></p>
+<div class="language-plaintext">
+<div class="highlight"><pre><span></span><code>chroot: /tmp/filesystem: Operation not permitted
+</code></pre></div>
+</div>
+<ul>
+<li>Need special permission (discussed below)</li>
+<li>Everything needed to run <code>echo</code> and other commands needs to be in the new filesystem</li>
+<li>Only isolates the filesystem</li>
+</ul>
+<!-- ---------------------------------------------------------------- -->
+</section>
+<section class="topic">
+<h2 class="topic">22: sudo</h2>
+<ul>
+<li>Every machine has a <a href="#g:superuser">superuser</a> account called <a href="#g:root_user">root</a><ul>
+<li>Which has nothing to do with the root directory of the filesystem</li>
+</ul>
+</li>
+<li>Use <code>sudo</code> (&ldquo;superuser do&rdquo;) to change identity temporarily</li>
+</ul>
+<p class="inclusion"><a href="src/sudo_example.sh">src/sudo_example.sh</a></p>
+<div class="language-sh">
+<div class="highlight"><pre><span></span><code>mkdir<span class="w"> </span>-p<span class="w"> </span>/tmp/filesystem
+sudo<span class="w"> </span>chroot<span class="w"> </span>/tmp/filesystem<span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;it worked&quot;</span>
+</code></pre></div>
+</div>
+<p class="inclusion"><a href="out/sudo_example.out">out/sudo_example.out</a></p>
+<div class="language-plaintext">
+<div class="highlight"><pre><span></span><code>Password: ************
+chroot: echo: No such file or directory
+</code></pre></div>
+</div>
+<ul>
+<li>At least it&rsquo;s a different error message…</li>
+<li><code>sudo</code> is a way to give yourself permission to mess up everything on your computer</li>
+<li>So another requirement for virtual environments:
+    break them without breaking anything else</li>
+</ul>
+<!-- ---------------------------------------------------------------- -->
+</section>
 <section class="aside">
 <h2 class="aside">Appendices</h2>
 <h3>Terms</h3>
@@ -1006,6 +1063,8 @@ What is the <code>re.sub</code> call in the <code>faker</code> script doing and 
 <dt id="g:child_process">child process</dt><dd>A <a href="#process">process</a> created by another process, which is called its <a href="#parent_process">parent process</a>.</dd>
 
 <dt id="g:env_var">environment variable</dt><dd>A <a href="#shell_var">shell variable</a> that is inherited by <a href="#child_process">child processes</a></dd>
+
+<dt id="g:filesystem">filesystem</dt><dd>The set of files and directories making up a computer&rsquo;s permanent storage, or the software component used to manage them.</dd>
 
 <dt id="g:foreground_process">foreground a process</dt><dd>To reconnect a <a href="#process">process</a> to the terminal after it has been <a href="#background_process">backgrounded</a> or <a href="#suspend_process">suspended</a>.</dd>
 
@@ -1021,6 +1080,10 @@ What is the <code>re.sub</code> call in the <code>faker</code> script doing and 
 
 <dt id="g:resume_process">resume (a process)</dt><dd>To continue the execution of a <a href="#suspend_process">suspended</a> <a href="#process">process</a>.</dd>
 
+<dt id="g:root_user">root (user account)</dt><dd>The usual ID of the <a href="#superuser">superuser</a> account on a computer.</dd>
+
+<dt id="g:root_directory">root directory</dt><dd>The top-most directory in the <a href="#filesystem">filesystem</a> that contains all other directories and files.</dd>
+
 <dt id="g:shell">shell</dt><dd>A program that allows a user to interact with a computer&rsquo;s operating system and other programs through a textual user interface.</dd>
 
 <dt id="g:shell_var">shell variable</dt><dd>A variable set and used in the <a href="#shell">shell</a>.</dd>
@@ -1032,6 +1095,8 @@ What is the <code>re.sub</code> call in the <code>faker</code> script doing and 
 <dt id="g:signal_handler">signal handler</dt><dd>A <a href="#callback_function">callback function</a> that is called when a <a href="#process">process</a> receives a <a href="#signal">signal</a>.</dd>
 
 <dt id="g:source_shell">source (in shell script)</dt><dd>To run one <a href="#shell_script">shell script</a> in the same process as another.</dd>
+
+<dt id="g:superuser">superuser</dt><dd>An administrative account on a computer that has permission to see, change, and run everything.</dd>
 
 <dt id="g:suspend_process">suspend (a process)</dt><dd>To pause the execution of a <a href="#process">process</a> but leave it intact so that it can <a href="#resume_process">resume</a> later.</dd>
 
@@ -1072,7 +1137,6 @@ What is the <code>re.sub</code> call in the <code>faker</code> script doing and 
 <li><code>find | xargs</code> and alternatives</li>
 </ul>
 </li>
-<li>What is <code>sudo</code> and when should I use it?</li>
 <li>How can I found out what kind of system I&rsquo;m using (<code>uname</code>)</li>
 <li>How do I see who has accounts on a machine?</li>
 <li>How do I create a new account?</li>
@@ -1095,7 +1159,6 @@ What is the <code>re.sub</code> call in the <code>faker</code> script doing and 
 <li>What are certificates and how do I manage them?</li>
 <li>How can I run a web server?</li>
 <li>What other services might I want to run, when, and why?</li>
-<li>How can I change my identity (sudo)?</li>
 <li>How can I check my network connection (ping, traceroute)?</li>
 <li>What is an IP address?</li>
 <li>How can I connect to another computer (ssh)?</li>

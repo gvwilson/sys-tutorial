@@ -11,15 +11,10 @@ CROSSREF = re.compile(r"\]\(\#(.+?)\)", re.DOTALL)
 MAKE_INC = re.compile(r"\$\{(OUT|SRC)\}/(\w+?\.(sql|out|py))\b")
 
 
-@shortcodes.register("multi")
-def multi(pargs, kwargs, context):
+@shortcodes.register("inc")
+def inc(pargs, kwargs, context):
     for filename in pargs:
-        single([filename], {}, context)
-
-
-@shortcodes.register("single")
-def single(pargs, kwargs, context):
-    context["inclusion"].add(pargs[0])
+        context["inclusion"].add(filename)
 
 
 @shortcodes.register("g")
