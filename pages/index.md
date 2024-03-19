@@ -99,7 +99,6 @@
 -   OS is…
 -   Shell is…
 -   Many different shells
--   [% todo "how to tell what shell you are using" %]
 
 <!-- ---------------------------------------------------------------- -->
 [% section_break class="topic" title="Program vs. Process" %]
