@@ -2,7 +2,6 @@ from http import HTTPStatus
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import os
 import polars as pl
-from pathlib import Path
 import sys
 
 

@@ -1,5 +1,4 @@
 import socketserver
-import sys
 
 CHUNK_SIZE = 4096
 HOST = "localhost"

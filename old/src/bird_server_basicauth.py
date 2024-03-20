@@ -4,8 +4,6 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 import json
 import os
 import pandas as pd
-from pathlib import Path
-from requests.auth import HTTPBasicAuth
 import sys
 from urllib.parse import urlparse, parse_qs
 
@@ -27,7 +25,7 @@ class RequestHandler(BaseHTTPRequestHandler):
     # [get]
     def do_GET(self):
         try:
-            identity = self.authorize()
+            _ = self.authorize()
             result = self.filter_data()
             as_json = result.to_json(orient="records")
             self.send_content(as_json, HTTPStatus.OK)
