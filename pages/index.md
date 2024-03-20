@@ -461,9 +461,35 @@ What is the `re.sub` call in the `faker` script doing and why?
 <!-- ---------------------------------------------------------------- -->
 [% section_break class="aside" title="Common Error Message" %]
 
--   Docker requires a [%g daemon "daemon" %] process to be running in the background to start up
+-   Docker requires a [%g daemon "daemon" %] process to be running in the background to start images
 
 [% inc src/docker_image_ls.sh out/docker_image_ls_err.out %]
+
+<!-- ---------------------------------------------------------------- -->
+[% section_break class="topic" title="Running a Container" %]
+
+[% inc src/docker_run_fresh.text %]
+
+-   Ask Docker to run a container with `ubuntu:latest`
+    -   I.e., latest stable version of Ubuntu Linux from [Docker Hub][docker_hub]
+-   Docker can't find a [%g cache "cached" %] copy locally, so it downloads the image
+-   Then runs it
+-   But its default command is `/bin/bash` with no inputs, so it exits immediately.
+
+<!-- ---------------------------------------------------------------- -->
+[% section_break class="topic" title="Re-running a Container" %]
+
+[% inc src/docker_run_again.text %]
+
+-   Doesn't need to download again
+-   Runs the given command instead of the default `/bin/bash`
+
+<!-- ---------------------------------------------------------------- -->
+[% section_break class="aside" title="This Doesn't Work" %]
+
+[% inc src/docker_run_error.text %]
+
+-   Thinks that `"echo hello"` is the name of the command to run
 
 <!-- ---------------------------------------------------------------- -->
 [% section_break class="aside" title="Appendices" %]

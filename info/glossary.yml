@@ -13,6 +13,13 @@
 
 # C
 
+- key: cache
+  en:
+    term: cache
+    def: >
+      To store a copy of data locally in order to speed up access,
+      or the data being stored.
+
 - key: callback_function
   en:
     term: callback function

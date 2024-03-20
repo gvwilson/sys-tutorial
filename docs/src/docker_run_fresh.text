@@ -1,0 +1,16 @@
+$ docker container run ubuntu:latest
+Unable to find image 'ubuntu:latest' locally
+latest: Pulling from library/ubuntu
+bccd10f490ab: Pull complete 
+Digest: sha256:77906da86b60585ce12215807090eb327e7386c8fafb5402369e421f44eff17e
+Status: Downloaded newer image for ubuntu:latest
+
+$ docker container ls
+
+$ docker container ls -a
+CONTAINER ID   IMAGE           COMMAND       CREATED          STATUS                     PORTS     NAMES
+741bb295734f   ubuntu:latest   "/bin/bash"   10 seconds ago   Exited (0) 9 seconds ago             xenodochial_mclaren
+
+$ docker image ls
+REPOSITORY   TAG       IMAGE ID       CREATED       SIZE
+ubuntu       latest    ca2b0f26964c   3 weeks ago   77.9MB

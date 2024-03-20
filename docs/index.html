@@ -1084,7 +1084,7 @@ chroot: echo: No such file or directory
 <section class="aside">
 <h2 class="aside">Common Error Message</h2>
 <ul>
-<li>Docker requires a <a href="#g:daemon">daemon</a> process to be running in the background to start up</li>
+<li>Docker requires a <a href="#g:daemon">daemon</a> process to be running in the background to start images</li>
 </ul>
 <p class="inclusion"><a href="src/docker_image_ls.sh">src/docker_image_ls.sh</a></p>
 <div class="language-sh">
@@ -1099,11 +1099,91 @@ Is the docker daemon running?
 </div>
 <!-- ---------------------------------------------------------------- -->
 </section>
+<section class="topic">
+<h2 class="topic">24: Running a Container</h2>
+<p class="inclusion"><a href="src/docker_run_fresh.text">src/docker_run_fresh.text</a></p>
+<div class="language-text">
+<div class="highlight"><pre><span></span><code>$ docker container run ubuntu:latest
+Unable to find image &#39;ubuntu:latest&#39; locally
+latest: Pulling from library/ubuntu
+bccd10f490ab: Pull complete 
+Digest: sha256:77906da86b60585ce12215807090eb327e7386c8fafb5402369e421f44eff17e
+Status: Downloaded newer image for ubuntu:latest
+
+$ docker container ls
+
+$ docker container ls -a
+CONTAINER ID   IMAGE           COMMAND       CREATED          STATUS                     PORTS     NAMES
+741bb295734f   ubuntu:latest   &quot;/bin/bash&quot;   10 seconds ago   Exited (0) 9 seconds ago             xenodochial_mclaren
+
+$ docker image ls
+REPOSITORY   TAG       IMAGE ID       CREATED       SIZE
+ubuntu       latest    ca2b0f26964c   3 weeks ago   77.9MB
+</code></pre></div>
+</div>
+<ul>
+<li>Ask Docker to run a container with <code>ubuntu:latest</code><ul>
+<li>I.e., latest stable version of Ubuntu Linux from <a href="https://hub.docker.com/">Docker Hub</a></li>
+</ul>
+</li>
+<li>Docker can&rsquo;t find a <a href="#g:cache">cached</a> copy locally, so it downloads the image</li>
+<li>Then runs it</li>
+<li>But its default command is <code>/bin/bash</code> with no inputs, so it exits immediately.</li>
+</ul>
+<!-- ---------------------------------------------------------------- -->
+</section>
+<section class="topic">
+<h2 class="topic">25: Re-running a Container</h2>
+<p class="inclusion"><a href="src/docker_run_again.text">src/docker_run_again.text</a></p>
+<div class="language-text">
+<div class="highlight"><pre><span></span><code>$ docker container run ubuntu:latest pwd
+/
+
+$ docker container run ubuntu:latest ls
+bin
+boot
+dev
+etc
+home
+…more entries…
+sys
+tmp
+usr
+var
+</code></pre></div>
+</div>
+<ul>
+<li>Doesn&rsquo;t need to download again</li>
+<li>Runs the given command instead of the default <code>/bin/bash</code></li>
+</ul>
+<!-- ---------------------------------------------------------------- -->
+</section>
+<section class="aside">
+<h2 class="aside">This Doesn&rsquo;t Work</h2>
+<p class="inclusion"><a href="src/docker_run_error.text">src/docker_run_error.text</a></p>
+<div class="language-text">
+<div class="highlight"><pre><span></span><code>$ docker container run ubuntu:latest &quot;echo hello&quot;
+docker: Error response from daemon: \
+failed to create task for container: \
+failed to create shim task: \
+OCI runtime create failed: \
+runc create failed: \
+unable to start container process: \
+exec: &quot;echo hello&quot;: executable file not found in $PATH: unknown.
+</code></pre></div>
+</div>
+<ul>
+<li>Thinks that <code>"echo hello"</code> is the name of the command to run</li>
+</ul>
+<!-- ---------------------------------------------------------------- -->
+</section>
 <section class="aside">
 <h2 class="aside">Appendices</h2>
 <h3>Terms</h3>
 <dl class="glossary">
 <dt id="g:background_process">background a process</dt><dd>To disconnect a <a href="#process">process</a> from the terminal but keep it running.</dd>
+
+<dt id="g:cache">cache</dt><dd>To store a copy of data locally in order to speed up access, or the data being stored.</dd>
 
 <dt id="g:callback_function">callback function</dt><dd>A function A that is passed to another function B so that B can call it at some later point.</dd>
 
@@ -1168,6 +1248,7 @@ Is the docker daemon running?
 <li><em>Teaching Tech Together</em> lesson on learner personas: <a href="http://teachtogether.tech/en/index.html#s:process-personas">http://teachtogether.tech/en/index.html#s:process-personas</a></li>
 <li>Basic HTTP authentication: <a href="https://en.wikipedia.org/wiki/Basic_access_authentication">https://en.wikipedia.org/wiki/Basic_access_authentication</a></li>
 <li>Docker: <a href="https://www.docker.com/">https://www.docker.com/</a></li>
+<li>Docker Hub: <a href="https://hub.docker.com/">https://hub.docker.com/</a></li>
 <li>Open Notify API for the International Space Station: <a href="http://api.open-notify.org/">http://api.open-notify.org/</a></li>
 <li>Pandas dataframe library: <a href="https://pandas.pydata.org/">https://pandas.pydata.org/</a></li>
 <li>Polars dataframe library: <a href="https://pola.rs/">https://pola.rs/</a></li>
@@ -1235,7 +1316,7 @@ Is the docker daemon running?
   <a href="license/"><i class="fab fa-creative-commons-by" aria-hidden="true" title="license"></i></a>
   &middot;
   <i class="fas fa-clock"></i>
-  <time datetime="2024-03-19">Last built 2024-03-19</time>
+  <time datetime="2024-03-20">Last built 2024-03-20</time>
   &middot;
   <i class="fas fa-user-check"></i> 100% human content
 </footer>

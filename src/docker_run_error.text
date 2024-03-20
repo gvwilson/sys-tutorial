@@ -1,0 +1,8 @@
+$ docker container run ubuntu:latest "echo hello"
+docker: Error response from daemon: \
+failed to create task for container: \
+failed to create shim task: \
+OCI runtime create failed: \
+runc create failed: \
+unable to start container process: \
+exec: "echo hello": executable file not found in $PATH: unknown.

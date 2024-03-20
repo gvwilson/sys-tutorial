@@ -1,0 +1,14 @@
+$ docker container run ubuntu:latest pwd
+/
+
+$ docker container run ubuntu:latest ls
+bin
+boot
+dev
+etc
+home
+…more entries…
+sys
+tmp
+usr
+var
