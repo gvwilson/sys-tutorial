@@ -1178,22 +1178,927 @@ exec: &quot;echo hello&quot;: executable file not found in $PATH: unknown.
 <!-- ---------------------------------------------------------------- -->
 </section>
 <section class="aside">
+<h2 class="aside">Stitch These Together</h2>
+<blockquote>
+<p>What follows is legacy material from an earlier attempt to write this tutorial.
+Once there is more Docker above,
+something will be added here to stitch the two parts together.</p>
+</blockquote>
+<!-- ---------------------------------------------------------------- -->
+</section>
+<section class="aside">
+<h2 class="aside">Start with Something Simple</h2>
+<p class="inclusion"><a href="src/get_remote.py">src/get_remote.py</a></p>
+<div class="language-py">
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;https://gvwilson.github.io/safety-tutorial/site/motto.txt&quot;</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;status code: </span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;body:</span><span class="se">\n</span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+</div>
+<p class="inclusion"><a href="out/get_remote.out">out/get_remote.out</a></p>
+<div class="language-plaintext">
+<div class="highlight"><pre><span></span><code>status code: 200
+body:
+Start where you are, use what you have, help who you can.
+</code></pre></div>
+</div>
+<ul>
+<li>Use the <a href="https://requests.readthedocs.io/en/latest/"><code>requests</code></a> module to send an <a href="#g:http">HTTP</a> <a href="#g:http_request">request</a></li>
+<li>The URL identifies the file we want<ul>
+<li>Though as we&rsquo;ll see, the server can interpret it differently</li>
+</ul>
+</li>
+<li>Response includes:<ul>
+<li><a href="#g:http_status_code">HTTP status code</a> such as 200 (OK) or 404 (Not Found)</li>
+<li>The text of the response</li>
+</ul>
+</li>
+</ul>
+<!-- ---------------------------------------------------------------- -->
+</section>
+<section class="aside">
+<h2 class="aside">What Just Happened</h2>
+<figure id="figure_1">
+<img src="img/http_lifecycle.svg" alt="HTTP request/response lifecycle"/>
+<figcaption>Figure 1: Lifecycle of an HTTP request and response</figcaption>
+</figure>
+<ul>
+<li>Open a connection to the server</li>
+<li>Send an <a href="#g:http_request">HTTP request</a> for the file we want</li>
+<li>Server creates a <a href="#g:http_response">response</a> that includes the contents of the file</li>
+<li>Sends it back</li>
+<li><code>requests</code> parses the response and creates a Python object for us</li>
+</ul>
+<!-- ---------------------------------------------------------------- -->
+</section>
+<section class="topic">
+<h2 class="topic">26: Request Structure</h2>
+<p class="inclusion"><a href="src/dump_structure.py">src/dump_structure.py</a></p>
+<div class="language-py">
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">from</span> <span class="nn">requests_toolbelt.utils</span> <span class="kn">import</span> <span class="n">dump</span>
+
+<span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;https://gvwilson.github.io/safety-tutorial/site/motto.txt&quot;</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">dump</span><span class="o">.</span><span class="n">dump_all</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s2">&quot;utf-8&quot;</span><span class="p">))</span>
+</code></pre></div>
+</div>
+<p class="inclusion"><a href="out/dump_structure.out">out/dump_structure.out</a></p>
+<div class="language-plaintext">
+<div class="highlight"><pre><span></span><code>GET /safety-tutorial/site/motto.txt HTTP/1.1
+Host: gvwilson.github.io
+User-Agent: python-requests/2.31.0
+Accept-Encoding: gzip, deflate
+Accept: */*
+Connection: keep-alive
+</code></pre></div>
+</div>
+<ul>
+<li>First line is <a href="#g:http_method">method</a>, URL, and protocol version</li>
+<li>Every HTTP request can have <a href="#g:http_header">headers</a> with extra information</li>
+<li>And optionally data being uploaded (which we will see later)</li>
+<li>Yes, it&rsquo;s all just text</li>
+</ul>
+<!-- ---------------------------------------------------------------- -->
+</section>
+<section class="topic">
+<h2 class="topic">27: Response Structure</h2>
+<p class="inclusion"><a href="src/response_headers.py">src/response_headers.py</a></p>
+<div class="language-py">
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;https://gvwilson.github.io/web-tutorial/site/motto.txt&quot;</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">response</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+</div>
+<p class="inclusion"><a href="out/response_headers.out">out/response_headers.out</a></p>
+<div class="language-plaintext">
+<div class="highlight"><pre><span></span><code>Connection: keep-alive
+Content-Length: 5142
+Server: GitHub.com
+Content-Type: text/html; charset=utf-8
+permissions-policy: interest-cohort=()
+ETag: W/&quot;65c56fc7-239b&quot;
+Content-Security-Policy: default-src &#39;none&#39;; style-src &#39;unsafe-inline&#39;; img-src data:; connect-src &#39;self&#39;
+Content-Encoding: gzip
+X-GitHub-Request-Id: A08C:5A357:7CF794:9CEA06:65D13923
+Accept-Ranges: bytes
+Date: Sat, 17 Feb 2024 22:54:27 GMT
+Via: 1.1 varnish
+Age: 0
+X-Served-By: cache-yyz4563-YYZ
+X-Cache: MISS
+X-Cache-Hits: 0
+X-Timer: S1708210467.301651,VS0,VE20
+Vary: Accept-Encoding
+X-Fastly-Request-ID: cb16df2dfa73aaf6de87924c743dd1e50a0ce570
+</code></pre></div>
+</div>
+<ul>
+<li>Every HTTP response also has with extra information<ul>
+<li>Does <em>not</em> include status code: that appears in the first line</li>
+</ul>
+</li>
+<li>Most important for now are:<ul>
+<li><code>Content-Length</code>: number of bytes in response data (i.e., how much to read)</li>
+<li><code>Content-Type</code>: <a href="#g:mime_type">MIME type</a> of data (e.g., <code>text/plain</code>)</li>
+</ul>
+</li>
+<li>From now on we will only show interesting headers</li>
+</ul>
+<!-- ---------------------------------------------------------------- -->
+</section>
+<section class="exercise">
+<h2 class="exercise">Practice</h2>
+<p><strong>Exercise 9</strong>:
+Add header called <code>Studying</code> with the value <code>safety</code> to the <code>requests</code> script shown above.
+Does it make a difference to the response?
+Should it?</p>
+<p><strong>Exercise 10</strong>:
+What is the difference between the <code>Content-Type</code> and the <code>Content-Encoding</code> headers?</p>
+<!-- ---------------------------------------------------------------- -->
+</section>
+<section class="topic">
+<h2 class="topic">28: When Things Go Wrong</h2>
+<p class="inclusion"><a href="src/get_404.py">src/get_404.py</a></p>
+<div class="language-py">
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;https://gvwilson.github.io/web-tutorial/site/nonexistent.txt&quot;</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;status code: </span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;body length: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+</div>
+<p class="inclusion"><a href="out/get_404.out">out/get_404.out</a></p>
+<div class="language-plaintext">
+<div class="highlight"><pre><span></span><code>status code: 404
+body length: 9115
+</code></pre></div>
+</div>
+<ul>
+<li>The 404 status code tells us something went wrong</li>
+<li>The 9 kilobyte response is an HTML page with an embedded image (the GitHub logo)</li>
+<li>The page contains human-readable error messages<ul>
+<li>But we have to know page format to pull them out</li>
+</ul>
+</li>
+</ul>
+<!-- ---------------------------------------------------------------- -->
+</section>
+<section class="exercise">
+<h2 class="exercise">Practice</h2>
+<p><strong>Exercise 11</strong>:
+Look at <a href="https://en.wikipedia.org/wiki/List_of_HTTP_status_codes">this list of HTTP status codes</a>.</p>
+<ol>
+<li>
+<p>What is the difference between status code 403 and status code 404?</p>
+</li>
+<li>
+<p>What is status code 418 used for?</p>
+</li>
+<li>
+<p>Under what circumstances would you expect to get a response whose status code is 505?</p>
+</li>
+</ol>
+<!-- ---------------------------------------------------------------- -->
+</section>
+<section class="topic">
+<h2 class="topic">29: Getting JSON</h2>
+<p class="inclusion"><a href="src/get_json.py">src/get_json.py</a></p>
+<div class="language-py">
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;https://gvwilson.github.io/web-tutorial/site/motto.json&quot;</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;status code: </span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;body as text: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">)</span><span class="si">}</span><span class="s2"> bytes&quot;</span><span class="p">)</span>
+<span class="n">as_json</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;body as JSON:</span><span class="se">\n</span><span class="si">{</span><span class="n">as_json</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+</div>
+<p class="inclusion"><a href="out/get_json.out">out/get_json.out</a></p>
+<div class="language-plaintext">
+<div class="highlight"><pre><span></span><code>status code: 200
+body as text: 107 bytes
+body as JSON:
+{&#39;first&#39;: &#39;Start where you are&#39;, &#39;second&#39;: &#39;Use what you have&#39;, &#39;third&#39;: &#39;Help who you can&#39;}
+</code></pre></div>
+</div>
+<ul>
+<li>Parsing data out of HTML is called <a href="#g:web_scraping">web scraping</a><ul>
+<li>Painful and error prone</li>
+</ul>
+</li>
+<li>Better to have the server return data as data<ul>
+<li>Preferred format these days is <a href="#g:json">JSON</a></li>
+<li>So common that <code>requests</code> has built-in support</li>
+</ul>
+</li>
+<li>There is no standard for representing tabular data as JSON<ul>
+<li>A list with one list with column names + N lists of values</li>
+<li>A list with N dictionaries, all with the same keys</li>
+<li>A dictionary with column names and lists of values, all the same length</li>
+</ul>
+</li>
+</ul>
+<!-- ---------------------------------------------------------------- -->
+</section>
+<section class="exercise">
+<h2 class="exercise">Practice</h2>
+<p><strong>Exercise 12</strong>:
+Write a <code>requests</code> script that gets the current location and crew roster
+of <a href="http://api.open-notify.org/">the International Space Station</a>.</p>
+<!-- ---------------------------------------------------------------- -->
+</section>
+<section class="aside">
+<h2 class="aside">Local Web Server</h2>
+<p class="inclusion"><a href="src/local_server.sh">src/local_server.sh</a></p>
+<div class="language-sh">
+<div class="highlight"><pre><span></span><code>python<span class="w"> </span>-m<span class="w"> </span>http.server<span class="w"> </span>-d<span class="w"> </span>site
+</code></pre></div>
+</div>
+<ul>
+<li>Pushing files to GitHub so that we can use them is annoying</li>
+<li>And we want to show how to make things <em>wrong</em> so that we can then make them <em>right</em></li>
+<li>Use Python&rsquo;s <a href="https://docs.python.org/3/library/http.server.html"><code>http.server</code></a> module
+    to run a <a href="#g:local_server">local server</a><ul>
+<li>Host name is <a href="#g:localhost"><code>localhost</code></a></li>
+<li>Uses <a href="#g:port">port</a> 8000 by default</li>
+<li>So URLs look like <code>http://localhost:8000/path/to/file</code></li>
+</ul>
+</li>
+<li><code>-d site</code> tells the server to use <code>site</code> as its root directory</li>
+<li>Use this local server for the next few examples<ul>
+<li>Build our own server later on to show how it works</li>
+</ul>
+</li>
+</ul>
+<!-- ---------------------------------------------------------------- -->
+</section>
+<section class="topic">
+<h2 class="topic">30: Talk to Local Server</h2>
+<p class="inclusion"><a href="src/get_local.py">src/get_local.py</a></p>
+<div class="language-py">
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="n">URL</span> <span class="o">=</span> <span class="s2">&quot;http://localhost:8000/motto.txt&quot;</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">URL</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;status code: </span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;body:</span><span class="se">\n</span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+</div>
+<p class="inclusion"><a href="out/get_local.out">out/get_local.out</a></p>
+<div class="language-plaintext">
+<div class="highlight"><pre><span></span><code>::ffff:127.0.0.1 - - [18/Feb/2024 09:12:24] &quot;GET /motto.txt HTTP/1.1&quot; 200 -
+status code: 200
+body:
+Start where you are, use what you have, help who you can.
+</code></pre></div>
+</div>
+<ul>
+<li><a href="#g:concurrency">Concurrent</a> systems are hard to debug<ul>
+<li>Multiple streams of activity</li>
+<li>Order may change from run to run</li>
+</ul>
+</li>
+<li>Use <code>S</code> and <code>c</code> to show output from server and client respectively</li>
+</ul>
+<!-- ---------------------------------------------------------------- -->
+</section>
+<section class="topic">
+<h2 class="topic">31: Our Own File Server</h2>
+<p class="inclusion"><a href="src/file_server_unsafe.py">src/file_server_unsafe.py</a></p>
+<div class="language-py">
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">RequestHandler</span><span class="p">(</span><span class="n">BaseHTTPRequestHandler</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">do_GET</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">url_path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">lstrip</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
+            <span class="n">full_path</span> <span class="o">=</span> <span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">()</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="n">url_path</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="si">}</span><span class="s2">&#39; =&gt; &#39;</span><span class="si">{</span><span class="n">full_path</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">full_path</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+                <span class="k">raise</span> <span class="n">ServerException</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="si">}</span><span class="s2"> not found&quot;</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="ow">not</span> <span class="n">full_path</span><span class="o">.</span><span class="n">is_file</span><span class="p">():</span>
+                <span class="k">raise</span> <span class="n">ServerException</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="si">}</span><span class="s2"> not file&quot;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">handle_file</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="n">full_path</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">msg</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">handle_error</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+</code></pre></div>
+</div>
+<ul>
+<li>Our <code>RequestHandler</code> handles a single HTTP request<ul>
+<li>More specifically, handles the <code>GET</code> method</li>
+</ul>
+</li>
+<li>Combine working directory with requested file path to get local path to file</li>
+<li>Return that if it exists and is a file or raise an error</li>
+</ul>
+<!-- ---------------------------------------------------------------- -->
+</section>
+<section class="topic">
+<h2 class="topic">32: Support Code</h2>
+<ul>
+<li>Send content</li>
+</ul>
+<p class="inclusion"><a href="src/file_server_unsafe.py">src/file_server_unsafe.py</a></p>
+<div class="language-py">
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">send_content</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">content</span><span class="p">,</span> <span class="n">status</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">send_response</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">status</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">send_header</span><span class="p">(</span><span class="s2">&quot;Content-Type&quot;</span><span class="p">,</span> <span class="s2">&quot;text/html; charset=utf-8&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">send_header</span><span class="p">(</span><span class="s2">&quot;Content-Length&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">content</span><span class="p">)))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">end_headers</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">wfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
+</code></pre></div>
+</div>
+<ul>
+<li>Handle errors</li>
+</ul>
+<p class="inclusion"><a href="src/file_server_unsafe.py">src/file_server_unsafe.py</a></p>
+<div class="language-py">
+<div class="highlight"><pre><span></span><code><span class="n">ERROR_PAGE</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span><span class="se">\</span>
+<span class="s2">&lt;html&gt;</span>
+<span class="s2">  &lt;head&gt;&lt;title&gt;Error accessing </span><span class="si">{path}</span><span class="s2">&lt;/title&gt;&lt;/head&gt;</span>
+<span class="s2">  &lt;body&gt;</span>
+<span class="s2">    &lt;h1&gt;Error accessing </span><span class="si">{path}</span><span class="s2">: </span><span class="si">{msg}</span><span class="s2">&lt;/h1&gt;</span>
+<span class="s2">  &lt;/body&gt;</span>
+<span class="s2">&lt;/html&gt;</span>
+<span class="s2">&quot;&quot;&quot;</span>
+</code></pre></div>
+</div>
+<p class="inclusion"><a href="src/file_server_unsafe.py">src/file_server_unsafe.py</a></p>
+<div class="language-py">
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">handle_error</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msg</span><span class="p">):</span>
+        <span class="n">content</span> <span class="o">=</span> <span class="n">ERROR_PAGE</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="n">msg</span><span class="o">=</span><span class="n">msg</span><span class="p">)</span>
+        <span class="n">content</span> <span class="o">=</span> <span class="nb">bytes</span><span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">send_content</span><span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">HTTPStatus</span><span class="o">.</span><span class="n">NOT_FOUND</span><span class="p">)</span>
+</code></pre></div>
+</div>
+<ul>
+<li>Define our own exceptions so we&rsquo;re sure we&rsquo;re only catching what we expect</li>
+</ul>
+<p class="inclusion"><a href="src/file_server_unsafe.py">src/file_server_unsafe.py</a></p>
+<div class="language-py">
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">ServerException</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">pass</span>
+</code></pre></div>
+</div>
+<!-- ---------------------------------------------------------------- -->
+</section>
+<section class="topic">
+<h2 class="topic">33: Running Our File Server</h2>
+<p class="inclusion"><a href="src/file_server_unsafe.py">src/file_server_unsafe.py</a></p>
+<div class="language-py">
+<div class="highlight"><pre><span></span><code><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">serverAddress</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="mi">8000</span><span class="p">)</span>
+    <span class="n">server</span> <span class="o">=</span> <span class="n">HTTPServer</span><span class="p">(</span><span class="n">serverAddress</span><span class="p">,</span> <span class="n">RequestHandler</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;serving in </span><span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span><span class="si">}</span><span class="s2">...&quot;</span><span class="p">)</span>
+    <span class="n">server</span><span class="o">.</span><span class="n">serve_forever</span><span class="p">()</span>
+</code></pre></div>
+</div>
+<ul>
+<li>And then get <code>motto.txt</code> as before</li>
+</ul>
+<!-- ---------------------------------------------------------------- -->
+</section>
+<section class="topic">
+<h2 class="topic">34: Built-in Safety</h2>
+<ul>
+<li>Modify <code>requests</code> script to take URL as command-line parameter</li>
+</ul>
+<p class="inclusion"><a href="src/get_url.py">src/get_url.py</a></p>
+<div class="language-py">
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+
+<span class="n">URL</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">URL</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;status code: </span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;body:</span><span class="se">\n</span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+</div>
+<ul>
+<li>Add a sub-directory to <code>site</code> called <code>sandbox</code> with a file <code>example.txt</code></li>
+<li>Serve that sub-directory</li>
+</ul>
+<p class="inclusion"><a href="src/file_server_sandbox.sh">src/file_server_sandbox.sh</a></p>
+<div class="language-sh">
+<div class="highlight"><pre><span></span><code>python<span class="w"> </span>src/file_server_unsafe.py<span class="w"> </span>site/sandbox
+</code></pre></div>
+</div>
+<ul>
+<li>Can get files from that directory</li>
+</ul>
+<p class="inclusion"><a href="src/get_url_allowed.sh">src/get_url_allowed.sh</a></p>
+<div class="language-sh">
+<div class="highlight"><pre><span></span><code>python<span class="w"> </span>src/get_url.py<span class="w"> </span>http://localhost:8000/example.txt
+</code></pre></div>
+</div>
+<p class="inclusion"><a href="out/get_url_allowed_server.out">out/get_url_allowed_server.out</a></p>
+<div class="language-plaintext">
+<div class="highlight"><pre><span></span><code>&#39;/example.txt&#39; =&gt; &#39;/tut/safety/site/sandbox/example.txt&#39;
+127.0.0.1 - - [21/Feb/2024 06:04:32] &quot;GET /example.txt HTTP/1.1&quot; 200 -
+</code></pre></div>
+</div>
+<p class="inclusion"><a href="out/get_url_allowed_client.out">out/get_url_allowed_client.out</a></p>
+<div class="language-plaintext">
+<div class="highlight"><pre><span></span><code>status code: 200
+body:
+example file
+</code></pre></div>
+</div>
+<ul>
+<li>But not from parent directory (which isn&rsquo;t part of sandbox)</li>
+</ul>
+<p class="inclusion"><a href="src/get_url_disallowed.sh">src/get_url_disallowed.sh</a></p>
+<div class="language-sh">
+<div class="highlight"><pre><span></span><code>python<span class="w"> </span>src/requests_local_url.py<span class="w"> </span>http://localhost:8000/motto.txt
+</code></pre></div>
+</div>
+<p class="inclusion"><a href="out/get_url_disallowed_server.out">out/get_url_disallowed_server.out</a></p>
+<div class="language-plaintext">
+<div class="highlight"><pre><span></span><code>&#39;/motto.txt&#39; =&gt; &#39;/tut/safety/site/sandbox/motto.txt&#39;
+127.0.0.1 - - [21/Feb/2024 06:04:38] &quot;GET /motto.txt HTTP/1.1&quot; 404 -
+</code></pre></div>
+</div>
+<p class="inclusion"><a href="out/get_url_disallowed_client.out">out/get_url_disallowed_client.out</a></p>
+<div class="language-plaintext">
+<div class="highlight"><pre><span></span><code>status code: 404
+body:
+&lt;html&gt;
+  &lt;head&gt;&lt;title&gt;Error accessing /motto.txt&lt;/title&gt;&lt;/head&gt;
+  &lt;body&gt;
+    &lt;h1&gt;Error accessing /motto.txt: /motto.txt not found&lt;/h1&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</code></pre></div>
+</div>
+<ul>
+<li>But why not?</li>
+<li>Looks like <code>requests</code> is stripping the leading <code>..</code> off the path</li>
+<li>And if we try that URL in the browser, same thing happens</li>
+<li>So we&rsquo;re safe, right?</li>
+</ul>
+<!-- ---------------------------------------------------------------- -->
+</section>
+<section class="topic">
+<h2 class="topic">35: Introducing netcat</h2>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Netcat"><code>netcat</code></a> (often just <code>nc</code>) is a computer networking tool</li>
+<li>Open a connection, send exactly what the user types, and show exactly what is sent in response</li>
+</ul>
+<p class="inclusion"><a href="src/nc_localhost.sh">src/nc_localhost.sh</a></p>
+<div class="language-sh">
+<div class="highlight"><pre><span></span><code>nc<span class="w"> </span>localhost<span class="w"> </span><span class="m">8000</span>
+</code></pre></div>
+</div>
+<p class="inclusion"><a href="src/nc_allowed.text">src/nc_allowed.text</a></p>
+<div class="language-text">
+<div class="highlight"><pre><span></span><code>GET /example.txt HTTP/1.1
+</code></pre></div>
+</div>
+<p class="inclusion"><a href="out/nc_allowed.out">out/nc_allowed.out</a></p>
+<div class="language-plaintext">
+<div class="highlight"><pre><span></span><code>HTTP/1.0 200 OK
+Server: BaseHTTP/0.6 Python/3.12.1
+Date: Thu, 22 Feb 2024 18:37:37 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 13
+
+example file
+</code></pre></div>
+</div>
+<ul>
+<li>So far so good, but:</li>
+</ul>
+<p class="inclusion"><a href="src/nc_disallowed.text">src/nc_disallowed.text</a></p>
+<div class="language-text">
+<div class="highlight"><pre><span></span><code>GET ../motto.txt HTTP/1.1
+</code></pre></div>
+</div>
+<p class="inclusion"><a href="out/nc_disallowed.out">out/nc_disallowed.out</a></p>
+<div class="language-plaintext">
+<div class="highlight"><pre><span></span><code>HTTP/1.0 200 OK
+Server: BaseHTTP/0.6 Python/3.12.1
+Date: Thu, 22 Feb 2024 18:38:50 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 58
+
+Start where you are, use what you have, help who you can.
+</code></pre></div>
+</div>
+<ul>
+<li>We shouldn&rsquo;t be able to see files outside the sandbox</li>
+<li>But if someone doesn&rsquo;t strip out the <code>..</code> characters, users can escape</li>
+</ul>
+<!-- ---------------------------------------------------------------- -->
+</section>
+<section class="exercise">
+<h2 class="exercise">Practice</h2>
+<p><strong>Exercise 13</strong>:
+The shortcut <code>~<em>username</em></code> means &ldquo;the specified user&rsquo;s home directory&rdquo; in the shell,
+while <code>~</code> on its own means &ldquo;the current user&rsquo;s home directory&rdquo;.
+create a file called <code>test.txt</code> in your home directory
+and then try to get <code>~/test.txt</code> using your browser,
+<code>requests</code>,
+and Telnet.
+What happens with each and why?</p>
+<!-- ---------------------------------------------------------------- -->
+</section>
+<section class="topic">
+<h2 class="topic">36: A Safer File Server</h2>
+<p class="inclusion"><a href="src/file_server_safe.py">src/file_server_safe.py</a></p>
+<div class="language-py">
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">handle_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">given_path</span><span class="p">,</span> <span class="n">full_path</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">resolved_path</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">full_path</span><span class="o">.</span><span class="n">resolve</span><span class="p">())</span>
+            <span class="n">sandbox</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">()</span><span class="o">.</span><span class="n">resolve</span><span class="p">())</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">resolved_path</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">sandbox</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="n">ServerException</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Cannot access </span><span class="si">{</span><span class="n">given_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">full_path</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">reader</span><span class="p">:</span>
+                <span class="n">content</span> <span class="o">=</span> <span class="n">reader</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">send_content</span><span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">HTTPStatus</span><span class="o">.</span><span class="n">OK</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">FileNotFoundError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">ServerException</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Cannot find </span><span class="si">{</span><span class="n">given_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">IOError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">ServerException</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Cannot read </span><span class="si">{</span><span class="n">given_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+</div>
+<ul>
+<li><a href="#g:resolve_path">Resolve</a> the constructed path</li>
+<li>Check that it&rsquo;s below the current working directory (i.e., the sandbox)</li>
+<li>Fail if not<ul>
+<li>Using <code>ServerException</code> guarantees that all errors are handled the same way</li>
+</ul>
+</li>
+</ul>
+<!-- ---------------------------------------------------------------- -->
+</section>
+<section class="exercise">
+<h2 class="exercise">Practice</h2>
+<p><strong>Exercise 14</strong>:
+<a href="#g:refactor">Refactor</a> the <code>do_GET</code> and <code>handle_file</code> methods in <code>RequestHandler</code>
+so that all checks are in one place.
+Does this make the code easier to understand overall?
+Do you think making code easier to understand also makes it safer?</p>
+<!-- ---------------------------------------------------------------- -->
+</section>
+<section class="topic">
+<h2 class="topic">37: Serving Data</h2>
+<ul>
+<li>Rarely have JSON lying around as <a href="#g:static_file">static files</a></li>
+</ul>
+<p class="inclusion"><a href="src/birds_head.sh">src/birds_head.sh</a></p>
+<div class="language-sh">
+<div class="highlight"><pre><span></span><code>head<span class="w"> </span>-n<span class="w"> </span><span class="m">10</span><span class="w"> </span>site/birds.csv
+</code></pre></div>
+</div>
+<p class="inclusion"><a href="out/birds_head.out">out/birds_head.out</a></p>
+<div class="language-plaintext">
+<div class="highlight"><pre><span></span><code>loc_id,latitude,longitude,region,year,month,day,species_id,num
+L13476859,60.8606726,-135.2015181,CA-YT,2021,2,1,redcro,3.0
+L13476859,60.8606726,-135.2015181,CA-YT,2021,2,1,rebnut,1.0
+L13476859,60.8606726,-135.2015181,CA-YT,2021,2,1,comred,13.0
+L13476859,60.8606726,-135.2015181,CA-YT,2021,2,1,dowwoo,1.0
+L13476859,60.8606726,-135.2015181,CA-YT,2021,2,1,bkcchi,3.0
+L13476859,60.8606726,-135.2015181,CA-YT,2021,2,1,haiwoo,1.0
+L13476859,60.8606726,-135.2015181,CA-YT,2021,2,8,nobird,
+L13476859,60.8606726,-135.2015181,CA-YT,2021,2,15,rebnut,2.0
+L13476859,60.8606726,-135.2015181,CA-YT,2021,2,15,bkcchi,3.0
+</code></pre></div>
+</div>
+<ul>
+<li>Modify server to generate it dynamically</li>
+<li>Main program</li>
+</ul>
+<p class="inclusion"><a href="src/bird_server_whole.py">src/bird_server_whole.py</a></p>
+<div class="language-py">
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="n">sandbox</span><span class="p">,</span> <span class="n">filename</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="n">sandbox</span><span class="p">)</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+    <span class="n">serverAddress</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="mi">8000</span><span class="p">)</span>
+    <span class="n">server</span> <span class="o">=</span> <span class="n">BirdServer</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">serverAddress</span><span class="p">,</span> <span class="n">RequestHandler</span><span class="p">)</span>
+    <span class="n">server</span><span class="o">.</span><span class="n">serve_forever</span><span class="p">()</span>
+</code></pre></div>
+</div>
+<ul>
+<li>Create our own server class because we want to pass the dataframe in the constructor</li>
+</ul>
+<p class="inclusion"><a href="src/bird_server_whole.py">src/bird_server_whole.py</a></p>
+<div class="language-py">
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">BirdServer</span><span class="p">(</span><span class="n">HTTPServer</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">server_address</span><span class="p">,</span> <span class="n">request_handler</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">server_address</span><span class="p">,</span> <span class="n">request_handler</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_data</span> <span class="o">=</span> <span class="n">data</span>
+</code></pre></div>
+</div>
+<ul>
+<li><code>do_GET</code> converts the dataframe to JSON (will modify later to do more than this)</li>
+</ul>
+<p class="inclusion"><a href="src/bird_server_whole.py">src/bird_server_whole.py</a></p>
+<div class="language-py">
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">RequestHandler</span><span class="p">(</span><span class="n">BaseHTTPRequestHandler</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">do_GET</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">server</span><span class="o">.</span><span class="n">_data</span><span class="o">.</span><span class="n">write_json</span><span class="p">(</span><span class="n">row_oriented</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">send_content</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">HTTPStatus</span><span class="o">.</span><span class="n">OK</span><span class="p">)</span>
+</code></pre></div>
+</div>
+<ul>
+<li><code>send_content</code> <a href="#g:character_encoding">encodes</a> the JSON string as <a href="#g:utf_8">UTF-8</a>
+    and sets the MIME type to <code>application/json</code></li>
+</ul>
+<p class="inclusion"><a href="src/bird_server_whole.py">src/bird_server_whole.py</a></p>
+<div class="language-py">
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">send_content</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">content</span><span class="p">,</span> <span class="n">status</span><span class="p">):</span>
+        <span class="n">content</span> <span class="o">=</span> <span class="nb">bytes</span><span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">send_response</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">status</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">send_header</span><span class="p">(</span><span class="s2">&quot;Content-Type&quot;</span><span class="p">,</span> <span class="s2">&quot;application/json; charset=utf-8&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">send_header</span><span class="p">(</span><span class="s2">&quot;Content-Length&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">content</span><span class="p">)))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">end_headers</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">wfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
+</code></pre></div>
+</div>
+<ul>
+<li>Can view in browser at <code>http://localhost:8000</code> or use <code>requests</code> to fetch as before</li>
+</ul>
+<!-- ---------------------------------------------------------------- -->
+</section>
+<section class="topic">
+<h2 class="topic">38: Slicing Data</h2>
+<ul>
+<li>URL can contain <a href="#g:query_parameter">query parameters</a></li>
+<li>Want <code>http://localhost:8000/?year=2021&amp;species=rebnut</code> to select red-breasted nuthatches in 2021</li>
+<li>Put slicing in a method of its own</li>
+</ul>
+<p class="inclusion"><a href="src/bird_server_slice.py">src/bird_server_slice.py</a></p>
+<div class="language-py">
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">do_GET</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">filter_data</span><span class="p">()</span>
+        <span class="n">as_json</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">to_json</span><span class="p">(</span><span class="n">orient</span><span class="o">=</span><span class="s2">&quot;records&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">send_content</span><span class="p">(</span><span class="n">as_json</span><span class="p">,</span> <span class="n">HTTPStatus</span><span class="o">.</span><span class="n">OK</span><span class="p">)</span>
+</code></pre></div>
+</div>
+<ul>
+<li>Use <code>urlparse</code> and <code>parse_qs</code> from <a href="https://docs.python.org/3/library/urllib.parse.html"><code>urllib.parse</code></a> to get query parameters<ul>
+<li>(Key, list) dictionary</li>
+</ul>
+</li>
+<li>Then filter data as requested</li>
+</ul>
+<p class="inclusion"><a href="src/bird_server_slice.py">src/bird_server_slice.py</a></p>
+<div class="language-py">
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">filter_data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="n">parse_qs</span><span class="p">(</span><span class="n">urlparse</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">)</span><span class="o">.</span><span class="n">query</span><span class="p">)</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">server</span><span class="o">.</span><span class="n">_data</span>
+        <span class="k">if</span> <span class="s2">&quot;species&quot;</span> <span class="ow">in</span> <span class="n">params</span><span class="p">:</span>
+            <span class="n">species</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s2">&quot;species&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="n">result</span><span class="p">[</span><span class="s2">&quot;species_id&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">species</span><span class="p">]</span>
+        <span class="k">if</span> <span class="s2">&quot;year&quot;</span> <span class="ow">in</span> <span class="n">params</span><span class="p">:</span>
+            <span class="n">year</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;year&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="n">result</span><span class="p">[</span><span class="s2">&quot;year&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">year</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">result</span>
+</code></pre></div>
+</div>
+<!-- ---------------------------------------------------------------- -->
+</section>
+<section class="exercise">
+<h2 class="exercise">Practice</h2>
+<p><strong>Exercise 15</strong>:
+Write a function that takes a URL as input
+and returns a dictionary whose keys are the query parameters&rsquo; names
+and whose values are lists of their values.
+Do you now see why you should use the library function to do this?</p>
+<p><strong>Exercise 16</strong>:
+Modify the server so that clients can specify which columns they want returned
+as a comma-separated list of names.
+If the client asks for a column that doesn&rsquo;t exist, ignore it.</p>
+<p><strong>Exercise 17</strong>:
+Modify your solution to the previous exercise so that
+if the client asks for a column that doesn&rsquo;t exist
+the server returns a status code 400 (Bad Request)
+and a JSON blog with two keys:
+<code>status_code</code> (set to 400)
+and <code>error_message</code> (set to something informative).
+Explain why the server should return JSON rather than HTML in the case of an error.</p>
+<!-- ---------------------------------------------------------------- -->
+</section>
+<section class="topic">
+<h2 class="topic">39: What&rsquo;s the Magic Word?</h2>
+<ul>
+<li>Only allow access to data if client:<ul>
+<li><a href="#g:authentication">Authenticates</a> (i.e., establishes their identity)</li>
+<li>Is <a href="#g:authorization">authorized</a> (i.e., has the right to view the data)</li>
+</ul>
+</li>
+<li>Simplest possible is wrong in many ways: does the client know a password?</li>
+</ul>
+<p class="inclusion"><a href="src/bird_client_password.py">src/bird_client_password.py</a></p>
+<div class="language-py">
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">http</span> <span class="kn">import</span> <span class="n">HTTPStatus</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+
+<span class="n">URL</span> <span class="o">=</span> <span class="s2">&quot;http://localhost:8000?species=stejay&quot;</span>
+<span class="n">headers</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;Password&quot;</span><span class="p">:</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]}</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span> <span class="k">else</span> <span class="p">{}</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">URL</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="n">HTTPStatus</span><span class="o">.</span><span class="n">OK</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">())</span><span class="si">}</span><span class="s2"> records returned&quot;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">j</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">j</span><span class="p">[</span><span class="s1">&#39;status&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">j</span><span class="p">[</span><span class="s1">&#39;error_message&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+</div>
+<p class="inclusion"><a href="src/bird_client_password_correct.sh">src/bird_client_password_correct.sh</a></p>
+<div class="language-sh">
+<div class="highlight"><pre><span></span><code>python<span class="w"> </span>src/bird_client_password.py<span class="w"> </span>mumble
+</code></pre></div>
+</div>
+<p class="inclusion"><a href="out/bird_client_password_correct.out">out/bird_client_password_correct.out</a></p>
+<div class="language-plaintext">
+<div class="highlight"><pre><span></span><code>16 records returned
+</code></pre></div>
+</div>
+<p class="inclusion"><a href="src/bird_client_password_incorrect.sh">src/bird_client_password_incorrect.sh</a></p>
+<div class="language-sh">
+<div class="highlight"><pre><span></span><code>python<span class="w"> </span>src/bird_client_password.py<span class="w"> </span>bad_password
+</code></pre></div>
+</div>
+<p class="inclusion"><a href="out/bird_client_password_incorrect.out">out/bird_client_password_incorrect.out</a></p>
+<div class="language-plaintext">
+<div class="highlight"><pre><span></span><code>403: incorrect or missing password
+</code></pre></div>
+</div>
+<ul>
+<li>First change to server: get the password on the command line and save it</li>
+</ul>
+<p class="inclusion"><a href="src/bird_server_password.py">src/bird_server_password.py</a></p>
+<div class="language-py">
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="n">sandbox</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">password</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="n">sandbox</span><span class="p">)</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+    <span class="n">serverAddress</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="mi">8000</span><span class="p">)</span>
+    <span class="n">server</span> <span class="o">=</span> <span class="n">BirdServer</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">password</span><span class="p">,</span> <span class="n">serverAddress</span><span class="p">,</span> <span class="n">RequestHandler</span><span class="p">)</span>
+    <span class="n">server</span><span class="o">.</span><span class="n">serve_forever</span><span class="p">()</span>
+</code></pre></div>
+</div>
+<p class="inclusion"><a href="src/bird_server_password.py">src/bird_server_password.py</a></p>
+<div class="language-py">
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">BirdServer</span><span class="p">(</span><span class="n">HTTPServer</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">password</span><span class="p">,</span> <span class="n">server_address</span><span class="p">,</span> <span class="n">request_handler</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">server_address</span><span class="p">,</span> <span class="n">request_handler</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_data</span> <span class="o">=</span> <span class="n">data</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_password</span> <span class="o">=</span> <span class="n">password</span>
+</code></pre></div>
+</div>
+<ul>
+<li>Second change: add authorization to <code>do_GET</code><ul>
+<li>Once again use our own exception class to handle unhappy cases</li>
+</ul>
+</li>
+</ul>
+<p class="inclusion"><a href="src/bird_server_password.py">src/bird_server_password.py</a></p>
+<div class="language-py">
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">do_GET</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">authorize</span><span class="p">()</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">filter_data</span><span class="p">()</span>
+            <span class="n">as_json</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">to_json</span><span class="p">(</span><span class="n">orient</span><span class="o">=</span><span class="s2">&quot;records&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">send_content</span><span class="p">(</span><span class="n">as_json</span><span class="p">,</span> <span class="n">HTTPStatus</span><span class="o">.</span><span class="n">OK</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">ServerException</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">send_error</span><span class="p">(</span><span class="n">exc</span><span class="p">)</span>
+</code></pre></div>
+</div>
+<ul>
+<li>Add authorization that checks header value</li>
+</ul>
+<p class="inclusion"><a href="src/bird_server_password.py">src/bird_server_password.py</a></p>
+<div class="language-py">
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">authorize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">expected</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">server</span><span class="o">.</span><span class="n">_password</span>
+        <span class="n">actual</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;Password&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">actual</span> <span class="o">!=</span> <span class="n">expected</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">ServerException</span><span class="p">(</span><span class="s2">&quot;incorrect or missing password&quot;</span><span class="p">,</span> <span class="n">HTTPStatus</span><span class="o">.</span><span class="n">FORBIDDEN</span><span class="p">)</span>
+</code></pre></div>
+</div>
+<ul>
+<li>Handle errors by constructing JSON</li>
+</ul>
+<p class="inclusion"><a href="src/bird_server_password.py">src/bird_server_password.py</a></p>
+<div class="language-py">
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">send_error</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exc</span><span class="p">):</span>
+        <span class="n">content</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;status&quot;</span><span class="p">:</span> <span class="n">exc</span><span class="o">.</span><span class="n">_status</span><span class="p">,</span> <span class="s2">&quot;error_message&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">exc</span><span class="p">)}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">send_content</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">content</span><span class="p">),</span> <span class="n">exc</span><span class="o">.</span><span class="n">_status</span><span class="p">)</span>
+</code></pre></div>
+</div>
+<ul>
+<li>It works but:<ul>
+<li>One password for everyone</li>
+<li>Sent as <a href="#g:cleartext">cleartext</a> over an unencrypted connection</li>
+</ul>
+</li>
+</ul>
+<!-- ---------------------------------------------------------------- -->
+</section>
+<section class="topic">
+<h2 class="topic">40: Basic Authentication</h2>
+<ul>
+<li>Modify <code>do_GET</code></li>
+</ul>
+<p class="inclusion"><a href="src/bird_server_basicauth.py">src/bird_server_basicauth.py</a></p>
+<div class="language-py">
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">do_GET</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">authorize</span><span class="p">()</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">filter_data</span><span class="p">()</span>
+            <span class="n">as_json</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">to_json</span><span class="p">(</span><span class="n">orient</span><span class="o">=</span><span class="s2">&quot;records&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">send_content</span><span class="p">(</span><span class="n">as_json</span><span class="p">,</span> <span class="n">HTTPStatus</span><span class="o">.</span><span class="n">OK</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">ServerException</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">send_error</span><span class="p">(</span><span class="n">exc</span><span class="p">)</span>
+</code></pre></div>
+</div>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Basic_access_authentication">Basic HTTP authentication</a>:<ul>
+<li>Header called <code>"Authorization"</code></li>
+<li>Value is <code>Basic <em>data</em></code></li>
+<li>Data is <a href="#g:base64">base-64 encoded</a> <code><em>username</em>:<em>password</em></code></li>
+</ul>
+</li>
+<li>Most of the code is checking that everything is OK and responding properly if it&rsquo;s not</li>
+<li>Test client</li>
+</ul>
+<p class="inclusion"><a href="src/bird_client_basicauth.py">src/bird_client_basicauth.py</a></p>
+<div class="language-py">
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">http</span> <span class="kn">import</span> <span class="n">HTTPStatus</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">from</span> <span class="nn">requests.auth</span> <span class="kn">import</span> <span class="n">HTTPBasicAuth</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+
+<span class="n">URL</span> <span class="o">=</span> <span class="s2">&quot;http://localhost:8000?species=stejay&quot;</span>
+
+<span class="n">user</span><span class="p">,</span> <span class="n">password</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">URL</span><span class="p">,</span> <span class="n">auth</span><span class="o">=</span><span class="n">HTTPBasicAuth</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">password</span><span class="p">))</span>
+<span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="n">HTTPStatus</span><span class="o">.</span><span class="n">OK</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">())</span><span class="si">}</span><span class="s2"> records returned&quot;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">j</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">j</span><span class="p">[</span><span class="s1">&#39;status&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">j</span><span class="p">[</span><span class="s1">&#39;error_message&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+</div>
+<p class="inclusion"><a href="src/bird_client_basicauth_correct.sh">src/bird_client_basicauth_correct.sh</a></p>
+<div class="language-sh">
+<div class="highlight"><pre><span></span><code>python<span class="w"> </span>src/bird_client_basicauth.py<span class="w"> </span>marlyn<span class="w"> </span>mumble
+</code></pre></div>
+</div>
+<!-- ---------------------------------------------------------------- -->
+</section>
+<section class="aside">
 <h2 class="aside">Appendices</h2>
 <h3>Terms</h3>
 <dl class="glossary">
+<dt id="g:ascii">ASCII character encoding</dt><dd>A standard way to represent the characters commonly used in the Western European languages as 7-bit integers, now largely superceded by <a href="#unicode">Unicode</a>.</dd>
+
+<dt id="g:authentication">authentication</dt><dd>The act of establishing one&rsquo;s identity.</dd>
+
+<dt id="g:authorization">authorization</dt><dd>The act of establishing that one has a right to access certain information.</dd>
+
 <dt id="g:background_process">background a process</dt><dd>To disconnect a <a href="#process">process</a> from the terminal but keep it running.</dd>
+
+<dt id="g:base64">base64 encoding</dt><dd>A representation of binary data that represents each group of 6 bits as one of 64 printable characters.</dd>
 
 <dt id="g:cache">cache</dt><dd>To store a copy of data locally in order to speed up access, or the data being stored.</dd>
 
 <dt id="g:callback_function">callback function</dt><dd>A function A that is passed to another function B so that B can call it at some later point.</dd>
 
+<dt id="g:character_encoding">character encoding</dt><dd>A way to represent characters as bytes. Common examples include <a href="#ascii">ASCII</a> and <a href="#utf_8">UTF-8</a>.</dd>
+
 <dt id="g:child_process">child process</dt><dd>A <a href="#process">process</a> created by another process, which is called its <a href="#parent_process">parent process</a>.</dd>
+
+<dt id="g:cleartext">cleartext</dt><dd>Text that has not been <a href="#encryption">encrypted</a>.</dd>
+
+<dt id="g:client">client</dt><dd>A program such as a browser that sends requests to a server and does something with the response.</dd>
+
+<dt id="g:concurrency">concurrency</dt><dd>The ability of different parts of a system to take action at the same time.</dd>
 
 <dt id="g:daemon">daemon</dt><dd>A long-lived process managed by an operating system that provides a service such as printer management to other processes.</dd>
 
 <dt id="g:docker_container">Docker container</dt><dd>A particular running (or runnable) instance of a <a href="#docker_image">Docker image</a>.</dd>
 
 <dt id="g:docker_image">Docker image</dt><dd>A package containing the software and supporting files needed to run an application in isolation.</dd>
+
+<dt id="g:dynamic_content">dynamic content</dt><dd>Web site content that is generated on the fly. Dynamic content is usually customized according to the requester&rsquo;s identity, <a href="#query_parameter">query parameter</a>, etc.</dd>
+
+<dt id="g:encryption">encryption</dt><dd>The process of converting data from a representation that anyone can read to one that can only be read by someone with the right algorithm and/or key.</dd>
 
 <dt id="g:env_var">environment variable</dt><dd>A <a href="#shell_var">shell variable</a> that is inherited by <a href="#child_process">child processes</a></dd>
 
@@ -1203,7 +2108,33 @@ exec: &quot;echo hello&quot;: executable file not found in $PATH: unknown.
 
 <dt id="g:fork_process">fork (a process)</dt><dd>To create a duplicate of an existing <a href="#process">process</a>, typically in order to run a new program.</dd>
 
+<dt id="g:http_header">header (of HTTP request or response)</dt><dd>A name-value pair at the start of an <a href="#http_request">HTTP request</a> or <a href="#http_response">response</a>. Headers are used to specify what data formats the sender can handle, the date and time the message was sent, and so on.</dd>
+
+<dt id="g:hostname">hostname</dt><dd>A human-readable name for a computer on a network.</dd>
+
+<dt id="g:http">HTTP</dt><dd>The protocol used to exchange information between browsers and websites, and more generally between other clients and servers. Communication consists of <a href="#http_request">requests</a> and <a href="#http_response">responses</a>.</dd>
+
+<dt id="g:http_method">HTTP method</dt><dd>The verb in an <a href="#http_request">HTTP request</a> that defines what the <a href="#client">client</a> wants to do. Common methods are <code>GET</code> (to get data) and <code>POST</code> (to submit data).</dd>
+
+<dt id="g:http_request">HTTP request</dt><dd>A precisely-formatted block of text sent from a <a href="#client">client</a> such as a browser to a <a href="#server">server</a> that specifies what resource is being requested, what data formats the client will accept, etc.</dd>
+
+<dt id="g:http_response">HTTP response</dt><dd>A precisely-formatted block of text sent from a <a href="#server">server</a> back to a <a href="#client">client</a> in reply to a <a href="#http_request">request</a>.</dd>
+
+<dt id="g:http_status_code">HTTP status code</dt><dd>A numerical code that indicates what happened when an <a href="#http_request">HTTP request</a> was processed, such as 200 (OK), 404 (not found), or 500 (internal server error).</dd>
+
+<dt id="g:json">JavaScript Object Notation (JSON)</dt><dd>A way to represent data by combining basic values like numbers and character strings in lists and key-value structures. Unlike other formats, it is unencumbered by a syntax for writing comments.</dd>
+
+<dt id="g:local_server">local server</dt><dd>A <a href="#server">server</a> running on the programmer&rsquo;s own computer, typically for development purposes.</dd>
+
+<dt id="g:localhost">localhost</dt><dd>A special <a href="#hostname">host name</a> that identifies the computer that the software is running on.</dd>
+
+<dt id="g:mime_type">MIME type</dt><dd>A standard that defines types of file content, such as <code>text/plain</code> for plain text and <code>image/jpeg</code> for JPEG images.</dd>
+
 <dt id="g:parent_process">parent process</dt><dd>A <a href="#process">process</a> which has created one or more other processes, which are called its <a href="#child_process">child processes</a>.</dd>
+
+<dt id="g:path">path (in filesystem)</dt><dd>An expression that refers to a file or directory in a filesystem.</dd>
+
+<dt id="g:port">port</dt><dd>A logical endpoint for communication, like a phone number in an office building.</dd>
 
 <dt id="g:process">process</dt><dd>A running instance of a program.</dd>
 
@@ -1211,11 +2142,19 @@ exec: &quot;echo hello&quot;: executable file not found in $PATH: unknown.
 
 <dt id="g:process_tree">process tree</dt><dd>The set of processes created directly or indirectly by one process and the <a href="#parent_process">parent</a>-<a href="#child_process">child</a> relationships between them.</dd>
 
+<dt id="g:query_parameter">query parameter</dt><dd>A key-value pair included in a URL that the server may use to modify or customize its response.</dd>
+
+<dt id="g:refactor">refactor</dt><dd>To reorganize code without changing its overall behavior.</dd>
+
+<dt id="g:resolve_path">resolve (a path)</dt><dd>To translate a <a href="#path">path</a> into the canonical name of the file or directory it refers to.</dd>
+
 <dt id="g:resume_process">resume (a process)</dt><dd>To continue the execution of a <a href="#suspend_process">suspended</a> <a href="#process">process</a>.</dd>
 
 <dt id="g:root_user">root (user account)</dt><dd>The usual ID of the <a href="#superuser">superuser</a> account on a computer.</dd>
 
 <dt id="g:root_directory">root directory</dt><dd>The top-most directory in the <a href="#filesystem">filesystem</a> that contains all other directories and files.</dd>
+
+<dt id="g:server">server</dt><dd>A program that waits for requests from <a href="#client">clients</a> and sends them data in response.</dd>
 
 <dt id="g:shell">shell</dt><dd>A program that allows a user to interact with a computer&rsquo;s operating system and other programs through a textual user interface.</dd>
 
@@ -1229,11 +2168,19 @@ exec: &quot;echo hello&quot;: executable file not found in $PATH: unknown.
 
 <dt id="g:source_shell">source (in shell script)</dt><dd>To run one <a href="#shell_script">shell script</a> in the same process as another.</dd>
 
+<dt id="g:static_file">static file</dt><dd>Web site content that is stored as a file on disk that is served as-is. Serving static files is usually faster than generating <a href="#dynamic_content">dynamic content</a>, but can only be done if what&rsquo;s wanted is unchanging and known in advance.</dd>
+
 <dt id="g:superuser">superuser</dt><dd>An administrative account on a computer that has permission to see, change, and run everything.</dd>
 
 <dt id="g:suspend_process">suspend (a process)</dt><dd>To pause the execution of a <a href="#process">process</a> but leave it intact so that it can <a href="#resume_process">resume</a> later.</dd>
 
+<dt id="g:unicode">Unicode</dt><dd>A standard that defines numeric codes for many thousands of characters and symbols. Unicode does not define how those numbers are stored; that is done by standards like <a href="#utf_8">UTF-8</a>.</dd>
+
+<dt id="g:utf_8">UTF-8</dt><dd>A way to store the numeric codes representing <a href="#unicode">Unicode</a> characters that is backward-compatible with the older <a href="#ascii">ASCII</a> standard.</dd>
+
 <dt id="g:virtual_env">virtual environment</dt><dd>A set of libraries, applications, and other resources that are isolated from the main system and other virtual environments.</dd>
+
+<dt id="g:web_scraping">web scraping</dt><dd>The act of extracting data from HTML pages on the web.</dd>
 </dl>
 <h3>Acknowledgments</h3>
 <ul><li>Stefan Arentz</li>
@@ -1264,10 +2211,6 @@ exec: &quot;echo hello&quot;: executable file not found in $PATH: unknown.
 </ul>
 <h3>To Do</h3>
 <ul>
-<li>What is Docker and why do I care?<ul>
-<li>Introduce it early so people don&rsquo;t screw up their laptop</li>
-</ul>
-</li>
 <li>How can I find things on my system?<ul>
 <li><code>find | xargs</code> and alternatives</li>
 </ul>
@@ -1299,11 +2242,6 @@ exec: &quot;echo hello&quot;: executable file not found in $PATH: unknown.
 <li>How can I connect to another computer (ssh)?</li>
 <li>What is a user group and why do I care?</li>
 <li>How can I view the computer&rsquo;s system log and what will I find there?</li>
-<li>How does package installation work?<ul>
-<li>For Unix and for Python and why they are different</li>
-</ul>
-</li>
-<li>How does authentication work?</li>
 <li>What are alternatives to classic password authentication?</li>
 </ul>
 </section>
@@ -1316,7 +2254,7 @@ exec: &quot;echo hello&quot;: executable file not found in $PATH: unknown.
   <a href="license/"><i class="fab fa-creative-commons-by" aria-hidden="true" title="license"></i></a>
   &middot;
   <i class="fas fa-clock"></i>
-  <time datetime="2024-03-20">Last built 2024-03-20</time>
+  <time datetime="2024-03-21">Last built 2024-03-21</time>
   &middot;
   <i class="fas fa-user-check"></i> 100% human content
 </footer>

@@ -2,36 +2,7 @@
 
 # A
 
-- key: ascii
-  ref:
-  - ansi_encoding
-  en:
-    term: ASCII character encoding
-    def: >
-      A standard way to represent the characters commonly used in the Western
-      European languages as 7-bit integers, now largely superceded by
-      [Unicode](#unicode).
-
-- key: authentication
-  en:
-    term: authentication
-    def: >
-      The act of establishing one's identity.
-
-- key: authorization
-  en:
-    term: authorization
-    def: >
-      The act of establishing that one has a right to access certain information.
-
 # B
-
-- key: base64
-  en:
-    term: base64 encoding
-    def: >
-      A representation of binary data that represents each group of 6 bits
-      as one of 64 printable characters.
 
 - key: block
   en:
@@ -53,31 +24,6 @@
     acronym: CA
     def: >
       An organization that issues, stores, and [signs](#digital_signature) [digital certificates](#digital_certificate).
-
-- key: character_encoding
-  en:
-    term: character encoding
-    def: >
-      A way to represent characters as bytes. Common examples include [ASCII](#ascii)
-      and [UTF-8](#utf_8).
-
-- key: cleartext
-  en:
-    term: cleartext
-    def: >
-      Text that has not been [encrypted](#encryption).
-
-- key: client
-  en:
-    term: client
-    def: >
-      A program such as a browser that sends requests to a server and does something with the response.
-
-- key: concurrency
-  en:
-    term: concurrency
-    def: >
-      The ability of different parts of a system to take action at the same time.
 
 # D
 
@@ -103,23 +49,7 @@
     def: >
       A means of establishing the authenticity of a message or document.
 
-- key: dynamic_content
-  en:
-    term: dynamic content
-    def: >
-      Web site content that is generated on the fly.
-      Dynamic content is usually customized according to the requester's identity,
-      [query parameter](#query_parameter),
-      etc.
-
 # E
-
-- key: encryption
-  en:
-    term: encryption
-    def: >
-      The process of converting data from a representation that anyone can read
-      to one that can only be read by someone with the right algorithm and/or key.
 
 # F
 
@@ -134,62 +64,6 @@
 
 # H
 
-- key: hostname
-  en:
-    term: hostname
-    def: >
-      A human-readable name for a computer on a network.
-
-- key: http
-  en:
-    term: HTTP
-    full: HyperText Transfer Protocol
-    def: >
-      The protocol used to exchange information between browsers and websites,
-      and more generally between other clients and servers.
-      Communication consists of [requests](#http_request) and [responses](#http_response).
-
-- key: http_header
-  en:
-    term: header (of HTTP request or response)
-    def: >
-      A name-value pair at the start of an [HTTP request](#http_request) or [response](#http_response).
-      Headers are used to specify what data formats the sender can handle,
-      the date and time the message was sent,
-      and so on.
-
-- key: http_method
-  en:
-    term: HTTP method
-    def: >
-      The verb in an [HTTP request](#http_request) that defines what the [client](#client) wants to do.
-      Common methods are `GET` (to get data) and `POST` (to submit data).
-
-- key: http_request
-  en:
-    term: HTTP request
-    def: >
-      A precisely-formatted block of text sent from a [client](#client) such as a browser
-      to a [server](#server)
-      that specifies what resource is being requested,
-      what data formats the client will accept, etc.
-
-- key: http_response
-  en:
-    term: HTTP response
-    def: >
-      A precisely-formatted block of text sent from a [server](#server)
-      back to a [client](#client) in reply to a [request](#http_request).
-
-- key: http_status_code
-  en:
-    term: HTTP status code
-    def: >
-      A numerical code that indicates what happened when an [HTTP request](#http_request) was processed,
-      such as 200 (OK),
-      404 (not found),
-      or 500 (internal server error).
-
 - key: https
   en:
     term: HyperText Transfer Protocol Secure
@@ -201,41 +75,11 @@
 
 # J
 
-- key: json
-  en:
-    term: JavaScript Object Notation
-    acronym: JSON
-    def: >
-      A way to represent data by combining basic values like numbers
-      and character strings in lists and key-value structures. Unlike
-      other formats, it is unencumbered by a syntax for writing comments.
-
 # K
 
 # L
 
-- key: local_server
-  en:
-    term: local server
-    def: >
-      A [server](#server) running on the programmer's own computer,
-      typically for development purposes.
-
-- key: localhost
-  en:
-    term: localhost
-    def: >
-      A special [host name](#hostname) that identifies
-      the computer that the software is running on.
-
 # M
-
-- key: mime_type
-  en:
-    term: MIME type
-    def: >
-      A standard that defines types of file content,
-      such as `text/plain` for plain text and `image/jpeg` for JPEG images.
 
 # N
 
@@ -243,25 +87,12 @@
 
 # P
 
-- key: path
-  en:
-    term: path (in filesystem)
-    def: >
-      An expression that refers to a file or directory in a filesystem.
-
 - key: pipe_shell
   en:
     term: pipe
     def: >
       To use the output of one computation as the input for the next, or the
       connection between the two computations responsible for the data transfer.
-
-- key: port
-  en:
-    term: port
-    def: >
-      A logical endpoint for communication,
-      like a phone number in an office building.
 
 - key: public_key_crypto
   en:
@@ -272,25 +103,7 @@
 
 # Q
 
-- key: query_parameter
-  en:
-    term: query parameter
-    def: >
-      A key-value pair included in a URL that the server may use to modify or customize its response.
-
 # R
-
-- key: refactor
-  en:
-    term: refactor
-    def: >
-      To reorganize code without changing its overall behavior.
-
-- key: resolve_path
-  en:
-    term: resolve (a path)
-    def: >
-      To translate a [path](#path) into the canonical name of the file or directory it refers to.
 
 - key: robustness
   en:
@@ -300,13 +113,6 @@
       the opposite of [fragile](#fragility).
 
 # S
-
-- key: server
-  en:
-    term: server
-    def: >
-      A program that waits for requests from [clients](#client)
-      and sends them data in response.
 
 - key: service
   en:
@@ -322,14 +128,6 @@
     def: >
       A communication channel between two computers
       that provides an interface similar to reading and writing files.
-
-- key: static_file
-  en:
-    term: static file
-    def: >
-      Web site content that is stored as a file on disk that is served as-is.
-      Serving static files is usually faster than generating [dynamic content](#dynamic_content),
-      but can only be done if what's wanted is unchanging and known in advance.
 
 - key: stderr
   ref:
@@ -380,30 +178,9 @@
 
 # U
 
-- key: unicode
-  en:
-    term: Unicode
-    def: >
-      A standard that defines numeric codes for many thousands of characters and
-      symbols. Unicode does not define how those numbers are stored; that is
-      done by standards like [UTF-8](#utf_8).
-
-- key: utf_8
-  en:
-    term: UTF-8
-    def: >
-      A way to store the numeric codes representing [Unicode](#unicode)
-      characters that is backward-compatible with the older [ASCII](#ascii) standard.
-
 # V
 
 # W
-
-- key: web_scraping
-  en:
-    term: web scraping
-    def: >
-      The act of extracting data from HTML pages on the web.
 
 - key: wrap_object
   en:
