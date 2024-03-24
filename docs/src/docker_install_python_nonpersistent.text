@@ -1,0 +1,9 @@
+# ^D
+exit
+
+$ docker run -it ubuntu:latest
+
+# which python
+
+# ^D
+exit

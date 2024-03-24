@@ -117,7 +117,7 @@
     -   `PPID`: ID of the process's parent (i.e., the process that created it)
     -   `CMD`: the command the process is running
 
-[% inc "src/ps_a_l.sh" "out/ps_a_l.out" %]
+[%inc "src/ps_a_l.sh" "out/ps_a_l.out" %]
 
 -   Use `ps -a -x` to see (almost) all processes running on computer
     -   `ps -a -x | wc` tells me there are 655 processes running on my laptop right now
@@ -167,7 +167,7 @@ What does the `pgrep` command do?
 
 -   Create a [%g callback_function "callback function" %] to act as a [%g signal_handler "signal handler" %]
 
-[% inc src/catch_interrupt.py out/catch_interrupt.out %]
+[%inc src/catch_interrupt.py out/catch_interrupt.out %]
 
 -   `^C` shows where user typed Ctrl-C
 
@@ -177,7 +177,7 @@ What does the `pgrep` command do?
 -   Can run a process in the [%g background_process "background" %]
     -   Only difference is that it's not connected to the terminal
 
-[% inc src/show_timer.py src/show_timer.sh out/show_timer.out %]
+[%inc src/show_timer.py src/show_timer.sh out/show_timer.out %]
 
 -   `&` at end of command to run `show_timer.py` means "run in the background"
 -   So `ls` command executes immediately
@@ -190,7 +190,7 @@ What does the `pgrep` command do?
 -   Or <code>fg %<em>num</em></code> to [%g foreground_process "foreground" %] the process
     to [%g resume_process "resume" %] its execution
 
-[% inc src/ctrl_z_background.text %]
+[%inc src/ctrl_z_background.text %]
 
 -   Note that input and output are mixed together
 
@@ -200,14 +200,14 @@ What does the `pgrep` command do?
 -   Use `kill` to send a signal to a process
     -   Not necessarily to stop it
 
-[% inc src/kill_process.text %]
+[%inc src/kill_process.text %]
 
 -   By default, `kill` sends `SIGTERM` (terminate process)
 -   Variations:
     -   Give a process ID: `kill 1234`
     -   Send a different signal: `kill -s INT %1`
 
-[% inc src/kill_int.text %]
+[%inc src/kill_int.text %]
 
 <!-- ---------------------------------------------------------------- -->
 [% section_break class="topic" title="Fork" %]
@@ -216,7 +216,7 @@ What does the `pgrep` command do?
     -   Creator is parent, gets process ID of child as return value
     -   Child gets 0 as return value (but has something else as its process ID)
 
-[% inc src/fork.py out/fork.out %]
+[%inc src/fork.py out/fork.out %]
 
 <!-- ---------------------------------------------------------------- -->
 [% section_break class="topic" title="Flushing I/O" %]
@@ -225,7 +225,7 @@ What does the `pgrep` command do?
 -   Run as `python fork.py > temp.out`, the "starting" line is duplicated
 -   [% todo "explain I/O flushing" %]
 
-[% inc src/flush.py %]
+[%inc src/flush.py %]
 
 <!-- ---------------------------------------------------------------- -->
 [% section_break class="topic" title="Exec" %]
@@ -234,7 +234,7 @@ What does the `pgrep` command do?
     -   Replace existing program and start a new one
 -   So `fork`/`exec` to run a program
 
-[% inc src/fork_exec.py out/fork_exec.out %]
+[%inc src/fork_exec.py out/fork_exec.out %]
 
 <!-- ---------------------------------------------------------------- -->
 [% section_break class="exercise" %]
@@ -252,7 +252,7 @@ When and why would you use each?
 -   Use <code>$<em>name</em></code> to get value
     -   Because people type file and directory names more often
 
-[% inc src/shell_var_outer.sh src/shell_var_inner.sh out/shell_var_outer.out %]
+[%inc src/shell_var_outer.sh src/shell_var_inner.sh out/shell_var_outer.out %]
 
 -   Note: variables usually written in upper case to distinguish them from filenames
     -   So underscores as separators
@@ -270,7 +270,7 @@ to use single quotes instead of double quotes?
 -   [%g env_var "Environment variable" %] is inherited by new processes
 -   Use <code>export <em>name</em>=<em>value</em></code>
 
-[% inc src/env_var_outer.sh src/env_var_inner.sh out/env_var_outer.out %]
+[%inc src/env_var_outer.sh src/env_var_inner.sh out/env_var_outer.out %]
 
 <!-- ---------------------------------------------------------------- -->
 [% section_break class="exercise" %]
@@ -285,7 +285,7 @@ are they visible in the parent once the child finishes executing?
 -   Environment variables are inherited by child process…
 -   …so they are inherited by programs (not just shell scripts)
 
-[% inc src/env_var_py.sh src/env_var_py.py out/env_var_py.out %]
+[%inc src/env_var_py.sh src/env_var_py.py out/env_var_py.out %]
 
 <!-- ---------------------------------------------------------------- -->
 [% section_break class="topic" title="Inspecting Variables" %]
@@ -293,7 +293,7 @@ are they visible in the parent once the child finishes executing?
 -   `set` on its own lists variables, functions, etc.
 -   `env` shows all environment variables
 
-[% inc src/show_env_vars.sh out/show_env_vars.out %]
+[%inc src/show_env_vars.sh out/show_env_vars.out %]
 
 -   Many tools create variables to manage configuration
     -   No guarantees that they don't collide with each other
@@ -330,7 +330,7 @@ If so, what are they and why do they exist?
 -   Shell looks in these *in order* to find commands
 -   Looking at them all on one line is annoying, so use `tr` to split
 
-[% inc src/show_path.sh out/show_path.out %]
+[%inc src/show_path.sh out/show_path.out %]
 
 -   Notice `/Users/tut/bin`
 -   Common to have a `~/bin` directory with the user's own utilities
@@ -341,7 +341,7 @@ If so, what are they and why do they exist?
 -   Shell variables (of both kinds) are just strings
 -   So redefine the variable to the old value with a new directory at the front
 
-[% inc src/change_path.sh out/change_path.out %]
+[%inc src/change_path.sh out/change_path.out %]
 
 <!-- ---------------------------------------------------------------- -->
 [% section_break class="topic" title="Startup Files" %]
@@ -352,7 +352,7 @@ If so, what are they and why do they exist?
 -   Common to have `~/.bash_profile` [%g source_shell "source" %] `~/.bashrc`
     -   I.e., run those commands in the current shell
 
-[% inc src/source_bashrc.sh %]
+[%inc src/source_bashrc.sh %]
 
 <!-- ---------------------------------------------------------------- -->
 [% section_break class="aside" title="Command Interpolation" %]
@@ -360,7 +360,7 @@ If so, what are they and why do they exist?
 -   Can use <code>outer $(<em>inner</em>)</code> to run `inner` and use its output as arguments to `outer`
 -   Long-winded way to count lines in some text files
 
-[% inc src/interpolate.sh out/interpolate.out %]
+[%inc src/interpolate.sh out/interpolate.out %]
 
 <!-- ---------------------------------------------------------------- -->
 [% section_break class="exercise" %]
@@ -384,7 +384,7 @@ rather than in the shell.
     `xyz` on its own will run `A/xyz` instead of `B/xyz`
 -   This is how [%g virtual_env "virtual environments" %] work
 
-[% inc src/show_virtual_env.sh out/show_virtual_env.out %]
+[%inc src/show_virtual_env.sh out/show_virtual_env.out %]
 
 -   Virtual environment is initially a minimal Python installation
 -   Installing new packages puts them in the environment's directory
@@ -396,11 +396,11 @@ rather than in the shell.
 2.  Activate that virtual environment: `conda activate example`
 3.  Install the `faker` package: `pip install faker`
 
-[% inc src/find_faker.sh out/find_faker.out %]
+[%inc src/find_faker.sh out/find_faker.out %]
 
 -   The script in `bin` loads the module and runs it
 
-[% inc src/faker_bin.py %]
+[%inc src/faker_bin.py %]
 
 -   The directory under `site-packages` has 642 Python files (as of version 24.3.0)
 -   The `python` in the virtual environment' `bin` directory
@@ -428,7 +428,7 @@ What is the `re.sub` call in the `faker` script doing and why?
     -   Runs a command
 -   But…
 
-[% inc src/chroot_example.sh out/chroot_example.out %]
+[%inc src/chroot_example.sh out/chroot_example.out %]
 
 -   Need special permission (discussed below)
 -   Everything needed to run `echo` and other commands needs to be in the new filesystem
@@ -441,7 +441,7 @@ What is the `re.sub` call in the `faker` script doing and why?
     -   Which has nothing to do with the root directory of the filesystem
 -   Use `sudo` ("superuser do") to change identity temporarily
 
-[% inc src/sudo_example.sh out/sudo_example.out %]
+[%inc src/sudo_example.sh out/sudo_example.out %]
 
 -   At least it's a different error message…
 -   `sudo` is a way to give yourself permission to mess up everything on your computer
@@ -455,20 +455,20 @@ What is the `re.sub` call in the `faker` script doing and why?
 -   Define an [%g docker_image "image" %] with its own copy of the operating system, filesystem, etc.
 -   Run it in a [%g docker_container "container" %] that is isolated from the rest of your computer
 
-[% inc src/docker_image_ls.sh out/docker_image_ls.out %]
-[% inc src/docker_container_ls.sh out/docker_container_ls.out %]
+[%inc src/docker_image_ls.sh out/docker_image_ls.out %]
+[%inc src/docker_container_ls.sh out/docker_container_ls.out %]
 
 <!-- ---------------------------------------------------------------- -->
 [% section_break class="aside" title="Common Error Message" %]
 
 -   Docker requires a [%g daemon "daemon" %] process to be running in the background to start images
 
-[% inc src/docker_image_ls.sh out/docker_image_ls_err.out %]
+[%inc src/docker_image_ls.sh out/docker_image_ls_err.out %]
 
 <!-- ---------------------------------------------------------------- -->
 [% section_break class="topic" title="Running a Container" %]
 
-[% inc src/docker_run_fresh.text %]
+[%inc src/docker_run_fresh.text %]
 
 -   Ask Docker to run a container with `ubuntu:latest`
     -   I.e., latest stable version of Ubuntu Linux from [Docker Hub][docker_hub]
@@ -479,7 +479,7 @@ What is the `re.sub` call in the `faker` script doing and why?
 <!-- ---------------------------------------------------------------- -->
 [% section_break class="topic" title="Re-running a Container" %]
 
-[% inc src/docker_run_again.text %]
+[%inc src/docker_run_again.text %]
 
 -   Doesn't need to download again
 -   Runs the given command instead of the default `/bin/bash`
@@ -487,14 +487,14 @@ What is the `re.sub` call in the `faker` script doing and why?
 <!-- ---------------------------------------------------------------- -->
 [% section_break class="aside" title="This Doesn't Work" %]
 
-[% inc src/docker_run_error.text %]
+[%inc src/docker_run_error.text %]
 
 -   Thinks that `"echo hello"` is the name of the command to run
 
 <!-- ---------------------------------------------------------------- -->
 [% section_break class="topic" title="Inside the Container" %]
 
-[% inc src/docker_run_interactive.text %]
+[%inc src/docker_run_interactive.text %]
 
 -   `-i`: interactive
 -   `-t`: terminal (kind of)
@@ -504,7 +504,7 @@ What is the `re.sub` call in the `faker` script doing and why?
 <!-- ---------------------------------------------------------------- -->
 [% section_break class="topic" title="Persistence" %]
 
-[% inc src/docker_run_nonpersistent.text %]
+[%inc src/docker_run_nonpersistent.text %]
 
 -   Container starts fresh each time it runs
 -   Notice that the container's ID changes each time it runs
@@ -512,10 +512,27 @@ What is the `re.sub` call in the `faker` script doing and why?
 <!-- ---------------------------------------------------------------- -->
 [% section_break class="topic" title="What Is Running" %]
 
-[% inc src/docker_container_ls_id.text %]
+[%inc src/docker_container_ls_id.text %]
 
 -   `docker container ls` on its own shows a wide table
 -   Use [Go][golang] format strings to format output (no, really)
+
+<!-- ---------------------------------------------------------------- -->
+[% section_break class="topic" title="Installing Software" %]
+
+[%inc src/docker_install_python.text %]
+
+-   `apt update` to update available package lists
+-   `apt install` to install the desired package
+    -   Installs lots of dependencies as well
+-   Doesn't create `python` (note lack of output)
+-   Creates `python3` instead
+-   Version is most recent in the default repository
+-   But *it isn't there the next time we run*
+
+[%inc src/docker_install_python_nonpersistent.text %]
+
+-   We need a way to create an image that has the software we want
 
 <!-- ---------------------------------------------------------------- -->
 [% section_break class="aside" title="Stitch These Together" %]
@@ -527,7 +544,7 @@ What is the `re.sub` call in the `faker` script doing and why?
 <!-- ---------------------------------------------------------------- -->
 [% section_break class="aside" title="Start with Something Simple" %]
 
-[% inc src/get_remote.py out/get_remote.out %]
+[%inc src/get_remote.py out/get_remote.out %]
 
 -   Use the [`requests`][requests] module to send an [%g http "HTTP" %] [%g http_request "request" %]
 -   The URL identifies the file we want
@@ -554,7 +571,7 @@ What is the `re.sub` call in the `faker` script doing and why?
 <!-- ---------------------------------------------------------------- -->
 [% section_break class="topic" title="Request Structure" %]
 
-[% inc src/dump_structure.py out/dump_structure.out %]
+[%inc src/dump_structure.py out/dump_structure.out %]
 
 -   First line is [%g http_method "method" %], URL, and protocol version
 -   Every HTTP request can have [%g http_header "headers" %] with extra information
@@ -564,7 +581,7 @@ What is the `re.sub` call in the `faker` script doing and why?
 <!-- ---------------------------------------------------------------- -->
 [% section_break class="topic" title="Response Structure" %]
 
-[% inc src/response_headers.py out/response_headers.out %]
+[%inc src/response_headers.py out/response_headers.out %]
 
 -   Every HTTP response also has with extra information
     -   Does *not* include status code: that appears in the first line
@@ -587,7 +604,7 @@ What is the difference between the `Content-Type` and the `Content-Encoding` hea
 <!-- ---------------------------------------------------------------- -->
 [% section_break class="topic" title="When Things Go Wrong" %]
 
-[% inc src/get_404.py out/get_404.out %]
+[%inc src/get_404.py out/get_404.out %]
 
 -   The 404 status code tells us something went wrong
 -   The 9 kilobyte response is an HTML page with an embedded image (the GitHub logo)
@@ -609,7 +626,7 @@ Look at [this list of HTTP status codes][http_status_codes].
 <!-- ---------------------------------------------------------------- -->
 [% section_break class="topic" title="Getting JSON" %]
 
-[% inc src/get_json.py out/get_json.out %]
+[%inc src/get_json.py out/get_json.out %]
 
 -   Parsing data out of HTML is called [%g web_scraping "web scraping" %]
     -   Painful and error prone
@@ -631,7 +648,7 @@ of [the International Space Station][iss_api].
 <!-- ---------------------------------------------------------------- -->
 [% section_break class="aside" title="Local Web Server" %]
 
-[% inc src/local_server.sh %]
+[%inc src/local_server.sh %]
 
 -   Pushing files to GitHub so that we can use them is annoying
 -   And we want to show how to make things *wrong* so that we can then make them *right*
@@ -647,7 +664,7 @@ of [the International Space Station][iss_api].
 <!-- ---------------------------------------------------------------- -->
 [% section_break class="topic" title="Talk to Local Server" %]
 
-[% inc src/get_local.py out/get_local.out %]
+[%inc src/get_local.py out/get_local.out %]
 
 -   [%g concurrency "Concurrent" %] systems are hard to debug
     -   Multiple streams of activity
@@ -657,7 +674,7 @@ of [the International Space Station][iss_api].
 <!-- ---------------------------------------------------------------- -->
 [% section_break class="topic" title="Our Own File Server" %]
 
-[% inc src/file_server_unsafe.py keep=do_get %]
+[%inc src/file_server_unsafe.py keep=do_get %]
 
 -   Our `RequestHandler` handles a single HTTP request
     -   More specifically, handles the `GET` method
@@ -669,21 +686,21 @@ of [the International Space Station][iss_api].
 
 -   Send content
 
-[% inc src/file_server_unsafe.py keep=send_content %]
+[%inc src/file_server_unsafe.py keep=send_content %]
 
 -   Handle errors
 
-[% inc src/file_server_unsafe.py keep=error_page %]
-[% inc src/file_server_unsafe.py keep=handle_error %]
+[%inc src/file_server_unsafe.py keep=error_page %]
+[%inc src/file_server_unsafe.py keep=handle_error %]
 
 -   Define our own exceptions so we're sure we're only catching what we expect
 
-[% inc src/file_server_unsafe.py keep=exception %]
+[%inc src/file_server_unsafe.py keep=exception %]
 
 <!-- ---------------------------------------------------------------- -->
 [% section_break class="topic" title="Running Our File Server" %]
 
-[% inc src/file_server_unsafe.py keep=main %]
+[%inc src/file_server_unsafe.py keep=main %]
 
 -   And then get `motto.txt` as before
 
@@ -692,20 +709,20 @@ of [the International Space Station][iss_api].
 
 -   Modify `requests` script to take URL as command-line parameter
 
-[% inc src/get_url.py %]
+[%inc src/get_url.py %]
 
 -   Add a sub-directory to `site` called `sandbox` with a file `example.txt`
 -   Serve that sub-directory
 
-[% inc src/file_server_sandbox.sh %]
+[%inc src/file_server_sandbox.sh %]
 
 -   Can get files from that directory
 
-[% inc src/get_url_allowed.sh out/get_url_allowed_server.out out/get_url_allowed_client.out %]
+[%inc src/get_url_allowed.sh out/get_url_allowed_server.out out/get_url_allowed_client.out %]
 
 -   But not from parent directory (which isn't part of sandbox)
 
-[% inc src/get_url_disallowed.sh out/get_url_disallowed_server.out out/get_url_disallowed_client.out %]
+[%inc src/get_url_disallowed.sh out/get_url_disallowed_server.out out/get_url_disallowed_client.out %]
 
 -   But why not?
 -   Looks like `requests` is stripping the leading `..` off the path
@@ -718,11 +735,11 @@ of [the International Space Station][iss_api].
 -   [`netcat`][netcat] (often just `nc`) is a computer networking tool
 -   Open a connection, send exactly what the user types, and show exactly what is sent in response
 
-[% inc src/nc_localhost.sh src/nc_allowed.text out/nc_allowed.out %]
+[%inc src/nc_localhost.sh src/nc_allowed.text out/nc_allowed.out %]
 
 -   So far so good, but:
 
-[% inc src/nc_disallowed.text out/nc_disallowed.out %]
+[%inc src/nc_disallowed.text out/nc_disallowed.out %]
 
 -   We shouldn't be able to see files outside the sandbox
 -   But if someone doesn't strip out the `..` characters, users can escape
@@ -742,7 +759,7 @@ What happens with each and why?
 <!-- ---------------------------------------------------------------- -->
 [% section_break class="topic" title="A Safer File Server" %]
 
-[% inc src/file_server_safe.py keep=handle_file %]
+[%inc src/file_server_safe.py keep=handle_file %]
 
 -   [%g resolve_path "Resolve" %] the constructed path
 -   Check that it's below the current working directory (i.e., the sandbox)
@@ -763,25 +780,25 @@ Do you think making code easier to understand also makes it safer?
 
 -   Rarely have JSON lying around as [%g static_file "static files" %]
 
-[% inc src/birds_head.sh out/birds_head.out %]
+[%inc src/birds_head.sh out/birds_head.out %]
 
 -   Modify server to generate it dynamically
 -   Main program
 
-[% inc src/bird_server_whole.py keep=main %]
+[%inc src/bird_server_whole.py keep=main %]
 
 -   Create our own server class because we want to pass the dataframe in the constructor
 
-[% inc src/bird_server_whole.py keep=server %]
+[%inc src/bird_server_whole.py keep=server %]
 
 -   `do_GET` converts the dataframe to JSON (will modify later to do more than this)
 
-[% inc src/bird_server_whole.py keep=get %]
+[%inc src/bird_server_whole.py keep=get %]
 
 -   `send_content` [%g character_encoding "encodes" %] the JSON string as [%g utf_8 "UTF-8" %]
     and sets the MIME type to `application/json`
 
-[% inc src/bird_server_whole.py keep=send %]
+[%inc src/bird_server_whole.py keep=send %]
 
 -   Can view in browser at `http://localhost:8000` or use `requests` to fetch as before
 
@@ -792,13 +809,13 @@ Do you think making code easier to understand also makes it safer?
 -   Want `http://localhost:8000/?year=2021&species=rebnut` to select red-breasted nuthatches in 2021
 -   Put slicing in a method of its own
 
-[% inc src/bird_server_slice.py keep=get %]
+[%inc src/bird_server_slice.py keep=get %]
 
 -   Use `urlparse` and `parse_qs` from [`urllib.parse`][py_urllib_parse] to get query parameters
     -   (Key, list) dictionary
 -   Then filter data as requested
 
-[% inc src/bird_server_slice.py keep=filter %]
+[%inc src/bird_server_slice.py keep=filter %]
 
 <!-- ---------------------------------------------------------------- -->
 [% section_break class="exercise" %]
@@ -831,27 +848,27 @@ Explain why the server should return JSON rather than HTML in the case of an err
     -   Is [%g authorization "authorized" %] (i.e., has the right to view the data)
 -   Simplest possible is wrong in many ways: does the client know a password?
 
-[% inc src/bird_client_password.py %]
-[% inc src/bird_client_password_correct.sh out/bird_client_password_correct.out %]
-[% inc src/bird_client_password_incorrect.sh out/bird_client_password_incorrect.out %]
+[%inc src/bird_client_password.py %]
+[%inc src/bird_client_password_correct.sh out/bird_client_password_correct.out %]
+[%inc src/bird_client_password_incorrect.sh out/bird_client_password_incorrect.out %]
 
 -   First change to server: get the password on the command line and save it
 
-[% inc src/bird_server_password.py keep=main %]
-[% inc src/bird_server_password.py keep=server %]
+[%inc src/bird_server_password.py keep=main %]
+[%inc src/bird_server_password.py keep=server %]
 
 -   Second change: add authorization to `do_GET`
     -   Once again use our own exception class to handle unhappy cases
 
-[% inc src/bird_server_password.py keep=get %]
+[%inc src/bird_server_password.py keep=get %]
 
 -   Add authorization that checks header value
 
-[% inc src/bird_server_password.py keep=auth %]
+[%inc src/bird_server_password.py keep=auth %]
 
 -   Handle errors by constructing JSON
 
-[% inc src/bird_server_password.py keep=error %]
+[%inc src/bird_server_password.py keep=error %]
 
 -   It works but:
     -   One password for everyone
@@ -862,7 +879,7 @@ Explain why the server should return JSON rather than HTML in the case of an err
 
 -   Modify `do_GET`
 
-[% inc src/bird_server_basicauth.py keep=get %]
+[%inc src/bird_server_basicauth.py keep=get %]
 
 -   [Basic HTTP authentication][basic_http_auth]:
     -   Header called `"Authorization"`
@@ -871,8 +888,8 @@ Explain why the server should return JSON rather than HTML in the case of an err
 -   Most of the code is checking that everything is OK and responding properly if it's not
 -   Test client
 
-[% inc src/bird_client_basicauth.py %]
-[% inc src/bird_client_basicauth_correct.sh %]
+[%inc src/bird_client_basicauth.py %]
+[%inc src/bird_client_basicauth_correct.sh %]
 
 <!-- ---------------------------------------------------------------- -->
 [% section_break class="aside" title="Appendices" %]
