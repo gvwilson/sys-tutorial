@@ -9,8 +9,11 @@
   url: "https://www.docker.com/"
   title: "Docker"
 - key: "docker_hub"
-  url: https://hub.docker.com/
+  url: "https://hub.docker.com/"
   title: "Docker Hub"
+- key: "golang"
+  url: "https://go.dev/"
+  title: "Go programming language"
 - key: "http_status_codes"
   url: "https://en.wikipedia.org/wiki/List_of_HTTP_status_codes"
   title: "Wikipedia article on HTTP status codes"

@@ -492,6 +492,32 @@ What is the `re.sub` call in the `faker` script doing and why?
 -   Thinks that `"echo hello"` is the name of the command to run
 
 <!-- ---------------------------------------------------------------- -->
+[% section_break class="topic" title="Inside the Container" %]
+
+[% inc src/docker_run_interactive.text %]
+
+-   `-i`: interactive
+-   `-t`: terminal (kind of)
+    -   Combination often abbreviated `-it`
+-   The hexadecimal number after `root@` is the container's unique ID
+
+<!-- ---------------------------------------------------------------- -->
+[% section_break class="topic" title="Persistence" %]
+
+[% inc src/docker_run_nonpersistent.text %]
+
+-   Container starts fresh each time it runs
+-   Notice that the container's ID changes each time it runs
+
+<!-- ---------------------------------------------------------------- -->
+[% section_break class="topic" title="What Is Running" %]
+
+[% inc src/docker_container_ls_id.text %]
+
+-   `docker container ls` on its own shows a wide table
+-   Use [Go][golang] format strings to format output (no, really)
+
+<!-- ---------------------------------------------------------------- -->
 [% section_break class="aside" title="Stitch These Together" %]
 
 > What follows is legacy material from an earlier attempt to write this tutorial.
