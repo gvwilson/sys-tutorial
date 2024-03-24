@@ -532,7 +532,22 @@ What is the `re.sub` call in the `faker` script doing and why?
 
 [%inc src/docker_install_python_nonpersistent.text %]
 
--   We need a way to create an image that has the software we want
+<!-- ---------------------------------------------------------------- -->
+[% section_break class="topic" title="Actually Installing Software" %]
+
+-   Create a Dockerfile
+    -   Usually called that and in a directory of its own
+    -   Ours is `src/ubuntu-python/Dockerfile`
+
+[%inc src/ubuntu-python3/Dockerfile %]
+
+-   Tell docker to build the image
+
+[%inc src/ubuntu-python3-build.text %]
+
+-   `CACHED` because we've run this several times while building this tutorial
+
+[%inc src/ubuntu-python3-run.text %]
 
 <!-- ---------------------------------------------------------------- -->
 [% section_break class="aside" title="Stitch These Together" %]

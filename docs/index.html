@@ -1231,21 +1231,21 @@ exit
 <h2 class="topic">28: What Is Running</h2>
 <p class="inclusion"><a href="src/docker_container_ls_id.text">src/docker_container_ls_id.text</a></p>
 <div class="language-text">
-<div class="highlight"><pre><span></span><code>$ docker container ls --format &quot;table {{.ID}}\t{{.Status}}&quot;
-CONTAINER ID   STATUS
-
-                                                              $ docker container run -it ubuntu:latest
-                                                              root@a5427ccdeb26:/#
-
-$ docker container ls --format &quot;table {{.ID}}\t{{.Status}}&quot;
-CONTAINER ID   STATUS
-a5427ccdeb26   Up 38 seconds
-
-                                                              root@a5427ccdeb26:/# ^D
-                                                              exit
-
-$ docker container ls --format &quot;table {{.ID}}\t{{.Status}}&quot;
-CONTAINER ID   STATUS
+<div class="highlight"><pre><span></span><code>$ docker container ls --format &quot;table {{.ID}}\t{{.Status}}&quot; |
+CONTAINER ID   STATUS                                       |
+                                                            |
+                                                            | $ docker container run -it ubuntu:latest
+                                                            | root@a5427ccdeb26:/#
+                                                            |
+$ docker container ls --format &quot;table {{.ID}}\t{{.Status}}&quot; |
+CONTAINER ID   STATUS                                       |
+a5427ccdeb26   Up 38 seconds                                |
+                                                            |
+                                                            | root@a5427ccdeb26:/# ^D
+                                                            | exit
+                                                            |
+$ docker container ls --format &quot;table {{.ID}}\t{{.Status}}&quot; |
+CONTAINER ID   STATUS                                       |
 </code></pre></div>
 </div>
 <ul>
@@ -1297,9 +1297,70 @@ $ docker run -it ubuntu:latest
 exit
 </code></pre></div>
 </div>
+<!-- ---------------------------------------------------------------- -->
+</section>
+<section class="topic">
+<h2 class="topic">30: Actually Installing Software</h2>
 <ul>
-<li>We need a way to create an image that has the software we want</li>
+<li>Create a Dockerfile<ul>
+<li>Usually called that and in a directory of its own</li>
+<li>Ours is <code>src/ubuntu-python/Dockerfile</code></li>
 </ul>
+</li>
+</ul>
+<p class="inclusion"><a href="src/ubuntu-python3/Dockerfile">src/ubuntu-python3/Dockerfile</a></p>
+<div class="language-">
+<div class="highlight"><pre><span></span><code>FROM ubuntu:latest
+
+RUN apt update
+RUN apt install python3 -y
+</code></pre></div>
+</div>
+<ul>
+<li>Tell docker to build the image</li>
+</ul>
+<p class="inclusion"><a href="src/ubuntu-python3-build.text">src/ubuntu-python3-build.text</a></p>
+<div class="language-text">
+<div class="highlight"><pre><span></span><code>#0 building with &quot;desktop-linux&quot; instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 99B done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/ubuntu:latest
+#2 DONE 1.6s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 2B done
+#3 DONE 0.0s
+
+#4 [1/3] FROM docker.io/library/ubuntu:latest@sha256:77906da86b60585ce12215807090eb327e7386c8fafb5402369e421f44eff17e
+#4 resolve docker.io/library/ubuntu:latest@sha256:77906da86b60585ce12215807090eb327e7386c8fafb5402369e421f44eff17e done
+#4 DONE 0.0s
+
+#5 [2/3] RUN apt update
+#5 CACHED
+
+#6 [3/3] RUN apt install python3 -y
+#6 CACHED
+
+#7 exporting to image
+#7 exporting layers done
+#7 writing image sha256:c06d47d8275d4ef724dad192bf72daaac6b86701a1be40e1ac03f53092201d71 done
+#7 naming to docker.io/gvwilson/ubuntu-python3 done
+#7 DONE 0.0s
+</code></pre></div>
+</div>
+<ul>
+<li><code>CACHED</code> because we&rsquo;ve run this several times while building this tutorial</li>
+</ul>
+<p class="inclusion"><a href="src/ubuntu-python3-run.text">src/ubuntu-python3-run.text</a></p>
+<div class="language-text">
+<div class="highlight"><pre><span></span><code>$ docker container run -it gvwilson/ubuntu-python3
+# which python3
+/usr/bin/python3
+</code></pre></div>
+</div>
 <!-- ---------------------------------------------------------------- -->
 </section>
 <section class="aside">
@@ -1360,7 +1421,7 @@ Start where you are, use what you have, help who you can.
 <!-- ---------------------------------------------------------------- -->
 </section>
 <section class="topic">
-<h2 class="topic">30: Request Structure</h2>
+<h2 class="topic">31: Request Structure</h2>
 <p class="inclusion"><a href="src/dump_structure.py">src/dump_structure.py</a></p>
 <div class="language-py">
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">requests</span>
@@ -1391,7 +1452,7 @@ Connection: keep-alive
 <!-- ---------------------------------------------------------------- -->
 </section>
 <section class="topic">
-<h2 class="topic">31: Response Structure</h2>
+<h2 class="topic">32: Response Structure</h2>
 <p class="inclusion"><a href="src/response_headers.py">src/response_headers.py</a></p>
 <div class="language-py">
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">requests</span>
@@ -1450,7 +1511,7 @@ What is the difference between the <code>Content-Type</code> and the <code>Conte
 <!-- ---------------------------------------------------------------- -->
 </section>
 <section class="topic">
-<h2 class="topic">32: When Things Go Wrong</h2>
+<h2 class="topic">33: When Things Go Wrong</h2>
 <p class="inclusion"><a href="src/get_404.py">src/get_404.py</a></p>
 <div class="language-py">
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">requests</span>
@@ -1495,7 +1556,7 @@ Look at <a href="https://en.wikipedia.org/wiki/List_of_HTTP_status_codes">this l
 <!-- ---------------------------------------------------------------- -->
 </section>
 <section class="topic">
-<h2 class="topic">33: Getting JSON</h2>
+<h2 class="topic">34: Getting JSON</h2>
 <p class="inclusion"><a href="src/get_json.py">src/get_json.py</a></p>
 <div class="language-py">
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">requests</span>
@@ -1568,7 +1629,7 @@ of <a href="http://api.open-notify.org/">the International Space Station</a>.</p
 <!-- ---------------------------------------------------------------- -->
 </section>
 <section class="topic">
-<h2 class="topic">34: Talk to Local Server</h2>
+<h2 class="topic">35: Talk to Local Server</h2>
 <p class="inclusion"><a href="src/get_local.py">src/get_local.py</a></p>
 <div class="language-py">
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">requests</span>
@@ -1599,7 +1660,7 @@ Start where you are, use what you have, help who you can.
 <!-- ---------------------------------------------------------------- -->
 </section>
 <section class="topic">
-<h2 class="topic">35: Our Own File Server</h2>
+<h2 class="topic">36: Our Own File Server</h2>
 <p class="inclusion"><a href="src/file_server_unsafe.py">src/file_server_unsafe.py</a></p>
 <div class="language-py">
 <div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">RequestHandler</span><span class="p">(</span><span class="n">BaseHTTPRequestHandler</span><span class="p">):</span>
@@ -1629,7 +1690,7 @@ Start where you are, use what you have, help who you can.
 <!-- ---------------------------------------------------------------- -->
 </section>
 <section class="topic">
-<h2 class="topic">36: Support Code</h2>
+<h2 class="topic">37: Support Code</h2>
 <ul>
 <li>Send content</li>
 </ul>
@@ -1678,7 +1739,7 @@ Start where you are, use what you have, help who you can.
 <!-- ---------------------------------------------------------------- -->
 </section>
 <section class="topic">
-<h2 class="topic">37: Running Our File Server</h2>
+<h2 class="topic">38: Running Our File Server</h2>
 <p class="inclusion"><a href="src/file_server_unsafe.py">src/file_server_unsafe.py</a></p>
 <div class="language-py">
 <div class="highlight"><pre><span></span><code><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
@@ -1695,7 +1756,7 @@ Start where you are, use what you have, help who you can.
 <!-- ---------------------------------------------------------------- -->
 </section>
 <section class="topic">
-<h2 class="topic">38: Built-in Safety</h2>
+<h2 class="topic">39: Built-in Safety</h2>
 <ul>
 <li>Modify <code>requests</code> script to take URL as command-line parameter</li>
 </ul>
@@ -1776,7 +1837,7 @@ body:
 <!-- ---------------------------------------------------------------- -->
 </section>
 <section class="topic">
-<h2 class="topic">39: Introducing netcat</h2>
+<h2 class="topic">40: Introducing netcat</h2>
 <ul>
 <li><a href="https://en.wikipedia.org/wiki/Netcat"><code>netcat</code></a> (often just <code>nc</code>) is a computer networking tool</li>
 <li>Open a connection, send exactly what the user types, and show exactly what is sent in response</li>
@@ -1840,7 +1901,7 @@ What happens with each and why?</p>
 <!-- ---------------------------------------------------------------- -->
 </section>
 <section class="topic">
-<h2 class="topic">40: A Safer File Server</h2>
+<h2 class="topic">41: A Safer File Server</h2>
 <p class="inclusion"><a href="src/file_server_safe.py">src/file_server_safe.py</a></p>
 <div class="language-py">
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">handle_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">given_path</span><span class="p">,</span> <span class="n">full_path</span><span class="p">):</span>
@@ -1878,7 +1939,7 @@ Do you think making code easier to understand also makes it safer?</p>
 <!-- ---------------------------------------------------------------- -->
 </section>
 <section class="topic">
-<h2 class="topic">41: Serving Data</h2>
+<h2 class="topic">42: Serving Data</h2>
 <ul>
 <li>Rarely have JSON lying around as <a href="#g:static_file">static files</a></li>
 </ul>
@@ -1959,7 +2020,7 @@ L13476859,60.8606726,-135.2015181,CA-YT,2021,2,15,bkcchi,3.0
 <!-- ---------------------------------------------------------------- -->
 </section>
 <section class="topic">
-<h2 class="topic">42: Slicing Data</h2>
+<h2 class="topic">43: Slicing Data</h2>
 <ul>
 <li>URL can contain <a href="#g:query_parameter">query parameters</a></li>
 <li>Want <code>http://localhost:8000/?year=2021&amp;species=rebnut</code> to select red-breasted nuthatches in 2021</li>
@@ -2018,7 +2079,7 @@ Explain why the server should return JSON rather than HTML in the case of an err
 <!-- ---------------------------------------------------------------- -->
 </section>
 <section class="topic">
-<h2 class="topic">43: What&rsquo;s the Magic Word?</h2>
+<h2 class="topic">44: What&rsquo;s the Magic Word?</h2>
 <ul>
 <li>Only allow access to data if client:<ul>
 <li><a href="#g:authentication">Authenticates</a> (i.e., establishes their identity)</li>
@@ -2136,7 +2197,7 @@ Explain why the server should return JSON rather than HTML in the case of an err
 <!-- ---------------------------------------------------------------- -->
 </section>
 <section class="topic">
-<h2 class="topic">44: Basic Authentication</h2>
+<h2 class="topic">45: Basic Authentication</h2>
 <ul>
 <li>Modify <code>do_GET</code></li>
 </ul>

@@ -1,0 +1,28 @@
+#0 building with "desktop-linux" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 99B done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/ubuntu:latest
+#2 DONE 1.6s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 2B done
+#3 DONE 0.0s
+
+#4 [1/3] FROM docker.io/library/ubuntu:latest@sha256:77906da86b60585ce12215807090eb327e7386c8fafb5402369e421f44eff17e
+#4 resolve docker.io/library/ubuntu:latest@sha256:77906da86b60585ce12215807090eb327e7386c8fafb5402369e421f44eff17e done
+#4 DONE 0.0s
+
+#5 [2/3] RUN apt update
+#5 CACHED
+
+#6 [3/3] RUN apt install python3 -y
+#6 CACHED
+
+#7 exporting to image
+#7 exporting layers done
+#7 writing image sha256:c06d47d8275d4ef724dad192bf72daaac6b86701a1be40e1ac03f53092201d71 done
+#7 naming to docker.io/gvwilson/ubuntu-python3 done
+#7 DONE 0.0s

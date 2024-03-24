@@ -1,15 +1,15 @@
-$ docker container ls --format "table {{.ID}}\t{{.Status}}"
-CONTAINER ID   STATUS
-
-                                                              $ docker container run -it ubuntu:latest
-                                                              root@a5427ccdeb26:/#
-
-$ docker container ls --format "table {{.ID}}\t{{.Status}}"
-CONTAINER ID   STATUS
-a5427ccdeb26   Up 38 seconds
-
-                                                              root@a5427ccdeb26:/# ^D
-                                                              exit
-
-$ docker container ls --format "table {{.ID}}\t{{.Status}}"
-CONTAINER ID   STATUS
+$ docker container ls --format "table {{.ID}}\t{{.Status}}" |
+CONTAINER ID   STATUS                                       |
+                                                            |
+                                                            | $ docker container run -it ubuntu:latest
+                                                            | root@a5427ccdeb26:/#
+                                                            |
+$ docker container ls --format "table {{.ID}}\t{{.Status}}" |
+CONTAINER ID   STATUS                                       |
+a5427ccdeb26   Up 38 seconds                                |
+                                                            |
+                                                            | root@a5427ccdeb26:/# ^D
+                                                            | exit
+                                                            |
+$ docker container ls --format "table {{.ID}}\t{{.Status}}" |
+CONTAINER ID   STATUS                                       |
