@@ -45,7 +45,7 @@ def _single(pargs, kwargs, node):
                 f"Mis-match start/end keep with '{keep}' in {filename} in {node.path}"
             )
 
-    lang = "plaintext" if suffix == "out" else suffix
+    lang = "plaintext" if suffix in {"out", ""} else suffix
 
     lines = [
         f'<p class="inclusion"><a href="{filename}">{filename}</a></p>',

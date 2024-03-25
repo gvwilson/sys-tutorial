@@ -67,7 +67,7 @@ def find_actual(src, out):
     """Find actual source files."""
     names = set()
     for dirname in (src, out):
-        names |= {str(Path(dirname, f.name)) for f in Path(dirname).glob("*.*")}
+        names |= {str(name) for name in Path(dirname).rglob("*") if name.is_file()}
     names = {n for n in names if not n.endswith("~")}
     return names
 

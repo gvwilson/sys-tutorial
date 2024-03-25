@@ -1,4 +1,4 @@
-$ docker container run -i -t ubuntu:latest
+$ docker container run -i -t ubuntu
 root@a8ea570a84d3:/# ls /tmp
 root@a8ea570a84d3:/# touch /tmp/proof-we-were-here.txt
 root@a8ea570a84d3:/# ls /tmp
@@ -6,7 +6,7 @@ proof-we-were-here.txt
 root@a8ea570a84d3:/# ^D
 exit
 
-$ docker container run -i -t ubuntu:latest
+$ docker container run -i -t ubuntu
 root@f792c15ebb5b:/# ls /tmp
 root@f792c15ebb5b:/# ^D
 exit

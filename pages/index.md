@@ -419,155 +419,7 @@ What is the `re.sub` call in the `faker` script doing and why?
 -   But what about Rust, JavaScript, and other languages?
 -   In particular, what if you need an isolated environment for several languages at once?
 -   And you want other people to be able to reproduce it?
-
-<!-- ---------------------------------------------------------------- -->
-[% section_break class="topic" title="Changing the Root Directory" %]
-
--   The `chroot` command
-    -   Changes the process's idea of the [%g root_directory "root directory" %]
-    -   Runs a command
--   But…
-
-[%inc src/chroot_example.sh out/chroot_example.out %]
-
--   Need special permission (discussed below)
--   Everything needed to run `echo` and other commands needs to be in the new filesystem
--   Only isolates the filesystem
-
-<!-- ---------------------------------------------------------------- -->
-[% section_break class="topic" title="sudo" %]
-
--   Every machine has a [%g superuser "superuser" %] account called [%g root_user "root" %]
-    -   Which has nothing to do with the root directory of the filesystem
--   Use `sudo` ("superuser do") to change identity temporarily
-
-[%inc src/sudo_example.sh out/sudo_example.out %]
-
--   At least it's a different error message…
--   `sudo` is a way to give yourself permission to mess up everything on your computer
--   So another requirement for virtual environments:
-    break them without breaking anything else
-
-<!-- ---------------------------------------------------------------- -->
-[% section_break class="topic" title="Docker" %]
-
--   [Docker][docker] solves all of these problems
--   Define an [%g docker_image "image" %] with its own copy of the operating system, filesystem, etc.
--   Run it in a [%g docker_container "container" %] that is isolated from the rest of your computer
-
-[%inc src/docker_image_ls.sh out/docker_image_ls.out %]
-[%inc src/docker_container_ls.sh out/docker_container_ls.out %]
-
-<!-- ---------------------------------------------------------------- -->
-[% section_break class="aside" title="Common Error Message" %]
-
--   Docker requires a [%g daemon "daemon" %] process to be running in the background to start images
-
-[%inc src/docker_image_ls.sh out/docker_image_ls_err.out %]
-
-<!-- ---------------------------------------------------------------- -->
-[% section_break class="topic" title="Running a Container" %]
-
-[%inc src/docker_run_fresh.text %]
-
--   Ask Docker to run a container with `ubuntu:latest`
-    -   I.e., latest stable version of Ubuntu Linux from [Docker Hub][docker_hub]
--   Docker can't find a [%g cache "cached" %] copy locally, so it downloads the image
--   Then runs it
--   But its default command is `/bin/bash` with no inputs, so it exits immediately.
-
-<!-- ---------------------------------------------------------------- -->
-[% section_break class="topic" title="Re-running a Container" %]
-
-[%inc src/docker_run_again.text %]
-
--   Doesn't need to download again
--   Runs the given command instead of the default `/bin/bash`
-
-<!-- ---------------------------------------------------------------- -->
-[% section_break class="aside" title="This Doesn't Work" %]
-
-[%inc src/docker_run_error.text %]
-
--   Thinks that `"echo hello"` is the name of the command to run
-
-<!-- ---------------------------------------------------------------- -->
-[% section_break class="topic" title="Inside the Container" %]
-
-[%inc src/docker_run_interactive.text %]
-
--   `-i`: interactive
--   `-t`: terminal (kind of)
-    -   Combination often abbreviated `-it`
--   The hexadecimal number after `root@` is the container's unique ID
-
-<!-- ---------------------------------------------------------------- -->
-[% section_break class="topic" title="Persistence" %]
-
-[%inc src/docker_run_nonpersistent.text %]
-
--   Container starts fresh each time it runs
--   Notice that the container's ID changes each time it runs
-
-<!-- ---------------------------------------------------------------- -->
-[% section_break class="topic" title="What Is Running" %]
-
-[%inc src/docker_container_ls_id.text %]
-
--   `docker container ls` on its own shows a wide table
--   Use [Go][golang] format strings to format output (no, really)
-
-<!-- ---------------------------------------------------------------- -->
-[% section_break class="topic" title="Installing Software" %]
-
-[%inc src/docker_install_python.text %]
-
--   `apt update` to update available package lists
--   `apt install` to install the desired package
-    -   Installs lots of dependencies as well
--   Doesn't create `python` (note lack of output)
--   Creates `python3` instead
--   Version is most recent in the default repository
--   But *it isn't there the next time we run*
-
-[%inc src/docker_install_python_nonpersistent.text %]
-
-<!-- ---------------------------------------------------------------- -->
-[% section_break class="topic" title="Actually Installing Software" %]
-
--   Create a Dockerfile
-    -   Usually called that and in a directory of its own
-    -   Ours is `src/ubuntu-python/Dockerfile`
-
-[%inc src/ubuntu-python3/Dockerfile %]
-
--   Tell docker to build the image
-
-[%inc src/ubuntu-python3-build.text %]
-
--   `CACHED` because we've run this several times while building this tutorial
-
-[%inc src/ubuntu-python3-run.text %]
-
-<!-- ---------------------------------------------------------------- -->
-[% section_break class="topic" title="Layers" %]
-
-[%inc src/docker_image_history.text %]
-
--   Docker images are built in layers
--   Layers can be shared between images to reduce disk space
-
-[%inc src/docker_system_df.text %]
-
--   First line (`Images`) shows actual disk space
-    -   We'll see the original `df` command again…
-
-<!-- ---------------------------------------------------------------- -->
-[% section_break class="aside" title="Stitch These Together" %]
-
-> What follows is legacy material from an earlier attempt to write this tutorial.
-> Once there is more Docker above,
-> something will be added here to stitch the two parts together.
+-   We will build something worth installing and then return to this problem
 
 <!-- ---------------------------------------------------------------- -->
 [% section_break class="aside" title="Start with Something Simple" %]
@@ -918,6 +770,155 @@ Explain why the server should return JSON rather than HTML in the case of an err
 
 [%inc src/bird_client_basicauth.py %]
 [%inc src/bird_client_basicauth_correct.sh %]
+
+<!-- ---------------------------------------------------------------- -->
+[% section_break class="topic" title="Changing the Root Directory" %]
+
+-   The `chroot` command
+    -   Changes the process's idea of the [%g root_directory "root directory" %]
+    -   Runs a command
+-   But…
+
+[%inc src/chroot_example.sh out/chroot_example.out %]
+
+-   Need special permission (discussed below)
+-   Everything needed to run `echo` and other commands needs to be in the new filesystem
+-   Only isolates the filesystem
+
+<!-- ---------------------------------------------------------------- -->
+[% section_break class="topic" title="sudo" %]
+
+-   Every machine has a [%g superuser "superuser" %] account called [%g root_user "root" %]
+    -   Which has nothing to do with the root directory of the filesystem
+-   Use `sudo` ("superuser do") to change identity temporarily
+
+[%inc src/sudo_example.sh out/sudo_example.out %]
+
+-   At least it's a different error message…
+-   `sudo` is a way to give yourself permission to mess up everything on your computer
+-   So another requirement for virtual environments:
+    break them without breaking anything else
+
+<!-- ---------------------------------------------------------------- -->
+[% section_break class="topic" title="Docker" %]
+
+-   [Docker][docker] solves all of these problems
+-   Define an [%g docker_image "image" %] with its own copy of the operating system, filesystem, etc.
+-   Run it in a [%g docker_container "container" %] that is isolated from the rest of your computer
+
+[%inc src/docker_image_ls.sh out/docker_image_ls.out %]
+[%inc src/docker_container_ls.sh out/docker_container_ls.out %]
+
+<!-- ---------------------------------------------------------------- -->
+[% section_break class="aside" title="Common Error Message" %]
+
+-   Docker requires a [%g daemon "daemon" %] process to be running in the background to start images
+
+[%inc src/docker_image_ls.sh out/docker_image_ls_err.out %]
+
+<!-- ---------------------------------------------------------------- -->
+[% section_break class="topic" title="Running a Container" %]
+
+[%inc src/docker_run_fresh.text %]
+
+-   Ask Docker to run a container with `ubuntu:latest`
+    -   I.e., latest stable version of Ubuntu Linux from [Docker Hub][docker_hub]
+-   Docker can't find a [%g cache "cached" %] copy locally, so it downloads the image
+-   Then runs it
+-   But its default command is `/bin/bash` with no inputs, so it exits immediately.
+
+<!-- ---------------------------------------------------------------- -->
+[% section_break class="topic" title="Re-running a Container" %]
+
+[%inc src/docker_run_again.text %]
+
+-   Doesn't need to download again
+-   Runs the given command instead of the default `/bin/bash`
+
+<!-- ---------------------------------------------------------------- -->
+[% section_break class="aside" title="This Doesn't Work" %]
+
+[%inc src/docker_run_error.text %]
+
+-   Thinks that `"echo hello"` is the name of the command to run
+
+<!-- ---------------------------------------------------------------- -->
+[% section_break class="topic" title="What Have We Got?" %]
+
+[%inc src/os_release.text %]
+
+-   Don't need `:latest` every time (defaults)
+
+<!-- ---------------------------------------------------------------- -->
+[% section_break class="topic" title="Inside the Container" %]
+
+[%inc src/docker_run_interactive.text %]
+
+-   `-i`: interactive
+-   `-t`: terminal (kind of)
+    -   Combination often abbreviated `-it`
+-   The hexadecimal number after `root@` is the container's unique ID
+
+<!-- ---------------------------------------------------------------- -->
+[% section_break class="topic" title="Persistence" %]
+
+[%inc src/docker_run_nonpersistent.text %]
+
+-   Container starts fresh each time it runs
+-   Notice that the container's ID changes each time it runs
+
+<!-- ---------------------------------------------------------------- -->
+[% section_break class="topic" title="What Is Running" %]
+
+[%inc src/docker_container_ls_id.text %]
+
+-   `docker container ls` on its own shows a wide table
+-   Use [Go][golang] format strings to format output (no, really)
+
+<!-- ---------------------------------------------------------------- -->
+[% section_break class="topic" title="Installing Software" %]
+
+[%inc src/docker_install_python.text %]
+
+-   `apt update` to update available package lists
+-   `apt install` to install the desired package
+    -   Installs lots of dependencies as well
+-   Doesn't create `python` (note lack of output)
+-   Creates `python3` instead
+-   Version is most recent in the default repository
+-   But *it isn't there the next time we run*
+
+[%inc src/docker_install_python_nonpersistent.text %]
+
+<!-- ---------------------------------------------------------------- -->
+[% section_break class="topic" title="Actually Installing Software" %]
+
+-   Create a Dockerfile
+    -   Usually called that and in a directory of its own
+    -   Ours is `src/ubuntu_python3/Dockerfile`
+
+[%inc src/ubuntu_python3/Dockerfile %]
+
+-   Tell docker to build the image
+
+[%inc src/ubuntu_python3_build.text %]
+
+-   `CACHED` because we've run this several times while building this tutorial
+
+[%inc src/ubuntu_python3_run.text %]
+
+<!-- ---------------------------------------------------------------- -->
+[% section_break class="topic" title="Layers" %]
+
+[%inc src/docker_image_history.text %]
+
+-   Docker images are built in layers
+-   Layers can be shared between images to reduce disk space
+
+[%inc src/docker_system_df.text %]
+
+-   First line (`Images`) shows actual disk space
+    -   We'll see the original `df` command again…
 
 <!-- ---------------------------------------------------------------- -->
 [% section_break class="aside" title="Appendices" %]

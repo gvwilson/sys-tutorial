@@ -1,4 +1,4 @@
-$ docker container run -i -t ubuntu:latest
+$ docker container run -i -t ubuntu
 root@4238b3b51abd:/# pwd
 /
 root@4238b3b51abd:/# whoami

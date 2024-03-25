@@ -1,7 +1,7 @@
 $ docker container ls --format "table {{.ID}}\t{{.Status}}" |
 CONTAINER ID   STATUS                                       |
                                                             |
-                                                            | $ docker container run -it ubuntu:latest
+                                                            | $ docker container run -it ubuntu
                                                             | root@a5427ccdeb26:/#
                                                             |
 $ docker container ls --format "table {{.ID}}\t{{.Status}}" |
