@@ -1364,6 +1364,44 @@ RUN apt install python3 -y
 </div>
 <!-- ---------------------------------------------------------------- -->
 </section>
+<section class="topic">
+<h2 class="topic">31: Layers</h2>
+<p class="inclusion"><a href="src/docker_image_history.text">src/docker_image_history.text</a></p>
+<div class="language-text">
+<div class="highlight"><pre><span></span><code>$ docker image history gvwilson/ubuntu-python3
+IMAGE          CREATED        CREATED BY                                      SIZE      COMMENT
+c06d47d8275d   24 hours ago   RUN /bin/sh -c apt install python3 -y # buil…   29.5MB    buildkit.dockerfile.v0
+&lt;missing&gt;      24 hours ago   RUN /bin/sh -c apt update # buildkit            45.6MB    buildkit.dockerfile.v0
+&lt;missing&gt;      3 weeks ago    /bin/sh -c #(nop)  CMD [&quot;/bin/bash&quot;]            0B
+&lt;missing&gt;      3 weeks ago    /bin/sh -c #(nop) ADD file:07cdbabf782942af0…   69.2MB
+&lt;missing&gt;      3 weeks ago    /bin/sh -c #(nop)  LABEL org.opencontainers.…   0B
+&lt;missing&gt;      3 weeks ago    /bin/sh -c #(nop)  LABEL org.opencontainers.…   0B
+&lt;missing&gt;      3 weeks ago    /bin/sh -c #(nop)  ARG LAUNCHPAD_BUILD_ARCH     0B
+&lt;missing&gt;      3 weeks ago    /bin/sh -c #(nop)  ARG RELEASE                  0B
+</code></pre></div>
+</div>
+<ul>
+<li>Docker images are built in layers</li>
+<li>Layers can be shared between images to reduce disk space</li>
+</ul>
+<p class="inclusion"><a href="src/docker_system_df.text">src/docker_system_df.text</a></p>
+<div class="language-text">
+<div class="highlight"><pre><span></span><code>$ docker system df
+TYPE            TOTAL     ACTIVE    SIZE      RECLAIMABLE
+Images          2         1         144.3MB   144.3MB (100%)
+Containers      1         0         34B       34B (100%)
+Local Volumes   1         0         0B        0B
+Build Cache     22        0         253.2MB   253.2MB
+</code></pre></div>
+</div>
+<ul>
+<li>First line (<code>Images</code>) shows actual disk space<ul>
+<li>We&rsquo;ll see the original <code>df</code> command again…</li>
+</ul>
+</li>
+</ul>
+<!-- ---------------------------------------------------------------- -->
+</section>
 <section class="aside">
 <h2 class="aside">Stitch These Together</h2>
 <blockquote>
@@ -1422,7 +1460,7 @@ Start where you are, use what you have, help who you can.
 <!-- ---------------------------------------------------------------- -->
 </section>
 <section class="topic">
-<h2 class="topic">31: Request Structure</h2>
+<h2 class="topic">32: Request Structure</h2>
 <p class="inclusion"><a href="src/dump_structure.py">src/dump_structure.py</a></p>
 <div class="language-py">
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">requests</span>
@@ -1453,7 +1491,7 @@ Connection: keep-alive
 <!-- ---------------------------------------------------------------- -->
 </section>
 <section class="topic">
-<h2 class="topic">32: Response Structure</h2>
+<h2 class="topic">33: Response Structure</h2>
 <p class="inclusion"><a href="src/response_headers.py">src/response_headers.py</a></p>
 <div class="language-py">
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">requests</span>
@@ -1512,7 +1550,7 @@ What is the difference between the <code>Content-Type</code> and the <code>Conte
 <!-- ---------------------------------------------------------------- -->
 </section>
 <section class="topic">
-<h2 class="topic">33: When Things Go Wrong</h2>
+<h2 class="topic">34: When Things Go Wrong</h2>
 <p class="inclusion"><a href="src/get_404.py">src/get_404.py</a></p>
 <div class="language-py">
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">requests</span>
@@ -1557,7 +1595,7 @@ Look at <a href="https://en.wikipedia.org/wiki/List_of_HTTP_status_codes">this l
 <!-- ---------------------------------------------------------------- -->
 </section>
 <section class="topic">
-<h2 class="topic">34: Getting JSON</h2>
+<h2 class="topic">35: Getting JSON</h2>
 <p class="inclusion"><a href="src/get_json.py">src/get_json.py</a></p>
 <div class="language-py">
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">requests</span>
@@ -1630,7 +1668,7 @@ of <a href="http://api.open-notify.org/">the International Space Station</a>.</p
 <!-- ---------------------------------------------------------------- -->
 </section>
 <section class="topic">
-<h2 class="topic">35: Talk to Local Server</h2>
+<h2 class="topic">36: Talk to Local Server</h2>
 <p class="inclusion"><a href="src/get_local.py">src/get_local.py</a></p>
 <div class="language-py">
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">requests</span>
@@ -1661,7 +1699,7 @@ Start where you are, use what you have, help who you can.
 <!-- ---------------------------------------------------------------- -->
 </section>
 <section class="topic">
-<h2 class="topic">36: Our Own File Server</h2>
+<h2 class="topic">37: Our Own File Server</h2>
 <p class="inclusion"><a href="src/file_server_unsafe.py">src/file_server_unsafe.py</a></p>
 <div class="language-py">
 <div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">RequestHandler</span><span class="p">(</span><span class="n">BaseHTTPRequestHandler</span><span class="p">):</span>
@@ -1691,7 +1729,7 @@ Start where you are, use what you have, help who you can.
 <!-- ---------------------------------------------------------------- -->
 </section>
 <section class="topic">
-<h2 class="topic">37: Support Code</h2>
+<h2 class="topic">38: Support Code</h2>
 <ul>
 <li>Send content</li>
 </ul>
@@ -1740,7 +1778,7 @@ Start where you are, use what you have, help who you can.
 <!-- ---------------------------------------------------------------- -->
 </section>
 <section class="topic">
-<h2 class="topic">38: Running Our File Server</h2>
+<h2 class="topic">39: Running Our File Server</h2>
 <p class="inclusion"><a href="src/file_server_unsafe.py">src/file_server_unsafe.py</a></p>
 <div class="language-py">
 <div class="highlight"><pre><span></span><code><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
@@ -1757,7 +1795,7 @@ Start where you are, use what you have, help who you can.
 <!-- ---------------------------------------------------------------- -->
 </section>
 <section class="topic">
-<h2 class="topic">39: Built-in Safety</h2>
+<h2 class="topic">40: Built-in Safety</h2>
 <ul>
 <li>Modify <code>requests</code> script to take URL as command-line parameter</li>
 </ul>
@@ -1838,7 +1876,7 @@ body:
 <!-- ---------------------------------------------------------------- -->
 </section>
 <section class="topic">
-<h2 class="topic">40: Introducing netcat</h2>
+<h2 class="topic">41: Introducing netcat</h2>
 <ul>
 <li><a href="https://en.wikipedia.org/wiki/Netcat"><code>netcat</code></a> (often just <code>nc</code>) is a computer networking tool</li>
 <li>Open a connection, send exactly what the user types, and show exactly what is sent in response</li>
@@ -1902,7 +1940,7 @@ What happens with each and why?</p>
 <!-- ---------------------------------------------------------------- -->
 </section>
 <section class="topic">
-<h2 class="topic">41: A Safer File Server</h2>
+<h2 class="topic">42: A Safer File Server</h2>
 <p class="inclusion"><a href="src/file_server_safe.py">src/file_server_safe.py</a></p>
 <div class="language-py">
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">handle_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">given_path</span><span class="p">,</span> <span class="n">full_path</span><span class="p">):</span>
@@ -1940,7 +1978,7 @@ Do you think making code easier to understand also makes it safer?</p>
 <!-- ---------------------------------------------------------------- -->
 </section>
 <section class="topic">
-<h2 class="topic">42: Serving Data</h2>
+<h2 class="topic">43: Serving Data</h2>
 <ul>
 <li>Rarely have JSON lying around as <a href="#g:static_file">static files</a></li>
 </ul>
@@ -2021,7 +2059,7 @@ L13476859,60.8606726,-135.2015181,CA-YT,2021,2,15,bkcchi,3.0
 <!-- ---------------------------------------------------------------- -->
 </section>
 <section class="topic">
-<h2 class="topic">43: Slicing Data</h2>
+<h2 class="topic">44: Slicing Data</h2>
 <ul>
 <li>URL can contain <a href="#g:query_parameter">query parameters</a></li>
 <li>Want <code>http://localhost:8000/?year=2021&amp;species=rebnut</code> to select red-breasted nuthatches in 2021</li>
@@ -2080,7 +2118,7 @@ Explain why the server should return JSON rather than HTML in the case of an err
 <!-- ---------------------------------------------------------------- -->
 </section>
 <section class="topic">
-<h2 class="topic">44: What&rsquo;s the Magic Word?</h2>
+<h2 class="topic">45: What&rsquo;s the Magic Word?</h2>
 <ul>
 <li>Only allow access to data if client:<ul>
 <li><a href="#g:authentication">Authenticates</a> (i.e., establishes their identity)</li>
@@ -2198,7 +2236,7 @@ Explain why the server should return JSON rather than HTML in the case of an err
 <!-- ---------------------------------------------------------------- -->
 </section>
 <section class="topic">
-<h2 class="topic">45: Basic Authentication</h2>
+<h2 class="topic">46: Basic Authentication</h2>
 <ul>
 <li>Modify <code>do_GET</code></li>
 </ul>

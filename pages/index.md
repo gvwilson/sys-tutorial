@@ -550,6 +550,19 @@ What is the `re.sub` call in the `faker` script doing and why?
 [%inc src/ubuntu-python3-run.text %]
 
 <!-- ---------------------------------------------------------------- -->
+[% section_break class="topic" title="Layers" %]
+
+[%inc src/docker_image_history.text %]
+
+-   Docker images are built in layers
+-   Layers can be shared between images to reduce disk space
+
+[%inc src/docker_system_df.text %]
+
+-   First line (`Images`) shows actual disk space
+    -   We'll see the original `df` command again…
+
+<!-- ---------------------------------------------------------------- -->
 [% section_break class="aside" title="Stitch These Together" %]
 
 > What follows is legacy material from an earlier attempt to write this tutorial.
