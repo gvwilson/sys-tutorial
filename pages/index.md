@@ -225,7 +225,7 @@ What does the `pgrep` command do?
 -   Run as `python fork.py > temp.out`, the "starting" line is duplicated
 -   [% todo "explain I/O flushing" %]
 
-[%inc src/flush.py %]
+[%inc src/flush.py out/flush.out %]
 
 <!-- ---------------------------------------------------------------- -->
 [% section_break class="topic" title="Exec" %]
@@ -840,7 +840,12 @@ Explain why the server should return JSON rather than HTML in the case of an err
 
 [%inc src/docker_run_error.text %]
 
--   Thinks that `"echo hello"` is the name of the command to run
+<!-- ---------------------------------------------------------------- -->
+[% section_break class="aside" title="Pulling Images" %]
+
+-   Don't have to run immediately
+
+[%inc src/docker_pull.text %]
 
 <!-- ---------------------------------------------------------------- -->
 [% section_break class="topic" title="What Have We Got?" %]
@@ -919,6 +924,21 @@ Explain why the server should return JSON rather than HTML in the case of an err
 
 -   First line (`Images`) shows actual disk space
     -   We'll see the original `df` command again…
+
+<!-- ---------------------------------------------------------------- -->
+[% section_break class="topic" title="Choosing a Command" %]
+
+-   Add `CMD` with a list of arguments to specify default command when image runs
+
+[%inc src/python3_interpreter/Dockerfile %]
+
+-   Build
+
+[%inc src/python3_interpreter_build.text %]
+
+-   Run
+
+[%inc src/python3_interpreter_run.text %]
 
 <!-- ---------------------------------------------------------------- -->
 [% section_break class="aside" title="Appendices" %]

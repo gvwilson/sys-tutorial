@@ -537,6 +537,13 @@ child got 0 is 41619
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;parent got </span><span class="si">{</span><span class="n">pid</span><span class="si">}</span><span class="s2"> is </span><span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">getpid</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </code></pre></div>
 </div>
+<p class="inclusion"><a href="out/flush.out">out/flush.out</a></p>
+<div class="language-plaintext">
+<div class="highlight"><pre><span></span><code>starting 41536
+parent got 41537 is 41536
+child got 0 is 41537
+</code></pre></div>
+</div>
 <!-- ---------------------------------------------------------------- -->
 </section>
 <section class="topic">
@@ -2050,9 +2057,22 @@ unable to start container process: \
 exec: &quot;echo hello&quot;: executable file not found in $PATH: unknown.
 </code></pre></div>
 </div>
+<!-- ---------------------------------------------------------------- -->
+</section>
+<section class="aside">
+<h2 class="aside">Pulling Images</h2>
 <ul>
-<li>Thinks that <code>"echo hello"</code> is the name of the command to run</li>
+<li>Don&rsquo;t have to run immediately</li>
 </ul>
+<p class="inclusion"><a href="src/docker_pull.text">src/docker_pull.text</a></p>
+<div class="language-text">
+<div class="highlight"><pre><span></span><code>$ docker pull ubuntu:latest
+latest: Pulling from library/ubuntu
+Digest: sha256:77906da86b60585ce12215807090eb327e7386c8fafb5402369e421f44eff17e
+Status: Image is up to date for ubuntu:latest
+docker.io/library/ubuntu:latest
+</code></pre></div>
+</div>
 <!-- ---------------------------------------------------------------- -->
 </section>
 <section class="topic">
@@ -2301,6 +2321,53 @@ Build Cache     22        0         253.2MB   253.2MB
 </ul>
 </li>
 </ul>
+<!-- ---------------------------------------------------------------- -->
+</section>
+<section class="topic">
+<h2 class="topic">48: Choosing a Command</h2>
+<ul>
+<li>Add <code>CMD</code> with a list of arguments to specify default command when image runs</li>
+</ul>
+<p class="inclusion"><a href="src/python3_interpreter/Dockerfile">src/python3_interpreter/Dockerfile</a></p>
+<div class="language-plaintext">
+<div class="highlight"><pre><span></span><code>FROM ubuntu:latest
+
+RUN apt update
+RUN apt install python3 -y
+
+CMD [&quot;python3&quot;, &quot;--version&quot;]
+</code></pre></div>
+</div>
+<ul>
+<li>Build</li>
+</ul>
+<p class="inclusion"><a href="src/python3_interpreter_build.text">src/python3_interpreter_build.text</a></p>
+<div class="language-text">
+<div class="highlight"><pre><span></span><code>$ docker build -t gvwilson/python3 src/python3_interpreter
+[+] Building 0.0s (7/7) FINISHED                                                                             docker:desktop-linux
+ =&gt; [internal] load build definition from Dockerfile                                                                         0.0s
+ =&gt; =&gt; transferring dockerfile: 129B                                                                                         0.0s
+ =&gt; [internal] load metadata for docker.io/library/ubuntu:latest                                                             0.0s
+ =&gt; [internal] load .dockerignore                                                                                            0.0s
+ =&gt; =&gt; transferring context: 2B                                                                                              0.0s
+ =&gt; [1/3] FROM docker.io/library/ubuntu:latest                                                                               0.0s
+ =&gt; CACHED [2/3] RUN apt update                                                                                              0.0s
+ =&gt; CACHED [3/3] RUN apt install python3 -y                                                                                  0.0s
+ =&gt; exporting to image                                                                                                       0.0s
+ =&gt; =&gt; exporting layers                                                                                                      0.0s
+ =&gt; =&gt; writing image sha256:68449d61910cb77cabe5f44ffaeda99a3aa3976f597322c32e32ffeed79d41f7                                 0.0s
+ =&gt; =&gt; naming to docker.io/gvwilson/python3                                                                                  0.0s
+</code></pre></div>
+</div>
+<ul>
+<li>Run</li>
+</ul>
+<p class="inclusion"><a href="src/python3_interpreter_run.text">src/python3_interpreter_run.text</a></p>
+<div class="language-text">
+<div class="highlight"><pre><span></span><code>$ docker container run gvwilson/python3
+Python 3.10.12
+</code></pre></div>
+</div>
 <!-- ---------------------------------------------------------------- -->
 </section>
 <section class="aside">
