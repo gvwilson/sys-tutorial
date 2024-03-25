@@ -1,13 +1,23 @@
 include lib/tut/tutorial.mk
 
+ARK_BIN := lib/tut/bin
+BIBLIOGRAPHY := info/bibliography.bib
+BIB_HTML := tmp/bibliography.html
 SRC_FILES := $(wildcard src/*.sh)
 SRC_EXCLUDE := \
 	src/env_var_inner.sh \
 	src/shell_var_inner.sh
 OUT_FILES := $(patsubst src/%.sh,out/%.out,$(filter-out ${SRC_EXCLUDE},${SRC_FILES}))
+TMP_DIR := tmp
 
 LINT_OTHER_PAGES := 
 LINT_OTHER_FILES := 
+
+## bib: rebuild HTML version of bibliography
+bib: ${BIB_HTML}
+${BIB_HTML}: ${BIBLIOGRAPHY}
+	@mkdir -p ${TMP_DIR}
+	python ${ARK_BIN}/make_bibliography.py --infile $< --outfile $@
 
 ## release: create a release
 .PHONY: release
