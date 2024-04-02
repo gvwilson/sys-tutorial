@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="../logo.svg">
+<link rel="stylesheet" href="../mccole.css" type="text/css">
+<title>The Sudonomicon &middot; Variables</title>
+<script>
+  MathJax = {
+    tex: {
+      inlineMath: [['\\(', '\\)']]
+    }
+  };
+</script>
+<script
+  type="text/javascript"
+  id="MathJax-script"
+  async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+
+  <script defer data-domain="gvwilson.github.io/sys-tutorial" src="https://plausible.io/js/plausible.js"></script>
+
+
+  </head>
+  <body>
+    <main>
+      
+<h1>Variables</h1>
+
+
+      <div class="row notex">
+  <div class="col-1 left">
+    <a href="../process/">&lArr;</a>
+  </div>
+  <div class="col-10 center">
+    <span class="tagline"></span>
+  </div>
+  <div class="col-1 right">
+    <a href="../http/">&rArr;</a>
+  </div>
+</div>
+
+      <ul class="keypoints">
+<li>FIXME</li>
+</ul>
+      <p class="terms">Terms defined: 
+<a class="gl-ref" href="../glossary/#gl:env_var" markdown="1">environment variable</a>, <a class="gl-ref" href="../glossary/#gl:shell_var" markdown="1">shell variable</a>, <a class="gl-ref" href="../glossary/#gl:source_shell" markdown="1">source (in shell script)</a>
+</p>
+      <h2>Shell Variables</h2>
+<ul>
+<li>The shell is a program and programs have variables</li>
+<li>Create or change with <code><em>name</em>=<em>value</em></code></li>
+<li><a class="gl-ref" href="../glossary/#gl:shell_var" markdown="1">Shell variable</a> stays in the process</li>
+<li>Use <code>$<em>name</em></code> to get value<ul>
+<li>Because people type file and directory names more often</li>
+</ul>
+</li>
+</ul>
+<div class="code-sample language-sh" title="shell_var_outer.sh">
+<div class="highlight"><pre><span></span><code><span class="c1"># shell_var_outer.sh</span>
+<span class="nv">WINDOW</span><span class="o">=</span><span class="s2">&quot;neighbor&quot;</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;outer: window is </span><span class="si">${</span><span class="nv">WINDOW</span><span class="si">}</span><span class="s2">&quot;</span>
+bash<span class="w"> </span>src/shell_var_inner.sh
+</code></pre></div>
+</div>
+<div class="code-sample language-sh" title="shell_var_inner.sh">
+<div class="highlight"><pre><span></span><code><span class="c1"># shell_var_inner.sh</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;inner: window is </span><span class="si">${</span><span class="nv">window</span><span class="si">}</span><span class="s2">&quot;</span>
+</code></pre></div>
+</div>
+<div class="code-sample language-out" title="shell_var_outer.out">
+<div class="highlight"><pre><span></span><code>outer: window is neighbor
+inner: window is
+</code></pre></div>
+</div>
+<ul>
+<li>Note: variables usually written in upper case to distinguish them from filenames<ul>
+<li>So underscores as separators</li>
+</ul>
+</li>
+</ul>
+<h2>Environment Variables</h2>
+<ul>
+<li><a class="gl-ref" href="../glossary/#gl:env_var" markdown="1">Environment variable</a> is inherited by new processes</li>
+<li>Use <code>export <em>name</em>=<em>value</em></code></li>
+</ul>
+<div class="code-sample language-sh" title="env_var_outer.sh">
+<div class="highlight"><pre><span></span><code><span class="c1"># env_var_outer.sh</span>
+<span class="nv">WINDOW</span><span class="o">=</span><span class="s2">&quot;neighbor&quot;</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">THRESHOLD</span><span class="o">=</span><span class="m">0</span>.5
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;outer: window is </span><span class="si">${</span><span class="nv">WINDOW</span><span class="si">}</span><span class="s2"> and threshold is </span><span class="si">${</span><span class="nv">THRESHOLD</span><span class="si">}</span><span class="s2">&quot;</span>
+bash<span class="w"> </span>src/env_var_inner.sh
+</code></pre></div>
+</div>
+<div class="code-sample language-sh" title="env_var_inner.sh">
+<div class="highlight"><pre><span></span><code><span class="c1"># env_var_inner.sh</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;inner: window is </span><span class="si">${</span><span class="nv">window</span><span class="si">}</span><span class="s2"> and threshold is </span><span class="si">${</span><span class="nv">threshold</span><span class="si">}</span><span class="s2">&quot;</span>
+</code></pre></div>
+</div>
+<div class="code-sample language-out" title="env_var_outer.out">
+<div class="highlight"><pre><span></span><code>outer: window is neighbor and threshold is 0.5
+inner: window is  and threshold is
+</code></pre></div>
+</div>
+<h2>Environment Variables in Programs</h2>
+<ul>
+<li>Environment variables are inherited by child process…</li>
+<li>…so they are inherited by programs (not just shell scripts)</li>
+</ul>
+<div class="code-sample language-sh" title="env_var_py.sh">
+<div class="highlight"><pre><span></span><code><span class="c1"># env_var_py.sh</span>
+<span class="nv">WINDOW</span><span class="o">=</span><span class="s2">&quot;neighbor&quot;</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">THRESHOLD</span><span class="o">=</span><span class="m">0</span>.5
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;outer: window is </span><span class="si">${</span><span class="nv">WINDOW</span><span class="si">}</span><span class="s2"> and threshold is </span><span class="si">${</span><span class="nv">THRESHOLD</span><span class="si">}</span><span class="s2">&quot;</span>
+python<span class="w"> </span>src/env_var_py.py
+</code></pre></div>
+</div>
+<div class="code-sample language-py" title="env_var_py.py">
+<div class="highlight"><pre><span></span><code><span class="c1"># env_var_py.py</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="n">window</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;WINDOW&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">&quot;not set&quot;</span><span class="p">)</span>
+<span class="n">threshold</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;THRESHOLD&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">&quot;not set&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;inner: window is </span><span class="si">{</span><span class="n">window</span><span class="si">}</span><span class="s2"> and threshold is </span><span class="si">{</span><span class="n">threshold</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+</div>
+<div class="code-sample language-out" title="env_var_py.out">
+<div class="highlight"><pre><span></span><code>outer: window is neighbor and threshold is 0.5
+inner: window is not set and threshold is 0.5
+</code></pre></div>
+</div>
+<h2>Inspecting Variables</h2>
+<ul>
+<li><code>set</code> on its own lists variables, functions, etc.</li>
+<li><code>env</code> shows all environment variables</li>
+</ul>
+<div class="code-sample language-sh" title="show_env_vars.sh">
+<div class="highlight"><pre><span></span><code>env<span class="w"> </span><span class="p">|</span><span class="w"> </span>cut<span class="w"> </span>-d<span class="w"> </span><span class="o">=</span><span class="w"> </span>-f<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sort<span class="w"> </span><span class="p">|</span><span class="w"> </span>head<span class="w"> </span>-n<span class="w"> </span><span class="m">10</span>
+</code></pre></div>
+</div>
+<div class="code-sample language-out" title="show_env_vars.out">
+<div class="highlight"><pre><span></span><code>BASH_SILENCE_DEPRECATION_WARNING
+CONDA_DEFAULT_ENV
+CONDA_EXE
+CONDA_PREFIX
+CONDA_PREFIX_1
+CONDA_PROMPT_MODIFIER
+CONDA_PYTHON_EXE
+CONDA_SHLVL
+EDITOR
+GEM_HOME
+</code></pre></div>
+</div>
+<ul>
+<li>Many tools create variables to manage configuration<ul>
+<li>No guarantees that they don&rsquo;t collide with each other</li>
+</ul>
+</li>
+</ul>
+<h2>Important Environment Variables</h2>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Typical Value</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>EDITOR</code></td>
+<td><code>nano</code></td>
+<td>default text editor</td>
+</tr>
+<tr>
+<td><code>HOME</code></td>
+<td><code>/Users/tut</code></td>
+<td>user&rsquo;s home directory</td>
+</tr>
+<tr>
+<td><code>LANG</code></td>
+<td><code>en_CA.UTF-8</code></td>
+<td>user&rsquo;s preferred (human) language</td>
+</tr>
+<tr>
+<td><code>PATH</code></td>
+<td>see below</td>
+<td>search path for programs</td>
+</tr>
+<tr>
+<td><code>PWD</code></td>
+<td><code>/Users/tut/sys</code></td>
+<td>present working directory</td>
+</tr>
+<tr>
+<td><code>SHELL</code></td>
+<td><code>/bin/bash</code></td>
+<td>user&rsquo;s default shell</td>
+</tr>
+<tr>
+<td><code>TERM</code></td>
+<td><code>xterm-256color</code></td>
+<td>type of terminal</td>
+</tr>
+<tr>
+<td><code>TMPDIR</code></td>
+<td><code>/var/tmp</code></td>
+<td>storage for temporary files</td>
+</tr>
+<tr>
+<td><code>USER</code></td>
+<td><code>tut</code></td>
+<td>current user&rsquo;s name</td>
+</tr>
+</tbody>
+</table>
+<h2>Search Path</h2>
+<ul>
+<li><code>PATH</code> holds a colon-separated list of directories</li>
+<li>Shell looks in these <em>in order</em> to find commands</li>
+<li>Looking at them all on one line is annoying, so use <code>tr</code> to split</li>
+</ul>
+<div class="code-sample language-sh" title="show_path.sh">
+<div class="highlight"><pre><span></span><code><span class="nb">echo</span><span class="w"> </span><span class="nv">$PATH</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>tr<span class="w"> </span>:<span class="w"> </span><span class="s1">&#39;\n&#39;</span>
+</code></pre></div>
+</div>
+<div class="code-sample language-out" title="show_path.out">
+<div class="highlight"><pre><span></span><code>/Users/tut/google-cloud-sdk/bin
+/Users/tut/conda/envs/sys/bin
+/Users/tut/conda/condabin
+/Users/tut/.nvm/versions/node/v20.8.0/bin
+/Users/tut/bin
+/Applications/Postgres.app/Contents/Versions/14/bin
+/Users/tut/go/bin
+/usr/local/bin
+/System/Cryptexes/App/usr/bin
+/usr/bin
+/bin
+/usr/sbin
+/sbin
+/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin
+/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin
+/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin
+/Library/Apple/usr/bin
+/Library/TeX/texbin
+/usr/local/bin
+</code></pre></div>
+</div>
+<ul>
+<li>Notice <code>/Users/tut/bin</code></li>
+<li>Common to have a <code>~/bin</code> directory with the user&rsquo;s own utilities</li>
+</ul>
+<h2>Adding to the Search Path</h2>
+<ul>
+<li>Shell variables (of both kinds) are just strings</li>
+<li>So redefine the variable to the old value with a new directory at the front</li>
+</ul>
+<div class="code-sample language-sh" title="change_path.sh">
+<div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">PATH</span><span class="o">=</span><span class="s2">&quot;/tmp/bin:</span><span class="si">${</span><span class="nv">PATH</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="nb">echo</span><span class="w"> </span><span class="nv">$PATH</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>tr<span class="w"> </span>:<span class="w"> </span><span class="s1">&#39;\n&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>head<span class="w"> </span>-n<span class="w"> </span><span class="m">5</span>
+</code></pre></div>
+</div>
+<div class="code-sample language-out" title="change_path.out">
+<div class="highlight"><pre><span></span><code>/tmp/bin
+/Users/gregwilson/google-cloud-sdk/bin
+/Users/gregwilson/conda/envs/sys/bin
+/Users/gregwilson/conda/condabin
+/Users/gregwilson/.gem/ruby/3.1.2/bin
+</code></pre></div>
+</div>
+<h2>Startup Files</h2>
+<ul>
+<li>Bash shell runs commands in <code>~/.bash_profile</code> for login shells</li>
+<li>Bash shell runs commands in <code>~/.bashrc</code> for interactive shells</li>
+<li>Yes, the terminology is confusing</li>
+<li>Common to have <code>~/.bash_profile</code> <a class="gl-ref" href="../glossary/#gl:source_shell" markdown="1">source</a> <code>~/.bashrc</code><ul>
+<li>I.e., run those commands in the current shell</li>
+</ul>
+</li>
+</ul>
+<div class="code-sample language-sh" title="source_bashrc.sh">
+<div class="highlight"><pre><span></span><code><span class="nb">source</span><span class="w"> </span><span class="nv">$HOME</span>/.bashrc
+</code></pre></div>
+</div>
+<h2 class="aside">Command Interpolation</h2>
+<ul>
+<li>Can use <code>outer $(<em>inner</em>)</code> to run <code>inner</code> and use its output as arguments to <code>outer</code></li>
+<li>Long-winded way to count lines in some text files</li>
+</ul>
+<div class="code-sample language-sh" title="interpolate.sh">
+<div class="highlight"><pre><span></span><code>wc<span class="w"> </span>-l<span class="w"> </span><span class="k">$(</span>ls<span class="w"> </span>src/*.text<span class="k">)</span>
+</code></pre></div>
+</div>
+<div class="code-sample language-out" title="interpolate.out">
+<div class="highlight"><pre><span></span><code>12 src/ctrl_z_background.text
+12 src/kill_int.text
+ 6 src/kill_process.text
+30 total
+</code></pre></div>
+</div>
+<h2 id="var-exercises">Exercises</h2>
+<ol>
+<li>
+<p>What happens if you modify the scripts shown above
+    to use single quotes instead of double quotes?</p>
+</li>
+<li>
+<p>If a child process sets shell or environment variables,
+    are they visible in the parent once the child finishes executing?</p>
+</li>
+<li>
+<p>The <code>os.environ</code> variable in Python&rsquo;s <code>os</code> module
+    is an easy way to get all of the process&rsquo;s environment variables.
+    Compare it to what <code>env</code> shows.
+    Are there differences?
+    If so, what are they and why do they exist?</p>
+</li>
+<li>
+<p>Removing a directory from <code>PATH</code> is harder than adding one.
+    Write a shell script that:</p>
+<ol>
+<li>Splits <code>PATH</code> on colons to put one entry on each line.</li>
+<li>Uses <code>grep</code> to remove the undesired line.</li>
+<li>Uses <code>paste -s -d :</code> to recombine the lines.</li>
+<li>Uses command interpolation to assign the result back to <code>PATH</code>.</li>
+</ol>
+<p>This exercise may remind you why complicated operations should be done in Python
+rather than in the shell.</p>
+</li>
+</ol>
+    </main>
+    <footer>
+  © 2024 <a href="https://third-bit.com/">Greg Wilson</a>
+  &middot;
+  <a href="https://github.com/gvwilson/sys-tutorial">repository</a>
+  &middot;
+  <a href="../license/">license</a>
+</footer>
+
+  </body>
+</html>

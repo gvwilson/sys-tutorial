@@ -261,7 +261,7 @@
 <!-- ---------------------------------------------------------------- -->
 [% section_break class="topic" title="Redirection" %]
 
-[% todo "Explain redirection of standard error (with diagrams)" %]
+[%fixme "Explain redirection of standard error (with diagrams)" %]
 
 <!-- ---------------------------------------------------------------- -->
 [% section_break class="topic" title="Running Processes Together" %]

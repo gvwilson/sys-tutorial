@@ -1,3 +1,0 @@
-$ docker container run -it gvwilson/ubuntu-python3
-# which python3
-/usr/bin/python3

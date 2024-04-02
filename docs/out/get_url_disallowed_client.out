@@ -1,8 +1,0 @@
-status code: 404
-body:
-<html>
-  <head><title>Error accessing /motto.txt</title></head>
-  <body>
-    <h1>Error accessing /motto.txt: /motto.txt not found</h1>
-  </body>
-</html>

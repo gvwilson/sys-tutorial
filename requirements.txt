@@ -1,11 +1,9 @@
-ark
+-r lib/mccole/requirements.txt
 beautifulsoup4
 fastapi
 flask
 pandas
 psutil
-pymdown-extensions
 requests
 requests_toolbelt
-ruff
 uvicorn[standard]

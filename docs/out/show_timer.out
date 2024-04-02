@@ -1,8 +1,0 @@
-$ src/show_timer.sh
-birds.csv		cert_authority.srl	sandbox			server.pem		species.csv
-cert_authority.key	motto.json		server.csr		server_first_cert.pem	yukon.db
-cert_authority.pem	motto.txt		server.key		server_first_key.pem
-loop 0
-$ loop 1
-loop 2
-loop finished

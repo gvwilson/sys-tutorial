@@ -1,5 +1,0 @@
-$ docker pull ubuntu:latest
-latest: Pulling from library/ubuntu
-Digest: sha256:77906da86b60585ce12215807090eb327e7386c8fafb5402369e421f44eff17e
-Status: Image is up to date for ubuntu:latest
-docker.io/library/ubuntu:latest

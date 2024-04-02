@@ -9,13 +9,43 @@ author = {
     "email": "gvwilson@third-bit.com",
     "site": "https://third-bit.com/",
 }
+lang = "en"
+slug = "systut"
+
+chapters = [
+    "intro",
+    "process",
+    "var",
+    "http",
+    "virt",
+    "finale",
+]
+
+appendices = [
+    "license",
+    "conduct",
+    "contrib",
+    "bib",
+    "glossary",
+    "author",
+    "colophon",
+]
+
+# What to copy.
+copy = [
+    "*.svg",
+]
+
+# Directories to skip
+exclude = [
+    "virt/python3_interpreter",
+    "virt/ubuntu_python3",
+]
 
 # Theme information.
-theme = "tut"
-src_dir = "pages"
+theme = "mccole"
+src_dir = "src"
 out_dir = "docs"
-rouge_style = "github.css"
-lang = "en"
 extension = "/"
 
 # Enable various Markdown extensions.
@@ -27,6 +57,7 @@ markdown_settings = {
     ]
 }
 
+# ----------------------------------------------------------------------
 
 if __name__ == "__main__":
     import sys
