@@ -100,6 +100,10 @@ def _collect_shortcodes_visitor(node, parser, collector):
         node.slug in ark.site.config["_meta_"],
         f"No metadata for {node.slug}",
     )
+    util.require(
+        "number" in ark.site.config["_meta_"][node.slug],
+        f"No number in metadata for {node.slug}",
+    )
 
     found = {
         "filename": node.filepath,

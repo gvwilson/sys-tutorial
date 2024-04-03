@@ -69,3 +69,9 @@ syllabus:
     -   `./site/*.*`: files and directories used in examples
     -   `./src/*.*`: shell scripts and Python programs
     -   `./out/*.*`: expected output for examples
+
+## Acknowledgments {: .aside}
+
+My thanks to everyone who helped make this tutorial possible:
+
+[% thanks %]

@@ -87,7 +87,7 @@ unpack:
 	LICENSE.md \
 	README.md \
 	requirements.txt \
-	info/bibliography.bib
+	info/bibliography.bib \
 	info/glossary.yml \
 	info/links.yml \
 	info/thanks.yml \
