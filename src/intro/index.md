@@ -14,7 +14,6 @@ syllabus:
 -   Please see [the license](./license/) for terms of use,
     the [Code of Conduct](./conduct/) for community standards,
     and [these guidelines](./contributing/) for notes on contributing
--   [Greg Wilson][wilson_greg] is a programmer, author, and educator based in Toronto
 
 ## Scope {: .aside}
 

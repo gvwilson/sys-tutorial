@@ -2,7 +2,7 @@
 title: "About the Author"
 ---
 
-**[Greg Wilson][wilson_greg]** has worked in industry and academia for 35 years
+**[Greg Wilson][wilson_greg]** has worked in industry and academia for over 40 years
 and is the author, co-author, or editor of several books,
 including *Beautiful Code*,
 *The Architecture of Open Source Applications*,
