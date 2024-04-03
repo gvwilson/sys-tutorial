@@ -87,12 +87,6 @@ body {
 code {
     font-family: "Source Code Pro", monospace;
     font-size: var(--size-code);
-    background-color: var(--gray-faint);
-}
-
-/* Turn off colorization in code blocks */
-div.code-sample code {
-    background-color: transparent;
 }
 
 /* Output fragments */
@@ -102,6 +96,10 @@ div.language-out {
     border-bottom: solid var(--border-thin) var(--stamp-red-light);
     padding-left: var(--border-heavy);
 }
+div.language-out pre {
+    margin-top: var(--border-heavy);
+    margin-bottom: var(--border-heavy);
+}
 
 /* Python fragments */
 div.language-py {
@@ -109,6 +107,10 @@ div.language-py {
     border-top: solid var(--border-thin) var(--stamp-blue-light);
     border-bottom: solid var(--border-thin) var(--stamp-blue-light);
     padding-left: var(--border-heavy);
+}
+div.language-py pre {
+    margin-top: var(--border-heavy);
+    margin-bottom: var(--border-heavy);
 }
 
 /* Shell fragments */
@@ -118,6 +120,10 @@ div.language-sh {
     border-bottom: solid var(--border-thin) var(--stamp-green-light);
     padding-left: var(--border-heavy);
 }
+div.language-sh pre {
+    margin-top: var(--border-heavy);
+    margin-bottom: var(--border-heavy);
+}
 
 /* SQL fragments */
 div.language-sql {
@@ -126,6 +132,10 @@ div.language-sql {
     border-bottom: solid var(--border-thin) var(--stamp-blue-light);
     padding-left: var(--border-heavy);
 }
+div.language-sql pre {
+    margin-top: var(--border-heavy);
+    margin-bottom: var(--border-heavy);
+}
 
 /* Transcript fragments */
 div.language-text {
@@ -133,6 +143,10 @@ div.language-text {
     border-top: solid var(--border-thin) var(--stamp-purple-light);
     border-bottom: solid var(--border-thin) var(--stamp-purple-light);
     padding-left: var(--border-heavy);
+}
+div.language-text pre {
+    margin-top: var(--border-heavy);
+    margin-bottom: var(--border-heavy);
 }
 
 /* Bibliography key definitions */
