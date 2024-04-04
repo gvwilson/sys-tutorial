@@ -38,10 +38,17 @@ def cross_ref(pargs, kwargs, node):
         slug in ark.site.config["_meta_"],
         f"Unknown cross-reference key '{slug}' in {node.path}",
     )
-    if kwargs.get("kind", None) == "title":
+
+    kind = kwargs.get("kind", None)
+    if kind == "title":
         fill = ark.site.config["_meta_"][slug]["title"]
     else:
         kind = ark.site.config["_meta_"][slug]["kind"]
         number = ark.site.config["_meta_"][slug]["number"]
         fill = f"{kind}&nbsp;{number}"
-    return f'<a href="@root/{slug}/">{fill}</a>'
+
+    tagline = ""
+    if (kind == "title") and ("tagline" in ark.site.config["_meta_"][slug]):
+        tagline = f": {ark.site.config['_meta_'][slug]['tagline']}"
+
+    return f'<a href="@root/{slug}/">{fill}</a>{tagline}'

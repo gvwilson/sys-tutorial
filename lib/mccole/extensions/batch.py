@@ -54,8 +54,9 @@ def _collect_shortcodes():
 
     parser = shortcodes.Parser(inherit_globals=False, ignore_unknown=True)
     parser.register(_collect_shortcodes_figures, "figure")
+    parser.register(_collect_shortcodes_glossary, "g")
+    parser.register(_collect_shortcodes_index, "i")
     parser.register(_collect_shortcodes_tables, "table")
-    parser.register(_collect_shortcodes_terms, "g")
 
     collector = {}
     ark.nodes.root().walk(
@@ -63,9 +64,11 @@ def _collect_shortcodes():
     )
 
     ark.site.config["_figures_"] = {}
+    ark.site.config["_index_"] = {}
     ark.site.config["_tables_"] = {}
     ark.site.config["_terms_"] = {}
     for slug, seen in collector.items():
+        ark.site.config["_index_"][slug] = set(seen["index"])
         ark.site.config["_terms_"][slug] = set(seen["terms"])
         for key, number in seen["figures"].items():
             ark.site.config["_figures_"][key] = number
@@ -82,13 +85,31 @@ def _collect_shortcodes_figures(pargs, kwargs, extra):
     extra["figures"].append(kwargs["slug"])
 
 
-def _collect_shortcodes_terms(pargs, kwargs, extra):
+def _collect_shortcodes_glossary(pargs, kwargs, extra):
     """Collect data from a glossary reference shortcode."""
     util.require(
         len(pargs) == 2,
         f"Bad 'g' in {extra['filename']}: '{pargs}' and '{kwargs}'",
     )
     extra["terms"].append(pargs[0])
+
+
+def _collect_shortcodes_index(pargs, kwargs, extra):
+    """Collect data from a glossary reference shortcode."""
+    util.require(
+        len(pargs) == 2,
+        f"Bad 'i' in {extra['filename']}: '{pargs}' and '{kwargs}'",
+    )
+    extra["index"].append(pargs[0])
+
+
+def _collect_shortcodes_tables(pargs, kwargs, extra):
+    """Collect data from a table shortcode."""
+    util.require(
+        "slug" in kwargs,
+        f"Bad 'table' in {extra['filename']}: '{pargs}' and '{kwargs}'",
+    )
+    extra["tables"].append(kwargs["slug"])
 
 
 def _collect_shortcodes_visitor(node, parser, collector):
@@ -107,9 +128,10 @@ def _collect_shortcodes_visitor(node, parser, collector):
 
     found = {
         "filename": node.filepath,
-        "terms": [],
         "figures": [],
+        "index": [],
         "tables": [],
+        "terms": [],
     }
     parser.parse(node.text, found)
     number = ark.site.config["_meta_"][node.slug]["number"]
@@ -118,21 +140,13 @@ def _collect_shortcodes_visitor(node, parser, collector):
             fig_slug: {"slug": f"{number}.{i + 1}", "node": node.slug}
             for i, fig_slug in enumerate(found["figures"])
         },
+        "index": found["index"],
         "tables": {
             tbl_slug: {"slug": f"{number}.{i + 1}", "node": node.slug}
             for i, tbl_slug in enumerate(found["tables"])
         },
         "terms": found["terms"],
     }
-
-
-def _collect_shortcodes_tables(pargs, kwargs, extra):
-    """Collect data from a table shortcode."""
-    util.require(
-        "slug" in kwargs,
-        f"Bad 'table' in {extra['filename']}: '{pargs}' and '{kwargs}'",
-    )
-    extra["tables"].append(kwargs["slug"])
 
 
 def _copy_files():

@@ -77,6 +77,11 @@
     text-align: center;
 }
 
+/* Undecorated navigation link */
+a.undecorated {
+    text-decoration: none;
+}
+
 /* Overall document body */
 body {
     font-size: var(--size-body);
@@ -87,49 +92,66 @@ body {
 code {
     font-family: "Source Code Pro", monospace;
     font-size: var(--size-code);
-    background-color: var(--gray-faint);
 }
 
 /* Output fragments */
 div.language-out {
-    font-style: italic;
     border-left: solid var(--border-heavy) var(--stamp-red-light);
-    border-top: solid var(--border-light) var(--stamp-red-light);
-    border-bottom: solid var(--border-light) var(--stamp-red-light);
+    border-top: solid var(--border-thin) var(--stamp-red-light);
+    border-bottom: solid var(--border-thin) var(--stamp-red-light);
     padding-left: var(--border-heavy);
+}
+div.language-out pre {
+    margin-top: var(--border-heavy);
+    margin-bottom: var(--border-heavy);
 }
 
 /* Python fragments */
 div.language-py {
     border-left: solid var(--border-heavy) var(--stamp-blue-light);
-    border-top: solid var(--border-light) var(--stamp-blue-light);
-    border-bottom: solid var(--border-light) var(--stamp-blue-light);
+    border-top: solid var(--border-thin) var(--stamp-blue-light);
+    border-bottom: solid var(--border-thin) var(--stamp-blue-light);
     padding-left: var(--border-heavy);
+}
+div.language-py pre {
+    margin-top: var(--border-heavy);
+    margin-bottom: var(--border-heavy);
 }
 
 /* Shell fragments */
 div.language-sh {
     border-left: solid var(--border-heavy) var(--stamp-green-light);
-    border-top: solid var(--border-light) var(--stamp-green-light);
-    border-bottom: solid var(--border-light) var(--stamp-green-light);
+    border-top: solid var(--border-thin) var(--stamp-green-light);
+    border-bottom: solid var(--border-thin) var(--stamp-green-light);
     padding-left: var(--border-heavy);
+}
+div.language-sh pre {
+    margin-top: var(--border-heavy);
+    margin-bottom: var(--border-heavy);
 }
 
 /* SQL fragments */
 div.language-sql {
     border-left: solid var(--border-heavy) var(--stamp-blue-light);
-    border-top: solid var(--border-light) var(--stamp-blue-light);
-    border-bottom: solid var(--border-light) var(--stamp-blue-light);
+    border-top: solid var(--border-thin) var(--stamp-blue-light);
+    border-bottom: solid var(--border-thin) var(--stamp-blue-light);
     padding-left: var(--border-heavy);
+}
+div.language-sql pre {
+    margin-top: var(--border-heavy);
+    margin-bottom: var(--border-heavy);
 }
 
 /* Transcript fragments */
 div.language-text {
-    font-style: italic;
     border-left: solid var(--border-heavy) var(--stamp-purple-light);
-    border-top: solid var(--border-light) var(--stamp-purple-light);
-    border-bottom: solid var(--border-light) var(--stamp-purple-light);
+    border-top: solid var(--border-thin) var(--stamp-purple-light);
+    border-bottom: solid var(--border-thin) var(--stamp-purple-light);
     padding-left: var(--border-heavy);
+}
+div.language-text pre {
+    margin-top: var(--border-heavy);
+    margin-bottom: var(--border-heavy);
 }
 
 /* Bibliography key definitions */
@@ -159,6 +181,8 @@ footer {
 /* Level-1 heading */
 h1 {
     text-align: center;
+    margin-top: var(--border-heavy);
+    margin-bottom: var(--border-heavy);
 }
 
 /* Entire page */
@@ -187,11 +211,17 @@ p.subtitle {
     text-align: center;
     font-size: var(--size-subtitle);
     font-style: italic;
+    margin-top: var(--border-heavy);
+    margin-bottom: var(--border-heavy);
 }
 
 /* Caption on table */
 p.table-caption {
     text-align: center;
+}
+
+/* Index entry */
+span.ix-entry {
 }
 
 /* Tables */

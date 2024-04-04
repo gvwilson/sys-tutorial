@@ -10,6 +10,7 @@ author = {
     "site": "https://third-bit.com/",
 }
 lang = "en"
+highlight = "tango.css"
 slug = "systut"
 
 chapters = [
