@@ -39,13 +39,13 @@
       
 <nav class="row notex">
   <div class="col-1 left">
-    <a href="../intro/" class="undecorated" title="previous page">&#x25C5;</a>
+    <a href="../intro/" title="previous" class="undecorated">&#8678;</a>
   </div>
   <div class="col-10 center">
-    <a href="../" title="home" class="undecorated">&#x25EC;</a>
+    <a href="../" title="home" class="undecorated">&#9737;</a>
   </div>
   <div class="col-1 right">
-    <a href="../var/" class="undecorated" title="next page">&#x25BB;</a>
+    <a href="../var/" title="next" class="undecorated">&#8680;</a>
   </div>
 </nav>
 
@@ -81,11 +81,11 @@
 </ul>
 </li>
 </ul>
-<div class="language-sh highlighter-rouge" title="ps_a_l.sh">
+<div class="language-sh" title="ps_a_l.sh">
 <div class="highlight"><pre><span></span><code>ps<span class="w"> </span>-a<span class="w"> </span>-l
 </code></pre></div>
 </div>
-<div class="language-out highlighter-rouge" title="ps_a_l.out">
+<div class="language-out" title="ps_a_l.out">
 <div class="highlight"><pre><span></span><code>UID   PID  PPID        F CPU PRI NI        SZ    RSS       TTY       TIME CMD
   0 13215 83470     4106   0  31  0 408655632   9504   ttys001    0:00.02 login -pfl gvwilson /
 501 13216 13215     4006   0  31  0 408795632   5424   ttys001    0:00.04 -bash
@@ -217,7 +217,7 @@
 <ul>
 <li>Create a <a class="gl-ref" href="../glossary/#gl:callback_function" markdown="1">callback function</a> to act as a <a class="gl-ref" href="../glossary/#gl:signal_handler" markdown="1">signal handler</a></li>
 </ul>
-<div class="language-py highlighter-rouge" title="catch_interrupt.py">
+<div class="language-py" title="catch_interrupt.py">
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">signal</span>
 <span class="kn">import</span> <span class="nn">sys</span>
 
@@ -236,7 +236,7 @@
     <span class="n">signal</span><span class="o">.</span><span class="n">pause</span><span class="p">()</span>
 </code></pre></div>
 </div>
-<div class="language-out highlighter-rouge" title="catch_interrupt.out">
+<div class="language-out" title="catch_interrupt.out">
 <div class="highlight"><pre><span></span><code>python src/catch_interrupt.py
 use Ctrl-C three times
 ^Cinterrupt 1
@@ -254,7 +254,7 @@ use Ctrl-C three times
 </ul>
 </li>
 </ul>
-<div class="language-py highlighter-rouge" title="show_timer.py">
+<div class="language-py" title="show_timer.py">
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">time</span>
 
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
@@ -263,12 +263,12 @@ use Ctrl-C three times
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;loop finished&quot;</span><span class="p">)</span>
 </code></pre></div>
 </div>
-<div class="language-sh highlighter-rouge" title="show_timer.sh">
+<div class="language-sh" title="show_timer.sh">
 <div class="highlight"><pre><span></span><code>python<span class="w"> </span>src/show_timer.py<span class="w"> </span><span class="p">&amp;</span>
 ls<span class="w"> </span>site
 </code></pre></div>
 </div>
-<div class="language-out highlighter-rouge" title="show_timer.out">
+<div class="language-out" title="show_timer.out">
 <div class="highlight"><pre><span></span><code>$ src/show_timer.sh
 birds.csv       cert_authority.srl  sandbox         server.pem      species.csv
 cert_authority.key  motto.json      server.csr      server_first_cert.pem   yukon.db
@@ -295,7 +295,7 @@ loop finished
 <li>Or <code>fg %<em>num</em></code> to <a class="gl-ref" href="../glossary/#gl:foreground_process" markdown="1">foreground</a> the process
     to <a class="gl-ref" href="../glossary/#gl:resume_process" markdown="1">resume</a> its execution</li>
 </ul>
-<div class="language-text highlighter-rouge" title="ctrl_z_background.text">
+<div class="language-text" title="ctrl_z_background.text">
 <div class="highlight"><pre><span></span><code>$ python src/show_timer.py
 loop 0
 ^Z
@@ -320,7 +320,7 @@ loop finished
 </ul>
 </li>
 </ul>
-<div class="language-text highlighter-rouge" title="kill_process.text">
+<div class="language-text" title="kill_process.text">
 <div class="highlight"><pre><span></span><code>$ python src/show_timer.py
 loop 0
 ^Z
@@ -337,7 +337,7 @@ $ kill %1
 </ul>
 </li>
 </ul>
-<div class="language-text highlighter-rouge" title="kill_int.text">
+<div class="language-text" title="kill_int.text">
 <div class="highlight"><pre><span></span><code>$ python src/show_timer.py
 loop 0
 ^Z
@@ -360,7 +360,7 @@ KeyboardInterrupt
 </ul>
 </li>
 </ul>
-<div class="language-py highlighter-rouge" title="fork.py">
+<div class="language-py" title="fork.py">
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">os</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;starting </span><span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">getpid</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -371,7 +371,7 @@ KeyboardInterrupt
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;parent got </span><span class="si">{</span><span class="n">pid</span><span class="si">}</span><span class="s2"> is </span><span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">getpid</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </code></pre></div>
 </div>
-<div class="language-out highlighter-rouge" title="fork.out">
+<div class="language-out" title="fork.out">
 <div class="highlight"><pre><span></span><code>starting 41618
 parent got 41619 is 41618
 child got 0 is 41619
@@ -383,7 +383,7 @@ child got 0 is 41619
 <li>Run as <code>python fork.py &gt; temp.out</code>, the &ldquo;starting&rdquo; line is duplicated</li>
 <li><p class="fixme">FIXME: explain I/O flushing</p></li>
 </ul>
-<div class="language-py highlighter-rouge" title="flush.py">
+<div class="language-py" title="flush.py">
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">sys</span>
 
@@ -396,7 +396,7 @@ child got 0 is 41619
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;parent got </span><span class="si">{</span><span class="n">pid</span><span class="si">}</span><span class="s2"> is </span><span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">getpid</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </code></pre></div>
 </div>
-<div class="language-out highlighter-rouge" title="flush.out">
+<div class="language-out" title="flush.out">
 <div class="highlight"><pre><span></span><code>starting 41536
 parent got 41537 is 41536
 child got 0 is 41537
@@ -410,7 +410,7 @@ child got 0 is 41537
 </li>
 <li>So <code>fork</code>/<code>exec</code> to run a program</li>
 </ul>
-<div class="language-py highlighter-rouge" title="fork_exec.py">
+<div class="language-py" title="fork_exec.py">
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">sys</span>
 
@@ -423,7 +423,7 @@ child got 0 is 41537
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;parent got </span><span class="si">{</span><span class="n">pid</span><span class="si">}</span><span class="s2"> is </span><span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">getpid</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </code></pre></div>
 </div>
-<div class="language-out highlighter-rouge" title="fork_exec.out">
+<div class="language-out" title="fork_exec.out">
 <div class="highlight"><pre><span></span><code>starting 46713
 parent got 46714 is 46713
 child echoing 0 from 46714

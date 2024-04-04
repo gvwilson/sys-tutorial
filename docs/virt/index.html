@@ -39,13 +39,13 @@
       
 <nav class="row notex">
   <div class="col-1 left">
-    <a href="../http/" class="undecorated" title="previous page">&#x25C5;</a>
+    <a href="../http/" title="previous" class="undecorated">&#8678;</a>
   </div>
   <div class="col-10 center">
-    <a href="../" title="home" class="undecorated">&#x25EC;</a>
+    <a href="../" title="home" class="undecorated">&#9737;</a>
   </div>
   <div class="col-1 right">
-    <a href="../finale/" class="undecorated" title="next page">&#x25BB;</a>
+    <a href="../finale/" title="next" class="undecorated">&#8680;</a>
   </div>
 </nav>
 
@@ -62,12 +62,12 @@
     <code>xyz</code> on its own will run <code>A/xyz</code> instead of <code>B/xyz</code></li>
 <li>This is how <a class="gl-ref" href="../glossary/#gl:virtual_env" markdown="1">virtual environments</a> work</li>
 </ul>
-<div class="language-sh highlighter-rouge" title="show_virtual_env.sh">
+<div class="language-sh" title="show_virtual_env.sh">
 <div class="highlight"><pre><span></span><code><span class="nb">echo</span><span class="w"> </span><span class="nv">$PATH</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>tr<span class="w"> </span>:<span class="w"> </span><span class="s1">&#39;\n&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>conda
 <span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;python is&quot;</span><span class="w"> </span><span class="k">$(</span>which<span class="w"> </span>python<span class="k">)</span>
 </code></pre></div>
 </div>
-<div class="language-out highlighter-rouge" title="show_virtual_env.out">
+<div class="language-out" title="show_virtual_env.out">
 <div class="highlight"><pre><span></span><code>/Users/tut/conda/envs/sys/bin
 /Users/tut/conda/condabin
 python is /Users/tut/conda/envs/sys/bin/python
@@ -83,11 +83,11 @@ python is /Users/tut/conda/envs/sys/bin/python
 <li>Activate that virtual environment: <code>conda activate example</code></li>
 <li>Install the <code>faker</code> package: <code>pip install faker</code></li>
 </ol>
-<div class="language-sh highlighter-rouge" title="find_faker.sh">
+<div class="language-sh" title="find_faker.sh">
 <div class="highlight"><pre><span></span><code>find<span class="w"> </span><span class="nv">$HOME</span>/conda/envs/example<span class="w"> </span>-name<span class="w"> </span>faker
 </code></pre></div>
 </div>
-<div class="language-out highlighter-rouge" title="find_faker.out">
+<div class="language-out" title="find_faker.out">
 <div class="highlight"><pre><span></span><code>/Users/tut/conda/envs/example/bin/faker
 /Users/tut/conda/envs/example/lib/python3.12/site-packages/faker
 </code></pre></div>
@@ -95,7 +95,7 @@ python is /Users/tut/conda/envs/sys/bin/python
 <ul>
 <li>The script in <code>bin</code> loads the module and runs it</li>
 </ul>
-<div class="language-py highlighter-rouge" title="faker_bin.py">
+<div class="language-py" title="faker_bin.py">
 <div class="highlight"><pre><span></span><code><span class="ch">#!/Users/gregwilson/conda/envs/example/bin/python3.12</span>
 <span class="c1"># -*- coding: utf-8 -*-</span>
 <span class="kn">import</span> <span class="nn">re</span>
@@ -128,7 +128,7 @@ python is /Users/tut/conda/envs/sys/bin/python
 </li>
 <li>Simplest possible is wrong in many ways: does the client know a password?</li>
 </ul>
-<div class="language-py highlighter-rouge" title="bird_client_password.py">
+<div class="language-py" title="bird_client_password.py">
 <div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">http</span> <span class="kn">import</span> <span class="n">HTTPStatus</span>
 <span class="kn">import</span> <span class="nn">requests</span>
 <span class="kn">import</span> <span class="nn">sys</span>
@@ -143,26 +143,26 @@ python is /Users/tut/conda/envs/sys/bin/python
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">j</span><span class="p">[</span><span class="s1">&#39;status&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">j</span><span class="p">[</span><span class="s1">&#39;error_message&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </code></pre></div>
 </div>
-<div class="language-sh highlighter-rouge" title="bird_client_password_correct.sh">
+<div class="language-sh" title="bird_client_password_correct.sh">
 <div class="highlight"><pre><span></span><code>python<span class="w"> </span>src/bird_client_password.py<span class="w"> </span>mumble
 </code></pre></div>
 </div>
-<div class="language-out highlighter-rouge" title="bird_client_password_correct.out">
+<div class="language-out" title="bird_client_password_correct.out">
 <div class="highlight"><pre><span></span><code>16 records returned
 </code></pre></div>
 </div>
-<div class="language-sh highlighter-rouge" title="bird_client_password_incorrect.sh">
+<div class="language-sh" title="bird_client_password_incorrect.sh">
 <div class="highlight"><pre><span></span><code>python<span class="w"> </span>src/bird_client_password.py<span class="w"> </span>bad_password
 </code></pre></div>
 </div>
-<div class="language-out highlighter-rouge" title="bird_client_password_incorrect.out">
+<div class="language-out" title="bird_client_password_incorrect.out">
 <div class="highlight"><pre><span></span><code>403: incorrect or missing password
 </code></pre></div>
 </div>
 <ul>
 <li>First change to server: get the password on the command line and save it</li>
 </ul>
-<div class="language-py highlighter-rouge" title="bird_server_password.py">
+<div class="language-py" title="bird_server_password.py">
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
     <span class="n">sandbox</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">password</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
     <span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="n">sandbox</span><span class="p">)</span>
@@ -172,7 +172,7 @@ python is /Users/tut/conda/envs/sys/bin/python
     <span class="n">server</span><span class="o">.</span><span class="n">serve_forever</span><span class="p">()</span>
 </code></pre></div>
 </div>
-<div class="language-py highlighter-rouge" title="bird_server_password.py">
+<div class="language-py" title="bird_server_password.py">
 <div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">BirdServer</span><span class="p">(</span><span class="n">HTTPServer</span><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">password</span><span class="p">,</span> <span class="n">server_address</span><span class="p">,</span> <span class="n">request_handler</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">server_address</span><span class="p">,</span> <span class="n">request_handler</span><span class="p">)</span>
@@ -186,7 +186,7 @@ python is /Users/tut/conda/envs/sys/bin/python
 </ul>
 </li>
 </ul>
-<div class="language-py highlighter-rouge" title="bird_server_password.py">
+<div class="language-py" title="bird_server_password.py">
 <div class="highlight"><pre><span></span><code>    <span class="k">def</span> <span class="nf">do_GET</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">authorize</span><span class="p">()</span>
@@ -200,7 +200,7 @@ python is /Users/tut/conda/envs/sys/bin/python
 <ul>
 <li>Add authorization that checks header value</li>
 </ul>
-<div class="language-py highlighter-rouge" title="bird_server_password.py">
+<div class="language-py" title="bird_server_password.py">
 <div class="highlight"><pre><span></span><code>    <span class="k">def</span> <span class="nf">authorize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">expected</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">server</span><span class="o">.</span><span class="n">_password</span>
         <span class="n">actual</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;Password&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
@@ -211,7 +211,7 @@ python is /Users/tut/conda/envs/sys/bin/python
 <ul>
 <li>Handle errors by constructing JSON</li>
 </ul>
-<div class="language-py highlighter-rouge" title="bird_server_password.py">
+<div class="language-py" title="bird_server_password.py">
 <div class="highlight"><pre><span></span><code>    <span class="k">def</span> <span class="nf">send_error</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exc</span><span class="p">):</span>
         <span class="n">content</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;status&quot;</span><span class="p">:</span> <span class="n">exc</span><span class="o">.</span><span class="n">_status</span><span class="p">,</span> <span class="s2">&quot;error_message&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">exc</span><span class="p">)}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">send_content</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">content</span><span class="p">),</span> <span class="n">exc</span><span class="o">.</span><span class="n">_status</span><span class="p">)</span>
@@ -228,7 +228,7 @@ python is /Users/tut/conda/envs/sys/bin/python
 <ul>
 <li>Modify <code>do_GET</code></li>
 </ul>
-<div class="language-py highlighter-rouge" title="bird_server_basicauth.py">
+<div class="language-py" title="bird_server_basicauth.py">
 <div class="highlight"><pre><span></span><code>    <span class="k">def</span> <span class="nf">do_GET</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">authorize</span><span class="p">()</span>
@@ -249,7 +249,7 @@ python is /Users/tut/conda/envs/sys/bin/python
 <li>Most of the code is checking that everything is OK and responding properly if it&rsquo;s not</li>
 <li>Test client</li>
 </ul>
-<div class="language-py highlighter-rouge" title="bird_client_basicauth.py">
+<div class="language-py" title="bird_client_basicauth.py">
 <div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">http</span> <span class="kn">import</span> <span class="n">HTTPStatus</span>
 <span class="kn">import</span> <span class="nn">requests</span>
 <span class="kn">from</span> <span class="nn">requests.auth</span> <span class="kn">import</span> <span class="n">HTTPBasicAuth</span>
@@ -266,7 +266,7 @@ python is /Users/tut/conda/envs/sys/bin/python
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">j</span><span class="p">[</span><span class="s1">&#39;status&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">j</span><span class="p">[</span><span class="s1">&#39;error_message&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </code></pre></div>
 </div>
-<div class="language-sh highlighter-rouge" title="bird_client_basicauth_correct.sh">
+<div class="language-sh" title="bird_client_basicauth_correct.sh">
 <div class="highlight"><pre><span></span><code>python<span class="w"> </span>src/bird_client_basicauth.py<span class="w"> </span>marlyn<span class="w"> </span>mumble
 </code></pre></div>
 </div>
@@ -279,12 +279,12 @@ python is /Users/tut/conda/envs/sys/bin/python
 </li>
 <li>But…</li>
 </ul>
-<div class="language-sh highlighter-rouge" title="chroot_example.sh">
+<div class="language-sh" title="chroot_example.sh">
 <div class="highlight"><pre><span></span><code>mkdir<span class="w"> </span>-p<span class="w"> </span>/tmp/filesystem
 chroot<span class="w"> </span>/tmp/filesystem<span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;it worked&quot;</span>
 </code></pre></div>
 </div>
-<div class="language-out highlighter-rouge" title="chroot_example.out">
+<div class="language-out" title="chroot_example.out">
 <div class="highlight"><pre><span></span><code>chroot: /tmp/filesystem: Operation not permitted
 </code></pre></div>
 </div>
@@ -301,12 +301,12 @@ chroot<span class="w"> </span>/tmp/filesystem<span class="w"> </span><span class
 </li>
 <li>Use <code>sudo</code> (&ldquo;superuser do&rdquo;) to change identity temporarily</li>
 </ul>
-<div class="language-sh highlighter-rouge" title="sudo_example.sh">
+<div class="language-sh" title="sudo_example.sh">
 <div class="highlight"><pre><span></span><code>mkdir<span class="w"> </span>-p<span class="w"> </span>/tmp/filesystem
 sudo<span class="w"> </span>chroot<span class="w"> </span>/tmp/filesystem<span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;it worked&quot;</span>
 </code></pre></div>
 </div>
-<div class="language-out highlighter-rouge" title="sudo_example.out">
+<div class="language-out" title="sudo_example.out">
 <div class="highlight"><pre><span></span><code>Password: ************
 chroot: echo: No such file or directory
 </code></pre></div>
@@ -323,19 +323,19 @@ chroot: echo: No such file or directory
 <li>Define an <a class="gl-ref" href="../glossary/#gl:docker_image" markdown="1">image</a> with its own copy of the operating system, filesystem, etc.</li>
 <li>Run it in a <a class="gl-ref" href="../glossary/#gl:docker_container" markdown="1">container</a> that is isolated from the rest of your computer</li>
 </ul>
-<div class="language-sh highlighter-rouge" title="docker_image_ls.sh">
+<div class="language-sh" title="docker_image_ls.sh">
 <div class="highlight"><pre><span></span><code>docker<span class="w"> </span>image<span class="w"> </span>ls
 </code></pre></div>
 </div>
-<div class="language-out highlighter-rouge" title="docker_image_ls.out">
+<div class="language-out" title="docker_image_ls.out">
 <div class="highlight"><pre><span></span><code>REPOSITORY   TAG       IMAGE ID   CREATED   SIZE
 </code></pre></div>
 </div>
-<div class="language-sh highlighter-rouge" title="docker_container_ls.sh">
+<div class="language-sh" title="docker_container_ls.sh">
 <div class="highlight"><pre><span></span><code>docker<span class="w"> </span>container<span class="w"> </span>ls
 </code></pre></div>
 </div>
-<div class="language-out highlighter-rouge" title="docker_container_ls.out">
+<div class="language-out" title="docker_container_ls.out">
 <div class="highlight"><pre><span></span><code>CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
 </code></pre></div>
 </div>
@@ -343,17 +343,17 @@ chroot: echo: No such file or directory
 <ul>
 <li>Docker requires a <a class="gl-ref" href="../glossary/#gl:daemon" markdown="1">daemon</a> process to be running in the background to start images</li>
 </ul>
-<div class="language-sh highlighter-rouge" title="docker_image_ls.sh">
+<div class="language-sh" title="docker_image_ls.sh">
 <div class="highlight"><pre><span></span><code>docker<span class="w"> </span>image<span class="w"> </span>ls
 </code></pre></div>
 </div>
-<div class="language-out highlighter-rouge" title="docker_image_ls_err.out">
+<div class="language-out" title="docker_image_ls_err.out">
 <div class="highlight"><pre><span></span><code>Cannot connect to the Docker daemon at unix:///Users/tut/.docker/run/docker.sock.
 Is the docker daemon running?
 </code></pre></div>
 </div>
 <h2>Running a Container</h2>
-<div class="language-text highlighter-rouge" title="docker_run_fresh.text">
+<div class="language-text" title="docker_run_fresh.text">
 <div class="highlight"><pre><span></span><code>$ docker container run ubuntu:latest
 Unable to find image &#39;ubuntu:latest&#39; locally
 latest: Pulling from library/ubuntu
@@ -382,7 +382,7 @@ ubuntu       latest    ca2b0f26964c   3 weeks ago   77.9MB
 <li>But its default command is <code>/bin/bash</code> with no inputs, so it exits immediately.</li>
 </ul>
 <h2>Re-running a Container</h2>
-<div class="language-text highlighter-rouge" title="docker_run_again.text">
+<div class="language-text" title="docker_run_again.text">
 <div class="highlight"><pre><span></span><code>$ docker container run ubuntu:latest pwd
 /
 
@@ -404,7 +404,7 @@ var
 <li>Runs the given command instead of the default <code>/bin/bash</code></li>
 </ul>
 <h2 class="aside">This Doesn&rsquo;t Work</h2>
-<div class="language-text highlighter-rouge" title="docker_run_error.text">
+<div class="language-text" title="docker_run_error.text">
 <div class="highlight"><pre><span></span><code>$ docker container run ubuntu:latest &quot;echo hello&quot;
 docker: Error response from daemon: \
 failed to create task for container: \
@@ -419,7 +419,7 @@ exec: &quot;echo hello&quot;: executable file not found in $PATH: unknown.
 <ul>
 <li>Don&rsquo;t have to run immediately</li>
 </ul>
-<div class="language-text highlighter-rouge" title="docker_pull.text">
+<div class="language-text" title="docker_pull.text">
 <div class="highlight"><pre><span></span><code>$ docker pull ubuntu:latest
 latest: Pulling from library/ubuntu
 Digest: sha256:77906da86b60585ce12215807090eb327e7386c8fafb5402369e421f44eff17e
@@ -428,7 +428,7 @@ docker.io/library/ubuntu:latest
 </code></pre></div>
 </div>
 <h2>What Have We Got?</h2>
-<div class="language-text highlighter-rouge" title="os_release.text">
+<div class="language-text" title="os_release.text">
 <div class="highlight"><pre><span></span><code>$ docker container run ubuntu cat /etc/os-release
 PRETTY_NAME=&quot;Ubuntu 22.04.4 LTS&quot;
 NAME=&quot;Ubuntu&quot;
@@ -448,7 +448,7 @@ UBUNTU_CODENAME=jammy
 <li>Don&rsquo;t need <code>:latest</code> every time (defaults)</li>
 </ul>
 <h2>Inside the Container</h2>
-<div class="language-text highlighter-rouge" title="docker_run_interactive.text">
+<div class="language-text" title="docker_run_interactive.text">
 <div class="highlight"><pre><span></span><code>$ docker container run -i -t ubuntu
 root@4238b3b51abd:/# pwd
 /
@@ -470,7 +470,7 @@ $
 <li>The hexadecimal number after <code>root@</code> is the container&rsquo;s unique ID</li>
 </ul>
 <h2>Persistence</h2>
-<div class="language-text highlighter-rouge" title="docker_run_nonpersistent.text">
+<div class="language-text" title="docker_run_nonpersistent.text">
 <div class="highlight"><pre><span></span><code>$ docker container run -i -t ubuntu
 root@a8ea570a84d3:/# ls /tmp
 root@a8ea570a84d3:/# touch /tmp/proof-we-were-here.txt
@@ -490,7 +490,7 @@ exit
 <li>Notice that the container&rsquo;s ID changes each time it runs</li>
 </ul>
 <h2>What Is Running</h2>
-<div class="language-text highlighter-rouge" title="docker_container_ls_id.text">
+<div class="language-text" title="docker_container_ls_id.text">
 <div class="highlight"><pre><span></span><code>$ docker container ls --format &quot;table {{.ID}}\t{{.Status}}&quot; |
 CONTAINER ID   STATUS                                       |
                                                             |
@@ -513,7 +513,7 @@ CONTAINER ID   STATUS                                       |
 <li>Use <a href="https://go.dev/">Go</a> format strings to format output (no, really)</li>
 </ul>
 <h2>Installing Software</h2>
-<div class="language-text highlighter-rouge" title="docker_install_python.text">
+<div class="language-text" title="docker_install_python.text">
 <div class="highlight"><pre><span></span><code># apt update
 …lots of output…
 
@@ -540,7 +540,7 @@ Python 3.10.12
 <li>Version is most recent in the default repository</li>
 <li>But <em>it isn&rsquo;t there the next time we run</em></li>
 </ul>
-<div class="language-text highlighter-rouge" title="docker_install_python_nonpersistent.text">
+<div class="language-text" title="docker_install_python_nonpersistent.text">
 <div class="highlight"><pre><span></span><code># ^D
 exit
 
@@ -560,7 +560,7 @@ exit
 </ul>
 </li>
 </ul>
-<div class="language- highlighter-rouge" title="ubuntu_python3/Dockerfile">
+<div class="language-" title="ubuntu_python3/Dockerfile">
 <div class="highlight"><pre><span></span><code>FROM ubuntu:latest
 
 RUN apt update
@@ -570,7 +570,7 @@ RUN apt install python3 -y
 <ul>
 <li>Tell docker to build the image</li>
 </ul>
-<div class="language-text highlighter-rouge" title="ubuntu_python3_build.text">
+<div class="language-text" title="ubuntu_python3_build.text">
 <div class="highlight"><pre><span></span><code>#0 building with &quot;desktop-linux&quot; instance using docker driver
 
 #1 [internal] load build definition from Dockerfile
@@ -604,14 +604,14 @@ RUN apt install python3 -y
 <ul>
 <li><code>CACHED</code> because we&rsquo;ve run this several times while building this tutorial</li>
 </ul>
-<div class="language-text highlighter-rouge" title="ubuntu_python3_run.text">
+<div class="language-text" title="ubuntu_python3_run.text">
 <div class="highlight"><pre><span></span><code>$ docker container run -it gvwilson/ubuntu-python3
 # which python3
 /usr/bin/python3
 </code></pre></div>
 </div>
 <h2>Layers</h2>
-<div class="language-text highlighter-rouge" title="docker_image_history.text">
+<div class="language-text" title="docker_image_history.text">
 <div class="highlight"><pre><span></span><code>$ docker image history gvwilson/ubuntu-python3
 IMAGE          CREATED        CREATED BY                                      SIZE      COMMENT
 c06d47d8275d   24 hours ago   RUN /bin/sh -c apt install python3 -y # buil…   29.5MB    buildkit.dockerfile.v0
@@ -628,7 +628,7 @@ c06d47d8275d   24 hours ago   RUN /bin/sh -c apt install python3 -y # buil…   
 <li>Docker images are built in layers</li>
 <li>Layers can be shared between images to reduce disk space</li>
 </ul>
-<div class="language-text highlighter-rouge" title="docker_system_df.text">
+<div class="language-text" title="docker_system_df.text">
 <div class="highlight"><pre><span></span><code>$ docker system df
 TYPE            TOTAL     ACTIVE    SIZE      RECLAIMABLE
 Images          2         1         144.3MB   144.3MB (100%)
@@ -647,7 +647,7 @@ Build Cache     22        0         253.2MB   253.2MB
 <ul>
 <li>Add <code>CMD</code> with a list of arguments to specify default command when image runs</li>
 </ul>
-<div class="language- highlighter-rouge" title="python3_interpreter/Dockerfile">
+<div class="language-" title="python3_interpreter/Dockerfile">
 <div class="highlight"><pre><span></span><code>FROM ubuntu:latest
 
 RUN apt update
@@ -659,7 +659,7 @@ CMD [&quot;python3&quot;, &quot;--version&quot;]
 <ul>
 <li>Build</li>
 </ul>
-<div class="language-text highlighter-rouge" title="python3_interpreter_build.text">
+<div class="language-text" title="python3_interpreter_build.text">
 <div class="highlight"><pre><span></span><code>$ docker build -t gvwilson/python3 src/python3_interpreter
 [+] Building 0.0s (7/7) FINISHED                                                                             docker:desktop-linux
  =&gt; [internal] load build definition from Dockerfile                                                                         0.0s
@@ -679,7 +679,7 @@ CMD [&quot;python3&quot;, &quot;--version&quot;]
 <ul>
 <li>Run</li>
 </ul>
-<div class="language-text highlighter-rouge" title="python3_interpreter_run.text">
+<div class="language-text" title="python3_interpreter_run.text">
 <div class="highlight"><pre><span></span><code>$ docker container run gvwilson/python3
 Python 3.10.12
 </code></pre></div>
