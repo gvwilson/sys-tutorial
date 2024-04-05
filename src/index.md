@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col-4 center">
-    <img src="@root/advent_05_356-resized.png" alt="cover art by Danielle Navarro" width="80%"/>
+    <img class="splash" src="@root/advent_05_356-resized.png" alt="cover art by Danielle Navarro"/>
   </div>
   <div class="col-8">
     <p>
