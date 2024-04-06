@@ -38,11 +38,11 @@ copy = [
     "*.svg",
 ]
 
-# Directories to skip
-exclude = [
+# Files and directories to skip.
+exclude = {
     "virt/python3_interpreter",
     "virt/ubuntu_python3",
-]
+}
 
 # Theme information.
 theme = "mccole"
