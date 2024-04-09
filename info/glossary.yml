@@ -40,6 +40,19 @@
       A representation of binary data that represents each group of 6 bits
       as one of 64 printable characters.
 
+- key: buffer_noun
+  en:
+    term: buffer (noun)
+    def: >
+      An area of memory used to hold data temporarily.
+
+- key: buffer_verb
+  en:
+    term: buffer (verb)
+    def: >
+      To store something in memory temporarily,
+      e.g., while waiting for there to be enough data to make an I/O operation worthwhile.
+
 # C
 
 - key: cache
@@ -142,6 +155,12 @@
     def: >
       The set of files and directories making up a computer's permanent storage,
       or the software component used to manage them.
+
+- key: flush
+  en:
+    term: flush
+    def: >
+      To move data from a [buffer](#buffer_noun) to its intended destination immediately.
 
 - key: foreground_process
   en:
@@ -260,6 +279,14 @@
 # N
 
 # O
+
+- key: operating_system
+  en:
+    term: operating system
+    acronym: OS
+    def: >
+      A program whose job is to manage the hardware of a computer.
+      Other programs interact with the OS through [system calls](#system_call).
 
 # P
 
@@ -412,6 +439,12 @@
     def: >
       To pause the execution of a [process](#process) but leave it intact so that it
       can [resume](#resume_process) later.
+
+- key: system_call
+  en:
+    term: system call
+    def: >
+      A call to one of the functions provided by an [operating system](#operating_system).
 
 # T
 

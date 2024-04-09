@@ -52,22 +52,31 @@
 <li>FIXME</li>
 </ul>
       <p class="terms">Terms defined: 
-<a class="gl-ref" href="../glossary/#gl:background_process" markdown="1">background a process</a>, <a class="gl-ref" href="../glossary/#gl:callback_function" markdown="1">callback function</a>, <a class="gl-ref" href="../glossary/#gl:child_process" markdown="1">child process</a>, <a class="gl-ref" href="../glossary/#gl:foreground_process" markdown="1">foreground a process</a>, <a class="gl-ref" href="../glossary/#gl:fork_process" markdown="1">fork (a process)</a>, <a class="gl-ref" href="../glossary/#gl:parent_process" markdown="1">parent process</a>, <a class="gl-ref" href="../glossary/#gl:process" markdown="1">process</a>, <a class="gl-ref" href="../glossary/#gl:process_id" markdown="1">process ID</a>, <a class="gl-ref" href="../glossary/#gl:process_tree" markdown="1">process tree</a>, <a class="gl-ref" href="../glossary/#gl:resume_process" markdown="1">resume (a process)</a>, <a class="gl-ref" href="../glossary/#gl:signal" markdown="1">signal</a>, <a class="gl-ref" href="../glossary/#gl:signal_handler" markdown="1">signal handler</a>, <a class="gl-ref" href="../glossary/#gl:suspend_process" markdown="1">suspend (a process)</a>
+<a class="gl-ref" href="../glossary/#gl:background_process" markdown="1">background a process</a>, <a class="gl-ref" href="../glossary/#gl:buffer_verb" markdown="1">buffer (verb)</a>, <a class="gl-ref" href="../glossary/#gl:callback_function" markdown="1">callback function</a>, <a class="gl-ref" href="../glossary/#gl:child_process" markdown="1">child process</a>, <a class="gl-ref" href="../glossary/#gl:flush" markdown="1">flush</a>, <a class="gl-ref" href="../glossary/#gl:foreground_process" markdown="1">foreground a process</a>, <a class="gl-ref" href="../glossary/#gl:fork_process" markdown="1">fork (a process)</a>, <a class="gl-ref" href="../glossary/#gl:operating_system" markdown="1">operating system</a>, <a class="gl-ref" href="../glossary/#gl:parent_process" markdown="1">parent process</a>, <a class="gl-ref" href="../glossary/#gl:process" markdown="1">process</a>, <a class="gl-ref" href="../glossary/#gl:process_id" markdown="1">process ID</a>, <a class="gl-ref" href="../glossary/#gl:process_tree" markdown="1">process tree</a>, <a class="gl-ref" href="../glossary/#gl:resume_process" markdown="1">resume (a process)</a>, <a class="gl-ref" href="../glossary/#gl:shell" markdown="1">shell</a>, <a class="gl-ref" href="../glossary/#gl:signal" markdown="1">signal</a>, <a class="gl-ref" href="../glossary/#gl:signal_handler" markdown="1">signal handler</a>, <a class="gl-ref" href="../glossary/#gl:suspend_process" markdown="1">suspend (a process)</a>
 </p>
       <h2>Operating System vs. Shell</h2>
 <ul>
-<li>OS is…</li>
-<li>Shell is…</li>
-<li>Many different shells</li>
+<li><a class="gl-ref" href="../glossary/#gl:operating_system" markdown="1">Operating system</a> (OS) is…</li>
+<li><a class="gl-ref" href="../glossary/#gl:shell" markdown="1">Command shell</a> (or just &ldquo;shell&rdquo;) is…</li>
+<li>There are many different shells for Unix and Windows<ul>
+<li><a href="https://www.gnu.org/software/bash/">bash</a> and <a href="https://www.zsh.org/">zsh</a> are compatible with the POSIX standard</li>
+<li><a href="https://fishshell.com/">fish</a> is nicer, but is not</li>
+<li><a href="https://www.nushell.sh/">Nushell</a> is even stranger (we&rsquo;ll meet it later)</li>
+<li><a href="https://microsoft.com/powershell">PowerShell</a> on Windows (and Unix) has a lot of nice features too</li>
+</ul>
+</li>
 </ul>
 <h2>Program vs. Process</h2>
 <ul>
-<li>A program is…</li>
+<li>A program is a set of instructions for a computer</li>
 <li>A <a class="gl-ref" href="../glossary/#gl:process" markdown="1">process</a> is a running instance of a program<ul>
 <li>Code plus variables in memory plus open files plus some IDs</li>
 </ul>
 </li>
-<li>Tools to manage them were invented when most users only had a single terminal</li>
+<li>Tools to manage them were invented when most users only had a single terminal<ul>
+<li>But are still useful for working with remote/cloud machines</li>
+</ul>
+</li>
 </ul>
 <h2>Viewing Processes</h2>
 <ul>
@@ -97,15 +106,25 @@
 </ul>
 </li>
 </ul>
+<h2 class="exercise">Exercise</h2>
+<ol>
+<li>
+<p>What does the <code>top</code> command do?
+    What does <code>top -o cpu</code> do?</p>
+</li>
+<li>
+<p>What does the <code>pgrep</code> command do?</p>
+</li>
+</ol>
 <h2>Parent and Child Processes</h2>
 <ul>
 <li>Every process is created by another process<ul>
-<li>Except the first</li>
+<li>Except the first, which is started automatically when the operating system boots up</li>
 </ul>
 </li>
 <li>Refer to <a class="gl-ref" href="../glossary/#gl:child_process" markdown="1">child process</a> and <a class="gl-ref" href="../glossary/#gl:parent_process" markdown="1">parent process</a></li>
 <li><code>echo $$</code> shows <a class="gl-ref" href="../glossary/#gl:process_id" markdown="1">process ID</a> of current process<ul>
-<li><code>$$</code> shortcut because it&rsquo;s used so often</li>
+<li><code>$$</code> shortcut for current process&rsquo;s ID because it&rsquo;s used so often</li>
 </ul>
 </li>
 <li><code>echo $PPID</code> (parent process ID) to get parent</li>
@@ -114,7 +133,7 @@
 <h2>Signals</h2>
 <ul>
 <li>Can send a <a class="gl-ref" href="../glossary/#gl:signal" markdown="1">signal</a> to a process<ul>
-<li>Something extraordinary happened, please deal with it immediately</li>
+<li>&ldquo;Something extraordinary happened, please deal with it immediately&rdquo;</li>
 </ul>
 </li>
 </ul>
@@ -213,7 +232,8 @@
 </div>
 
 <ul>
-<li>Create a <a class="gl-ref" href="../glossary/#gl:callback_function" markdown="1">callback function</a> to act as a <a class="gl-ref" href="../glossary/#gl:signal_handler" markdown="1">signal handler</a></li>
+<li>Create a <a class="gl-ref" href="../glossary/#gl:callback_function" markdown="1">callback function</a>
+    to act as a <a class="gl-ref" href="../glossary/#gl:signal_handler" markdown="1">signal handler</a></li>
 </ul>
 <div class="language-py" title="catch_interrupt.py">
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">signal</span>
@@ -248,7 +268,8 @@ use Ctrl-C three times
 <h2>Background Processes</h2>
 <ul>
 <li>Can run a process in the <a class="gl-ref" href="../glossary/#gl:background_process" markdown="1">background</a><ul>
-<li>Only difference is that it&rsquo;s not connected to the terminal</li>
+<li>Only difference is that it isn&rsquo;t connected to the keyboard (stdin)</li>
+<li>Can still print to the screen (stdout and stderr)</li>
 </ul>
 </li>
 </ul>
@@ -278,7 +299,7 @@ loop finished
 </code></pre></div>
 </div>
 <ul>
-<li><code>&amp;</code> at end of command to run <code>show_timer.py</code> means &ldquo;run in the background&rdquo;</li>
+<li><code>&amp;</code> at end of command means &ldquo;run in the background&rdquo;</li>
 <li>So <code>ls</code> command executes immediately</li>
 <li>But <code>show_timer.py</code> keeps running until it finishes<ul>
 <li>Or needs keyboard input</li>
@@ -313,10 +334,7 @@ loop finished
 </ul>
 <h2>Killing Processes</h2>
 <ul>
-<li>Use <code>kill</code> to send a signal to a process<ul>
-<li>Not necessarily to stop it</li>
-</ul>
-</li>
+<li>Use <code>kill</code> to send a signal to a process</li>
 </ul>
 <div class="language-text" title="kill_process.text">
 <div class="highlight"><pre><span></span><code>$ python src/show_timer.py
@@ -375,11 +393,29 @@ parent got 41619 is 41618
 child got 0 is 41619
 </code></pre></div>
 </div>
+<h2 class="aside">Concurrency and Unpredictability</h2>
+<ul>
+<li>Output shown above comes from running the program interactively</li>
+<li>When run as <code>python fork.py &gt; temp.out</code>, the &ldquo;starting&rdquo; line may be duplicated<ul>
+<li>Programs don&rsquo;t write directly to the screen</li>
+<li>Instead, they send text to the operating system for display</li>
+<li>The operating system <a class="gl-ref" href="../glossary/#gl:buffer_verb" markdown="1">buffers</a> output (and input)</li>
+<li>So the &ldquo;starting&rdquo; message may be sitting in a buffer when <code>fork</code> happens</li>
+<li>In which case both parent and child send it to the operating system to print</li>
+</ul>
+</li>
+<li>OS decides how much to buffer and when to actually display it</li>
+<li>Its decision can be affected by what else it is doing</li>
+<li>So running the same program several times can produce different outputs<ul>
+<li>Because your program is only part of a larger sequence of operations</li>
+</ul>
+</li>
+<li>Dealing with issues like these is
+    part of what distinguishes systems programming from &ldquo;regular&rdquo; programming</li>
+</ul>
 <h2>Flushing I/O</h2>
 <ul>
-<li>Example above works interactively</li>
-<li>Run as <code>python fork.py &gt; temp.out</code>, the &ldquo;starting&rdquo; line is duplicated</li>
-<li><p class="fixme">FIXME: explain I/O flushing</p></li>
+<li>Can force OS to do I/O <em>right now</em> by <a class="gl-ref" href="../glossary/#gl:flush" markdown="1">flushing</a> its buffers</li>
 </ul>
 <div class="language-py" title="flush.py">
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">os</span>
@@ -402,11 +438,13 @@ child got 0 is 41537
 </div>
 <h2>Exec</h2>
 <ul>
-<li>The <code>exec</code> family of functions in <code>os</code> execute a new program <em>inside the calling process</em><ul>
+<li>The <code>exec</code> family of functions in <code>os</code> execute a new program
+    <em>inside the calling process</em><ul>
 <li>Replace existing program and start a new one</li>
+<li>One of the reasons we need to distinguish &ldquo;process&rdquo; from &ldquo;program&rdquo;</li>
 </ul>
 </li>
-<li>So <code>fork</code>/<code>exec</code> to run a program</li>
+<li>Use <code>fork</code>/<code>exec</code> to create a new process and then run a program in it</li>
 </ul>
 <div class="language-py" title="fork_exec.py">
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">os</span>
@@ -427,19 +465,10 @@ parent got 46714 is 46713
 child echoing 0 from 46714
 </code></pre></div>
 </div>
-<h2>Exercises</h2>
+<h2 class="exercise">Exercise</h2>
 <ol>
-<li>
-<p>What does the <code>top</code> command do?
-    What does <code>top -o cpu</code> do?</p>
-</li>
-<li>
-<p>What does the <code>pgrep</code> command do?</p>
-</li>
-<li>
-<p>What are the differences between <code>os.execl</code>, <code>os.execlp</code>, and <code>os.execv</code>?
-    When and why would you use each?</p>
-</li>
+<li>What are the differences between <code>os.execl</code>, <code>os.execlp</code>, and <code>os.execv</code>?
+    When and why would you use each?</li>
 </ol>
     </main>
     <footer>
