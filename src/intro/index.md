@@ -1,7 +1,5 @@
 ---
 title: "Introduction"
-syllabus:
-- fixme
 ---
 
 ## What This Is {: .aside}

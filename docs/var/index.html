@@ -48,19 +48,40 @@
 </nav>
 
 
-      <ul class="keypoints">
-<li>FIXME</li>
-</ul>
+      
       <p class="terms">Terms defined: 
-<a class="gl-ref" href="../glossary/#gl:env_var" markdown="1">environment variable</a>, <a class="gl-ref" href="../glossary/#gl:shell_var" markdown="1">shell variable</a>, <a class="gl-ref" href="../glossary/#gl:source_shell" markdown="1">source (in shell script)</a>
+<a class="gl-ref" href="../glossary/#gl:env_var" markdown="1">environment variable</a>, <a class="gl-ref" href="../glossary/#gl:name_collision" markdown="1">name collision</a>, <a class="gl-ref" href="../glossary/#gl:operating_system" markdown="1">operating system</a>, <a class="gl-ref" href="../glossary/#gl:shell" markdown="1">shell</a>, <a class="gl-ref" href="../glossary/#gl:shell_var" markdown="1">shell variable</a>, <a class="gl-ref" href="../glossary/#gl:source_shell" markdown="1">source (in shell script)</a>, <a class="gl-ref" href="../glossary/#gl:system_call" markdown="1">system call</a>
 </p>
-      <h2>Shell Variables</h2>
+      <h2>Operating System vs. Shell</h2>
+<ul>
+<li><a class="gl-ref" href="../glossary/#gl:operating_system" markdown="1">Operating system</a> (OS) manages your hardware<ul>
+<li>Provides a set of <a class="gl-ref" href="../glossary/#gl:system_call" markdown="1">system calls</a>
+    to make different machines look the same to user-level programs</li>
+</ul>
+</li>
+<li><a class="gl-ref" href="../glossary/#gl:shell" markdown="1">Command shell</a> (or just &ldquo;shell&rdquo;) is a text UI for interacting with the operating system<ul>
+<li>And with user-level programs</li>
+</ul>
+</li>
+<li>There are many different shells for Unix and Windows<ul>
+<li><a href="https://www.gnu.org/software/bash/">Bash</a> and <a href="https://www.zsh.org/">Zsh</a> are compatible with the POSIX standard</li>
+<li><a href="https://fishshell.com/">Fish</a> is nicer, but is not</li>
+<li><a href="https://www.nushell.sh/">Nushell</a> is even stranger</li>
+<li><a href="https://microsoft.com/powershell">PowerShell</a> on Windows (and Unix) has a lot of nice features too</li>
+</ul>
+</li>
+<li>We use Bash in this tutorial but will discuss Nushell later</li>
+</ul>
+<h2>Shell Variables</h2>
 <ul>
 <li>The shell is a program and programs have variables</li>
 <li>Create or change with <code><em>name</em>=<em>value</em></code></li>
-<li><a class="gl-ref" href="../glossary/#gl:shell_var" markdown="1">Shell variable</a> stays in the process</li>
+<li><a class="gl-ref" href="../glossary/#gl:shell_var" markdown="1">Shell variable</a> stays in the process that created it<ul>
+<li>E.g., that particular running copy of the shell</li>
+</ul>
+</li>
 <li>Use <code>$<em>name</em></code> to get value<ul>
-<li>Because people type file and directory names more often</li>
+<li><code>$</code> prefix because people type file and directory names more often</li>
 </ul>
 </li>
 </ul>
@@ -83,10 +104,13 @@ inner: window is
 </div>
 <ul>
 <li>Note: variables usually written in upper case to distinguish them from filenames<ul>
-<li>So underscores as separators</li>
+<li>So use underscores as separators</li>
 </ul>
 </li>
 </ul>
+<h2 class="exercise">Exercise</h2>
+<p>What happens if you modify the scripts shown above
+to use single quotes instead of double quotes?</p>
 <h2>Environment Variables</h2>
 <ul>
 <li><a class="gl-ref" href="../glossary/#gl:env_var" markdown="1">Environment variable</a> is inherited by new processes</li>
@@ -110,10 +134,13 @@ bash<span class="w"> </span>src/env_var_inner.sh
 inner: window is  and threshold is
 </code></pre></div>
 </div>
+<h2 class="exercise">Exercise</h2>
+<p>If a child process sets shell or environment variables,
+are they visible in the parent once the child finishes executing?</p>
 <h2>Environment Variables in Programs</h2>
 <ul>
-<li>Environment variables are inherited by child process…</li>
-<li>…so they are inherited by programs (not just shell scripts)</li>
+<li>Since environment variables are inherited by child processes,
+    they are inherited by all programs run from the shell that has them</li>
 </ul>
 <div class="language-sh" title="env_var_py.sh">
 <div class="highlight"><pre><span></span><code><span class="c1"># env_var_py.sh</span>
@@ -139,7 +166,11 @@ inner: window is not set and threshold is 0.5
 </div>
 <h2>Inspecting Variables</h2>
 <ul>
-<li><code>set</code> on its own lists variables, functions, etc.</li>
+<li><code>set</code> on its own lists variables<ul>
+<li>And functions, because yes, you can create those in the shell</li>
+<li>But please don&rsquo;t: if you need that, write a Python script</li>
+</ul>
+</li>
 <li><code>env</code> shows all environment variables</li>
 </ul>
 <div class="language-sh" title="show_env_vars.sh">
@@ -160,12 +191,30 @@ GEM_HOME
 </code></pre></div>
 </div>
 <ul>
-<li>Many tools create variables to manage configuration<ul>
-<li>No guarantees that they don&rsquo;t collide with each other</li>
+<li>Many tools rely on variables to manage configuration<ul>
+<li><a href="https://github.com/nvm-sh/nvm">NVM</a> defines 4, <a href="https://docs.conda.io/">Conda</a> defines 8</li>
+<li>No guarantee that their names don&rsquo;t <a class="gl-ref" href="../glossary/#gl:name_collision" markdown="1">collide</a></li>
 </ul>
 </li>
 </ul>
+<h2 class="exercise">Exercise</h2>
+<p>The <code>os.environ</code> variable in Python&rsquo;s <code>os</code> module
+is an easy way to get all of the process&rsquo;s environment variables.
+Compare it to what <code>env</code> shows.</p>
+<ol>
+<li>
+<p>Are there differences?</p>
+</li>
+<li>
+<p>If so, what are they and why do they exist?</p>
+</li>
+</ol>
 <h2>Important Environment Variables</h2>
+<ul>
+<li>37 environment variables in my current shell</li>
+<li>Most important are shown in <a class="tbl-ref" href="../var/#var_common">Table&nbsp;3.1</a></li>
+</ul>
+<div class="table" id="var_common">
 <table>
 <thead>
 <tr>
@@ -222,11 +271,14 @@ GEM_HOME
 </tr>
 </tbody>
 </table>
+<p class="table-caption">Table&nbsp;3.1: Environment Variables</p>
+</div>
+
 <h2>Search Path</h2>
 <ul>
 <li><code>PATH</code> holds a colon-separated list of directories</li>
 <li>Shell looks in these <em>in order</em> to find commands</li>
-<li>Looking at them all on one line is annoying, so use <code>tr</code> to split</li>
+<li>Reading at them all on one line is difficult, so use <code>tr</code> to split</li>
 </ul>
 <div class="language-sh" title="show_path.sh">
 <div class="highlight"><pre><span></span><code><span class="nb">echo</span><span class="w"> </span><span class="nv">$PATH</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>tr<span class="w"> </span>:<span class="w"> </span><span class="s1">&#39;\n&#39;</span>
@@ -261,7 +313,11 @@ GEM_HOME
 <h2>Adding to the Search Path</h2>
 <ul>
 <li>Shell variables (of both kinds) are just strings</li>
-<li>So redefine the variable to the old value with a new directory at the front</li>
+<li>So add to search path by redefining the variable<ul>
+<li>New directory at the from</li>
+<li>Entire old value at the back</li>
+</ul>
+</li>
 </ul>
 <div class="language-sh" title="change_path.sh">
 <div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">PATH</span><span class="o">=</span><span class="s2">&quot;/tmp/bin:</span><span class="si">${</span><span class="nv">PATH</span><span class="si">}</span><span class="s2">&quot;</span>
@@ -276,6 +332,17 @@ GEM_HOME
 /Users/gregwilson/.gem/ruby/3.1.2/bin
 </code></pre></div>
 </div>
+<h2 class="exercise">Exercise</h2>
+<p>Removing a directory from <code>PATH</code> is harder than adding one.
+Write a shell script that:</p>
+<ol>
+<li>Splits <code>PATH</code> on colons to put one entry on each line.</li>
+<li>Uses <code>grep</code> to remove the undesired line.</li>
+<li>Uses <code>paste -s -d :</code> to recombine the lines.</li>
+<li>Uses command interpolation to assign the result back to <code>PATH</code>.</li>
+</ol>
+<p>This exercise may remind you why
+complicated operations should be done in Python rather than in the shell.</p>
 <h2>Startup Files</h2>
 <ul>
 <li>Bash shell runs commands in <code>~/.bash_profile</code> for login shells</li>
@@ -306,36 +373,6 @@ GEM_HOME
 30 total
 </code></pre></div>
 </div>
-<h2 id="var-exercises">Exercises</h2>
-<ol>
-<li>
-<p>What happens if you modify the scripts shown above
-    to use single quotes instead of double quotes?</p>
-</li>
-<li>
-<p>If a child process sets shell or environment variables,
-    are they visible in the parent once the child finishes executing?</p>
-</li>
-<li>
-<p>The <code>os.environ</code> variable in Python&rsquo;s <code>os</code> module
-    is an easy way to get all of the process&rsquo;s environment variables.
-    Compare it to what <code>env</code> shows.
-    Are there differences?
-    If so, what are they and why do they exist?</p>
-</li>
-<li>
-<p>Removing a directory from <code>PATH</code> is harder than adding one.
-    Write a shell script that:</p>
-<ol>
-<li>Splits <code>PATH</code> on colons to put one entry on each line.</li>
-<li>Uses <code>grep</code> to remove the undesired line.</li>
-<li>Uses <code>paste -s -d :</code> to recombine the lines.</li>
-<li>Uses command interpolation to assign the result back to <code>PATH</code>.</li>
-</ol>
-<p>This exercise may remind you why complicated operations should be done in Python
-rather than in the shell.</p>
-</li>
-</ol>
     </main>
     <footer>
   © 2024 <a href="https://third-bit.com/">Greg Wilson</a>

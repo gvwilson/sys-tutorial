@@ -1,18 +1,6 @@
 ---
 title: "Processes"
-syllabus:
-- FIXME
 ---
-
-## Operating System vs. Shell
-
--   [%g operating_system "Operating system" %] (OS) is…
--   [%g shell "Command shell" %] (or just "shell") is…
--   There are many different shells for Unix and Windows
-    -   [bash][bash] and [zsh][zsh] are compatible with the POSIX standard
-    -   [fish][fish] is nicer, but is not
-    -   [Nushell][nushell] is even stranger (we'll meet it later)
-    -   [PowerShell][powershell] on Windows (and Unix) has a lot of nice features too
 
 ## Program vs. Process
 

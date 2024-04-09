@@ -1,0 +1,11 @@
+| Name     | Typical Value    | Purpose                           |
+| -------- | ---------------- | --------------------------------- |
+| `EDITOR` | `nano`           | default text editor               |
+| `HOME`   | `/Users/tut`     | user's home directory             |
+| `LANG`   | `en_CA.UTF-8`    | user's preferred (human) language |
+| `PATH`   | see below        | search path for programs          |
+| `PWD`    | `/Users/tut/sys` | present working directory         |
+| `SHELL`  | `/bin/bash`      | user's default shell              |
+| `TERM`   | `xterm-256color` | type of terminal                  |
+| `TMPDIR` | `/var/tmp`       | storage for temporary files       |
+| `USER`   | `tut`            | current user's name               |

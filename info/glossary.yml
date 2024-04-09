@@ -278,6 +278,13 @@
 
 # N
 
+- key: name_collision
+  en:
+    term: name collision
+    def: >
+      The problem that occurs when two different applications use the same name
+      for different things.
+
 # O
 
 - key: operating_system

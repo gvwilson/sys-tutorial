@@ -28,6 +28,10 @@
   url: "https://carpentries.org/"
   title: "The Carpentries"
 
+- key: "conda"
+  url: "https://docs.conda.io/"
+  title: "Conda package manager"
+
 # D
 
 - key: "docker"
@@ -91,6 +95,10 @@
 - key: "nushell"
   url: "https://www.nushell.sh/"
   title: "Nushell"
+
+- key: "nvm"
+  url: "https://github.com/nvm-sh/nvm"
+  title: "NVM (Node Version Manager)"
 
 # P
 
