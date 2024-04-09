@@ -57,8 +57,9 @@ syllabus:
 
 -   Can send a [%g signal "signal" %] to a process
     -   "Something extraordinary happened, please deal with it immediately"
+-   [%t process_signals %] shows what happened
 
-[% table slug="process_signals" tbl="signals.tbl" caption="Signals" %]
+[% table slug=process_signals tbl="signals.tbl" caption="Signals" %]
 
 -   Create a [%g callback_function "callback function" %]
     to act as a [%g signal_handler "signal handler" %]

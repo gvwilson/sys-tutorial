@@ -18,6 +18,8 @@ syllabus:
 
 ## What Just Happened
 
+-   [%f http_lifecycle %] shows what happened
+
 [% figure
    slug="http_lifecycle"
    img="http_lifecycle.svg"
