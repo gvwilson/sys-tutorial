@@ -1,5 +1,6 @@
 ---
 title: "Introduction"
+tagline: "Who this is for and what it covers."
 ---
 
 ## What This Is {: .aside}

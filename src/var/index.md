@@ -1,5 +1,6 @@
 ---
 title: "Variables"
+tagline: "How the shell keeps track of things."
 ---
 
 ## Operating System vs. Shell

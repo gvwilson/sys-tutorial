@@ -1,5 +1,6 @@
 ---
 title: "Processes"
+tagline: "Creating, signalling, and interacting with running programs."
 ---
 
 ## Program vs. Process
