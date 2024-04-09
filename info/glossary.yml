@@ -379,6 +379,12 @@
 
 # S
 
+- key: sandbox
+  en:
+    term: sandbox
+    def: >
+      An isolated computing environment in which operations can be executed safely.
+
 - key: server
   en:
     term: server

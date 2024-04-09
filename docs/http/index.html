@@ -48,11 +48,9 @@
 </nav>
 
 
-      <ul class="keypoints">
-<li>FIXME</li>
-</ul>
+      
       <p class="terms">Terms defined: 
-<a class="gl-ref" href="../glossary/#gl:character_encoding" markdown="1">character encoding</a>, <a class="gl-ref" href="../glossary/#gl:concurrency" markdown="1">concurrency</a>, <a class="gl-ref" href="../glossary/#gl:http" markdown="1">HTTP</a>, <a class="gl-ref" href="../glossary/#gl:http_header" markdown="1">header (of HTTP request or response)</a>, <a class="gl-ref" href="../glossary/#gl:http_method" markdown="1">HTTP method</a>, <a class="gl-ref" href="../glossary/#gl:http_request" markdown="1">HTTP request</a>, <a class="gl-ref" href="../glossary/#gl:http_response" markdown="1">HTTP response</a>, <a class="gl-ref" href="../glossary/#gl:http_status_code" markdown="1">HTTP status code</a>, <a class="gl-ref" href="../glossary/#gl:json" markdown="1">JavaScript Object Notation</a>, <a class="gl-ref" href="../glossary/#gl:local_server" markdown="1">local server</a>, <a class="gl-ref" href="../glossary/#gl:localhost" markdown="1">localhost</a>, <a class="gl-ref" href="../glossary/#gl:mime_type" markdown="1">MIME type</a>, <a class="gl-ref" href="../glossary/#gl:port" markdown="1">port</a>, <a class="gl-ref" href="../glossary/#gl:query_parameter" markdown="1">query parameter</a>, <a class="gl-ref" href="../glossary/#gl:refactor" markdown="1">refactor</a>, <a class="gl-ref" href="../glossary/#gl:resolve_path" markdown="1">resolve (a path)</a>, <a class="gl-ref" href="../glossary/#gl:static_file" markdown="1">static file</a>, <a class="gl-ref" href="../glossary/#gl:utf_8" markdown="1">UTF-8</a>, <a class="gl-ref" href="../glossary/#gl:web_scraping" markdown="1">web scraping</a>
+<a class="gl-ref" href="../glossary/#gl:character_encoding" markdown="1">character encoding</a>, <a class="gl-ref" href="../glossary/#gl:concurrency" markdown="1">concurrency</a>, <a class="gl-ref" href="../glossary/#gl:http" markdown="1">HTTP</a>, <a class="gl-ref" href="../glossary/#gl:http_header" markdown="1">header (of HTTP request or response)</a>, <a class="gl-ref" href="../glossary/#gl:http_method" markdown="1">HTTP method</a>, <a class="gl-ref" href="../glossary/#gl:http_request" markdown="1">HTTP request</a>, <a class="gl-ref" href="../glossary/#gl:http_response" markdown="1">HTTP response</a>, <a class="gl-ref" href="../glossary/#gl:http_status_code" markdown="1">HTTP status code</a>, <a class="gl-ref" href="../glossary/#gl:json" markdown="1">JavaScript Object Notation</a>, <a class="gl-ref" href="../glossary/#gl:local_server" markdown="1">local server</a>, <a class="gl-ref" href="../glossary/#gl:localhost" markdown="1">localhost</a>, <a class="gl-ref" href="../glossary/#gl:mime_type" markdown="1">MIME type</a>, <a class="gl-ref" href="../glossary/#gl:port" markdown="1">port</a>, <a class="gl-ref" href="../glossary/#gl:query_parameter" markdown="1">query parameter</a>, <a class="gl-ref" href="../glossary/#gl:refactor" markdown="1">refactor</a>, <a class="gl-ref" href="../glossary/#gl:resolve_path" markdown="1">resolve (a path)</a>, <a class="gl-ref" href="../glossary/#gl:sandbox" markdown="1">sandbox</a>, <a class="gl-ref" href="../glossary/#gl:static_file" markdown="1">static file</a>, <a class="gl-ref" href="../glossary/#gl:utf_8" markdown="1">UTF-8</a>, <a class="gl-ref" href="../glossary/#gl:web_scraping" markdown="1">web scraping</a>
 </p>
       <h2>Start with Something Simple</h2>
 <div class="language-py" title="get_remote.py">
@@ -120,9 +118,14 @@ Connection: keep-alive
 </div>
 <ul>
 <li>First line is <a class="gl-ref" href="../glossary/#gl:http_method" markdown="1">method</a>, URL, and protocol version</li>
-<li>Every HTTP request can have <a class="gl-ref" href="../glossary/#gl:http_header" markdown="1">headers</a> with extra information</li>
-<li>And optionally data being uploaded (which we will see later)</li>
-<li>Yes, it&rsquo;s all just text</li>
+<li>Every HTTP request can have <a class="gl-ref" href="../glossary/#gl:http_header" markdown="1">headers</a> with extra information<ul>
+<li>And optionally data being uploaded</li>
+</ul>
+</li>
+<li>Yes, it&rsquo;s all just text<ul>
+<li>Except for uploaded data, which is just bytes</li>
+</ul>
+</li>
 </ul>
 <h2>Response Structure</h2>
 <div class="language-py" title="response_headers.py">
@@ -168,6 +171,18 @@ X-Fastly-Request-ID: cb16df2dfa73aaf6de87924c743dd1e50a0ce570
 </li>
 <li>From now on we will only show interesting headers</li>
 </ul>
+<h2 class="exercise">Exercise</h2>
+<ol>
+<li>
+<p>Add header called <code>Studying</code> with the value <code>safety</code>
+    to the <code>requests</code> script shown above.
+    Does it make a difference to the response?
+    Should it?</p>
+</li>
+<li>
+<p>What is the difference between the <code>Content-Type</code> and the <code>Content-Encoding</code> headers?</p>
+</li>
+</ol>
 <h2>When Things Go Wrong</h2>
 <div class="language-py" title="get_404.py">
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">requests</span>
@@ -191,6 +206,19 @@ body length: 9115
 </ul>
 </li>
 </ul>
+<h2 class="exercise">Exercise</h2>
+<p>Look at <a href="https://en.wikipedia.org/wiki/List_of_HTTP_status_codes">this list of HTTP status codes</a>.</p>
+<ol>
+<li>
+<p>What is the difference between status code 403 and status code 404?</p>
+</li>
+<li>
+<p>What is status code 418 used for?</p>
+</li>
+<li>
+<p>Under what circumstances would you expect to get a response whose status code is 505?</p>
+</li>
+</ol>
 <h2>Getting JSON</h2>
 <div class="language-py" title="get_json.py">
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">requests</span>
@@ -220,25 +248,35 @@ body as JSON:
 <li>So common that <code>requests</code> has built-in support</li>
 </ul>
 </li>
-<li>There is no standard for representing tabular data as JSON<ul>
-<li>A list with one list with column names + N lists of values</li>
-<li>A list with N dictionaries, all with the same keys</li>
-<li>A dictionary with column names and lists of values, all the same length</li>
+<li>Unfortunately, there is no standard for representing tabular data as JSON <a class="fig-ref" href="../http/#http_json_tables">Figure&nbsp;4.2</a><ul>
+<li>A list with one list with N column names + N lists of values?</li>
+<li>A list with N dictionaries, all with the same keys?</li>
+<li>A dictionary with column names and lists of values, all the same length?</li>
 </ul>
 </li>
 </ul>
+<figure id="http_json_tables">
+<img src="./http_json_tables.svg" alt="Three ways to represent tables as JSON"/>
+<figcaption>Figure&nbsp;4.2: Representing tables as JSON</figcaption>
+</figure>
+
+<h2 class="exercise">Exercise</h2>
+<p>Write a <code>requests</code> script that gets the current location and crew roster
+of <a href="http://api.open-notify.org/">the International Space Station</a>.</p>
 <h2>Local Web Server</h2>
+<ul>
+<li>Pushing files to GitHub so that we can use them is annoying</li>
+<li>And we want to show how to make things <em>wrong</em> so that we can then make them <em>right</em></li>
+<li>Use Python&rsquo;s <a href="https://docs.python.org/3/library/http.server.html"><code>http.server</code></a> module
+    to run a <a class="gl-ref" href="../glossary/#gl:local_server" markdown="1">local server</a></li>
+</ul>
 <div class="language-sh" title="local_server.sh">
 <div class="highlight"><pre><span></span><code>python<span class="w"> </span>-m<span class="w"> </span>http.server<span class="w"> </span>-d<span class="w"> </span>site
 </code></pre></div>
 </div>
 <ul>
-<li>Pushing files to GitHub so that we can use them is annoying</li>
-<li>And we want to show how to make things <em>wrong</em> so that we can then make them <em>right</em></li>
-<li>Use Python&rsquo;s <a href="https://docs.python.org/3/library/http.server.html"><code>http.server</code></a> module
-    to run a <a class="gl-ref" href="../glossary/#gl:local_server" markdown="1">local server</a><ul>
 <li>Host name is <a class="gl-ref" href="../glossary/#gl:localhost" markdown="1"><code>localhost</code></a></li>
-<li>Uses <a class="gl-ref" href="../glossary/#gl:port" markdown="1">port</a> 8000 by default</li>
+<li>Uses <a class="gl-ref" href="../glossary/#gl:port" markdown="1">port</a> 8000 by default<ul>
 <li>So URLs look like <code>http://localhost:8000/path/to/file</code></li>
 </ul>
 </li>
@@ -270,9 +308,9 @@ Start where you are, use what you have, help who you can.
 <li><a class="gl-ref" href="../glossary/#gl:concurrency" markdown="1">Concurrent</a> systems are hard to debug<ul>
 <li>Multiple streams of activity</li>
 <li>Order may change from run to run</li>
+<li>Usually easiest to run each process in its own terminal window</li>
 </ul>
 </li>
-<li>Use <code>S</code> and <code>c</code> to show output from server and client respectively</li>
 </ul>
 <h2>Our Own File Server</h2>
 <div class="language-py" title="file_server_unsafe.py">
@@ -293,16 +331,13 @@ Start where you are, use what you have, help who you can.
 </code></pre></div>
 </div>
 <ul>
-<li>Our <code>RequestHandler</code> handles a single HTTP request<ul>
-<li>More specifically, handles the <code>GET</code> method</li>
-</ul>
-</li>
+<li>Our <code>RequestHandler</code> handles a single <code>GET</code> request</li>
 <li>Combine working directory with requested file path to get local path to file</li>
 <li>Return that if it exists and is a file or raise an error</li>
 </ul>
 <h2>Support Code</h2>
 <ul>
-<li>Send content</li>
+<li>Serve files</li>
 </ul>
 <div class="language-py" title="file_server_unsafe.py">
 <div class="highlight"><pre><span></span><code>    <span class="k">def</span> <span class="nf">send_content</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">content</span><span class="p">,</span> <span class="n">status</span><span class="p">):</span>
@@ -371,7 +406,10 @@ Start where you are, use what you have, help who you can.
 </code></pre></div>
 </div>
 <ul>
-<li>Add a sub-directory to <code>site</code> called <code>sandbox</code> with a file <code>example.txt</code></li>
+<li>Add a sub-directory to <code>site</code> called <code>sandbox</code> with a file <code>example.txt</code><ul>
+<li>Called a <a class="gl-ref" href="../glossary/#gl:sandbox" markdown="1">sandbox</a> because it&rsquo;s a safe place to play</li>
+</ul>
+</li>
 <li>Serve that sub-directory</li>
 </ul>
 <div class="language-sh" title="file_server_sandbox.sh">
@@ -420,8 +458,7 @@ body:
 </code></pre></div>
 </div>
 <ul>
-<li>But why not?</li>
-<li>Looks like <code>requests</code> is stripping the leading <code>..</code> off the path</li>
+<li><code>requests</code> strips the leading <code>..</code> off the path before sending it</li>
 <li>And if we try that URL in the browser, same thing happens</li>
 <li>So we&rsquo;re safe, right?</li>
 </ul>
@@ -449,7 +486,7 @@ example file
 </code></pre></div>
 </div>
 <ul>
-<li>So far so good, but:</li>
+<li>Let&rsquo;s see what happens if we <em>do</em> send a URL with <code>..</code> in it</li>
 </ul>
 <div class="language-text" title="nc_disallowed.text">
 <div class="highlight"><pre><span></span><code>GET ../motto.txt HTTP/1.1
@@ -469,6 +506,15 @@ Start where you are, use what you have, help who you can.
 <li>We shouldn&rsquo;t be able to see files outside the sandbox</li>
 <li>But if someone doesn&rsquo;t strip out the <code>..</code> characters, users can escape</li>
 </ul>
+<h2 class="exercise">Exercise</h2>
+<p>The shortcut <code>~<em>username</em></code> means
+&ldquo;the specified user&rsquo;s home directory&rdquo; in the shell,
+while <code>~</code> on its own means &ldquo;the current user&rsquo;s home directory&rdquo;.
+Create a file called <code>test.txt</code> in your home directory
+and then try to get <code>~/test.txt</code> using your browser,
+<code>requests</code>,
+and <code>netcat</code>.
+What happens with each and why?</p>
 <h2>A Safer File Server</h2>
 <div class="language-py" title="file_server_safe.py">
 <div class="highlight"><pre><span></span><code>    <span class="k">def</span> <span class="nf">handle_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">given_path</span><span class="p">,</span> <span class="n">full_path</span><span class="p">):</span>
@@ -488,15 +534,21 @@ Start where you are, use what you have, help who you can.
 </div>
 <ul>
 <li><a class="gl-ref" href="../glossary/#gl:resolve_path" markdown="1">Resolve</a> the constructed path</li>
-<li>Check that it&rsquo;s below the current working directory (i.e., the sandbox)</li>
-<li>Fail if not<ul>
-<li>Using <code>ServerException</code> guarantees that all errors are handled the same way</li>
+<li>Then check that it&rsquo;s below the current working directory (i.e., the sandbox)</li>
+<li>And fail if it isn&rsquo;t<ul>
+<li>Using our own <code>ServerException</code> guarantees that all errors are handled the same way</li>
 </ul>
 </li>
 </ul>
+<h2 class="exercise">Exercise</h2>
+<p><a class="gl-ref" href="../glossary/#gl:refactor" markdown="1">Refactor</a> the <code>do_GET</code> and <code>handle_file</code> methods in <code>RequestHandler</code>
+so that all checks are in one place.
+Does this make the code easier to understand overall?
+Do you think making code easier to understand also makes it safer?</p>
 <h2>Serving Data</h2>
 <ul>
 <li>Rarely have JSON lying around as <a class="gl-ref" href="../glossary/#gl:static_file" markdown="1">static files</a></li>
+<li>More common to have either CSV or a database</li>
 </ul>
 <div class="language-sh" title="birds_head.sh">
 <div class="highlight"><pre><span></span><code>head<span class="w"> </span>-n<span class="w"> </span><span class="m">10</span><span class="w"> </span>site/birds.csv
@@ -599,43 +651,8 @@ L13476859,60.8606726,-135.2015181,CA-YT,2021,2,15,bkcchi,3.0
         <span class="k">return</span> <span class="n">result</span>
 </code></pre></div>
 </div>
-<h2>Exercises</h2>
+<h2 class="exercise">Exercise</h2>
 <ol>
-<li>
-<p>Add header called <code>Studying</code> with the value <code>safety</code> to the <code>requests</code> script shown above.
-    Does it make a difference to the response?
-    Should it?</p>
-</li>
-<li>
-<p>What is the difference between the <code>Content-Type</code> and the <code>Content-Encoding</code> headers?</p>
-</li>
-<li>
-<p>Look at <a href="https://en.wikipedia.org/wiki/List_of_HTTP_status_codes">this list of HTTP status codes</a>.</p>
-<ol>
-<li>What is the difference between status code 403 and status code 404?</li>
-<li>What is status code 418 used for?</li>
-<li>Under what circumstances would you expect to get a response whose status code is 505?</li>
-</ol>
-</li>
-<li>
-<p>Write a <code>requests</code> script that gets the current location and crew roster
-    of <a href="http://api.open-notify.org/">the International Space Station</a>.</p>
-</li>
-<li>
-<p>The shortcut <code>~<em>username</em></code> means &ldquo;the specified user&rsquo;s home directory&rdquo; in the shell,
-    while <code>~</code> on its own means &ldquo;the current user&rsquo;s home directory&rdquo;.
-    create a file called <code>test.txt</code> in your home directory
-    and then try to get <code>~/test.txt</code> using your browser,
-    <code>requests</code>,
-    and Telnet.
-    What happens with each and why?</p>
-</li>
-<li>
-<p><a class="gl-ref" href="../glossary/#gl:refactor" markdown="1">Refactor</a> the <code>do_GET</code> and <code>handle_file</code> methods in <code>RequestHandler</code>
-    so that all checks are in one place.
-    Does this make the code easier to understand overall?
-    Do you think making code easier to understand also makes it safer?</p>
-</li>
 <li>
 <p>Write a function that takes a URL as input
     and returns a dictionary whose keys are the query parameters&rsquo; names

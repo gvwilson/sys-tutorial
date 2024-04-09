@@ -105,7 +105,7 @@ tagline: "Creating, signalling, and interacting with running programs."
 [%inc fork.py %]
 [%inc fork.out %]
 
-## Concurrency and Unpredictability {: .aside}
+## Unpredictability {: .aside}
 
 -   Output shown above comes from running the program interactively
 -   When run as `python fork.py > temp.out`, the "starting" line may be duplicated

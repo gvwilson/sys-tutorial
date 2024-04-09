@@ -1,7 +1,6 @@
 ---
 title: "HTTP"
-syllabus:
-- FIXME
+tagline: "Moving data from place to place."
 ---
 
 ## Start with Something Simple
@@ -40,8 +39,9 @@ syllabus:
 
 -   First line is [%g http_method "method" %], URL, and protocol version
 -   Every HTTP request can have [%g http_header "headers" %] with extra information
--   And optionally data being uploaded (which we will see later)
+    -   And optionally data being uploaded
 -   Yes, it's all just text
+    -   Except for uploaded data, which is just bytes
 
 ## Response Structure
 
@@ -55,6 +55,15 @@ syllabus:
     -   `Content-Type`: [%g mime_type "MIME type" %] of data (e.g., `text/plain`)
 -   From now on we will only show interesting headers
 
+## Exercise {: .exercise}
+
+1.  Add header called `Studying` with the value `safety`
+    to the `requests` script shown above.
+    Does it make a difference to the response?
+    Should it?
+
+1.  What is the difference between the `Content-Type` and the `Content-Encoding` headers?
+
 ## When Things Go Wrong
 
 [%inc get_404.py %]
@@ -64,6 +73,16 @@ syllabus:
 -   The 9 kilobyte response is an HTML page with an embedded image (the GitHub logo)
 -   The page contains human-readable error messages
     -   But we have to know page format to pull them out
+
+## Exercise {: .exercise}
+
+Look at [this list of HTTP status codes][http_status_codes].
+
+1.  What is the difference between status code 403 and status code 404?
+
+2.  What is status code 418 used for?
+
+3.  Under what circumstances would you expect to get a response whose status code is 505?
 
 ## Getting JSON
 
@@ -75,21 +94,34 @@ syllabus:
 -   Better to have the server return data as data
     -   Preferred format these days is [%g json "JSON" %]
     -   So common that `requests` has built-in support
--   There is no standard for representing tabular data as JSON
-    -   A list with one list with column names + N lists of values
-    -   A list with N dictionaries, all with the same keys
-    -   A dictionary with column names and lists of values, all the same length
+-   Unfortunately, there is no standard for representing tabular data as JSON [%f http_json_tables %]
+    -   A list with one list with N column names + N lists of values?
+    -   A list with N dictionaries, all with the same keys?
+    -   A dictionary with column names and lists of values, all the same length?
+
+[% figure
+   slug="http_json_tables"
+   img="http_json_tables.svg"
+   alt="Three ways to represent tables as JSON"
+   caption="Representing tables as JSON"
+%]
+
+## Exercise {: .exercise}
+
+Write a `requests` script that gets the current location and crew roster
+of [the International Space Station][iss_api].
 
 ## Local Web Server
-
-[%inc local_server.sh %]
 
 -   Pushing files to GitHub so that we can use them is annoying
 -   And we want to show how to make things *wrong* so that we can then make them *right*
 -   Use Python's [`http.server`][py_http_server] module
     to run a [%g local_server "local server" %]
-    -   Host name is [%g localhost "`localhost`" %]
-    -   Uses [%g port "port" %] 8000 by default
+
+[%inc local_server.sh %]
+
+-   Host name is [%g localhost "`localhost`" %]
+-   Uses [%g port "port" %] 8000 by default
     -   So URLs look like `http://localhost:8000/path/to/file`
 -   `-d site` tells the server to use `site` as its root directory
 -   Use this local server for the next few examples
@@ -103,20 +135,19 @@ syllabus:
 -   [%g concurrency "Concurrent" %] systems are hard to debug
     -   Multiple streams of activity
     -   Order may change from run to run
--   Use `S` and `c` to show output from server and client respectively
+    -   Usually easiest to run each process in its own terminal window
 
 ## Our Own File Server
 
 [%inc file_server_unsafe.py mark=do_get %]
 
--   Our `RequestHandler` handles a single HTTP request
-    -   More specifically, handles the `GET` method
+-   Our `RequestHandler` handles a single `GET` request
 -   Combine working directory with requested file path to get local path to file
 -   Return that if it exists and is a file or raise an error
 
 ## Support Code
 
--   Send content
+-   Serve files
 
 [%inc file_server_unsafe.py mark=send_content %]
 
@@ -142,6 +173,7 @@ syllabus:
 [%inc get_url.py %]
 
 -   Add a sub-directory to `site` called `sandbox` with a file `example.txt`
+    -   Called a [%g sandbox "sandbox" %] because it's a safe place to play
 -   Serve that sub-directory
 
 [%inc file_server_sandbox.sh %]
@@ -158,8 +190,7 @@ syllabus:
 [%inc get_url_disallowed_server.out %]
 [%inc get_url_disallowed_client.out %]
 
--   But why not?
--   Looks like `requests` is stripping the leading `..` off the path
+-   `requests` strips the leading `..` off the path before sending it
 -   And if we try that URL in the browser, same thing happens
 -   So we're safe, right?
 
@@ -172,7 +203,7 @@ syllabus:
 [%inc nc_allowed.text %]
 [%inc nc_allowed.out %]
 
--   So far so good, but:
+-   Let's see what happens if we *do* send a URL with `..` in it
 
 [%inc nc_disallowed.text %]
 [%inc nc_disallowed.out %]
@@ -180,18 +211,37 @@ syllabus:
 -   We shouldn't be able to see files outside the sandbox
 -   But if someone doesn't strip out the `..` characters, users can escape
 
+## Exercise {: .exercise}
+
+The shortcut <code>~<em>username</em></code> means
+"the specified user's home directory" in the shell,
+while `~` on its own means "the current user's home directory".
+Create a file called `test.txt` in your home directory
+and then try to get `~/test.txt` using your browser,
+`requests`,
+and `netcat`.
+What happens with each and why?
+
 ## A Safer File Server
 
 [%inc file_server_safe.py mark=handle_file %]
 
 -   [%g resolve_path "Resolve" %] the constructed path
--   Check that it's below the current working directory (i.e., the sandbox)
--   Fail if not
-    -   Using `ServerException` guarantees that all errors are handled the same way
+-   Then check that it's below the current working directory (i.e., the sandbox)
+-   And fail if it isn't
+    -   Using our own `ServerException` guarantees that all errors are handled the same way
+
+## Exercise {: .exercise}
+
+[%g refactor "Refactor" %] the `do_GET` and `handle_file` methods in `RequestHandler`
+so that all checks are in one place.
+Does this make the code easier to understand overall?
+Do you think making code easier to understand also makes it safer?
 
 ## Serving Data
 
 -   Rarely have JSON lying around as [%g static_file "static files" %]
+-   More common to have either CSV or a database
 
 [%inc birds_head.sh %]
 [%inc birds_head.out %]
@@ -230,42 +280,14 @@ syllabus:
 
 [%inc bird_server_slice.py mark=filter %]
 
-## Exercises
-
-1.  Add header called `Studying` with the value `safety` to the `requests` script shown above.
-    Does it make a difference to the response?
-    Should it?
-
-1.  What is the difference between the `Content-Type` and the `Content-Encoding` headers?
-
-1.  Look at [this list of HTTP status codes][http_status_codes].
-
-    1.  What is the difference between status code 403 and status code 404?
-    2.  What is status code 418 used for?
-    3.  Under what circumstances would you expect to get a response whose status code is 505?
-
-1.  Write a `requests` script that gets the current location and crew roster
-    of [the International Space Station][iss_api].
-
-1.  The shortcut <code>~<em>username</em></code> means "the specified user's home directory" in the shell,
-    while `~` on its own means "the current user's home directory".
-    create a file called `test.txt` in your home directory
-    and then try to get `~/test.txt` using your browser,
-    `requests`,
-    and Telnet.
-    What happens with each and why?
-
-1.  [%g refactor "Refactor" %] the `do_GET` and `handle_file` methods in `RequestHandler`
-    so that all checks are in one place.
-    Does this make the code easier to understand overall?
-    Do you think making code easier to understand also makes it safer?
+## Exercise {: .exercise}
 
 1.  Write a function that takes a URL as input
     and returns a dictionary whose keys are the query parameters' names
     and whose values are lists of their values.
     Do you now see why you should use the library function to do this?
 
-1.  Modify the server so that clients can specify which columns they want returned
+2.  Modify the server so that clients can specify which columns they want returned
     as a comma-separated list of names.
     If the client asks for a column that doesn't exist, ignore it.
 
