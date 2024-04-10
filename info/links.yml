@@ -46,11 +46,21 @@
   url: "https://www.drawio.com/"
   title: "draw.io"
 
+# E
+
+- key: "earthly"
+  url: "https://earthly.dev/"
+  title: "Earthly"
+
 # F
 
 - key: "fish"
   url: "https://fishshell.com/"
   title: "Fish shell"
+
+- key: "fswatch"
+  url: "https://emcrisostomo.github.io/fswatch/"
+  title: "fswatch utility"
 
 # G
 

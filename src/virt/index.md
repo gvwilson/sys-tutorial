@@ -180,3 +180,7 @@ What is the `re.sub` call in the `faker` script doing and why?
 -   Run
 
 [%inc python3_interpreter_run.text %]
+
+## To Do
+
+-   Managing secrets (also shows up in authentication)

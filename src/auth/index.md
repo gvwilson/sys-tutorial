@@ -81,3 +81,14 @@ tagline: "How to tell who someone is."
 -   `sudo` is a way to give yourself permission to mess up everything on your computer
 -   So another requirement for virtual environments:
     break them without breaking anything else
+
+## To Do
+
+-   How do I see who has accounts on a machine?
+-   How do I create a new account?
+-   How do I delete an account?
+-   What are alternatives to classic password authentication?
+-   What are keys and how do I manage them?
+-   What are certificates and how do I manage them?
+-   Why create a `nologin` user? https://www.baeldung.com/linux/create-non-login-user
+-   How can I manage secrets? (will also show up in discussion of virtualization)

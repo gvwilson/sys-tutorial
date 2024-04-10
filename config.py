@@ -21,6 +21,8 @@ chapters = [
     "http",
     "virt",
     "auth",
+    "access",
+    "jobs",
     "finale",
 ]
 

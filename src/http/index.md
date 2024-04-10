@@ -1,6 +1,6 @@
 ---
 title: "HTTP"
-tagline: "Moving data from place to place."
+tagline: "How to move data from place to place."
 ---
 
 ## Start with Something Simple
@@ -279,6 +279,10 @@ Do you think making code easier to understand also makes it safer?
 -   Then filter data as requested
 
 [%inc bird_server_slice.py mark=filter %]
+
+## To Do
+
+-   `ftp`, `sftp`, `rsync`, and the like (?)
 
 ## Exercise {: .exercise}
 
