@@ -1,13 +1,13 @@
 ---
 title: "Virtualization"
-syllabus:
-- FIXME
+tagline: "How and why to pretend you have lots of computers."
 ---
 
 ## Virtual Environments
 
--   If two directories `A` and `B` contain a program `xyz` and `A` comes before `B`,
-    `xyz` on its own will run `A/xyz` instead of `B/xyz`
+-   If two directories `A` and `B` contain a program `xyz`
+    and `A` comes before `B` in the user's `PATH`,
+    the command `xyz` will run `A/xyz` instead of `B/xyz`
 -   This is how [%g virtual_env "virtual environments" %] work
 
 [%inc show_virtual_env.sh %]
@@ -33,96 +33,20 @@ syllabus:
 -   The `python` in the virtual environment' `bin` directory
     knows to look in that environment's `site-packages` directory
 
+## Exercises {: .exercise}
+
+What is the `re.sub` call in the `faker` script doing and why?
+
 ## Limits of Virtual Environments {: .aside}
 
--   `conda` and `python -m venv` work for Python
--   But what about Rust, JavaScript, and other languages?
--   In particular, what if you need an isolated environment for several languages at once?
--   And you want other people to be able to reproduce it?
--   We will build something worth installing and then return to this problem
-
-## What's the Magic Word?
-
--   Only allow access to data if client:
-    -   [%g authentication "Authenticates" %] (i.e., establishes their identity)
-    -   Is [%g authorization "authorized" %] (i.e., has the right to view the data)
--   Simplest possible is wrong in many ways: does the client know a password?
-
-[%inc bird_client_password.py %]
-[%inc bird_client_password_correct.sh %]
-[%inc bird_client_password_correct.out %]
-[%inc bird_client_password_incorrect.sh %]
-[%inc bird_client_password_incorrect.out %]
-
--   First change to server: get the password on the command line and save it
-
-[%inc bird_server_password.py mark=main %]
-[%inc bird_server_password.py mark=server %]
-
--   Second change: add authorization to `do_GET`
-    -   Once again use our own exception class to handle unhappy cases
-
-[%inc bird_server_password.py mark=get %]
-
--   Add authorization that checks header value
-
-[%inc bird_server_password.py mark=auth %]
-
--   Handle errors by constructing JSON
-
-[%inc bird_server_password.py mark=error %]
-
--   It works but:
-    -   One password for everyone
-    -   Sent as [%g cleartext "cleartext" %] over an unencrypted connection
-
-## Basic Authentication
-
--   Modify `do_GET`
-
-[%inc bird_server_basicauth.py mark=get %]
-
--   [Basic HTTP authentication][basic_http_auth]:
-    -   Header called `"Authorization"`
-    -   Value is <code>Basic <em>data</em></code>
-    -   Data is [%g base64 "base-64 encoded" %] <code><em>username</em>:<em>password</em></code>
--   Most of the code is checking that everything is OK and responding properly if it's not
--   Test client
-
-[%inc bird_client_basicauth.py %]
-[%inc bird_client_basicauth_correct.sh %]
-
-## Changing the Root Directory
-
--   The `chroot` command
-    -   Changes the process's idea of the [%g root_directory "root directory" %]
-    -   Runs a command
--   But…
-
-[%inc chroot_example.sh %]
-[%inc chroot_example.out %]
-
--   Need special permission (discussed below)
--   Everything needed to run `echo` and other commands needs to be in the new filesystem
--   Only isolates the filesystem
-
-## sudo
-
--   Every machine has a [%g superuser "superuser" %] account called [%g root_user "root" %]
-    -   Which has nothing to do with the root directory of the filesystem
--   Use `sudo` ("superuser do") to change identity temporarily
-
-[%inc sudo_example.sh %]
-[%inc sudo_example.out %]
-
--   At least it's a different error message…
--   `sudo` is a way to give yourself permission to mess up everything on your computer
--   So another requirement for virtual environments:
-    break them without breaking anything else
+-   `conda` (and equivalents like `python -m venv`) work for Python
+-   But what if you need an isolated environment for several languages at once?
+    -   Rust, JavaScript, and other languages all have their own solutions
+-   And what if you want other people to be able to reproduce that environment?
 
 ## Docker
 
--   [Docker][docker] solves all of these problems
+-   [Docker][docker] solves these problems (and others)
 -   Define an [%g docker_image "image" %] with its own copy of the operating system, filesystem, etc.
 -   Run it in a [%g docker_container "container" %] that is isolated from the rest of your computer
 
@@ -131,9 +55,12 @@ syllabus:
 [%inc docker_container_ls.sh %]
 [%inc docker_container_ls.out %]
 
+-   Because we haven't created or run anything yet
+
 ## Common Error Message {: .aside}
 
--   Docker requires a [%g daemon "daemon" %] process to be running in the background to start images
+-   Docker requires a [%g daemon "daemon" %] process
+    to be running in the background to start images
 
 [%inc docker_image_ls.sh %]
 [%inc docker_image_ls_err.out %]
@@ -152,16 +79,18 @@ syllabus:
 
 [%inc docker_run_again.text %]
 
--   Doesn't need to download again
+-   Docker doesn't need to download the image again (it's cached)
 -   Runs the given command instead of the default `/bin/bash`
 
 ## This Doesn't Work {: .aside}
 
 [%inc docker_run_error.text %]
 
+-   There is no executable in the image's search path called `echo hello` (all one word)
+
 ## Pulling Images {: .aside}
 
--   Don't have to run immediately
+-   We don't have to run immediately
 
 [%inc docker_pull.text %]
 
@@ -192,7 +121,8 @@ syllabus:
 [%inc docker_container_ls_id.text %]
 
 -   `docker container ls` on its own shows a wide table
--   Use [Go][golang] format strings to format output (no, really)
+-   Use [Go][golang] format strings to format output
+    -   Yes, really…
 
 ## Installing Software
 
@@ -210,7 +140,7 @@ syllabus:
 
 ## Actually Installing Software
 
--   Create a Dockerfile
+-   Create a [%g dockerfile "Dockerfile" %]
     -   Usually called that and in a directory of its own
     -   Ours is `src/ubuntu_python3/Dockerfile`
 
@@ -220,7 +150,8 @@ syllabus:
 
 [%inc ubuntu_python3_build.text %]
 
--   `CACHED` because we've run this several times while building this tutorial
+-   `CACHED` because we ran this several times
+    while building this tutorial
 
 [%inc ubuntu_python3_run.text %]
 
@@ -234,7 +165,7 @@ syllabus:
 [%inc docker_system_df.text %]
 
 -   First line (`Images`) shows actual disk space
-    -   We'll see the original `df` command again…
+    -   `df` because there's a Unix command with that name to show free disk space
 
 ## Choosing a Command
 
@@ -249,7 +180,3 @@ syllabus:
 -   Run
 
 [%inc python3_interpreter_run.text %]
-
-## Exercises {: #virt-exercises}
-
-1.  What is the `re.sub` call in the `faker` script doing and why?

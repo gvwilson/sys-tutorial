@@ -20,6 +20,7 @@ chapters = [
     "var",
     "http",
     "virt",
+    "auth",
     "finale",
 ]
 

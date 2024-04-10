@@ -43,21 +43,20 @@
     <a href="../" title="home" class="undecorated">&#9737;</a>
   </div>
   <div class="col-1 right">
-    <a href="../finale/" title="next" class="undecorated">&#8680;</a>
+    <a href="../auth/" title="next" class="undecorated">&#8680;</a>
   </div>
 </nav>
 
 
-      <ul class="keypoints">
-<li>FIXME</li>
-</ul>
+      
       <p class="terms">Terms defined: 
-<a class="gl-ref" href="../glossary/#gl:authentication" markdown="1">authentication</a>, <a class="gl-ref" href="../glossary/#gl:authorization" markdown="1">authorization</a>, <a class="gl-ref" href="../glossary/#gl:base64" markdown="1">base64 encoding</a>, <a class="gl-ref" href="../glossary/#gl:cache" markdown="1">cache</a>, <a class="gl-ref" href="../glossary/#gl:cleartext" markdown="1">cleartext</a>, <a class="gl-ref" href="../glossary/#gl:daemon" markdown="1">daemon</a>, <a class="gl-ref" href="../glossary/#gl:docker_container" markdown="1">Docker container</a>, <a class="gl-ref" href="../glossary/#gl:docker_image" markdown="1">Docker image</a>, <a class="gl-ref" href="../glossary/#gl:root_directory" markdown="1">root directory</a>, <a class="gl-ref" href="../glossary/#gl:root_user" markdown="1">root (user account)</a>, <a class="gl-ref" href="../glossary/#gl:superuser" markdown="1">superuser</a>, <a class="gl-ref" href="../glossary/#gl:virtual_env" markdown="1">virtual environment</a>
+<a class="gl-ref" href="../glossary/#gl:cache" markdown="1">cache</a>, <a class="gl-ref" href="../glossary/#gl:daemon" markdown="1">daemon</a>, <a class="gl-ref" href="../glossary/#gl:docker_container" markdown="1">Docker container</a>, <a class="gl-ref" href="../glossary/#gl:docker_image" markdown="1">Docker image</a>, <a class="gl-ref" href="../glossary/#gl:dockerfile" markdown="1">Dockerfile</a>, <a class="gl-ref" href="../glossary/#gl:virtual_env" markdown="1">virtual environment</a>
 </p>
       <h2>Virtual Environments</h2>
 <ul>
-<li>If two directories <code>A</code> and <code>B</code> contain a program <code>xyz</code> and <code>A</code> comes before <code>B</code>,
-    <code>xyz</code> on its own will run <code>A/xyz</code> instead of <code>B/xyz</code></li>
+<li>If two directories <code>A</code> and <code>B</code> contain a program <code>xyz</code>
+    and <code>A</code> comes before <code>B</code> in the user&rsquo;s <code>PATH</code>,
+    the command <code>xyz</code> will run <code>A/xyz</code> instead of <code>B/xyz</code></li>
 <li>This is how <a class="gl-ref" href="../glossary/#gl:virtual_env" markdown="1">virtual environments</a> work</li>
 </ul>
 <div class="language-sh" title="show_virtual_env.sh">
@@ -109,215 +108,20 @@ python is /Users/tut/conda/envs/sys/bin/python
 <li>The <code>python</code> in the virtual environment&rsquo; <code>bin</code> directory
     knows to look in that environment&rsquo;s <code>site-packages</code> directory</li>
 </ul>
+<h2 class="exercise">Exercises</h2>
+<p>What is the <code>re.sub</code> call in the <code>faker</code> script doing and why?</p>
 <h2 class="aside">Limits of Virtual Environments</h2>
 <ul>
-<li><code>conda</code> and <code>python -m venv</code> work for Python</li>
-<li>But what about Rust, JavaScript, and other languages?</li>
-<li>In particular, what if you need an isolated environment for several languages at once?</li>
-<li>And you want other people to be able to reproduce it?</li>
-<li>We will build something worth installing and then return to this problem</li>
-</ul>
-<h2>What&rsquo;s the Magic Word?</h2>
-<ul>
-<li>Only allow access to data if client:<ul>
-<li><a class="gl-ref" href="../glossary/#gl:authentication" markdown="1">Authenticates</a> (i.e., establishes their identity)</li>
-<li>Is <a class="gl-ref" href="../glossary/#gl:authorization" markdown="1">authorized</a> (i.e., has the right to view the data)</li>
+<li><code>conda</code> (and equivalents like <code>python -m venv</code>) work for Python</li>
+<li>But what if you need an isolated environment for several languages at once?<ul>
+<li>Rust, JavaScript, and other languages all have their own solutions</li>
 </ul>
 </li>
-<li>Simplest possible is wrong in many ways: does the client know a password?</li>
-</ul>
-<div class="language-py" title="bird_client_password.py">
-<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">http</span> <span class="kn">import</span> <span class="n">HTTPStatus</span>
-<span class="kn">import</span> <span class="nn">requests</span>
-<span class="kn">import</span> <span class="nn">sys</span>
-
-<span class="n">URL</span> <span class="o">=</span> <span class="s2">&quot;http://localhost:8000?species=stejay&quot;</span>
-<span class="n">headers</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;Password&quot;</span><span class="p">:</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]}</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span> <span class="k">else</span> <span class="p">{}</span>
-<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">URL</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
-<span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="n">HTTPStatus</span><span class="o">.</span><span class="n">OK</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">())</span><span class="si">}</span><span class="s2"> records returned&quot;</span><span class="p">)</span>
-<span class="k">else</span><span class="p">:</span>
-    <span class="n">j</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">j</span><span class="p">[</span><span class="s1">&#39;status&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">j</span><span class="p">[</span><span class="s1">&#39;error_message&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-</code></pre></div>
-</div>
-<div class="language-sh" title="bird_client_password_correct.sh">
-<div class="highlight"><pre><span></span><code>python<span class="w"> </span>src/bird_client_password.py<span class="w"> </span>mumble
-</code></pre></div>
-</div>
-<div class="language-out" title="bird_client_password_correct.out">
-<div class="highlight"><pre><span></span><code>16 records returned
-</code></pre></div>
-</div>
-<div class="language-sh" title="bird_client_password_incorrect.sh">
-<div class="highlight"><pre><span></span><code>python<span class="w"> </span>src/bird_client_password.py<span class="w"> </span>bad_password
-</code></pre></div>
-</div>
-<div class="language-out" title="bird_client_password_incorrect.out">
-<div class="highlight"><pre><span></span><code>403: incorrect or missing password
-</code></pre></div>
-</div>
-<ul>
-<li>First change to server: get the password on the command line and save it</li>
-</ul>
-<div class="language-py" title="bird_server_password.py">
-<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
-    <span class="n">sandbox</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">password</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
-    <span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="n">sandbox</span><span class="p">)</span>
-    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
-    <span class="n">serverAddress</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="mi">8000</span><span class="p">)</span>
-    <span class="n">server</span> <span class="o">=</span> <span class="n">BirdServer</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">password</span><span class="p">,</span> <span class="n">serverAddress</span><span class="p">,</span> <span class="n">RequestHandler</span><span class="p">)</span>
-    <span class="n">server</span><span class="o">.</span><span class="n">serve_forever</span><span class="p">()</span>
-</code></pre></div>
-</div>
-<div class="language-py" title="bird_server_password.py">
-<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">BirdServer</span><span class="p">(</span><span class="n">HTTPServer</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">password</span><span class="p">,</span> <span class="n">server_address</span><span class="p">,</span> <span class="n">request_handler</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">server_address</span><span class="p">,</span> <span class="n">request_handler</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_data</span> <span class="o">=</span> <span class="n">data</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_password</span> <span class="o">=</span> <span class="n">password</span>
-</code></pre></div>
-</div>
-<ul>
-<li>Second change: add authorization to <code>do_GET</code><ul>
-<li>Once again use our own exception class to handle unhappy cases</li>
-</ul>
-</li>
-</ul>
-<div class="language-py" title="bird_server_password.py">
-<div class="highlight"><pre><span></span><code>    <span class="k">def</span> <span class="nf">do_GET</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">authorize</span><span class="p">()</span>
-            <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">filter_data</span><span class="p">()</span>
-            <span class="n">as_json</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">to_json</span><span class="p">(</span><span class="n">orient</span><span class="o">=</span><span class="s2">&quot;records&quot;</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">send_content</span><span class="p">(</span><span class="n">as_json</span><span class="p">,</span> <span class="n">HTTPStatus</span><span class="o">.</span><span class="n">OK</span><span class="p">)</span>
-        <span class="k">except</span> <span class="n">ServerException</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">send_error</span><span class="p">(</span><span class="n">exc</span><span class="p">)</span>
-</code></pre></div>
-</div>
-<ul>
-<li>Add authorization that checks header value</li>
-</ul>
-<div class="language-py" title="bird_server_password.py">
-<div class="highlight"><pre><span></span><code>    <span class="k">def</span> <span class="nf">authorize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">expected</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">server</span><span class="o">.</span><span class="n">_password</span>
-        <span class="n">actual</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;Password&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">actual</span> <span class="o">!=</span> <span class="n">expected</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">ServerException</span><span class="p">(</span><span class="s2">&quot;incorrect or missing password&quot;</span><span class="p">,</span> <span class="n">HTTPStatus</span><span class="o">.</span><span class="n">FORBIDDEN</span><span class="p">)</span>
-</code></pre></div>
-</div>
-<ul>
-<li>Handle errors by constructing JSON</li>
-</ul>
-<div class="language-py" title="bird_server_password.py">
-<div class="highlight"><pre><span></span><code>    <span class="k">def</span> <span class="nf">send_error</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exc</span><span class="p">):</span>
-        <span class="n">content</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;status&quot;</span><span class="p">:</span> <span class="n">exc</span><span class="o">.</span><span class="n">_status</span><span class="p">,</span> <span class="s2">&quot;error_message&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">exc</span><span class="p">)}</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">send_content</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">content</span><span class="p">),</span> <span class="n">exc</span><span class="o">.</span><span class="n">_status</span><span class="p">)</span>
-</code></pre></div>
-</div>
-<ul>
-<li>It works but:<ul>
-<li>One password for everyone</li>
-<li>Sent as <a class="gl-ref" href="../glossary/#gl:cleartext" markdown="1">cleartext</a> over an unencrypted connection</li>
-</ul>
-</li>
-</ul>
-<h2>Basic Authentication</h2>
-<ul>
-<li>Modify <code>do_GET</code></li>
-</ul>
-<div class="language-py" title="bird_server_basicauth.py">
-<div class="highlight"><pre><span></span><code>    <span class="k">def</span> <span class="nf">do_GET</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">authorize</span><span class="p">()</span>
-            <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">filter_data</span><span class="p">()</span>
-            <span class="n">as_json</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">to_json</span><span class="p">(</span><span class="n">orient</span><span class="o">=</span><span class="s2">&quot;records&quot;</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">send_content</span><span class="p">(</span><span class="n">as_json</span><span class="p">,</span> <span class="n">HTTPStatus</span><span class="o">.</span><span class="n">OK</span><span class="p">)</span>
-        <span class="k">except</span> <span class="n">ServerException</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">send_error</span><span class="p">(</span><span class="n">exc</span><span class="p">)</span>
-</code></pre></div>
-</div>
-<ul>
-<li><a href="https://en.wikipedia.org/wiki/Basic_access_authentication">Basic HTTP authentication</a>:<ul>
-<li>Header called <code>"Authorization"</code></li>
-<li>Value is <code>Basic <em>data</em></code></li>
-<li>Data is <a class="gl-ref" href="../glossary/#gl:base64" markdown="1">base-64 encoded</a> <code><em>username</em>:<em>password</em></code></li>
-</ul>
-</li>
-<li>Most of the code is checking that everything is OK and responding properly if it&rsquo;s not</li>
-<li>Test client</li>
-</ul>
-<div class="language-py" title="bird_client_basicauth.py">
-<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">http</span> <span class="kn">import</span> <span class="n">HTTPStatus</span>
-<span class="kn">import</span> <span class="nn">requests</span>
-<span class="kn">from</span> <span class="nn">requests.auth</span> <span class="kn">import</span> <span class="n">HTTPBasicAuth</span>
-<span class="kn">import</span> <span class="nn">sys</span>
-
-<span class="n">URL</span> <span class="o">=</span> <span class="s2">&quot;http://localhost:8000?species=stejay&quot;</span>
-
-<span class="n">user</span><span class="p">,</span> <span class="n">password</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
-<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">URL</span><span class="p">,</span> <span class="n">auth</span><span class="o">=</span><span class="n">HTTPBasicAuth</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">password</span><span class="p">))</span>
-<span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="n">HTTPStatus</span><span class="o">.</span><span class="n">OK</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">())</span><span class="si">}</span><span class="s2"> records returned&quot;</span><span class="p">)</span>
-<span class="k">else</span><span class="p">:</span>
-    <span class="n">j</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">j</span><span class="p">[</span><span class="s1">&#39;status&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">j</span><span class="p">[</span><span class="s1">&#39;error_message&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-</code></pre></div>
-</div>
-<div class="language-sh" title="bird_client_basicauth_correct.sh">
-<div class="highlight"><pre><span></span><code>python<span class="w"> </span>src/bird_client_basicauth.py<span class="w"> </span>marlyn<span class="w"> </span>mumble
-</code></pre></div>
-</div>
-<h2>Changing the Root Directory</h2>
-<ul>
-<li>The <code>chroot</code> command<ul>
-<li>Changes the process&rsquo;s idea of the <a class="gl-ref" href="../glossary/#gl:root_directory" markdown="1">root directory</a></li>
-<li>Runs a command</li>
-</ul>
-</li>
-<li>But…</li>
-</ul>
-<div class="language-sh" title="chroot_example.sh">
-<div class="highlight"><pre><span></span><code>mkdir<span class="w"> </span>-p<span class="w"> </span>/tmp/filesystem
-chroot<span class="w"> </span>/tmp/filesystem<span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;it worked&quot;</span>
-</code></pre></div>
-</div>
-<div class="language-out" title="chroot_example.out">
-<div class="highlight"><pre><span></span><code>chroot: /tmp/filesystem: Operation not permitted
-</code></pre></div>
-</div>
-<ul>
-<li>Need special permission (discussed below)</li>
-<li>Everything needed to run <code>echo</code> and other commands needs to be in the new filesystem</li>
-<li>Only isolates the filesystem</li>
-</ul>
-<h2>sudo</h2>
-<ul>
-<li>Every machine has a <a class="gl-ref" href="../glossary/#gl:superuser" markdown="1">superuser</a> account called <a class="gl-ref" href="../glossary/#gl:root_user" markdown="1">root</a><ul>
-<li>Which has nothing to do with the root directory of the filesystem</li>
-</ul>
-</li>
-<li>Use <code>sudo</code> (&ldquo;superuser do&rdquo;) to change identity temporarily</li>
-</ul>
-<div class="language-sh" title="sudo_example.sh">
-<div class="highlight"><pre><span></span><code>mkdir<span class="w"> </span>-p<span class="w"> </span>/tmp/filesystem
-sudo<span class="w"> </span>chroot<span class="w"> </span>/tmp/filesystem<span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;it worked&quot;</span>
-</code></pre></div>
-</div>
-<div class="language-out" title="sudo_example.out">
-<div class="highlight"><pre><span></span><code>Password: ************
-chroot: echo: No such file or directory
-</code></pre></div>
-</div>
-<ul>
-<li>At least it&rsquo;s a different error message…</li>
-<li><code>sudo</code> is a way to give yourself permission to mess up everything on your computer</li>
-<li>So another requirement for virtual environments:
-    break them without breaking anything else</li>
+<li>And what if you want other people to be able to reproduce that environment?</li>
 </ul>
 <h2>Docker</h2>
 <ul>
-<li><a href="https://www.docker.com/">Docker</a> solves all of these problems</li>
+<li><a href="https://www.docker.com/">Docker</a> solves these problems (and others)</li>
 <li>Define an <a class="gl-ref" href="../glossary/#gl:docker_image" markdown="1">image</a> with its own copy of the operating system, filesystem, etc.</li>
 <li>Run it in a <a class="gl-ref" href="../glossary/#gl:docker_container" markdown="1">container</a> that is isolated from the rest of your computer</li>
 </ul>
@@ -337,9 +141,13 @@ chroot: echo: No such file or directory
 <div class="highlight"><pre><span></span><code>CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
 </code></pre></div>
 </div>
+<ul>
+<li>Because we haven&rsquo;t created or run anything yet</li>
+</ul>
 <h2 class="aside">Common Error Message</h2>
 <ul>
-<li>Docker requires a <a class="gl-ref" href="../glossary/#gl:daemon" markdown="1">daemon</a> process to be running in the background to start images</li>
+<li>Docker requires a <a class="gl-ref" href="../glossary/#gl:daemon" markdown="1">daemon</a> process
+    to be running in the background to start images</li>
 </ul>
 <div class="language-sh" title="docker_image_ls.sh">
 <div class="highlight"><pre><span></span><code>docker<span class="w"> </span>image<span class="w"> </span>ls
@@ -398,7 +206,7 @@ var
 </code></pre></div>
 </div>
 <ul>
-<li>Doesn&rsquo;t need to download again</li>
+<li>Docker doesn&rsquo;t need to download the image again (it&rsquo;s cached)</li>
 <li>Runs the given command instead of the default <code>/bin/bash</code></li>
 </ul>
 <h2 class="aside">This Doesn&rsquo;t Work</h2>
@@ -413,9 +221,12 @@ unable to start container process: \
 exec: &quot;echo hello&quot;: executable file not found in $PATH: unknown.
 </code></pre></div>
 </div>
+<ul>
+<li>There is no executable in the image&rsquo;s search path called <code>echo hello</code> (all one word)</li>
+</ul>
 <h2 class="aside">Pulling Images</h2>
 <ul>
-<li>Don&rsquo;t have to run immediately</li>
+<li>We don&rsquo;t have to run immediately</li>
 </ul>
 <div class="language-text" title="docker_pull.text">
 <div class="highlight"><pre><span></span><code>$ docker pull ubuntu:latest
@@ -508,7 +319,10 @@ CONTAINER ID   STATUS                                       |
 </div>
 <ul>
 <li><code>docker container ls</code> on its own shows a wide table</li>
-<li>Use <a href="https://go.dev/">Go</a> format strings to format output (no, really)</li>
+<li>Use <a href="https://go.dev/">Go</a> format strings to format output<ul>
+<li>Yes, really…</li>
+</ul>
+</li>
 </ul>
 <h2>Installing Software</h2>
 <div class="language-text" title="docker_install_python.text">
@@ -552,7 +366,7 @@ exit
 </div>
 <h2>Actually Installing Software</h2>
 <ul>
-<li>Create a Dockerfile<ul>
+<li>Create a <a class="gl-ref" href="../glossary/#gl:dockerfile" markdown="1">Dockerfile</a><ul>
 <li>Usually called that and in a directory of its own</li>
 <li>Ours is <code>src/ubuntu_python3/Dockerfile</code></li>
 </ul>
@@ -600,7 +414,8 @@ RUN apt install python3 -y
 </code></pre></div>
 </div>
 <ul>
-<li><code>CACHED</code> because we&rsquo;ve run this several times while building this tutorial</li>
+<li><code>CACHED</code> because we ran this several times
+    while building this tutorial</li>
 </ul>
 <div class="language-text" title="ubuntu_python3_run.text">
 <div class="highlight"><pre><span></span><code>$ docker container run -it gvwilson/ubuntu-python3
@@ -637,7 +452,7 @@ Build Cache     22        0         253.2MB   253.2MB
 </div>
 <ul>
 <li>First line (<code>Images</code>) shows actual disk space<ul>
-<li>We&rsquo;ll see the original <code>df</code> command again…</li>
+<li><code>df</code> because there&rsquo;s a Unix command with that name to show free disk space</li>
 </ul>
 </li>
 </ul>
@@ -682,10 +497,6 @@ CMD [&quot;python3&quot;, &quot;--version&quot;]
 Python 3.10.12
 </code></pre></div>
 </div>
-<h2 id="virt-exercises">Exercises</h2>
-<ol>
-<li>What is the <code>re.sub</code> call in the <code>faker</code> script doing and why?</li>
-</ol>
     </main>
     <footer>
   © 2024 <a href="https://third-bit.com/">Greg Wilson</a>

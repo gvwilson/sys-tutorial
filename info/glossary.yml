@@ -110,6 +110,12 @@
       A long-lived process managed by an operating system
       that provides a service such as printer management to other processes.
 
+- key: docker
+  en:
+    term: Docker
+    def: >
+      A tool for creating and managing isolated computing environments.
+
 - key: docker_container
   en:
     term: Docker container
@@ -120,8 +126,14 @@
   en:
     term: Docker image
     def: >
-      A package containing the software and supporting files
-      needed to run an application in isolation.
+      A package containing the software and supporting files [Docker](#docker) needs
+      to run an application in isolation.
+
+- key: dockerfile
+  en:
+    term: Dockerfile
+    def: >
+      The name usually given to a file containing commands to build a [Docker image](#docker_image).
 
 - key: dynamic_content
   en:
