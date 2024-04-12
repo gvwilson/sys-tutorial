@@ -3,6 +3,8 @@ title: "Authentication"
 tagline: "How to tell who someone is."
 ---
 
+-   See [%issue 16 %]
+
 ## What's the Magic Word?
 
 -   Only allow access to data if client:

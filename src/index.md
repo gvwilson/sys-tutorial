@@ -31,26 +31,9 @@
   </em>
 </p>
 
-## To Do
+## Help Wanted
 
--   Inspection and Monitoring
-    -   How can I find things on my system (`find | xargs` and alternatives)
-    -   How can I found out what kind of system I'm using (`uname`)
-    -   How can I view the computer's system log and what will I find there?
-    -   How can I see what's using a computer's processor, memory, disk, or network?
-    -   How can I see how long things take (`time`)?
-    -   How can I see what services are running (`systemctl` or `launchctl`)?
-
--   Filesystem
-    -   How can I specify what program to use to run a file?
-    -   How can I tell what kind of file a file is?
-    -   How are files and directories actually stored (i.e., what is an inode)?
-    -   How can I see how much disk space is in use (`df`, `du`)?
-    -   When is a file not a file (links and devices)?
-    -   How can I create a shortcut (link) for a file?
-
--   Networks
-    -   How can I check my network connection (ping, traceroute)?
-    -   What is an IP address?
-    -   How can I connect to another computer (ssh)?
-    -   How can I tell which ports are being used and by which processes?
+If you would like to help get this tutorial to a usable state,
+please see
+<a href="https://github.com/gvwilson/sys-tutorial/issues?q=is%3Aissue+is%3Aopen+label%3Ahelp-wanted">these issues</a>
+or <a href="mailto:gvwilson@third-bit.com">contact the maintainer</a>.
