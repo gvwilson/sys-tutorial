@@ -18,13 +18,18 @@
       Welcome, then, to a world in which the strange will become familiar, and the familiar, strange.
       Welcome, thrice welcome, to Unix systems programming.
     </p>
-    <p class="italic">
-      "[% config "title" %]" is a <a href="[% config "author.site" %]">Third Bit</a> production.
-    </p>
   </div>
 </div>
 
 [% toc %]
+
+<p>
+  <em>
+    "[% config "title" %]" is a <a href="[% config "author.site" %]">Third Bit</a> production.
+    You may also enjoy <a href="https://gvwilson.github.io/rsdx/">Research Software Design by Example</a>
+    and <a href="https://gvwilson.github.io/sql-tutorial/">The Querynomicon</a>.
+  </em>
+</p>
 
 ## To Do
 
