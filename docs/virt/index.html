@@ -50,7 +50,7 @@
 
       
       <p class="terms">Terms defined: 
-<a class="gl-ref" href="../glossary/#gl:cache" markdown="1">cache</a>, <a class="gl-ref" href="../glossary/#gl:daemon" markdown="1">daemon</a>, <a class="gl-ref" href="../glossary/#gl:docker_container" markdown="1">Docker container</a>, <a class="gl-ref" href="../glossary/#gl:docker_image" markdown="1">Docker image</a>, <a class="gl-ref" href="../glossary/#gl:docker_layer" markdown="1">layer (of Docker image)</a>, <a class="gl-ref" href="../glossary/#gl:docker_tag" markdown="1">tag (a Docker image)</a>, <a class="gl-ref" href="../glossary/#gl:dockerfile" markdown="1">Dockerfile</a>, <a class="gl-ref" href="../glossary/#gl:virtual_env" markdown="1">virtual environment</a>
+<a class="gl-ref" href="../glossary/#gl:cache" markdown="1">cache</a>, <a class="gl-ref" href="../glossary/#gl:daemon" markdown="1">daemon</a>, <a class="gl-ref" href="../glossary/#gl:docker_container" markdown="1">Docker container</a>, <a class="gl-ref" href="../glossary/#gl:docker_image" markdown="1">Docker image</a>, <a class="gl-ref" href="../glossary/#gl:docker_layer" markdown="1">layer (of Docker image)</a>, <a class="gl-ref" href="../glossary/#gl:docker_tag" markdown="1">tag (a Docker image)</a>, <a class="gl-ref" href="../glossary/#gl:dockerfile" markdown="1">Dockerfile</a>, <a class="gl-ref" href="../glossary/#gl:mount" markdown="1">mount</a>, <a class="gl-ref" href="../glossary/#gl:virtual_env" markdown="1">virtual environment</a>
 </p>
       <h2>Virtual Environments</h2>
 <ul>
@@ -524,11 +524,93 @@ $
 </div>
 <h2>Copying Files Into Images</h2>
 <ul>
-<li><p class="fixme">FIXME: copying files into Docker image</p></li>
+<li>Create a new directory <code>python3-script</code> and add this file</li>
 </ul>
+<div class="language-py" title="python3-script/proof.py">
+<div class="highlight"><pre><span></span><code><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;proof that the script was copied&quot;</span><span class="p">)</span>
+</code></pre></div>
+</div>
+<ul>
+<li>Modify the Docker file to copy it into the image</li>
+</ul>
+<div class="language-" title="python3-script/Dockerfile">
+<div class="highlight"><pre><span></span><code>FROM ubuntu:latest
+
+RUN apt update
+RUN apt install python3 -y
+
+COPY proof.py /home
+
+CMD [&quot;python3&quot;, &quot;/home/proof.py&quot;]
+</code></pre></div>
+</div>
+<ul>
+<li>Build and run</li>
+</ul>
+<div class="language-text" title="python3_script_run.text">
+<div class="highlight"><pre><span></span><code>$ docker build -t gvwilson/python3-script python3-script
+…output…
+
+$ docker container run gvwilson/python3-script
+proof that the script was copied
+</code></pre></div>
+</div>
+<h2 class="aside">Order Matters</h2>
+<ul>
+<li><code>docker build</code> executes Dockerfile commands in order</li>
+<li>Caches each layer</li>
+<li>So put things that change more frequently (like your scripts)
+    <em>after</em> things that change less frequently (like Linux and Python)</li>
+</ul>
+<h2 class="exercise">Exericse</h2>
+<ol>
+<li>
+<p>Create a Dockerfile that installs Git
+    and uses it to clone a repository containing a Python script
+    as the image is being built,
+    then runs that Python script by default.</p>
+</li>
+<li>
+<p>What is the difference between <code>CMD</code> and <code>ENTRYPOINT</code> in Dockerfiles?
+    When would you use the latter instead of the former?</p>
+</li>
+</ol>
 <h2>Sharing Files</h2>
 <ul>
-<li><p class="fixme">FIXME: explain mounts</p></li>
+<li>Containers exist to provide isolation…</li>
+<li>…but sometimes we <em>want</em> interaction with external resources</li>
+</ul>
+<div class="language-text" title="mount_temp.text">
+<div class="highlight"><pre><span></span><code>$ mkdir -p /tmp/mount_example
+
+$ echo &quot;proof that mounting works&quot; &gt; /tmp/mount_example/test.txt
+
+$ docker container run -it --mount type=bind,source=/tmp/mount_example,target=/example ubuntu
+
+# ls /example
+test.txt
+
+# cat /example/test.txt
+proof that mounting works
+
+# cp /example/test.txt /example/copied.txt
+
+# exit
+
+$ ls /tmp/mount_example/
+copied.txt  test.txt
+</code></pre></div>
+</div>
+<ul>
+<li>To <a class="gl-ref" href="../glossary/#gl:mount" markdown="1">mount</a> a storage device is to make its contents available
+    at some location in the filesystem</li>
+<li>Use <code>--mount</code> to tell Docker to make a directory of the host filesystem available
+    inside the container<ul>
+<li><code>type=bind</code>: there are other options (e.g., <code>type=volume</code>)</li>
+<li><code>source=/tmp/mount_example</code>: host filesystem</li>
+<li><code>target=/example</code>: where the directory appears in the container</li>
+</ul>
+</li>
 </ul>
 <h2>Environment Variables</h2>
 <ul>

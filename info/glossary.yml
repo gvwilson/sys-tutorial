@@ -300,6 +300,12 @@
       A standard that defines types of file content,
       such as `text/plain` for plain text and `image/jpeg` for JPEG images.
 
+- key: mount
+  en:
+    term: mount
+    def: >
+      FIXME
+
 # N
 
 - key: name_collision

@@ -196,11 +196,49 @@ What is the `re.sub` call in the `faker` script doing and why?
 
 ## Copying Files Into Images
 
--   [%fixme "copying files into Docker image" %]
+-   Create a new directory `python3-script` and add this file
+
+[%inc python3-script/proof.py %]
+
+-   Modify the Docker file to copy it into the image
+
+[%inc python3-script/Dockerfile %]
+
+-   Build and run
+
+[%inc python3_script_run.text %]
+
+## Order Matters {: .aside}
+
+-   `docker build` executes Dockerfile commands in order
+-   Caches each layer
+-   So put things that change more frequently (like your scripts)
+    *after* things that change less frequently (like Linux and Python)
+
+## Exericse {: .exercise}
+
+1.  Create a Dockerfile that installs Git
+    and uses it to clone a repository containing a Python script
+    as the image is being built,
+    then runs that Python script by default.
+
+1.  What is the difference between `CMD` and `ENTRYPOINT` in Dockerfiles?
+    When would you use the latter instead of the former?
 
 ## Sharing Files
 
--   [%fixme "explain mounts" %]
+-   Containers exist to provide isolation…
+-   …but sometimes we *want* interaction with external resources
+
+[%inc mount_temp.text %]
+
+-   To [%g mount "mount" %] a storage device is to make its contents available
+    at some location in the filesystem
+-   Use `--mount` to tell Docker to make a directory of the host filesystem available
+    inside the container
+    -   `type=bind`: there are other options (e.g., `type=volume`)
+    -   `source=/tmp/mount_example`: host filesystem
+    -   `target=/example`: where the directory appears in the container
 
 ## Environment Variables
 

@@ -1,0 +1,5 @@
+$ docker build -t gvwilson/python3-script python3-script
+…output…
+
+$ docker container run gvwilson/python3-script
+proof that the script was copied

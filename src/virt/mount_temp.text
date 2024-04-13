@@ -1,0 +1,18 @@
+$ mkdir -p /tmp/mount_example
+
+$ echo "proof that mounting works" > /tmp/mount_example/test.txt
+
+$ docker container run -it --mount type=bind,source=/tmp/mount_example,target=/example ubuntu
+
+# ls /example
+test.txt
+
+# cat /example/test.txt
+proof that mounting works
+
+# cp /example/test.txt /example/copied.txt
+
+# exit
+
+$ ls /tmp/mount_example/
+copied.txt	test.txt
