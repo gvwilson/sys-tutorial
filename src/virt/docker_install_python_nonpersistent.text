@@ -1,9 +1,9 @@
-# ^D
+# exit
 exit
 
 $ docker run -it ubuntu
 
 # which python
 
-# ^D
+# exit
 exit

@@ -1,0 +1,7 @@
+$ docker container run -it gvwilson/python3-interactive
+Python 3.10.12 (main, Nov 20 2023, 15:14:05) [GCC 11.4.0] on linux
+Type "help", "copyright", "credits" or "license" for more information.
+>>> print("hello")
+hello
+>>> exit()
+$ 

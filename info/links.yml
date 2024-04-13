@@ -1,5 +1,9 @@
 # A
 
+- key: "apt"
+  url: "https://en.wikipedia.org/wiki/APT_(software)"
+  title: "apt (Advanced Package Tool)"
+
 - key: "ark"
   url: "https://www.dmulholl.com/docs/ark/main/"
   title: "Ark static site generator"

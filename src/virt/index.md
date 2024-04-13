@@ -121,15 +121,18 @@ What is the `re.sub` call in the `faker` script doing and why?
 [%inc docker_container_ls_id.text %]
 
 -   `docker container ls` on its own shows a wide table
--   Use [Go][golang] format strings to format output
+-   The command uses [Go][golang] format strings for output
     -   Yes, really…
 
 ## Installing Software
 
+-   Use [apt][apt] (Advanced Package Tool)
+
 [%inc docker_install_python.text %]
 
 -   `apt update` to update available package lists
--   `apt install` to install the desired package
+-   `apt install -y` to install the desired package
+    -   `-y` to answer "yes" to prompts
     -   Installs lots of dependencies as well
 -   Doesn't create `python` (note lack of output)
 -   Creates `python3` instead
@@ -142,16 +145,15 @@ What is the `re.sub` call in the `faker` script doing and why?
 
 -   Create a [%g dockerfile "Dockerfile" %]
     -   Usually called that and in a directory of its own
-    -   Ours is `src/ubuntu_python3/Dockerfile`
+    -   Ours is `ubuntu-python3/Dockerfile`
 
-[%inc ubuntu_python3/Dockerfile %]
+[%inc ubuntu-python3/Dockerfile %]
 
 -   Tell docker to build the image
 
 [%inc ubuntu_python3_build.text %]
 
--   `CACHED` because we ran this several times
-    while building this tutorial
+-   Use `-t gvwilson/python3` to [%g "docker_tag" tag %] the image
 
 [%inc ubuntu_python3_run.text %]
 
@@ -159,28 +161,48 @@ What is the `re.sub` call in the `faker` script doing and why?
 
 [%inc docker_image_history.text %]
 
--   Docker images are built in layers
+-   Docker images are built in [%g docker_layer "layers" %]
 -   Layers can be shared between images to reduce disk space
 
 [%inc docker_system_df.text %]
 
 -   First line (`Images`) shows actual disk space
-    -   `df` because there's a Unix command with that name to show free disk space
+-   The name `df` comes from a Unix command with that name to show free disk space
 
 ## Choosing a Command
 
--   Add `CMD` with a list of arguments to specify default command when image runs
+-   Add `CMD` with a list of arguments to specify default command to execute when image runs
 
-[%inc python3_interpreter/Dockerfile %]
+[%inc python3-version/Dockerfile %]
 
 -   Build
 
-[%inc python3_interpreter_build.text %]
+[%inc python3_version_build.text %]
 
 -   Run
 
-[%inc python3_interpreter_run.text %]
+[%inc python3_version_run.text %]
 
-## To Do
+-   But that's all we get, because all we asked for was the version
+-   So build a new image `gvwilson/python3-interactive` with this Dockerfile
+    -   Use `-i` to put Python in interactive mode
 
--   Managing secrets (also shows up in authentication)
+[%inc python3-interactive/Dockerfile %]
+
+-   Run it like this
+    -   Use `-it` to connect standard input and output to container when it runs
+
+[%inc python3_interactive_run.text %]
+
+## Copying Files Into Images
+
+-   [%fixme "copying files into Docker image" %]
+
+## Sharing Files
+
+-   [%fixme "explain mounts" %]
+
+## Environment Variables
+
+-   Used to manage secrets
+-   [%fixme "explain environment variables in Docker" %]

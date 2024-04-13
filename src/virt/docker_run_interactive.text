@@ -5,6 +5,6 @@ root@4238b3b51abd:/# whoami
 root
 root@4238b3b51abd:/# ls
 bin  boot  dev  etc  home  lib  media  mnt  opt  proc  root  run  sbin  srv  sys  tmp  usr  var
-root@4238b3b51abd:/# ^D
+root@4238b3b51abd:/# exit
 exit
 $

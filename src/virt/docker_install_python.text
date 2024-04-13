@@ -1,7 +1,9 @@
+$ docker container run -it ubuntu
+
 # apt update
 …lots of output…
 
-# apt install python3
+# apt install -y python3
 …lots of output…
 
 # which python

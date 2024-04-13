@@ -129,6 +129,18 @@
       A package containing the software and supporting files [Docker](#docker) needs
       to run an application in isolation.
 
+- key: docker_layer
+  en:
+    term: layer (of Docker image)
+    def: >
+      FIXME
+
+- key: docker_tag
+  en:
+    term: tag (a Docker image)
+    def: >
+      FIXME
+
 - key: dockerfile
   en:
     term: Dockerfile
