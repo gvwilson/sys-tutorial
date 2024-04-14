@@ -1,0 +1,8 @@
+$ docker container run gvwilson/ubuntu-env-var-succeeds
+variable is ''
+
+$ ECHO_VAR='it worked' docker container run gvwilson/ubuntu-env-var-succeeds
+variable is ''
+
+$ ECHO_VAR='it worked' docker container run -e ECHO_VAR gvwilson/ubuntu-env-var-succeeds
+variable is 'it worked'

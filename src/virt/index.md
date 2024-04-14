@@ -124,6 +124,20 @@ What is the `re.sub` call in the `faker` script doing and why?
 -   The command uses [Go][golang] format strings for output
     -   Yes, really…
 
+## IDs Only
+
+[%inc docker_container_ids_only.text %]
+
+-   `-a`: all
+-   `-q`: quiet
+-   So `docker container rm  -f $(docker container ls -a -q)` gets rid of everything
+
+## Filtering
+
+[%inc docker_image_ls_filter.text %]
+
+-   There are a *lot* of Docker commands…
+
 ## Installing Software
 
 -   Use [apt][apt] (Advanced Package Tool)
@@ -156,6 +170,10 @@ What is the `re.sub` call in the `faker` script doing and why?
 -   Use `-t gvwilson/python3` to [%g "docker_tag" tag %] the image
 
 [%inc ubuntu_python3_run.text %]
+
+## Inspecting Containers
+
+[%inc ubuntu_python3_inspect.text %]
 
 ## Layers
 
@@ -242,5 +260,41 @@ What is the `re.sub` call in the `faker` script doing and why?
 
 ## Environment Variables
 
--   Used to manage secrets
--   [%fixme "explain environment variables in Docker" %]
+-   Do *not* put passwords in Dockerfiles [%x auth %]
+-   Common instead to pass them via environment variables
+    -   Which can also be used for things like server addresses
+-   Build this image
+
+[%inc ubuntu-env-var-fails/Dockerfile %]
+
+-   Run it
+
+[%inc ubuntu_env_var_fails.text %]
+
+-   `CMD` takes the string literally
+-   So try this:
+
+[%inc ubuntu-env-var-succeeds/show_var.sh %]
+[%inc ubuntu-env-var-succeeds/Dockerfile %]
+[%inc ubuntu_env_var_succeeds.text %]
+
+-   First time: not setting the variable
+-   Second time: not telling Docker to pass that environment variable to the container
+-   Third time: got it right
+
+## Environment Files
+
+-   Often define environment variables in a file and tell Docker to use that
+    -   Which means you now have to figure out how to manage a file full of secrets…
+
+[%inc set_echo_var.env %]
+[%inc run_with_env_file.text %]
+
+-   Note the lack of quotes around the variable definition in the `.env` file
+
+## Keeping Containers Running
+
+[%inc docker_exited.text %]
+
+-   Container only runs as long as its starting process runs
+-   But container itself sticks around until removed

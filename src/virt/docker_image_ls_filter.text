@@ -1,0 +1,3 @@
+$ docker image ls --filter reference="ubuntu"
+REPOSITORY   TAG       IMAGE ID       CREATED       SIZE
+ubuntu       latest    2b7cc08dcdbb   6 weeks ago   69.2MB

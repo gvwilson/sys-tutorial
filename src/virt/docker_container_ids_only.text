@@ -1,0 +1,6 @@
+$ docker container ls -a -q
+22b7c4109157
+8640cfb5e07a
+4c1ffdcb1c88
+37f30320bc8b
+fa9f02841fe9

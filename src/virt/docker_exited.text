@@ -1,0 +1,6 @@
+docker container ls -a --format "table {{.ID}}\t{{.Status}}" | head -n 5
+CONTAINER ID   STATUS
+56d9f83286f9   Exited (0) 3 minutes ago
+3a48286cb202   Exited (0) 7 minutes ago
+24e164d06d47   Exited (0) 5 hours ago
+6e44181432fd   Exited (0) 5 hours ago

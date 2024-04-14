@@ -1,0 +1,2 @@
+$ docker container run --env-file ./set_echo_var.env gvwilson/ubuntu-env-var-succeeds
+variable is 'this is set in a .env file'

@@ -1,0 +1,2 @@
+$ ECHO_VAR=some_string docker container run gvwilson/ubuntu-env-var
+variable is '${ECHO_VAR}'
