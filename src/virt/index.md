@@ -292,9 +292,41 @@ What is the `re.sub` call in the `faker` script doing and why?
 
 -   Note the lack of quotes around the variable definition in the `.env` file
 
-## Keeping Containers Running
+## Long-Running Containers
 
 [%inc docker_exited.text %]
 
 -   Container only runs as long as its starting process runs
 -   But container itself sticks around until removed
+
+## Long-Lived Service
+
+-   Print a count and the time every second
+    -   The `expr` command is rather useful
+
+[%inc count-time/count_time.sh %]
+
+-   Create a Dockerfile
+
+[%inc count-time/Dockerfile %]
+
+-   Build and run as usual
+
+[%inc count_time_first.text %]
+
+-   Cannot stop it with Ctrl-C
+-   Cannot background it with Ctrl-Z
+-   Only way to stop it is `docker ps` to find ID and then `docker kill`
+    -   Note: only have to give the first few digits of ID to `docker kill`
+
+[%inc count_time_stop.text %]
+
+## A Better Way
+
+[%inc count_time_detach.text %]
+
+-   Use `--detach` to detach the container from the terminal that launched it
+-   Use `docker container stop` to shut things down gracefully
+-   Inspect output after the fact (or while the container is running) with `docker logs`
+
+[%inc count_time_logs.text %]

@@ -1,0 +1,5 @@
+$ docker ps
+CONTAINER ID   IMAGE                 COMMAND                 CREATED         STATUS
+741d896e4bb3   gvwilson/count-time   "/home/count_time.sh"   7 seconds ago   Up 6 seconds
+
+$ docker kill 741d

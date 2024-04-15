@@ -717,7 +717,7 @@ variable is &#39;this is set in a .env file&#39;
 <ul>
 <li>Note the lack of quotes around the variable definition in the <code>.env</code> file</li>
 </ul>
-<h2>Keeping Containers Running</h2>
+<h2>Long-Running Containers</h2>
 <div class="language-text" title="docker_exited.text">
 <div class="highlight"><pre><span></span><code>docker container ls -a --format &quot;table {{.ID}}\t{{.Status}}&quot; | head -n 5
 CONTAINER ID   STATUS
@@ -731,6 +731,92 @@ CONTAINER ID   STATUS
 <li>Container only runs as long as its starting process runs</li>
 <li>But container itself sticks around until removed</li>
 </ul>
+<h2>Long-Lived Service</h2>
+<ul>
+<li>Print a count and the time every second<ul>
+<li>The <code>expr</code> command is rather useful</li>
+</ul>
+</li>
+</ul>
+<div class="language-sh" title="count-time/count_time.sh">
+<div class="highlight"><pre><span></span><code><span class="ch">#!/usr/bin/env bash</span>
+<span class="nv">COUNTER</span><span class="o">=</span><span class="m">1</span>
+<span class="k">while</span><span class="w"> </span><span class="nb">true</span>
+<span class="k">do</span>
+<span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="nv">$COUNTER</span><span class="w"> </span><span class="k">$(</span>date<span class="w"> </span><span class="s2">&quot;+%H:%M:%S&quot;</span><span class="k">)</span>
+<span class="w">    </span><span class="nv">COUNTER</span><span class="o">=</span><span class="k">$(</span>expr<span class="w"> </span><span class="nv">$COUNTER</span><span class="w"> </span>+<span class="w"> </span><span class="m">1</span><span class="k">)</span>
+<span class="w">    </span>sleep<span class="w"> </span><span class="m">1</span>
+<span class="k">done</span>
+</code></pre></div>
+</div>
+<ul>
+<li>Create a Dockerfile</li>
+</ul>
+<div class="language-" title="count-time/Dockerfile">
+<div class="highlight"><pre><span></span><code>FROM ubuntu:latest
+
+COPY count_time.sh /home
+CMD [&quot;/home/count_time.sh&quot;]
+</code></pre></div>
+</div>
+<ul>
+<li>Build and run as usual</li>
+</ul>
+<div class="language-text" title="count_time_first.text">
+<div class="highlight"><pre><span></span><code>$ docker container run gvwilson/count-time
+1 18:38:10
+2 18:38:11
+3 18:38:12
+4 18:38:13
+…and so on…
+</code></pre></div>
+</div>
+<ul>
+<li>Cannot stop it with Ctrl-C</li>
+<li>Cannot background it with Ctrl-Z</li>
+<li>Only way to stop it is <code>docker ps</code> to find ID and then <code>docker kill</code><ul>
+<li>Note: only have to give the first few digits of ID to <code>docker kill</code></li>
+</ul>
+</li>
+</ul>
+<div class="language-text" title="count_time_stop.text">
+<div class="highlight"><pre><span></span><code>$ docker ps
+CONTAINER ID   IMAGE                 COMMAND                 CREATED         STATUS
+741d896e4bb3   gvwilson/count-time   &quot;/home/count_time.sh&quot;   7 seconds ago   Up 6 seconds
+
+$ docker kill 741d
+</code></pre></div>
+</div>
+<h2>A Better Way</h2>
+<div class="language-text" title="count_time_detach.text">
+<div class="highlight"><pre><span></span><code>$ docker container run --detach gvwilson/count-time
+54c8c682a94a3853c62e2f86c19d463428a01452ed7e5cf85b076dcc0f447474
+
+$ docker ps
+CONTAINER ID   IMAGE                 COMMAND                 CREATED          STATUS
+54c8c682a94a   gvwilson/count-time   &quot;/home/count_time.sh&quot;   12 seconds ago   Up 11 seconds
+
+$ docker container stop 54c8
+…wait a few seconds…
+
+$
+</code></pre></div>
+</div>
+<ul>
+<li>Use <code>--detach</code> to detach the container from the terminal that launched it</li>
+<li>Use <code>docker container stop</code> to shut things down gracefully</li>
+<li>Inspect output after the fact (or while the container is running) with <code>docker logs</code></li>
+</ul>
+<div class="language-text" title="count_time_logs.text">
+<div class="highlight"><pre><span></span><code>$ docker logs 54c8
+1 18:42:44
+2 18:42:45
+3 18:42:46
+4 18:42:47
+5 18:42:48
+…more output…
+</code></pre></div>
+</div>
     </main>
     <footer>
   © 2024 <a href="https://third-bit.com/">Greg Wilson</a>

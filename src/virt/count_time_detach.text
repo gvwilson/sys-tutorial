@@ -1,0 +1,11 @@
+$ docker container run --detach gvwilson/count-time
+54c8c682a94a3853c62e2f86c19d463428a01452ed7e5cf85b076dcc0f447474
+
+$ docker ps
+CONTAINER ID   IMAGE                 COMMAND                 CREATED          STATUS
+54c8c682a94a   gvwilson/count-time   "/home/count_time.sh"   12 seconds ago   Up 11 seconds
+
+$ docker container stop 54c8
+…wait a few seconds…
+
+$

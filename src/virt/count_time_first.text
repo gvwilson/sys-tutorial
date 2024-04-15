@@ -1,0 +1,6 @@
+$ docker container run gvwilson/count-time
+1 18:38:10
+2 18:38:11
+3 18:38:12
+4 18:38:13
+…and so on…
