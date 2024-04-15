@@ -280,10 +280,6 @@ Do you think making code easier to understand also makes it safer?
 
 [%inc bird_server_slice.py mark=filter %]
 
-## To Do
-
--   `ftp`, `sftp`, `rsync`, and the like (?)
-
 ## Exercise {: .exercise}
 
 1.  Write a function that takes a URL as input
