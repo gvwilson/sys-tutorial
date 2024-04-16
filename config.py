@@ -65,20 +65,6 @@ markdown_settings = {
     ]
 }
 
-# ----------------------------------------------------------------------
-
+# Show theme.
 if __name__ == "__main__":
-    import sys
-    USAGE = "usage: config.py [lang]"
-    status = 0
-    if len(sys.argv) == 1:
-        print(USAGE, file=sys.stderr)
-    elif len(sys.argv) != 2:
-        print(USAGE, file=sys.stderr)
-        status = 1
-    elif sys.argv[1] == "lang":
-        print(lang)
-    else:
-        print(USAGE, file=sys.stderr)
-        status = 1
-    sys.exit(status)
+    print(theme)
