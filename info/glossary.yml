@@ -33,12 +33,24 @@
       To disconnect a [process](#process) from the terminal but keep it
       running.
 
+- key: ball_and_stick
+  en:
+    term: ball-and-stick model
+    def: >
+      FIXME
+
 - key: base64
   en:
     term: base64 encoding
     def: >
       A representation of binary data that represents each group of 6 bits
       as one of 64 printable characters.
+
+- key: block_filesystem
+  en:
+    term: "block (in filesystem)"
+    def: >
+      FIXME
 
 - key: buffer_noun
   en:
@@ -262,6 +274,12 @@
 
 # I
 
+- key: inode
+  en:
+    term: inode
+    def: >
+      FIXME
+
 # J
 
 - key: json
@@ -276,6 +294,18 @@
 # K
 
 # L
+
+- key: link_hard
+  en:
+    term: hard link (in filesystem)
+    def: >
+      FIXME
+
+- key: link_sym
+  en:
+    term: symbolic link (in filesystem)
+    def: >
+      FIXME
 
 - key: local_server
   en:

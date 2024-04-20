@@ -49,22 +49,24 @@
 
 
       
-      
+      <p class="terms">Terms defined: 
+<a class="gl-ref" href="../glossary/#gl:ball_and_stick" markdown="1">ball-and-stick model</a>, <a class="gl-ref" href="../glossary/#gl:block_filesystem" markdown="1">block (in filesystem)</a>, <a class="gl-ref" href="../glossary/#gl:filesystem" markdown="1">filesystem</a>, <a class="gl-ref" href="../glossary/#gl:inode" markdown="1">inode</a>, <a class="gl-ref" href="../glossary/#gl:link_hard" markdown="1">hard link (in filesystem)</a>, <a class="gl-ref" href="../glossary/#gl:root_directory" markdown="1">root directory</a>
+</p>
       <ul>
 <li><a href="https://github.com/gvwilson/sys-tutorial/issues/19" class="issue">Issue 19</a></li>
 </ul>
 <h2 id="fs-filesystem">What is a Filesystem?</h2>
 <ul>
-<li>Ball-and-stick model<ul>
+<li><a class="gl-ref" href="../glossary/#gl:ball_and_stick" markdown="1">Ball-and-stick model</a><ul>
 <li>Computer&rsquo;s hard drive has files and directories</li>
 <li>Directories can contain other directories but don&rsquo;t contain data</li>
 <li>Files contain data but can&rsquo;t contain other files (or directories)</li>
-<li>Everything forms a tree under the root directory <code>/</code></li>
+<li>Everything forms a tree under the <a class="gl-ref" href="../glossary/#gl:root_directory" markdown="1">root directory</a> <code>/</code></li>
 </ul>
 </li>
 <li>More accurate model<ul>
-<li>Computer may have many storage devices, each with its own filesystem</li>
-<li>Each file is made up of one or more fixed-size blocks</li>
+<li>Computer may have many storage devices, each with its own <a class="gl-ref" href="../glossary/#gl:filesystem" markdown="1">filesystem</a></li>
+<li>Each file is made up of one or more fixed-size <a class="gl-ref" href="../glossary/#gl:block_filesystem" markdown="1">blocks</a></li>
 <li>The filesystem keeps track of which blocks belong to which files<ul>
 <li>Adds or recycles blocks as necessary</li>
 </ul>
@@ -76,9 +78,9 @@
 </ul>
 </li>
 </ul>
-<h2 id="fs-know">What Does the Filesystem Know About a File:</h2>
+<h2 id="fs-know">What Does the Filesystem Know?</h2>
 <ul>
-<li>Command flags:<ul>
+<li><code>ls</code> command flags:<ul>
 <li><code>-a</code>: show directories whose names begin with <code>.</code></li>
 <li><code>-i</code>: show inode numbers</li>
 <li><code>-l</code>: long form (i.e., include several pieces of information)</li>
@@ -98,7 +100,7 @@
 </code></pre></div>
 </div>
 <ul>
-<li>It&rsquo;s a shame there&rsquo;s no option for column titles, but we can add them (<a class="tbl-ref" href="../fs/#ls_long_tmp">Table&nbsp;2.1</a>)</li>
+<li>It&rsquo;s a shame there&rsquo;s no option for column titles, but we can add them manually (<a class="tbl-ref" href="../fs/#ls_long_tmp">Table&nbsp;2.1</a>)</li>
 </ul>
 <table id="ls_long_tmp"><caption>Table&nbsp;2.1: Annotated Output of <code>ls</code></caption>
 <thead>
@@ -150,6 +152,49 @@
 </tr>
 </tbody>
 </table>
+
+<ul>
+<li>The <a class="gl-ref" href="../glossary/#gl:inode" markdown="1">inode</a> stores attributes and IDs of disk blocks<ul>
+<li>No-one is sure any longer what the &ldquo;i&rdquo; stands for</li>
+<li>Each inode has a unique ID that stays the same despite renaming</li>
+<li>Design pattern: always generate and manage your own IDs</li>
+</ul>
+</li>
+<li>Number of blocks<ul>
+<li>Each block is typically 4kbyte, but that may vary</li>
+<li><p class="fixme">FIXME: why 8 blocks for bibliography which is only 174 bytes?</p></li>
+</ul>
+</li>
+<li>Will discuss permissions <a href="#fs-perm">later</a></li>
+<li>Number of <a class="gl-ref" href="../glossary/#gl:link_hard" markdown="1">hard links</a><ul>
+<li>I.e., the number of things that point to this file or directory</li>
+<li><a href="#fs-link-hard">Discussed below</a></li>
+</ul>
+</li>
+<li>Names of user and group that own the file or directory<ul>
+<li><a href="#fs-uid-gid">Discussed below</a></li>
+</ul>
+</li>
+<li>Size in bytes (i.e., what <code>wc -c</code> reports)</li>
+<li>Finally the name</li>
+<li>So now we have a bunch of concepts to explain</li>
+</ul>
+<h2 id="fs-uid-gid">What Are User and Group IDs?</h2>
+<p class="fixme">FIXME: explain user IDs and group IDs</p>
+
+<p class="fixme">FIXME: explain difference between IDs and names</p>
+
+<h2 id="fs-perm">How Are Permissions Represented?</h2>
+<p class="fixme">FIXME: explain Unix permission model</p>
+
+<h2 id="fs-link-hard">What is a Hard Link?</h2>
+<p class="fixme">FIXME: explain hard links</p>
+
+<h2 id="fs-link-sym">What is a Symbolic Link?</h2>
+<p class="fixme">FIXME: explain symbolic links</p>
+
+<h2>To Do</h2>
+<p class="fixme">FIXME: how to determine block size</p>
     </main>
     <footer>
   © 2024 <a href="https://third-bit.com/">Greg Wilson</a>
