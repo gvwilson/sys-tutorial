@@ -106,11 +106,8 @@ def _collect_shortcodes_index(pargs, kwargs, extra):
 
 def _collect_shortcodes_tables(pargs, kwargs, extra):
     """Collect data from a table shortcode."""
-    util.require(
-        "slug" in kwargs,
-        f"Bad 'table' in {extra['filename']}: '{pargs}' and '{kwargs}'",
-    )
-    extra["tables"].append(kwargs["slug"])
+    slug = util.get_table_slug(kwargs, extra["filename"])
+    extra["tables"].append(slug)
 
 
 def _collect_shortcodes_visitor(node, parser, collector):

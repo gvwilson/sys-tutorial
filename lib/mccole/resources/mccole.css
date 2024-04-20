@@ -264,6 +264,7 @@ span.ix-entry {
 /* Tables */
 table {
     border-collapse: collapse;
+    caption-side: bottom;
     margin-left: auto;
     margin-right: auto;
 }

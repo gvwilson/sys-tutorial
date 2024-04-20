@@ -1,0 +1,5 @@
+| inode    | blocks | permissions | links | owner | group | bytes | date         | name              |
+| -------- | ------ | ----------- | ----- | ----- | ----- | ----- | ------------ | ----------------- |
+| 99138261 | 0      | drwxr-xr-x  |     3 | tut   | staff |    96 | Apr 20 07:50 | ./                |
+| 94560701 | 0      | drwxr-xr-x  |    22 | tut   | staff |   704 | Apr 20 07:53 | ../               |
+| 99138262 | 8      | -rw-r--r--  |     1 | tut   | staff |   174 | Apr 20 07:50 | bibliography.html |

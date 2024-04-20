@@ -107,7 +107,7 @@ ${TMP_BIB}: ${INFO_BIB}
 lint:
 	@python ${THEME_BIN}/lint.py \
 	--dom ${ROOT}/lib/mccole/dom.yml \
-	--html ${DOCS_PAGES} \
+	--htmldir ${ROOT}/docs \
 	--root ${ROOT}
 	@python ${THEME_BIN}/lint_svg.py \
 	--width ${SVG_WIDTH} \

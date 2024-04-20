@@ -37,24 +37,119 @@
       
 <nav class="row-always notex">
   <div class="col-1 left">
-    <a href="../auth/" title="previous" class="undecorated">&#8678;</a>
+    <a href="../intro/" title="previous" class="undecorated">&#8678;</a>
   </div>
   <div class="col-10 center">
     <a href="../" title="home" class="undecorated">&#9737;</a>
   </div>
   <div class="col-1 right">
-    <a href="../access/" title="next" class="undecorated">&#8680;</a>
+    <a href="../finale/" title="next" class="undecorated">&#8680;</a>
   </div>
 </nav>
 
 
       
       
-      <p class="fixme">FIXME: describe filesystem and tools</p>
-
-<ul>
-<li>See <a href="https://github.com/gvwilson/sys-tutorial/issues/19" class="issue">Issue 19</a></li>
+      <ul>
+<li><a href="https://github.com/gvwilson/sys-tutorial/issues/19" class="issue">Issue 19</a></li>
 </ul>
+<h2 id="fs-filesystem">What is a Filesystem?</h2>
+<ul>
+<li>Ball-and-stick model<ul>
+<li>Computer&rsquo;s hard drive has files and directories</li>
+<li>Directories can contain other directories but don&rsquo;t contain data</li>
+<li>Files contain data but can&rsquo;t contain other files (or directories)</li>
+<li>Everything forms a tree under the root directory <code>/</code></li>
+</ul>
+</li>
+<li>More accurate model<ul>
+<li>Computer may have many storage devices, each with its own filesystem</li>
+<li>Each file is made up of one or more fixed-size blocks</li>
+<li>The filesystem keeps track of which blocks belong to which files<ul>
+<li>Adds or recycles blocks as necessary</li>
+</ul>
+</li>
+<li>A directory is a special kind of file that keeps track of other files<ul>
+<li>Files aren&rsquo;t physically &ldquo;in&rdquo; a directory</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="fs-know">What Does the Filesystem Know About a File:</h2>
+<ul>
+<li>Command flags:<ul>
+<li><code>-a</code>: show directories whose names begin with <code>.</code></li>
+<li><code>-i</code>: show inode numbers</li>
+<li><code>-l</code>: long form (i.e., include several pieces of information)</li>
+<li><code>-s</code>: show the number of blocks</li>
+</ul>
+</li>
+</ul>
+<div class="language-sh" title="ls_long_tmp.sh">
+<div class="highlight"><pre><span></span><code>ls<span class="w"> </span>-a<span class="w"> </span>-i<span class="w"> </span>-l<span class="w"> </span>-s<span class="w"> </span>tmp
+</code></pre></div>
+</div>
+<div class="language-out" title="ls_long_tmp.out">
+<div class="highlight"><pre><span></span><code>total 8
+99138261 0 drwxr-xr-x   3 gvwilson  staff   96 Apr 20 07:50 ./
+94560701 0 drwxr-xr-x  22 gvwilson  staff  704 Apr 20 07:53 ../
+99138262 8 -rw-r--r--   1 gvwilson  staff  174 Apr 20 07:50 bibliography.html
+</code></pre></div>
+</div>
+<ul>
+<li>It&rsquo;s a shame there&rsquo;s no option for column titles, but we can add them (<a class="tbl-ref" href="../fs/#ls_long_tmp">Table&nbsp;2.1</a>)</li>
+</ul>
+<table id="ls_long_tmp"><caption>Table&nbsp;2.1: Annotated Output of <code>ls</code></caption>
+<thead>
+<tr>
+<th>inode</th>
+<th>blocks</th>
+<th>permissions</th>
+<th>links</th>
+<th>owner</th>
+<th>group</th>
+<th>bytes</th>
+<th>date</th>
+<th>name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>99138261</td>
+<td>0</td>
+<td>drwxr-xr-x</td>
+<td>3</td>
+<td>tut</td>
+<td>staff</td>
+<td>96</td>
+<td>Apr 20 07:50</td>
+<td>./</td>
+</tr>
+<tr>
+<td>94560701</td>
+<td>0</td>
+<td>drwxr-xr-x</td>
+<td>22</td>
+<td>tut</td>
+<td>staff</td>
+<td>704</td>
+<td>Apr 20 07:53</td>
+<td>../</td>
+</tr>
+<tr>
+<td>99138262</td>
+<td>8</td>
+<td>-rw-r&ndash;r&ndash;</td>
+<td>1</td>
+<td>tut</td>
+<td>staff</td>
+<td>174</td>
+<td>Apr 20 07:50</td>
+<td>bibliography.html</td>
+</tr>
+</tbody>
+</table>
     </main>
     <footer>
   © 2024 <a href="https://third-bit.com/">Greg Wilson</a>

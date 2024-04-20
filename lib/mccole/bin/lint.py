@@ -37,6 +37,7 @@ def keep_file(value, path):
 def main():
     options = parse_args()
     options.config = load_config(options)
+    options.html = find_html_files(options)
 
     check_colophon(options)
     gloss_internal_keys = check_gloss_internal(options)
@@ -184,7 +185,7 @@ def collect_inc(pargs, kwargs, found):
 
 def collect_tbl_def(pargs, kwargs, found):
     """Collect data from a table definition shortcode."""
-    slug = kwargs["slug"]
+    slug = kwargs.get("slug", None) or str(Path(kwargs["tbl"]).stem)
     if slug in found["tbl_def"]:
         print("Duplicate definition of table slug {slug}")
     else:
@@ -224,6 +225,11 @@ def compare_keys(kind, expected, actual, extra=None, unused=True):
         expected -= extra
     if unused and expected:
         print(f"unused {kind} {listify(expected)}")
+
+
+def find_html_files(options):
+    """Get list of all generated HTML files."""
+    return list(Path(options.htmldir).rglob("**/*.html"))
 
 
 def get_bib_keys(options):
@@ -280,7 +286,7 @@ def parse_args():
     """Parse arguments."""
     parser = argparse.ArgumentParser()
     parser.add_argument("--dom", required=True, help="DOM specification file")
-    parser.add_argument("--html", nargs="+", default=[], help="HTML pages")
+    parser.add_argument("--htmldir", required=True, help="HTML directory")
     parser.add_argument("--root", required=True, help="Root directory")
     return parser.parse_args()
 

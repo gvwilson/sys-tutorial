@@ -20,4 +20,17 @@ tagline: "How to manage files, directories, and their stranger kin."
     -   A directory is a special kind of file that keeps track of other files
         -   Files aren't physically "in" a directory
 
-## 
+## What Does the Filesystem Know About a File: {: #fs-know}
+
+-   Command flags:
+    -   `-a`: show directories whose names begin with `.`
+    -   `-i`: show inode numbers
+    -   `-l`: long form (i.e., include several pieces of information)
+    -   `-s`: show the number of blocks
+
+[%inc ls_long_tmp.sh %]
+[%inc ls_long_tmp.out %]
+
+-   It's a shame there's no option for column titles, but we can add them ([%t ls_long_tmp %])
+
+[%table tbl="ls_long_tmp.tbl" caption="Annotated Output of `ls`" %]
