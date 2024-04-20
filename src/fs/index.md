@@ -104,7 +104,20 @@ tagline: "How to manage files, directories, and their stranger kin."
 
 ## How Does the Operating System Decide What Users Can Do? {: #fs-permission}
 
-[%fixme "explain Unix permission model" %]
+-   Go back to permissions in [%t ls_long_tmp %]
+-   First letter is `-` for a regular file and `d` for a directory
+    -   We will see other things [below](#fs-link-sym)
+-   Then show read-write-execute permissions for user, group, and other (i.e., everyone else)
+-   So `drwxr-xr-x` means "a directory with owner=RWX, group=RX, and other=RX"
+-   And `-rw-r--r--` means "a file with owner=RW, group=R, and other=R"
+
+## How Can a User Change Permissions on a File or Directory: {: #fs-chmod}
+
+[%fixme "explain chmod" %]
+
+## How Can a Program Get This Information? {: #fs-python}
+
+[%fixme "explain how to get information and change it in Python" %]
 
 ## What is a Hard Link? {: #fs-link-hard}
 
@@ -119,3 +132,7 @@ tagline: "How to manage files, directories, and their stranger kin."
 [%fixme "how to determine block size" %]
 
 [%fixme "change user/group ID in fork/exec" %]
+
+[%fixme "explain chown" %]
+
+[%fixme "explain permissions are less important on laptops than multi-user systems except services" %]

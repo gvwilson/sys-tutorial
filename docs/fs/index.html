@@ -94,9 +94,9 @@
 </div>
 <div class="language-out" title="ls_long_tmp.out">
 <div class="highlight"><pre><span></span><code>total 8
-99138261 0 drwxr-xr-x   3 gvwilson  staff   96 Apr 20 07:50 ./
-94560701 0 drwxr-xr-x  22 gvwilson  staff  704 Apr 20 07:53 ../
-99138262 8 -rw-r--r--   1 gvwilson  staff  174 Apr 20 07:50 bibliography.html
+99138261 0 drwxr-xr-x   3 tut  staff   96 Apr 20 07:50 ./
+94560701 0 drwxr-xr-x  22 tut  staff  704 Apr 20 07:53 ../
+99138262 8 -rw-r--r--   1 tut  staff  174 Apr 20 07:50 bibliography.html
 </code></pre></div>
 </div>
 <ul>
@@ -288,7 +288,21 @@ groups  nobody everyone localaccounts
 </li>
 </ul>
 <h2 id="fs-permission">How Does the Operating System Decide What Users Can Do?</h2>
-<p class="fixme">FIXME: explain Unix permission model</p>
+<ul>
+<li>Go back to permissions in <a class="tbl-ref" href="../fs/#ls_long_tmp">Table&nbsp;2.1</a></li>
+<li>First letter is <code>-</code> for a regular file and <code>d</code> for a directory<ul>
+<li>We will see other things <a href="#fs-link-sym">below</a></li>
+</ul>
+</li>
+<li>Then show read-write-execute permissions for user, group, and other (i.e., everyone else)</li>
+<li>So <code>drwxr-xr-x</code> means &ldquo;a directory with owner=RWX, group=RX, and other=RX&rdquo;</li>
+<li>And <code>-rw-r--r--</code> means &ldquo;a file with owner=RW, group=R, and other=R&rdquo;</li>
+</ul>
+<h2 id="fs-chmod">How Can a User Change Permissions on a File or Directory:</h2>
+<p class="fixme">FIXME: explain chmod</p>
+
+<h2 id="fs-python">How Can a Program Get This Information?</h2>
+<p class="fixme">FIXME: explain how to get information and change it in Python</p>
 
 <h2 id="fs-link-hard">What is a Hard Link?</h2>
 <p class="fixme">FIXME: explain hard links</p>
@@ -300,6 +314,10 @@ groups  nobody everyone localaccounts
 <p class="fixme">FIXME: how to determine block size</p>
 
 <p class="fixme">FIXME: change user/group ID in fork/exec</p>
+
+<p class="fixme">FIXME: explain chown</p>
+
+<p class="fixme">FIXME: explain permissions are less important on laptops than multi-user systems except services</p>
     </main>
     <footer>
   © 2024 <a href="https://third-bit.com/">Greg Wilson</a>
