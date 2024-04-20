@@ -50,7 +50,18 @@
 
       
       
-      <h2 class="aside">What This Is</h2>
+      <h2>Objective</h2>
+<ul>
+<li>Tried teaching <a href="https://www.docker.com/">Docker</a> to data scientists</li>
+<li>Had to back up every few minutes to explain underlying concepts<ul>
+<li>&ldquo;What does it mean to &lsquo;mount&rsquo; a filesystem?&rdquo;</li>
+<li>&ldquo;What does it mean to &lsquo;background&rsquo; a job?&rdquo;</li>
+<li>&ldquo;What is a &lsquo;port&rsquo;?&rdquo;</li>
+</ul>
+</li>
+<li>Answer those questions step-by-step so that a web service running in Docker will make sense</li>
+</ul>
+<h2>What This Is</h2>
 <ul>
 <li>Notes and working examples that instructors can use to perform a lesson<ul>
 <li>Do <em>not</em> expect novices with no prior Unix experience to be able to learn from them on their own</li>
@@ -65,7 +76,7 @@
     the <a href="./conduct/">Code of Conduct</a> for community standards,
     and <a href="./contributing/">these guidelines</a> for notes on contributing</li>
 </ul>
-<h2 class="aside">Scope</h2>
+<h2>Scope</h2>
 <ul>
 <li><a href="http://teachtogether.tech/en/index.html#s:process-personas">Intended audience</a><ul>
 <li>Ning did a bachelor&rsquo;s degree in economics
@@ -79,7 +90,9 @@ or run a pipeline in the cloud</li>
     so they need to be able to learn a bit at a time</li>
 </ul>
 </li>
-<li>Prerequisites<ul>
+</ul>
+<h2>Prerequisites</h2>
+<ul>
 <li>Unix shell commands covered in <a href="https://swcarpentry.github.io/shell-novice/">this Software Carpentry lesson</a>:<ul>
 <li><code>pwd</code>; <code>ls</code>; <code>cd</code>; <code>.</code> and <code>..</code>; <code>rm</code> and <code>rmdir</code>; <code>mkdir</code>; <code>touch</code>;
     <code>mv</code>; <code>cp</code>; <code>tree</code>; <code>cat</code>; <code>wc</code>; <code>head</code>; <code>tail</code>; <code>less</code>; <code>cut</code>; <code>echo</code>;
@@ -92,16 +105,16 @@ or run a pipeline in the cloud</li>
 </li>
 <li>Python for command-line scripting<ul>
 <li>variables; numbers and strings; lists; dictionaries; <code>for</code> and <code>while</code> loops;
-<code>if</code>/<code>else</code>; <code>with</code>; defining and calling functions; <code>sys.argv</code>, <code>sys.stdin</code>,
-and <code>sys.stdout</code>; simple regular expressions; reading JSON data;
-reading CSV files using <a href="https://pandas.pydata.org/">Pandas</a> or <a href="https://pola.rs/">Polars</a></li>
+    <code>if</code>/<code>else</code>; <code>with</code>; defining and calling functions; <code>sys.argv</code>, <code>sys.stdin</code>,
+    and <code>sys.stdout</code>; simple regular expressions; reading JSON data;
+    reading CSV files using <a href="https://pandas.pydata.org/">Pandas</a> or <a href="https://pola.rs/">Polars</a></li>
 <li><code>pip install</code></li>
-</ul>
-</li>
 <li><code>python -m venv</code> or <code>conda create</code></li>
 </ul>
 </li>
-<li>Learning outcomes<ol>
+</ul>
+<h2>Learning Outcomes</h2>
+<ol>
 <li>Explain the difference between shell variables and environment variables
     and write shell scripts that use each.</li>
 <li>Create a virtual environment and explain what this actually does.</li>
@@ -119,9 +132,7 @@ reading CSV files using <a href="https://pandas.pydata.org/">Pandas</a> or <a hr
 <li>Explain what IP addresses are and how they are resolved.</li>
 <li>Explain how traditional password authentication works and describe its weaknesses.</li>
 </ol>
-</li>
-</ul>
-<h2 class="aside">Setup</h2>
+<h2>Setup</h2>
 <ul>
 <li>Download <a href="https://github.com/gvwilson/sys-tutorial/raw/main/sys-tutorial.zip">the latest release</a></li>
 <li>Unzip the file in a temporary directory to create:<ul>
@@ -131,7 +142,7 @@ reading CSV files using <a href="https://pandas.pydata.org/">Pandas</a> or <a hr
 </ul>
 </li>
 </ul>
-<h2 class="aside">Acknowledgments</h2>
+<h2>Acknowledgments</h2>
 <p>My thanks to everyone who helped make this tutorial possible:</p>
 <ul class="thanks"><li>Stefan Arentz</li>
 <li>Julia Evans</li>
