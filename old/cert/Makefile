@@ -1,24 +1,3 @@
-include lib/tut/tutorial.mk
-
-PY_FILES := $(wildcard ${SRC}/*.py)
-PY_EXCLUDED := ${SRC}/headers.py
-OUT_FILES := $(patsubst ${SRC}/%.py,${OUT}/%.out,$(filter-out ${PY_EXCLUDED},${PY_FILES}))
-LINT_OTHER_PAGES := 
-LINT_OTHER_FILES := site/server_first_cert.pem
-
-PORT := 8000
-RUNNER := bin/runner.sh
-SITE_SERVER := python -m http.server -d site ${PORT}
-
-## release: create a release
-.PHONY: release
-release:
-	@rm -rf safety-tutorial.zip
-	@zip -r safety-tutorial.zip \
-	src \
-	out \
-	-x \*~
-
 ## listen: listen on port 8000
 .PHONY: listen
 listen:

@@ -65,7 +65,7 @@ build: ${TMP_BIB}
 
 ## serve: build site and run server
 .PHONY: serve
-serve:
+serve: ${TMP_BIB}
 	ark watch
 
 ## latex: regenerate LaTeX file

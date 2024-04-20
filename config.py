@@ -16,16 +16,6 @@ slug = "systut"
 
 chapters = [
     "intro",
-    "process",
-    "var",
-    "http",
-    "network",
-    "virt",
-    "auth",
-    "fs",
-    "access",
-    "monitor",
-    "jobs",
     "finale",
 ]
 
