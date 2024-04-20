@@ -1,0 +1,5 @@
+| Name    | Abbreviation | File            | Directory                       |
+| ------- | ------------ | --------------- | ------------------------------- |
+| Read    | r            | Inspect content | See what the directory contains |
+| Write   | w            | Modify content  | Add or remove contents          |
+| Execute | x            | Run program     | Enter or pass through directory |

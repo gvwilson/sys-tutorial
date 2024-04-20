@@ -86,6 +86,24 @@ tagline: "How to manage files, directories, and their stranger kin."
 [%inc id_nobody.sh %]
 [%inc id_nobody.out %]
 
+## What Capabilities Do Files and Directories Offer? {: #fs-capability}
+
+-   A [%g capability "capability" %] is something that someone may or may not be able to do to a thing
+    -   Which is incredibly vague
+-   Files and directories capabilities are shown in [%t capabilities %]
+
+[%table tbl="capabilities.tbl" caption="Unix File and Directory Capabilities" %]
+
+-   Read and write make sense
+-   Execute makes sense on files
+    -   [See below](#fs-file-types) for how the operating system figures out how to run a file
+-   Execute on directories is basically "we needed something and this bit was available"
+    -   Want to be able to run `dir/program`
+    -   *Without* seeing what else is in `dir`
+    -   Use the "execute" bit on the directory `dir`
+
+## How Does the Operating System Decide What Users Can Do? {: #fs-permission}
+
 [%fixme "explain Unix permission model" %]
 
 ## What is a Hard Link? {: #fs-link-hard}

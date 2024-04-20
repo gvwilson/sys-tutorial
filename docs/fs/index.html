@@ -50,7 +50,7 @@
 
       
       <p class="terms">Terms defined: 
-<a class="gl-ref" href="../glossary/#gl:access_control" markdown="1">access control</a>, <a class="gl-ref" href="../glossary/#gl:authentication" markdown="1">authentication</a>, <a class="gl-ref" href="../glossary/#gl:authorization" markdown="1">authorization</a>, <a class="gl-ref" href="../glossary/#gl:ball_and_stick" markdown="1">ball-and-stick model</a>, <a class="gl-ref" href="../glossary/#gl:block_filesystem" markdown="1">block (in filesystem)</a>, <a class="gl-ref" href="../glossary/#gl:filesystem" markdown="1">filesystem</a>, <a class="gl-ref" href="../glossary/#gl:gid" markdown="1">group ID</a>, <a class="gl-ref" href="../glossary/#gl:inode" markdown="1">inode</a>, <a class="gl-ref" href="../glossary/#gl:link_hard" markdown="1">hard link (in filesystem)</a>, <a class="gl-ref" href="../glossary/#gl:root_directory" markdown="1">root directory</a>, <a class="gl-ref" href="../glossary/#gl:uid" markdown="1">user ID</a>, <a class="gl-ref" href="../glossary/#gl:user_group" markdown="1">user group</a>, <a class="gl-ref" href="../glossary/#gl:uuid" markdown="1">Universally Unique Identifier</a>
+<a class="gl-ref" href="../glossary/#gl:access_control" markdown="1">access control</a>, <a class="gl-ref" href="../glossary/#gl:authentication" markdown="1">authentication</a>, <a class="gl-ref" href="../glossary/#gl:authorization" markdown="1">authorization</a>, <a class="gl-ref" href="../glossary/#gl:ball_and_stick" markdown="1">ball-and-stick model</a>, <a class="gl-ref" href="../glossary/#gl:block_filesystem" markdown="1">block (in filesystem)</a>, <a class="gl-ref" href="../glossary/#gl:capability" markdown="1">capability</a>, <a class="gl-ref" href="../glossary/#gl:filesystem" markdown="1">filesystem</a>, <a class="gl-ref" href="../glossary/#gl:gid" markdown="1">group ID</a>, <a class="gl-ref" href="../glossary/#gl:inode" markdown="1">inode</a>, <a class="gl-ref" href="../glossary/#gl:link_hard" markdown="1">hard link (in filesystem)</a>, <a class="gl-ref" href="../glossary/#gl:root_directory" markdown="1">root directory</a>, <a class="gl-ref" href="../glossary/#gl:uid" markdown="1">user ID</a>, <a class="gl-ref" href="../glossary/#gl:user_group" markdown="1">user group</a>, <a class="gl-ref" href="../glossary/#gl:uuid" markdown="1">Universally Unique Identifier</a>
 </p>
       <ul>
 <li><a href="https://github.com/gvwilson/sys-tutorial/issues/19" class="issue">Issue 19</a></li>
@@ -235,6 +235,59 @@
 groups  nobody everyone localaccounts
 </code></pre></div>
 </div>
+<h2 id="fs-capability">What Capabilities Do Files and Directories Offer?</h2>
+<ul>
+<li>A <a class="gl-ref" href="../glossary/#gl:capability" markdown="1">capability</a> is something that someone may or may not be able to do to a thing<ul>
+<li>Which is incredibly vague</li>
+</ul>
+</li>
+<li>Files and directories capabilities are shown in <a class="tbl-ref" href="../fs/#capabilities">Table&nbsp;2.2</a></li>
+</ul>
+<table id="capabilities"><caption>Table&nbsp;2.2: Unix File and Directory Capabilities</caption>
+<thead>
+<tr>
+<th>Name</th>
+<th>Abbreviation</th>
+<th>File</th>
+<th>Directory</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Read</td>
+<td>r</td>
+<td>Inspect content</td>
+<td>See what the directory contains</td>
+</tr>
+<tr>
+<td>Write</td>
+<td>w</td>
+<td>Modify content</td>
+<td>Add or remove contents</td>
+</tr>
+<tr>
+<td>Execute</td>
+<td>x</td>
+<td>Run program</td>
+<td>Enter or pass through directory</td>
+</tr>
+</tbody>
+</table>
+
+<ul>
+<li>Read and write make sense</li>
+<li>Execute makes sense on files<ul>
+<li><a href="#fs-file-types">See below</a> for how the operating system figures out how to run a file</li>
+</ul>
+</li>
+<li>Execute on directories is basically &ldquo;we needed something and this bit was available&rdquo;<ul>
+<li>Want to be able to run <code>dir/program</code></li>
+<li><em>Without</em> seeing what else is in <code>dir</code></li>
+<li>Use the &ldquo;execute&rdquo; bit on the directory <code>dir</code></li>
+</ul>
+</li>
+</ul>
+<h2 id="fs-permission">How Does the Operating System Decide What Users Can Do?</h2>
 <p class="fixme">FIXME: explain Unix permission model</p>
 
 <h2 id="fs-link-hard">What is a Hard Link?</h2>

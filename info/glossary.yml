@@ -87,6 +87,12 @@
       A function A that is passed to another function B so that B can call it at
       some later point.
 
+- key: capability
+  en:
+    term: capability
+    def: >
+      FIXME
+
 - key: character_encoding
   en:
     term: character encoding
