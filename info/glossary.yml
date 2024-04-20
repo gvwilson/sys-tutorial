@@ -366,6 +366,12 @@
 
 # O
 
+- key: octal
+  en:
+    term: octal
+    def: >
+      FIXME
+
 - key: operating_system
   en:
     term: operating system

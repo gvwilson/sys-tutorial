@@ -50,7 +50,7 @@
 
       
       <p class="terms">Terms defined: 
-<a class="gl-ref" href="../glossary/#gl:access_control" markdown="1">access control</a>, <a class="gl-ref" href="../glossary/#gl:authentication" markdown="1">authentication</a>, <a class="gl-ref" href="../glossary/#gl:authorization" markdown="1">authorization</a>, <a class="gl-ref" href="../glossary/#gl:ball_and_stick" markdown="1">ball-and-stick model</a>, <a class="gl-ref" href="../glossary/#gl:block_filesystem" markdown="1">block (in filesystem)</a>, <a class="gl-ref" href="../glossary/#gl:capability" markdown="1">capability</a>, <a class="gl-ref" href="../glossary/#gl:filesystem" markdown="1">filesystem</a>, <a class="gl-ref" href="../glossary/#gl:gid" markdown="1">group ID</a>, <a class="gl-ref" href="../glossary/#gl:inode" markdown="1">inode</a>, <a class="gl-ref" href="../glossary/#gl:link_hard" markdown="1">hard link (in filesystem)</a>, <a class="gl-ref" href="../glossary/#gl:root_directory" markdown="1">root directory</a>, <a class="gl-ref" href="../glossary/#gl:uid" markdown="1">user ID</a>, <a class="gl-ref" href="../glossary/#gl:user_group" markdown="1">user group</a>, <a class="gl-ref" href="../glossary/#gl:uuid" markdown="1">Universally Unique Identifier</a>
+<a class="gl-ref" href="../glossary/#gl:access_control" markdown="1">access control</a>, <a class="gl-ref" href="../glossary/#gl:authentication" markdown="1">authentication</a>, <a class="gl-ref" href="../glossary/#gl:authorization" markdown="1">authorization</a>, <a class="gl-ref" href="../glossary/#gl:ball_and_stick" markdown="1">ball-and-stick model</a>, <a class="gl-ref" href="../glossary/#gl:block_filesystem" markdown="1">block (in filesystem)</a>, <a class="gl-ref" href="../glossary/#gl:capability" markdown="1">capability</a>, <a class="gl-ref" href="../glossary/#gl:filesystem" markdown="1">filesystem</a>, <a class="gl-ref" href="../glossary/#gl:gid" markdown="1">group ID</a>, <a class="gl-ref" href="../glossary/#gl:inode" markdown="1">inode</a>, <a class="gl-ref" href="../glossary/#gl:link_hard" markdown="1">hard link (in filesystem)</a>, <a class="gl-ref" href="../glossary/#gl:octal" markdown="1">octal</a>, <a class="gl-ref" href="../glossary/#gl:root_directory" markdown="1">root directory</a>, <a class="gl-ref" href="../glossary/#gl:system_call" markdown="1">system call</a>, <a class="gl-ref" href="../glossary/#gl:uid" markdown="1">user ID</a>, <a class="gl-ref" href="../glossary/#gl:user_group" markdown="1">user group</a>, <a class="gl-ref" href="../glossary/#gl:uuid" markdown="1">Universally Unique Identifier</a>
 </p>
       <ul>
 <li><a href="https://github.com/gvwilson/sys-tutorial/issues/19" class="issue">Issue 19</a></li>
@@ -299,11 +299,134 @@ groups  nobody everyone localaccounts
 <li>And <code>-rw-r--r--</code> means &ldquo;a file with owner=RW, group=R, and other=R&rdquo;</li>
 </ul>
 <h2 id="fs-chmod">How Can a User Change Permissions on a File or Directory:</h2>
-<p class="fixme">FIXME: explain chmod</p>
+<ul>
+<li>Change permissions with <code>chmod</code> (&ldquo;change mode&rdquo;)<ul>
+<li>Unfortunately one of the more confusing Unix shell commands</li>
+</ul>
+</li>
+<li>Simplest form: <code>chmod u=rw,g=r,o=r</code><ul>
+<li>Specify read-write-execute explicitly for user-group-other</li>
+</ul>
+</li>
+</ul>
+<div class="language-text" title="chmod_example.text">
+<div class="highlight"><pre><span></span><code>$ echo &quot;original content&quot; &gt; /tmp/somefile.txt
 
-<h2 id="fs-python">How Can a Program Get This Information?</h2>
-<p class="fixme">FIXME: explain how to get information and change it in Python</p>
+$ ls -l /tmp/somefile.txt
+-rw-r--r--  1 gvwilson  wheel  17 Apr 20 16:15 /tmp/somefile.txt
 
+$ cat /tmp/somefile.txt
+original content
+
+$ chmod u=,g=,o= /tmp/somefile.txt
+
+$ ls -l /tmp/somefile.txt
+----------  1 gvwilson  wheel  17 Apr 20 16:15 /tmp/somefile.txt
+
+$ cat /tmp/somefile.txt
+cat: /tmp/somefile.txt: Permission denied
+
+$ echo &quot;revised content&quot; &gt; /tmp/somefile.txt
+src/fs/chmod_example.sh: line 9: /tmp/somefile.txt: Permission denied
+
+$ chmod u=rw /tmp/somefile.txt
+
+$ echo &quot;revised content&quot; &gt; /tmp/somefile.txt
+
+$ ls -l /tmp/somefile.txt
+-rw-------  1 gvwilson  wheel  16 Apr 20 16:15 /tmp/somefile.txt
+
+$ cat /tmp/somefile.txt
+revised content
+</code></pre></div>
+</div>
+<h2 id="fs-python">How Can a Program Do This?</h2>
+<ul>
+<li><code>ls</code>, <code>chmod</code>, and other programs use <a class="gl-ref" href="../glossary/#gl:system_call" markdown="1">system calls</a> to get information and change things<ul>
+<li>A function provided by the operating system</li>
+</ul>
+</li>
+<li>Other programs can also use those system calls</li>
+</ul>
+<div class="language-py" title="chmod_example.py">
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">stat</span>
+
+<span class="n">filename</span> <span class="o">=</span> <span class="s2">&quot;/tmp/somefile.txt&quot;</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">writer</span><span class="p">:</span>
+    <span class="n">writer</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;original content&quot;</span><span class="p">)</span>
+
+<span class="n">status</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">stat</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">status</span><span class="p">)</span>
+<span class="c1"># os.stat_result(st_mode=33188, st_ino=99159112, st_dev=16777234, st_nlink=1, st_uid=501,</span>
+<span class="c1">#                st_gid=0, st_size=16, st_atime=1713644644, st_mtime=1713644747,</span>
+<span class="c1">#                st_ctime=1713644747)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">status</span><span class="o">.</span><span class="n">st_mode</span><span class="p">)</span>
+<span class="c1"># 33188</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">stat</span><span class="o">.</span><span class="n">filemode</span><span class="p">(</span><span class="n">status</span><span class="o">.</span><span class="n">st_mode</span><span class="p">))</span>
+<span class="c1"># -rw-r--r--</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;user ID </span><span class="si">{</span><span class="n">status</span><span class="o">.</span><span class="n">st_uid</span><span class="si">}</span><span class="s2"> group ID </span><span class="si">{</span><span class="n">status</span><span class="o">.</span><span class="n">st_gid</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="c1"># user ID 501 group ID 0</span>
+</code></pre></div>
+</div>
+<ul>
+<li><code>os.stat</code> returns a tuple with named fields<ul>
+<li>All start with <code>st_</code> prefix because that&rsquo;s what the original C structure did</li>
+</ul>
+</li>
+<li><code>status.st_mode</code> doesn&rsquo;t make much sense in decimal<ul>
+<li>Often printed in <a class="gl-ref" href="../glossary/#gl:octal" markdown="1">octal</a></li>
+<li>Much easier to use <code>stat.filemode</code> to turn it into an <code>ls</code>-style string</li>
+</ul>
+</li>
+</ul>
+<div class="language-py" title="chmod_example.py">
+<div class="highlight"><pre><span></span><code><span class="n">os</span><span class="o">.</span><span class="n">chmod</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">status</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">stat</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">stat</span><span class="o">.</span><span class="n">filemode</span><span class="p">(</span><span class="n">status</span><span class="o">.</span><span class="n">st_mode</span><span class="p">))</span>
+<span class="c1"># ----------</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">reader</span><span class="p">:</span>
+        <span class="n">content</span> <span class="o">=</span> <span class="n">reader</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+<span class="k">except</span> <span class="ne">OSError</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;trying to open and read: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">exc</span><span class="p">)</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">exc</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="c1"># trying to open and read: &lt;class &#39;PermissionError&#39;&gt;</span>
+<span class="c1"># [Errno 13] Permission denied: &#39;/tmp/somefile.txt</span>
+</code></pre></div>
+</div>
+<ul>
+<li>Use <code>os.chmod</code> to set the permission to nothing-nothing-nothing (i.e., 0)</li>
+<li>Trying to read/write file after that causes <code>PermissionError</code> (a subclass of <code>OSError</code>)</li>
+</ul>
+<div class="language-py" title="chmod_example.py">
+<div class="highlight"><pre><span></span><code><span class="n">os</span><span class="o">.</span><span class="n">chmod</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">status</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">stat</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">stat</span><span class="o">.</span><span class="n">filemode</span><span class="p">(</span><span class="n">status</span><span class="o">.</span><span class="n">st_mode</span><span class="p">))</span>
+<span class="c1"># ----------</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">reader</span><span class="p">:</span>
+        <span class="n">content</span> <span class="o">=</span> <span class="n">reader</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+<span class="k">except</span> <span class="ne">OSError</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;trying to open and read: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">exc</span><span class="p">)</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">exc</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="c1"># trying to open and read: &lt;class &#39;PermissionError&#39;&gt;</span>
+<span class="c1"># [Errno 13] Permission denied: &#39;/tmp/somefile.txt</span>
+</code></pre></div>
+</div>
+<ul>
+<li><code>stat</code> defines constants representing various permissions</li>
+<li>Add the ones we want</li>
+</ul>
+<h2 class="aside" id="fs-sys-prog">What is &ldquo;Systems Programming&rdquo;?</h2>
+<ul>
+<li>Not a precise term</li>
+<li>But something like, &ldquo;Anything with system calls beyond reading and writing files&rdquo;</li>
+</ul>
 <h2 id="fs-link-hard">What is a Hard Link?</h2>
 <p class="fixme">FIXME: explain hard links</p>
 

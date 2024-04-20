@@ -113,11 +113,40 @@ tagline: "How to manage files, directories, and their stranger kin."
 
 ## How Can a User Change Permissions on a File or Directory: {: #fs-chmod}
 
-[%fixme "explain chmod" %]
+-   Change permissions with `chmod` ("change mode")
+    -   Unfortunately one of the more confusing Unix shell commands
+-   Simplest form: `chmod u=rw,g=r,o=r`
+    -   Specify read-write-execute explicitly for user-group-other
 
-## How Can a Program Get This Information? {: #fs-python}
+[%inc chmod_example.text %]
 
-[%fixme "explain how to get information and change it in Python" %]
+## How Can a Program Do This? {: #fs-python}
+
+-   `ls`, `chmod`, and other programs use [%g system_call "system calls" %] to get information and change things
+    -   A function provided by the operating system
+-   Other programs can also use those system calls
+
+[%inc chmod_example.py mark="create" %]
+
+-   `os.stat` returns a tuple with named fields
+    -   All start with `st_` prefix because that's what the original C structure did
+-   `status.st_mode` doesn't make much sense in decimal
+    -   Often printed in [%g octal "octal" %]
+    -   Much easier to use `stat.filemode` to turn it into an `ls`-style string
+
+[%inc chmod_example.py mark="lockdown" %]
+
+-   Use `os.chmod` to set the permission to nothing-nothing-nothing (i.e., 0)
+-   Trying to read/write file after that causes `PermissionError` (a subclass of `OSError`)
+
+[%inc chmod_example.py mark="lockdown" %]
+-   `stat` defines constants representing various permissions
+-   Add the ones we want
+
+## What is "Systems Programming"? {: #fs-sys-prog .aside}
+
+-   Not a precise term
+-   But something like, "Anything with system calls beyond reading and writing files"
 
 ## What is a Hard Link? {: #fs-link-hard}
 
