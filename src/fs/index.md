@@ -52,13 +52,39 @@ tagline: "How to manage files, directories, and their stranger kin."
 -   Finally the name
 -   So now we have a bunch of concepts to explain
 
+## What Does "Permission" Mean? {: #fs-perm}
+
+-   The three A's
+    -   [%g authentication "Authentication" %]: who are you
+        (or more accurately, what is your identity on this computer system)?
+    -   [%g authorization "Authorization" %]: who is allowed to do what?
+    -   [%g access_control "Access control" %]: how does the system enforce those rules?
+-   So operating systems needs to:
+    -   Match a person to an account (we will discuss in [%x auth %])
+    -   Keep track of which account each process belongs to
+    -   Keep track of what operations are permitted to whom
+    -   Enforce those rules (which we won't go into)
+
 ## What Are User and Group IDs? {: #fs-uid-gid}
 
-[%fixme "explain user IDs and group IDs" %]
+-   Each user account has a unique name and a unique numeric ID
+    -   The numeric user ID is often called a [%g uid "uid" %]
+    -   Not to be confused with [%g uuid "UUID" %]
+-   Each user can belong to one or more [%g user_group "groups" %]
+    -   Each of which also has a unique name and a unique group ID (or [%g gid "gid" %])
 
-[%fixme "explain difference between IDs and names" %]
+[%inc id_no_args.sh %]
+[%inc id_no_args.out %]
 
-## How Are Permissions Represented? {: #fs-perm}
+-   Tells us:
+    -   User ID is 501 and name is `tut`
+    -   Primary group ID is 20 (`staff`)
+    -   Also belongs to 12 (`everyone`) and 61 (`localaccounts`)
+-   Reports by default on the user associated with the currently-running process
+-   Can provide an account name to get details of a particular account
+
+[%inc id_nobody.sh %]
+[%inc id_nobody.out %]
 
 [%fixme "explain Unix permission model" %]
 
@@ -73,3 +99,5 @@ tagline: "How to manage files, directories, and their stranger kin."
 ## To Do
 
 [%fixme "how to determine block size" %]
+
+[%fixme "change user/group ID in fork/exec" %]

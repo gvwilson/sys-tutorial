@@ -2,6 +2,12 @@
 
 # A
 
+- key: access_control
+  en:
+    term: access control
+    def: >
+      FIXME
+
 - key: ascii
   ref:
   - ansi_encoding
@@ -213,6 +219,13 @@
       typically in order to run a new program.
 
 # G
+
+- key: gid
+  en:
+    term: group ID
+    acronym: gid
+    def: >
+      FIXME
 
 # H
 
@@ -523,6 +536,13 @@
 
 # U
 
+- key: uid
+  en:
+    term: user ID
+    acronym: uid
+    def: >
+      FIXME
+
 - key: unicode
   en:
     term: Unicode
@@ -531,12 +551,25 @@
       symbols. Unicode does not define how those numbers are stored; that is
       done by standards like [UTF-8](#utf_8).
 
+- key: user_group
+  en:
+    term: user group
+    def: >
+      FIXME
+
 - key: utf_8
   en:
     term: UTF-8
     def: >
       A way to store the numeric codes representing [Unicode](#unicode)
       characters that is backward-compatible with the older [ASCII](#ascii) standard.
+
+- key: uuid
+  en:
+    term: Universally Unique Identifier
+    acronym: UUID
+    def: >
+      FIXME
 
 # V
 

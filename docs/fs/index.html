@@ -43,14 +43,14 @@
     <a href="../" title="home" class="undecorated">&#9737;</a>
   </div>
   <div class="col-1 right">
-    <a href="../finale/" title="next" class="undecorated">&#8680;</a>
+    <a href="../auth/" title="next" class="undecorated">&#8680;</a>
   </div>
 </nav>
 
 
       
       <p class="terms">Terms defined: 
-<a class="gl-ref" href="../glossary/#gl:ball_and_stick" markdown="1">ball-and-stick model</a>, <a class="gl-ref" href="../glossary/#gl:block_filesystem" markdown="1">block (in filesystem)</a>, <a class="gl-ref" href="../glossary/#gl:filesystem" markdown="1">filesystem</a>, <a class="gl-ref" href="../glossary/#gl:inode" markdown="1">inode</a>, <a class="gl-ref" href="../glossary/#gl:link_hard" markdown="1">hard link (in filesystem)</a>, <a class="gl-ref" href="../glossary/#gl:root_directory" markdown="1">root directory</a>
+<a class="gl-ref" href="../glossary/#gl:access_control" markdown="1">access control</a>, <a class="gl-ref" href="../glossary/#gl:authentication" markdown="1">authentication</a>, <a class="gl-ref" href="../glossary/#gl:authorization" markdown="1">authorization</a>, <a class="gl-ref" href="../glossary/#gl:ball_and_stick" markdown="1">ball-and-stick model</a>, <a class="gl-ref" href="../glossary/#gl:block_filesystem" markdown="1">block (in filesystem)</a>, <a class="gl-ref" href="../glossary/#gl:filesystem" markdown="1">filesystem</a>, <a class="gl-ref" href="../glossary/#gl:gid" markdown="1">group ID</a>, <a class="gl-ref" href="../glossary/#gl:inode" markdown="1">inode</a>, <a class="gl-ref" href="../glossary/#gl:link_hard" markdown="1">hard link (in filesystem)</a>, <a class="gl-ref" href="../glossary/#gl:root_directory" markdown="1">root directory</a>, <a class="gl-ref" href="../glossary/#gl:uid" markdown="1">user ID</a>, <a class="gl-ref" href="../glossary/#gl:user_group" markdown="1">user group</a>, <a class="gl-ref" href="../glossary/#gl:uuid" markdown="1">Universally Unique Identifier</a>
 </p>
       <ul>
 <li><a href="https://github.com/gvwilson/sys-tutorial/issues/19" class="issue">Issue 19</a></li>
@@ -179,12 +179,62 @@
 <li>Finally the name</li>
 <li>So now we have a bunch of concepts to explain</li>
 </ul>
+<h2 id="fs-perm">What Does &ldquo;Permission&rdquo; Mean?</h2>
+<ul>
+<li>The three A&rsquo;s<ul>
+<li><a class="gl-ref" href="../glossary/#gl:authentication" markdown="1">Authentication</a>: who are you
+    (or more accurately, what is your identity on this computer system)?</li>
+<li><a class="gl-ref" href="../glossary/#gl:authorization" markdown="1">Authorization</a>: who is allowed to do what?</li>
+<li><a class="gl-ref" href="../glossary/#gl:access_control" markdown="1">Access control</a>: how does the system enforce those rules?</li>
+</ul>
+</li>
+<li>So operating systems needs to:<ul>
+<li>Match a person to an account (we will discuss in <a class="cross-ref" href="../auth/">Chapter&nbsp;3</a>)</li>
+<li>Keep track of which account each process belongs to</li>
+<li>Keep track of what operations are permitted to whom</li>
+<li>Enforce those rules (which we won&rsquo;t go into)</li>
+</ul>
+</li>
+</ul>
 <h2 id="fs-uid-gid">What Are User and Group IDs?</h2>
-<p class="fixme">FIXME: explain user IDs and group IDs</p>
-
-<p class="fixme">FIXME: explain difference between IDs and names</p>
-
-<h2 id="fs-perm">How Are Permissions Represented?</h2>
+<ul>
+<li>Each user account has a unique name and a unique numeric ID<ul>
+<li>The numeric user ID is often called a <a class="gl-ref" href="../glossary/#gl:uid" markdown="1">uid</a></li>
+<li>Not to be confused with <a class="gl-ref" href="../glossary/#gl:uuid" markdown="1">UUID</a></li>
+</ul>
+</li>
+<li>Each user can belong to one or more <a class="gl-ref" href="../glossary/#gl:user_group" markdown="1">groups</a><ul>
+<li>Each of which also has a unique name and a unique group ID (or <a class="gl-ref" href="../glossary/#gl:gid" markdown="1">gid</a>)</li>
+</ul>
+</li>
+</ul>
+<div class="language-sh" title="id_no_args.sh">
+<div class="highlight"><pre><span></span><code>id
+</code></pre></div>
+</div>
+<div class="language-out" title="id_no_args.out">
+<div class="highlight"><pre><span></span><code>uid=501(tut) gid=20(staff) groups=20(staff),12(everyone),61(localaccounts),…and 15 others…
+</code></pre></div>
+</div>
+<ul>
+<li>Tells us:<ul>
+<li>User ID is 501 and name is <code>tut</code></li>
+<li>Primary group ID is 20 (<code>staff</code>)</li>
+<li>Also belongs to 12 (<code>everyone</code>) and 61 (<code>localaccounts</code>)</li>
+</ul>
+</li>
+<li>Reports by default on the user associated with the currently-running process</li>
+<li>Can provide an account name to get details of a particular account</li>
+</ul>
+<div class="language-sh" title="id_nobody.sh">
+<div class="highlight"><pre><span></span><code>id<span class="w"> </span>-p<span class="w"> </span>nobody
+</code></pre></div>
+</div>
+<div class="language-out" title="id_nobody.out">
+<div class="highlight"><pre><span></span><code>uid nobody
+groups  nobody everyone localaccounts
+</code></pre></div>
+</div>
 <p class="fixme">FIXME: explain Unix permission model</p>
 
 <h2 id="fs-link-hard">What is a Hard Link?</h2>
@@ -195,6 +245,8 @@
 
 <h2>To Do</h2>
 <p class="fixme">FIXME: how to determine block size</p>
+
+<p class="fixme">FIXME: change user/group ID in fork/exec</p>
     </main>
     <footer>
   © 2024 <a href="https://third-bit.com/">Greg Wilson</a>
