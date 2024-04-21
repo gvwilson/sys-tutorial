@@ -165,7 +165,14 @@ tagline: "How to manage files, directories, and their stranger kin."
 ## What is a Symbolic Link? {: #fs-link-sym}
 
 -   A [%g link_sym "symbolic link" %] (or symlink) is a file that refers to another file
-    -   [%fixme https://stackoverflow.com/questions/185899/what-is-the-difference-between-a-symbolic-link-and-a-hard-link %]
+    ([%f links %])
+
+[% figure
+   slug="links"
+   img="links.svg"
+   alt="Relationship between hard and symbolic Links"
+   caption="Hard and Symbolic Links"
+%]
 
 [%inc sym_link.text %]
 

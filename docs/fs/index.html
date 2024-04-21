@@ -189,7 +189,7 @@
 </ul>
 </li>
 <li>So operating systems needs to:<ul>
-<li>Match a person to an account (we will discuss in <a class="cross-ref" href="../auth/">Chapter&nbsp;4</a>)</li>
+<li>Match a person to an account (we will discuss in <a class="cross-ref" href="../auth/">Chapter&nbsp;5</a>)</li>
 <li>Keep track of which account each process belongs to</li>
 <li>Keep track of what operations are permitted to whom</li>
 <li>Enforce those rules (which we won&rsquo;t go into)</li>
@@ -470,11 +470,14 @@ file content
 </ul>
 <h2 id="fs-link-sym">What is a Symbolic Link?</h2>
 <ul>
-<li>A <a class="gl-ref" href="../glossary/#gl:link_sym" markdown="1">symbolic link</a> (or symlink) is a file that refers to another file<ul>
-<li><p class="fixme">FIXME: https://stackoverflow.com/questions/185899/what-is-the-difference-between-a-symbolic-link-and-a-hard-link</p></li>
+<li>A <a class="gl-ref" href="../glossary/#gl:link_sym" markdown="1">symbolic link</a> (or symlink) is a file that refers to another file
+    (<a class="fig-ref" href="../fs/#links">Figure&nbsp;2.1</a>)</li>
 </ul>
-</li>
-</ul>
+<figure id="links">
+<img src="./links.svg" alt="Relationship between hard and symbolic Links"/>
+<figcaption>Figure&nbsp;2.1: Hard and Symbolic Links</figcaption>
+</figure>
+
 <div class="language-text" title="sym_link.text">
 <div class="highlight"><pre><span></span><code>$ echo &quot;file content&quot; &gt; /tmp/original.txt
 
