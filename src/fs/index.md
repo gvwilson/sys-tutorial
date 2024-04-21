@@ -143,6 +143,11 @@ tagline: "How to manage files, directories, and their stranger kin."
 -   `stat` defines constants representing various permissions
 -   Add the ones we want
 
+## Not Important Until It Is {: #fs-perm-important .aside}
+
+-   Permissions are less important on laptops than they were on multi-user systems…
+-   …until we start to run web servers and databases that other people can access
+
 ## What is "Systems Programming"? {: #fs-sys-prog .aside}
 
 -   Not a precise term
@@ -182,12 +187,52 @@ tagline: "How to manage files, directories, and their stranger kin."
     -   E.g., `~/conda/bin/python` is a symlink to `~/conda/bin/python3.11`
     -   Running the former actually launches the latter
 
-## To Do
+## What Other Kinds of "Files" Exist? {: #fs-other}
 
-[%fixme "how to determine block size" %]
+-   Unix (and other modern operating systems) make [%g device "devices" %] look like files
+    -   Reading from the keyboard and writing to the screen are like file I/O
+-   The pseudofiles representing devices live in `/dev`
+-   `ls /dev` on my machine shows 345 different devices
+-   Key difference between different kinds is whether access is [%g buffer_verb "buffered" %]
+    -   Does the operating system read a block at a time and then give the user access to the block?
+    -   Does it store data in a block temporarily and write that block all at once?
+-   A [%g character_device "character device" %] allows direct (unbuffered) access
+    -   Example: terminals whose names are `/dev/tty*`
+    -   `ls -l` shows `c` as the first letter instead of `d` for directory
+-   A [%g block_device "block device" %] always buffers
+    -   Example: a disk whose name is `/dev/disk*`
+    -   `ls -l` shows `b` instead of `c`, `d`, `l`, or `-`
+-   There are stranger things as well
+    -   `dev/urandom` produces random bits
 
-[%fixme "change user/group ID in fork/exec" %]
+[%inc random_bits.py %]
+[%inc random_bits.out %]
 
-[%fixme "explain chown" %]
+## What Disks Does My Machine Have? {: #fs-df}
 
-[%fixme "explain permissions are less important on laptops than multi-user systems except services" %]
+-   Run the `df` command (for "disk free space")
+
+[%inc df_output.out %]
+
+-   The physical disk in this laptop is divided into several filesystems
+    -   Each has its own inodes
+-   How many 512-byte blocks does each have?
+-   How many are used and available?
+-   How many inodes are used and available?
+-   Where is the filesystem [%g mount "mounted" %]?
+    -   I.e., what path do we use to tell the operating system we want that data?
+-   Most people won't ever have to worry about disks at this level
+    -   But we *will* think about mounting in [%x virt %]
+
+## How Much Space Is In Use? {# #fs-du}
+
+-   Use the `du` command with `-h` for human-readable suffixes and `-s` for summary
+
+[%inc du_h_s.text %]
+
+-   But this doesn't include `.git` or other files and directories whose names start with `.`
+-   Simple solution `du -h -s .*` tries to summarize `..`, which isn't what we want
+-   Use [%g command_interpolation "command interpolation" %] and `ls -A`
+    -   All of these tools evolved piece by piece over time, and it shows
+
+[%inc du_h_s_all.text %]

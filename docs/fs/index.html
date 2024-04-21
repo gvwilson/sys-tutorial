@@ -50,7 +50,7 @@
 
       
       <p class="terms">Terms defined: 
-<a class="gl-ref" href="../glossary/#gl:access_control" markdown="1">access control</a>, <a class="gl-ref" href="../glossary/#gl:authentication" markdown="1">authentication</a>, <a class="gl-ref" href="../glossary/#gl:authorization" markdown="1">authorization</a>, <a class="gl-ref" href="../glossary/#gl:ball_and_stick" markdown="1">ball-and-stick model</a>, <a class="gl-ref" href="../glossary/#gl:block_filesystem" markdown="1">block (in filesystem)</a>, <a class="gl-ref" href="../glossary/#gl:capability" markdown="1">capability</a>, <a class="gl-ref" href="../glossary/#gl:filesystem" markdown="1">filesystem</a>, <a class="gl-ref" href="../glossary/#gl:gid" markdown="1">group ID</a>, <a class="gl-ref" href="../glossary/#gl:inode" markdown="1">inode</a>, <a class="gl-ref" href="../glossary/#gl:link_hard" markdown="1">hard link (in filesystem)</a>, <a class="gl-ref" href="../glossary/#gl:link_sym" markdown="1">symbolic link (in filesystem)</a>, <a class="gl-ref" href="../glossary/#gl:octal" markdown="1">octal</a>, <a class="gl-ref" href="../glossary/#gl:root_directory" markdown="1">root directory</a>, <a class="gl-ref" href="../glossary/#gl:system_call" markdown="1">system call</a>, <a class="gl-ref" href="../glossary/#gl:uid" markdown="1">user ID</a>, <a class="gl-ref" href="../glossary/#gl:user_group" markdown="1">user group</a>, <a class="gl-ref" href="../glossary/#gl:uuid" markdown="1">Universally Unique Identifier</a>
+<a class="gl-ref" href="../glossary/#gl:access_control" markdown="1">access control</a>, <a class="gl-ref" href="../glossary/#gl:authentication" markdown="1">authentication</a>, <a class="gl-ref" href="../glossary/#gl:authorization" markdown="1">authorization</a>, <a class="gl-ref" href="../glossary/#gl:ball_and_stick" markdown="1">ball-and-stick model</a>, <a class="gl-ref" href="../glossary/#gl:block_device" markdown="1">block device</a>, <a class="gl-ref" href="../glossary/#gl:block_filesystem" markdown="1">block (in filesystem)</a>, <a class="gl-ref" href="../glossary/#gl:buffer_verb" markdown="1">buffer (verb)</a>, <a class="gl-ref" href="../glossary/#gl:capability" markdown="1">capability</a>, <a class="gl-ref" href="../glossary/#gl:character_device" markdown="1">character device</a>, <a class="gl-ref" href="../glossary/#gl:command_interpolation" markdown="1">command interpolation</a>, <a class="gl-ref" href="../glossary/#gl:device" markdown="1">device</a>, <a class="gl-ref" href="../glossary/#gl:filesystem" markdown="1">filesystem</a>, <a class="gl-ref" href="../glossary/#gl:gid" markdown="1">group ID</a>, <a class="gl-ref" href="../glossary/#gl:inode" markdown="1">inode</a>, <a class="gl-ref" href="../glossary/#gl:link_hard" markdown="1">hard link (in filesystem)</a>, <a class="gl-ref" href="../glossary/#gl:link_sym" markdown="1">symbolic link (in filesystem)</a>, <a class="gl-ref" href="../glossary/#gl:mount" markdown="1">mount</a>, <a class="gl-ref" href="../glossary/#gl:octal" markdown="1">octal</a>, <a class="gl-ref" href="../glossary/#gl:root_directory" markdown="1">root directory</a>, <a class="gl-ref" href="../glossary/#gl:system_call" markdown="1">system call</a>, <a class="gl-ref" href="../glossary/#gl:uid" markdown="1">user ID</a>, <a class="gl-ref" href="../glossary/#gl:user_group" markdown="1">user group</a>, <a class="gl-ref" href="../glossary/#gl:uuid" markdown="1">Universally Unique Identifier</a>
 </p>
       <ul>
 <li><a href="https://github.com/gvwilson/sys-tutorial/issues/19" class="issue">Issue 19</a></li>
@@ -422,6 +422,11 @@ revised content
 <li><code>stat</code> defines constants representing various permissions</li>
 <li>Add the ones we want</li>
 </ul>
+<h2 class="aside" id="fs-perm-important">Not Important Until It Is</h2>
+<ul>
+<li>Permissions are less important on laptops than they were on multi-user systems…</li>
+<li>…until we start to run web servers and databases that other people can access</li>
+</ul>
 <h2 class="aside" id="fs-sys-prog">What is &ldquo;Systems Programming&rdquo;?</h2>
 <ul>
 <li>Not a precise term</li>
@@ -514,14 +519,118 @@ cat: /tmp/duplicate.txt: No such file or directory
 </ul>
 </li>
 </ul>
-<h2>To Do</h2>
-<p class="fixme">FIXME: how to determine block size</p>
-
-<p class="fixme">FIXME: change user/group ID in fork/exec</p>
-
-<p class="fixme">FIXME: explain chown</p>
-
-<p class="fixme">FIXME: explain permissions are less important on laptops than multi-user systems except services</p>
+<h2 id="fs-other">What Other Kinds of &ldquo;Files&rdquo; Exist?</h2>
+<ul>
+<li>Unix (and other modern operating systems) make <a class="gl-ref" href="../glossary/#gl:device" markdown="1">devices</a> look like files<ul>
+<li>Reading from the keyboard and writing to the screen are like file I/O</li>
+</ul>
+</li>
+<li>The pseudofiles representing devices live in <code>/dev</code></li>
+<li><code>ls /dev</code> on my machine shows 345 different devices</li>
+<li>Key difference between different kinds is whether access is <a class="gl-ref" href="../glossary/#gl:buffer_verb" markdown="1">buffered</a><ul>
+<li>Does the operating system read a block at a time and then give the user access to the block?</li>
+<li>Does it store data in a block temporarily and write that block all at once?</li>
+</ul>
+</li>
+<li>A <a class="gl-ref" href="../glossary/#gl:character_device" markdown="1">character device</a> allows direct (unbuffered) access<ul>
+<li>Example: terminals whose names are <code>/dev/tty*</code></li>
+<li><code>ls -l</code> shows <code>c</code> as the first letter instead of <code>d</code> for directory</li>
+</ul>
+</li>
+<li>A <a class="gl-ref" href="../glossary/#gl:block_device" markdown="1">block device</a> always buffers<ul>
+<li>Example: a disk whose name is <code>/dev/disk*</code></li>
+<li><code>ls -l</code> shows <code>b</code> instead of <code>c</code>, <code>d</code>, <code>l</code>, or <code>-</code></li>
+</ul>
+</li>
+<li>There are stranger things as well<ul>
+<li><code>dev/urandom</code> produces random bits</li>
+</ul>
+</li>
+</ul>
+<div class="language-py" title="random_bits.py">
+<div class="highlight"><pre><span></span><code><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;/dev/urandom&quot;</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">reader</span><span class="p">:</span>
+    <span class="nb">bytes</span> <span class="o">=</span> <span class="n">reader</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">([</span><span class="nb">hex</span><span class="p">(</span><span class="n">b</span><span class="p">)</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="nb">bytes</span><span class="p">])</span>
+</code></pre></div>
+</div>
+<div class="language-out" title="random_bits.out">
+<div class="highlight"><pre><span></span><code>[&#39;0x3b&#39;, &#39;0x57&#39;, &#39;0x49&#39;, &#39;0x2&#39;, &#39;0x4e&#39;, &#39;0xac&#39;, &#39;0x3c&#39;, &#39;0xef&#39;]
+</code></pre></div>
+</div>
+<h2 id="fs-df">What Disks Does My Machine Have?</h2>
+<ul>
+<li>Run the <code>df</code> command (for &ldquo;disk free space&rdquo;)</li>
+</ul>
+<div class="language-out" title="df_output.out">
+<div class="highlight"><pre><span></span><code>Filesystem     512-blocks      Used  Available Capacity iused      ifree %iused  Mounted on
+/dev/disk3s1s1 1942700360  20008776 1812103064     2%  403755 4294159622    0%   /
+devfs                 414       414          0   100%     722          0  100%   /dev
+/dev/disk3s6   1942700360        40 1812103064     1%       0 9060515320    0%   /System/Volumes/VM
+/dev/disk3s2   1942700360  11963032 1812103064     1%    1069 9060515320    0%   /System/Volumes/Preboot
+/dev/disk3s4   1942700360      7664 1812103064     1%      52 9060515320    0%   /System/Volumes/Update
+/dev/disk1s2      1024000     12328     984504     2%       1    4922520    0%   /System/Volumes/xarts
+/dev/disk1s1      1024000     12544     984504     2%      28    4922520    0%   /System/Volumes/iSCPreboot
+/dev/disk1s3      1024000      4904     984504     1%      89    4922520    0%   /System/Volumes/Hardware
+/dev/disk3s5   1942700360  96389600 1812103064     6%  955583 9060515320    0%   /System/Volumes/Data
+map auto_home           0         0          0   100%       0          0     -   /System/Volumes/Data/home
+</code></pre></div>
+</div>
+<ul>
+<li>The physical disk in this laptop is divided into several filesystems<ul>
+<li>Each has its own inodes</li>
+</ul>
+</li>
+<li>How many 512-byte blocks does each have?</li>
+<li>How many are used and available?</li>
+<li>How many inodes are used and available?</li>
+<li>Where is the filesystem <a class="gl-ref" href="../glossary/#gl:mount" markdown="1">mounted</a>?<ul>
+<li>I.e., what path do we use to tell the operating system we want that data?</li>
+</ul>
+</li>
+<li>Most people won&rsquo;t ever have to worry about disks at this level<ul>
+<li>But we <em>will</em> think about mounting in <a class="cross-ref" href="../virt/">Chapter&nbsp;6</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="fs-du">How Much Space Is In Use?</h2>
+<ul>
+<li>Use the <code>du</code> command with <code>-h</code> for human-readable suffixes and <code>-s</code> for summary</li>
+</ul>
+<div class="language-text" title="du_h_s.text">
+<div class="highlight"><pre><span></span><code>$ du -h -s .
+4.9M    .
+</code></pre></div>
+</div>
+<ul>
+<li>But this doesn&rsquo;t include <code>.git</code> or other files and directories whose names start with <code>.</code></li>
+<li>Simple solution <code>du -h -s .*</code> tries to summarize <code>..</code>, which isn&rsquo;t what we want</li>
+<li>Use <a class="gl-ref" href="../glossary/#gl:command_interpolation" markdown="1">command interpolation</a> and <code>ls -A</code><ul>
+<li>All of these tools evolved piece by piece over time, and it shows</li>
+</ul>
+</li>
+</ul>
+<div class="language-text" title="du_h_s_all.text">
+<div class="highlight"><pre><span></span><code>$ du -h -s $(ls -A)
+1.8M    .git
+4.0K    .gitignore
+4.0K    .vscode
+4.0K    CODE_OF_CONDUCT.md
+8.0K    CONTRIBUTING.md
+8.0K    LICENSE.md
+4.0K    Makefile
+4.0K    README.md
+4.0K    brew.txt
+4.0K    config.py
+812K    docs
+ 28K    info
+360K    lib
+1.1M    old
+4.0K    requirements.txt
+524K    res
+408K    src
+4.0K    tmp
+</code></pre></div>
+</div>
     </main>
     <footer>
   © 2024 <a href="https://third-bit.com/">Greg Wilson</a>

@@ -1,0 +1,19 @@
+$ du -h -s $(ls -A)
+1.8M	.git
+4.0K	.gitignore
+4.0K	.vscode
+4.0K	CODE_OF_CONDUCT.md
+8.0K	CONTRIBUTING.md
+8.0K	LICENSE.md
+4.0K	Makefile
+4.0K	README.md
+4.0K	brew.txt
+4.0K	config.py
+812K	docs
+ 28K	info
+360K	lib
+1.1M	old
+4.0K	requirements.txt
+524K	res
+408K	src
+4.0K	tmp

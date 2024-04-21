@@ -52,6 +52,12 @@
       A representation of binary data that represents each group of 6 bits
       as one of 64 printable characters.
 
+- key: block_device
+  en:
+    term: "block device"
+    def: >
+      FIXME
+
 - key: block_filesystem
   en:
     term: "block (in filesystem)"
@@ -93,6 +99,12 @@
     def: >
       FIXME
 
+- key: character_device
+  en:
+    term: "character device"
+    def: >
+      FIXME
+
 - key: character_encoding
   en:
     term: character encoding
@@ -119,6 +131,12 @@
     def: >
       A program such as a browser that sends requests to a server and does something with the response.
 
+- key: command_interpolation
+  en:
+    term: command interpolation
+    def: >
+      FIXME
+
 - key: concurrency
   en:
     term: concurrency
@@ -133,6 +151,12 @@
     def: >
       A long-lived process managed by an operating system
       that provides a service such as printer management to other processes.
+
+- key: device
+  en:
+    term: device
+    def: >
+      FIXME
 
 - key: docker
   en:
