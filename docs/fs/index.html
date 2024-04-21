@@ -50,7 +50,7 @@
 
       
       <p class="terms">Terms defined: 
-<a class="gl-ref" href="../glossary/#gl:access_control" markdown="1">access control</a>, <a class="gl-ref" href="../glossary/#gl:authentication" markdown="1">authentication</a>, <a class="gl-ref" href="../glossary/#gl:authorization" markdown="1">authorization</a>, <a class="gl-ref" href="../glossary/#gl:ball_and_stick" markdown="1">ball-and-stick model</a>, <a class="gl-ref" href="../glossary/#gl:block_filesystem" markdown="1">block (in filesystem)</a>, <a class="gl-ref" href="../glossary/#gl:capability" markdown="1">capability</a>, <a class="gl-ref" href="../glossary/#gl:filesystem" markdown="1">filesystem</a>, <a class="gl-ref" href="../glossary/#gl:gid" markdown="1">group ID</a>, <a class="gl-ref" href="../glossary/#gl:inode" markdown="1">inode</a>, <a class="gl-ref" href="../glossary/#gl:link_hard" markdown="1">hard link (in filesystem)</a>, <a class="gl-ref" href="../glossary/#gl:octal" markdown="1">octal</a>, <a class="gl-ref" href="../glossary/#gl:root_directory" markdown="1">root directory</a>, <a class="gl-ref" href="../glossary/#gl:system_call" markdown="1">system call</a>, <a class="gl-ref" href="../glossary/#gl:uid" markdown="1">user ID</a>, <a class="gl-ref" href="../glossary/#gl:user_group" markdown="1">user group</a>, <a class="gl-ref" href="../glossary/#gl:uuid" markdown="1">Universally Unique Identifier</a>
+<a class="gl-ref" href="../glossary/#gl:access_control" markdown="1">access control</a>, <a class="gl-ref" href="../glossary/#gl:authentication" markdown="1">authentication</a>, <a class="gl-ref" href="../glossary/#gl:authorization" markdown="1">authorization</a>, <a class="gl-ref" href="../glossary/#gl:ball_and_stick" markdown="1">ball-and-stick model</a>, <a class="gl-ref" href="../glossary/#gl:block_filesystem" markdown="1">block (in filesystem)</a>, <a class="gl-ref" href="../glossary/#gl:capability" markdown="1">capability</a>, <a class="gl-ref" href="../glossary/#gl:filesystem" markdown="1">filesystem</a>, <a class="gl-ref" href="../glossary/#gl:gid" markdown="1">group ID</a>, <a class="gl-ref" href="../glossary/#gl:inode" markdown="1">inode</a>, <a class="gl-ref" href="../glossary/#gl:link_hard" markdown="1">hard link (in filesystem)</a>, <a class="gl-ref" href="../glossary/#gl:link_sym" markdown="1">symbolic link (in filesystem)</a>, <a class="gl-ref" href="../glossary/#gl:octal" markdown="1">octal</a>, <a class="gl-ref" href="../glossary/#gl:root_directory" markdown="1">root directory</a>, <a class="gl-ref" href="../glossary/#gl:system_call" markdown="1">system call</a>, <a class="gl-ref" href="../glossary/#gl:uid" markdown="1">user ID</a>, <a class="gl-ref" href="../glossary/#gl:user_group" markdown="1">user group</a>, <a class="gl-ref" href="../glossary/#gl:uuid" markdown="1">Universally Unique Identifier</a>
 </p>
       <ul>
 <li><a href="https://github.com/gvwilson/sys-tutorial/issues/19" class="issue">Issue 19</a></li>
@@ -313,7 +313,7 @@ groups  nobody everyone localaccounts
 <div class="highlight"><pre><span></span><code>$ echo &quot;original content&quot; &gt; /tmp/somefile.txt
 
 $ ls -l /tmp/somefile.txt
--rw-r--r--  1 gvwilson  wheel  17 Apr 20 16:15 /tmp/somefile.txt
+-rw-r--r--  1 gvwilson  staff  17 Apr 20 16:15 /tmp/somefile.txt
 
 $ cat /tmp/somefile.txt
 original content
@@ -321,7 +321,7 @@ original content
 $ chmod u=,g=,o= /tmp/somefile.txt
 
 $ ls -l /tmp/somefile.txt
-----------  1 gvwilson  wheel  17 Apr 20 16:15 /tmp/somefile.txt
+----------  1 gvwilson  staff  17 Apr 20 16:15 /tmp/somefile.txt
 
 $ cat /tmp/somefile.txt
 cat: /tmp/somefile.txt: Permission denied
@@ -334,7 +334,7 @@ $ chmod u=rw /tmp/somefile.txt
 $ echo &quot;revised content&quot; &gt; /tmp/somefile.txt
 
 $ ls -l /tmp/somefile.txt
--rw-------  1 gvwilson  wheel  16 Apr 20 16:15 /tmp/somefile.txt
+-rw-------  1 gvwilson  staff  16 Apr 20 16:15 /tmp/somefile.txt
 
 $ cat /tmp/somefile.txt
 revised content
@@ -425,14 +425,92 @@ revised content
 <h2 class="aside" id="fs-sys-prog">What is &ldquo;Systems Programming&rdquo;?</h2>
 <ul>
 <li>Not a precise term</li>
-<li>But something like, &ldquo;Anything with system calls beyond reading and writing files&rdquo;</li>
+<li>But if it means anything,
+    it includes things at this level</li>
 </ul>
 <h2 id="fs-link-hard">What is a Hard Link?</h2>
-<p class="fixme">FIXME: explain hard links</p>
+<ul>
+<li>One of the columns in <a class="tbl-ref" href="../fs/#ls_long_tmp">Table&nbsp;2.1</a> is &ldquo;links&rdquo;<ul>
+<li>How many references there are to a file in the filesystem</li>
+</ul>
+</li>
+<li>Can create more links to an existing file<ul>
+<li>What we think of as &ldquo;files&rdquo; are bookkeeping entries in the filesystem that refer to inodes</li>
+</ul>
+</li>
+<li>Use the <code>ln</code> command to create a <a class="gl-ref" href="../glossary/#gl:link_hard" markdown="1">hard link</a><ul>
+<li>Syntax is like <code>mv</code>: existing first, then new name</li>
+</ul>
+</li>
+</ul>
+<div class="language-text" title="hard_link.text">
+<div class="highlight"><pre><span></span><code>$ echo &quot;file content&quot; &gt; /tmp/original.txt
 
+$ ls -l /tmp/*.txt
+-rw-r--r--  1 tut  staff  13 Apr 20 20:13 /tmp/original.txt
+
+$ ln /tmp/original.txt /tmp/duplicate.txt
+$ ls -l /tmp/*.txt
+-rw-r--r--  2 tut  staff  13 Apr 20 20:13 /tmp/duplicate.txt
+-rw-r--r--  2 tut  staff  13 Apr 20 20:13 /tmp/original.txt
+
+$ cat /tmp/duplicate.txt
+file content
+
+$ rm /tmp/original.txt
+$ ls -l /tmp/*.txt
+-rw-r--r--  1 tut  staff  13 Apr 20 20:13 /tmp/duplicate.txt
+
+$ cat /tmp/duplicate.txt
+file content
+</code></pre></div>
+</div>
+<ul>
+<li>Note the number of links to <code>original.txt</code> and <code>duplicate.txt</code> is 2 when they both exist</li>
+</ul>
 <h2 id="fs-link-sym">What is a Symbolic Link?</h2>
-<p class="fixme">FIXME: explain symbolic links</p>
+<ul>
+<li>A <a class="gl-ref" href="../glossary/#gl:link_sym" markdown="1">symbolic link</a> (or symlink) is a file that refers to another file<ul>
+<li><p class="fixme">FIXME: https://stackoverflow.com/questions/185899/what-is-the-difference-between-a-symbolic-link-and-a-hard-link</p></li>
+</ul>
+</li>
+</ul>
+<div class="language-text" title="sym_link.text">
+<div class="highlight"><pre><span></span><code>$ echo &quot;file content&quot; &gt; /tmp/original.txt
 
+$ ls -l /tmp/*.txt
+-rw-r--r--  1 tut  staff  13 Apr 20 20:20 /tmp/original.txt
+
+$ ln -s /tmp/original.txt /tmp/duplicate.txt
+$ ls -l /tmp/*.txt
+lrwxr-xr-x  1 tut  staff  17 Apr 20 20:20 /tmp/duplicate.txt -&gt; /tmp/original.txt
+-rw-r--r--  1 tut  staff  13 Apr 20 20:20 /tmp/original.txt
+
+$ cat /tmp/duplicate.txt
+file content
+
+$ readlink /tmp/duplicate.txt
+/tmp/original.txt
+
+$ rm /tmp/original.txt
+$ ls -l /tmp/*.txt
+lrwxr-xr-x  1 tut  staff  17 Apr 20 20:20 /tmp/duplicate.txt@ -&gt; /tmp/original.txt
+
+$ cat /tmp/duplicate.txt
+cat: /tmp/duplicate.txt: No such file or directory
+</code></pre></div>
+</div>
+<ul>
+<li>Soft links can have different permissions<ul>
+<li>Hard links all refer to the same inode, which is where permissions are stored</li>
+</ul>
+</li>
+<li>Often use soft links to hide version numbers of installed applications<ul>
+<li>E.g., <code>~/conda/bin/python</code> is a symlink to <code>~/conda/bin/python3.11</code></li>
+<li>Running the former actually launches the latter</li>
+</ul>
+</li>
+</ul>
 <h2>To Do</h2>
 <p class="fixme">FIXME: how to determine block size</p>
 

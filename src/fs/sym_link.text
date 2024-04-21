@@ -1,0 +1,22 @@
+$ echo "file content" > /tmp/original.txt
+
+$ ls -l /tmp/*.txt
+-rw-r--r--  1 tut  staff  13 Apr 20 20:20 /tmp/original.txt
+
+$ ln -s /tmp/original.txt /tmp/duplicate.txt
+$ ls -l /tmp/*.txt
+lrwxr-xr-x  1 tut  staff  17 Apr 20 20:20 /tmp/duplicate.txt -> /tmp/original.txt
+-rw-r--r--  1 tut  staff  13 Apr 20 20:20 /tmp/original.txt
+
+$ cat /tmp/duplicate.txt
+file content
+
+$ readlink /tmp/duplicate.txt
+/tmp/original.txt
+
+$ rm /tmp/original.txt
+$ ls -l /tmp/*.txt
+lrwxr-xr-x  1 tut  staff  17 Apr 20 20:20 /tmp/duplicate.txt@ -> /tmp/original.txt
+
+$ cat /tmp/duplicate.txt
+cat: /tmp/duplicate.txt: No such file or directory

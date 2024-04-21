@@ -1,0 +1,19 @@
+$ echo "file content" > /tmp/original.txt
+
+$ ls -l /tmp/*.txt
+-rw-r--r--  1 tut  staff  13 Apr 20 20:13 /tmp/original.txt
+
+$ ln /tmp/original.txt /tmp/duplicate.txt
+$ ls -l /tmp/*.txt
+-rw-r--r--  2 tut  staff  13 Apr 20 20:13 /tmp/duplicate.txt
+-rw-r--r--  2 tut  staff  13 Apr 20 20:13 /tmp/original.txt
+
+$ cat /tmp/duplicate.txt
+file content
+
+$ rm /tmp/original.txt
+$ ls -l /tmp/*.txt
+-rw-r--r--  1 tut  staff  13 Apr 20 20:13 /tmp/duplicate.txt
+
+$ cat /tmp/duplicate.txt
+file content

@@ -1,7 +1,7 @@
 $ echo "original content" > /tmp/somefile.txt
 
 $ ls -l /tmp/somefile.txt
--rw-r--r--  1 gvwilson  wheel  17 Apr 20 16:15 /tmp/somefile.txt
+-rw-r--r--  1 gvwilson  staff  17 Apr 20 16:15 /tmp/somefile.txt
 
 $ cat /tmp/somefile.txt
 original content
@@ -9,7 +9,7 @@ original content
 $ chmod u=,g=,o= /tmp/somefile.txt
 
 $ ls -l /tmp/somefile.txt
-----------  1 gvwilson  wheel  17 Apr 20 16:15 /tmp/somefile.txt
+----------  1 gvwilson  staff  17 Apr 20 16:15 /tmp/somefile.txt
 
 $ cat /tmp/somefile.txt
 cat: /tmp/somefile.txt: Permission denied
@@ -22,7 +22,7 @@ $ chmod u=rw /tmp/somefile.txt
 $ echo "revised content" > /tmp/somefile.txt
 
 $ ls -l /tmp/somefile.txt
--rw-------  1 gvwilson  wheel  16 Apr 20 16:15 /tmp/somefile.txt
+-rw-------  1 gvwilson  staff  16 Apr 20 16:15 /tmp/somefile.txt
 
 $ cat /tmp/somefile.txt
 revised content

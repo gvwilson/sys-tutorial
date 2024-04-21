@@ -146,15 +146,34 @@ tagline: "How to manage files, directories, and their stranger kin."
 ## What is "Systems Programming"? {: #fs-sys-prog .aside}
 
 -   Not a precise term
--   But something like, "Anything with system calls beyond reading and writing files"
+-   But if it means anything,
+    it includes things at this level
 
 ## What is a Hard Link? {: #fs-link-hard}
 
-[%fixme "explain hard links" %]
+-   One of the columns in [%t ls_long_tmp %] is "links"
+    -   How many references there are to a file in the filesystem
+-   Can create more links to an existing file
+    -   What we think of as "files" are bookkeeping entries in the filesystem that refer to inodes
+-   Use the `ln` command to create a [%g link_hard "hard link" %]
+    -   Syntax is like `mv`: existing first, then new name
+
+[%inc hard_link.text %]
+
+-   Note the number of links to `original.txt` and `duplicate.txt` is 2 when they both exist
 
 ## What is a Symbolic Link? {: #fs-link-sym}
 
-[%fixme "explain symbolic links" %]
+-   A [%g link_sym "symbolic link" %] (or symlink) is a file that refers to another file
+    -   [%fixme https://stackoverflow.com/questions/185899/what-is-the-difference-between-a-symbolic-link-and-a-hard-link %]
+
+[%inc sym_link.text %]
+
+-   Soft links can have different permissions
+    -   Hard links all refer to the same inode, which is where permissions are stored
+-   Often use soft links to hide version numbers of installed applications
+    -   E.g., `~/conda/bin/python` is a symlink to `~/conda/bin/python3.11`
+    -   Running the former actually launches the latter
 
 ## To Do
 
