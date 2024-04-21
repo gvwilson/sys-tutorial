@@ -17,6 +17,7 @@ slug = "systut"
 chapters = [
     "intro",
     "fs",
+    "proc",
     "auth",
     "finale",
 ]

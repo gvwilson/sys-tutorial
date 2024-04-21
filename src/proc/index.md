@@ -8,7 +8,8 @@ tagline: "How to create, signal, and interact with running programs."
 -   A program is a set of instructions for a computer
 -   A [%g process "process" %] is a running instance of a program
     -   Code plus variables in memory plus open files plus some IDs
--   Tools to manage them were invented when most users only had a single terminal
+-   If files are nouns, processes are verbs
+-   Tools to manage processes were invented when most users only had a single terminal
     -   But are still useful for working with remote/cloud machines
 
 ## Viewing Processes
