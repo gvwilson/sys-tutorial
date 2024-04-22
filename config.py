@@ -18,6 +18,7 @@ chapters = [
     "intro",
     "fs",
     "proc",
+    "jobs",
     "http",
     "auth",
     "virt",

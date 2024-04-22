@@ -1,2 +1,4 @@
+fswatch
 pstree
 tree
+watch

@@ -5,7 +5,7 @@ tagline: "How to manage files, directories, and their stranger kin."
 
 -   [%issue 19 %]
 
-## What is a Filesystem? {: #fs-filesystem}
+## Definitions {: #fs-filesystem}
 
 -   [%g ball_and_stick "Ball-and-stick model" %]
     -   Computer's hard drive has files and directories
@@ -20,7 +20,7 @@ tagline: "How to manage files, directories, and their stranger kin."
     -   A directory is a special kind of file that keeps track of other files
         -   Files aren't physically "in" a directory
 
-## What Does the Filesystem Know? {: #fs-know}
+## Information About Files and Directories {: #fs-know}
 
 -   `ls` command flags:
     -   `-a`: show directories whose names begin with `.`
@@ -52,7 +52,7 @@ tagline: "How to manage files, directories, and their stranger kin."
 -   Finally the name
 -   So now we have a bunch of concepts to explain
 
-## What Does "Permission" Mean? {: #fs-perm}
+## Permissions in Principle {: #fs-perm}
 
 -   The three A's
     -   [%g authentication "Authentication" %]: who are you
@@ -65,7 +65,7 @@ tagline: "How to manage files, directories, and their stranger kin."
     -   Keep track of what operations are permitted to whom
     -   Enforce those rules (which we won't go into)
 
-## What Are User and Group IDs? {: #fs-uid-gid}
+## User and Group IDs {: #fs-uid-gid}
 
 -   Each user account has a unique name and a unique numeric ID
     -   The numeric user ID is often called a [%g uid "uid" %]
@@ -86,7 +86,7 @@ tagline: "How to manage files, directories, and their stranger kin."
 [%inc id_nobody.sh %]
 [%inc id_nobody.out %]
 
-## What Capabilities Do Files and Directories Offer? {: #fs-capability}
+## Capabilities {: #fs-capability}
 
 -   A [%g capability "capability" %] is something that someone may or may not be able to do to a thing
     -   Which is incredibly vague
@@ -102,7 +102,7 @@ tagline: "How to manage files, directories, and their stranger kin."
     -   *Without* seeing what else is in `dir`
     -   Use the "execute" bit on the directory `dir`
 
-## How Does the Operating System Decide What Users Can Do? {: #fs-permission}
+## Permissions in Practice {: #fs-permission}
 
 -   Go back to permissions in [%t ls_long_tmp %]
 -   First letter is `-` for a regular file and `d` for a directory
@@ -111,7 +111,7 @@ tagline: "How to manage files, directories, and their stranger kin."
 -   So `drwxr-xr-x` means "a directory with owner=RWX, group=RX, and other=RX"
 -   And `-rw-r--r--` means "a file with owner=RW, group=R, and other=R"
 
-## How Can a User Change Permissions on a File or Directory: {: #fs-chmod}
+## Changing Permissions {: #fs-chmod}
 
 -   Change permissions with `chmod` ("change mode")
     -   Unfortunately one of the more confusing Unix shell commands
@@ -120,7 +120,7 @@ tagline: "How to manage files, directories, and their stranger kin."
 
 [%inc chmod_example.text %]
 
-## How Can a Program Do This? {: #fs-python}
+## Changing Permissions Programmatically {: #fs-python}
 
 -   `ls`, `chmod`, and other programs use [%g system_call "system calls" %] to get information and change things
     -   A function provided by the operating system
@@ -148,13 +148,13 @@ tagline: "How to manage files, directories, and their stranger kin."
 -   Permissions are less important on laptops than they were on multi-user systems…
 -   …until we start to run web servers and databases that other people can access
 
-## What is "Systems Programming"? {: #fs-sys-prog .aside}
+## Systems Programming? {: #fs-sys-prog .aside}
 
 -   Not a precise term
 -   But if it means anything,
     it includes things at this level
 
-## What is a Hard Link? {: #fs-link-hard}
+## Hard Links {: #fs-link-hard}
 
 -   One of the columns in [%t ls_long_tmp %] is "links"
     -   How many references there are to a file in the filesystem
@@ -167,7 +167,7 @@ tagline: "How to manage files, directories, and their stranger kin."
 
 -   Note the number of links to `original.txt` and `duplicate.txt` is 2 when they both exist
 
-## What is a Symbolic Link? {: #fs-link-sym}
+## Symbolic Links {: #fs-link-sym}
 
 -   A [%g link_sym "symbolic link" %] (or symlink) is a file that refers to another file
     ([%f links %])
@@ -187,7 +187,7 @@ tagline: "How to manage files, directories, and their stranger kin."
     -   E.g., `~/conda/bin/python` is a symlink to `~/conda/bin/python3.11`
     -   Running the former actually launches the latter
 
-## What Other Kinds of "Files" Exist? {: #fs-other}
+## Other Kinds of "Files" {: #fs-other}
 
 -   Unix (and other modern operating systems) make [%g device "devices" %] look like files
     -   Reading from the keyboard and writing to the screen are like file I/O
@@ -208,7 +208,7 @@ tagline: "How to manage files, directories, and their stranger kin."
 [%inc random_bits.py %]
 [%inc random_bits.out %]
 
-## What Disks Does My Machine Have? {: #fs-df}
+## Disks {: #fs-df}
 
 -   Run the `df` command (for "disk free space")
 
@@ -224,7 +224,7 @@ tagline: "How to manage files, directories, and their stranger kin."
 -   Most people won't ever have to worry about disks at this level
     -   But we *will* think about mounting in [%x virt %]
 
-## How Much Space Is In Use? {# #fs-du}
+## Disk Usage {# #fs-du}
 
 -   Use the `du` command with `-h` for human-readable suffixes and `-s` for summary
 

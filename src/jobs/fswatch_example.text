@@ -1,0 +1,7 @@
+$ fswatch -l 1 -x Created -x Removed /tmp
+
+# touch /tmp/a.txt
+/private/tmp/a.txt Created IsFile
+
+# rm /tmp/a.txt
+/private/tmp/a.txt Created IsFile Removed

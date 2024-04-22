@@ -1,0 +1,4 @@
+$ watch -n 5 date
+Every 5.0s: date              cherne: Mon Apr 22 16:11:48 2024
+
+Mon Apr 22 16:11:53 EDT 2024

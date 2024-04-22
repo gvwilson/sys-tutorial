@@ -55,7 +55,7 @@
       <ul>
 <li><a href="https://github.com/gvwilson/sys-tutorial/issues/19" class="issue">Issue 19</a></li>
 </ul>
-<h2 id="fs-filesystem">What is a Filesystem?</h2>
+<h2 id="fs-filesystem">Definitions</h2>
 <ul>
 <li><a class="gl-ref" href="../glossary/#gl:ball_and_stick" markdown="1">Ball-and-stick model</a><ul>
 <li>Computer&rsquo;s hard drive has files and directories</li>
@@ -78,7 +78,7 @@
 </ul>
 </li>
 </ul>
-<h2 id="fs-know">What Does the Filesystem Know?</h2>
+<h2 id="fs-know">Information About Files and Directories</h2>
 <ul>
 <li><code>ls</code> command flags:<ul>
 <li><code>-a</code>: show directories whose names begin with <code>.</code></li>
@@ -179,7 +179,7 @@
 <li>Finally the name</li>
 <li>So now we have a bunch of concepts to explain</li>
 </ul>
-<h2 id="fs-perm">What Does &ldquo;Permission&rdquo; Mean?</h2>
+<h2 id="fs-perm">Permissions in Principle</h2>
 <ul>
 <li>The three A&rsquo;s<ul>
 <li><a class="gl-ref" href="../glossary/#gl:authentication" markdown="1">Authentication</a>: who are you
@@ -189,14 +189,14 @@
 </ul>
 </li>
 <li>So operating systems needs to:<ul>
-<li>Match a person to an account (we will discuss in <a class="cross-ref" href="../auth/">Chapter&nbsp;5</a>)</li>
+<li>Match a person to an account (we will discuss in <a class="cross-ref" href="../auth/">Chapter&nbsp;6</a>)</li>
 <li>Keep track of which account each process belongs to</li>
 <li>Keep track of what operations are permitted to whom</li>
 <li>Enforce those rules (which we won&rsquo;t go into)</li>
 </ul>
 </li>
 </ul>
-<h2 id="fs-uid-gid">What Are User and Group IDs?</h2>
+<h2 id="fs-uid-gid">User and Group IDs</h2>
 <ul>
 <li>Each user account has a unique name and a unique numeric ID<ul>
 <li>The numeric user ID is often called a <a class="gl-ref" href="../glossary/#gl:uid" markdown="1">uid</a></li>
@@ -235,7 +235,7 @@
 groups  nobody everyone localaccounts
 </code></pre></div>
 </div>
-<h2 id="fs-capability">What Capabilities Do Files and Directories Offer?</h2>
+<h2 id="fs-capability">Capabilities</h2>
 <ul>
 <li>A <a class="gl-ref" href="../glossary/#gl:capability" markdown="1">capability</a> is something that someone may or may not be able to do to a thing<ul>
 <li>Which is incredibly vague</li>
@@ -287,7 +287,7 @@ groups  nobody everyone localaccounts
 </ul>
 </li>
 </ul>
-<h2 id="fs-permission">How Does the Operating System Decide What Users Can Do?</h2>
+<h2 id="fs-permission">Permissions in Practice</h2>
 <ul>
 <li>Go back to permissions in <a class="tbl-ref" href="../fs/#ls_long_tmp">Table&nbsp;2.1</a></li>
 <li>First letter is <code>-</code> for a regular file and <code>d</code> for a directory<ul>
@@ -298,7 +298,7 @@ groups  nobody everyone localaccounts
 <li>So <code>drwxr-xr-x</code> means &ldquo;a directory with owner=RWX, group=RX, and other=RX&rdquo;</li>
 <li>And <code>-rw-r--r--</code> means &ldquo;a file with owner=RW, group=R, and other=R&rdquo;</li>
 </ul>
-<h2 id="fs-chmod">How Can a User Change Permissions on a File or Directory:</h2>
+<h2 id="fs-chmod">Changing Permissions</h2>
 <ul>
 <li>Change permissions with <code>chmod</code> (&ldquo;change mode&rdquo;)<ul>
 <li>Unfortunately one of the more confusing Unix shell commands</li>
@@ -340,7 +340,7 @@ $ cat /tmp/somefile.txt
 revised content
 </code></pre></div>
 </div>
-<h2 id="fs-python">How Can a Program Do This?</h2>
+<h2 id="fs-python">Changing Permissions Programmatically</h2>
 <ul>
 <li><code>ls</code>, <code>chmod</code>, and other programs use <a class="gl-ref" href="../glossary/#gl:system_call" markdown="1">system calls</a> to get information and change things<ul>
 <li>A function provided by the operating system</li>
@@ -427,13 +427,13 @@ revised content
 <li>Permissions are less important on laptops than they were on multi-user systems…</li>
 <li>…until we start to run web servers and databases that other people can access</li>
 </ul>
-<h2 class="aside" id="fs-sys-prog">What is &ldquo;Systems Programming&rdquo;?</h2>
+<h2 class="aside" id="fs-sys-prog">Systems Programming?</h2>
 <ul>
 <li>Not a precise term</li>
 <li>But if it means anything,
     it includes things at this level</li>
 </ul>
-<h2 id="fs-link-hard">What is a Hard Link?</h2>
+<h2 id="fs-link-hard">Hard Links</h2>
 <ul>
 <li>One of the columns in <a class="tbl-ref" href="../fs/#ls_long_tmp">Table&nbsp;2.1</a> is &ldquo;links&rdquo;<ul>
 <li>How many references there are to a file in the filesystem</li>
@@ -473,7 +473,7 @@ file content
 <ul>
 <li>Note the number of links to <code>original.txt</code> and <code>duplicate.txt</code> is 2 when they both exist</li>
 </ul>
-<h2 id="fs-link-sym">What is a Symbolic Link?</h2>
+<h2 id="fs-link-sym">Symbolic Links</h2>
 <ul>
 <li>A <a class="gl-ref" href="../glossary/#gl:link_sym" markdown="1">symbolic link</a> (or symlink) is a file that refers to another file
     (<a class="fig-ref" href="../fs/#links">Figure&nbsp;2.1</a>)</li>
@@ -519,7 +519,7 @@ cat: /tmp/duplicate.txt: No such file or directory
 </ul>
 </li>
 </ul>
-<h2 id="fs-other">What Other Kinds of &ldquo;Files&rdquo; Exist?</h2>
+<h2 id="fs-other">Other Kinds of &ldquo;Files&rdquo;</h2>
 <ul>
 <li>Unix (and other modern operating systems) make <a class="gl-ref" href="../glossary/#gl:device" markdown="1">devices</a> look like files<ul>
 <li>Reading from the keyboard and writing to the screen are like file I/O</li>
@@ -557,7 +557,7 @@ cat: /tmp/duplicate.txt: No such file or directory
 <div class="highlight"><pre><span></span><code>[&#39;0x3b&#39;, &#39;0x57&#39;, &#39;0x49&#39;, &#39;0x2&#39;, &#39;0x4e&#39;, &#39;0xac&#39;, &#39;0x3c&#39;, &#39;0xef&#39;]
 </code></pre></div>
 </div>
-<h2 id="fs-df">What Disks Does My Machine Have?</h2>
+<h2 id="fs-df">Disks</h2>
 <ul>
 <li>Run the <code>df</code> command (for &ldquo;disk free space&rdquo;)</li>
 </ul>
@@ -588,11 +588,11 @@ map auto_home           0         0          0   100%       0          0     -  
 </ul>
 </li>
 <li>Most people won&rsquo;t ever have to worry about disks at this level<ul>
-<li>But we <em>will</em> think about mounting in <a class="cross-ref" href="../virt/">Chapter&nbsp;6</a></li>
+<li>But we <em>will</em> think about mounting in <a class="cross-ref" href="../virt/">Chapter&nbsp;7</a></li>
 </ul>
 </li>
 </ul>
-<h2 id="fs-du">How Much Space Is In Use?</h2>
+<h2 id="fs-du">Disk Usage</h2>
 <ul>
 <li>Use the <code>du</code> command with <code>-h</code> for human-readable suffixes and <code>-s</code> for summary</li>
 </ul>
