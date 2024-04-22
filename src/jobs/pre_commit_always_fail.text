@@ -1,0 +1,40 @@
+# Make a place for this example.
+$ mkdir example
+$ cd example
+
+# Turn it into a Git repository.
+$ git init .
+Initialized empty Git repository in /Users/tut/example/.git/
+
+# Create a pre-commit script that always fails (i.e., exits with non-zero status).
+$ cat > .git/hooks/pre-commit.sh
+#!/bin/sh
+echo "hook running"
+exit 1
+
+# Make that script executable.
+$ chmod 755 .git/hooks/pre-commit.sh
+
+# Run it and check its exit status.
+$ .git/hooks/pre-commit.sh
+hook running
+
+$ echo $?
+1
+
+# Create some content.
+$ cat > a.txt
+content
+
+# Try committing it.
+# The hook should print "hook running" and the commit should be prevented.
+$ git add a.txt
+
+$ git commit -m "should not work"
+hook running
+
+$ git status
+On branch main
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+	modified:   a.txt

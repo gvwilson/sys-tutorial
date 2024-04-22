@@ -49,7 +49,9 @@
 
 
       
-      
+      <p class="terms">Terms defined: 
+<a class="gl-ref" href="../glossary/#gl:exit_status" markdown="1">exit status</a>, <a class="gl-ref" href="../glossary/#gl:lint" markdown="1">lint</a>
+</p>
       <ul>
 <li>Computers don&rsquo;t get bored, so get them to do boring things</li>
 </ul>
@@ -108,6 +110,102 @@ Mon Apr 22 16:11:53 EDT 2024
 </ul>
 </li>
 <li><p class="fixme">FIXME: why does removing the file generate a &lsquo;Created&rsquo; record?</p></li>
+</ul>
+<h2 id="jobs-githooks">Git Hooks</h2>
+<ul>
+<li>Git stores repository data in <code>.git</code></li>
+<li>Contains a directory called <code>hooks</code></li>
+<li>Git automatically runs programs it finds there at particular times<ul>
+<li>E.g., if there is a program called <code>pre-commit</code>, Git runs it before each commit takes place</li>
+</ul>
+</li>
+<li>What happens next depends on the program&rsquo;s exit <a class="gl-ref" href="../glossary/#gl:exit_status" markdown="1">exit status</a><ul>
+<li>0: no problems</li>
+<li>anything else: an error code of some sort</li>
+</ul>
+</li>
+</ul>
+<div class="language-text" title="pre_commit_always_fail.text">
+<div class="highlight"><pre><span></span><code># Make a place for this example.
+$ mkdir example
+$ cd example
+
+# Turn it into a Git repository.
+$ git init .
+Initialized empty Git repository in /Users/tut/example/.git/
+
+# Create a pre-commit script that always fails (i.e., exits with non-zero status).
+$ cat &gt; .git/hooks/pre-commit.sh
+#!/bin/sh
+echo &quot;hook running&quot;
+exit 1
+
+# Make that script executable.
+$ chmod 755 .git/hooks/pre-commit.sh
+
+# Run it and check its exit status.
+$ .git/hooks/pre-commit.sh
+hook running
+
+$ echo $?
+1
+
+# Create some content.
+$ cat &gt; a.txt
+content
+
+# Try committing it.
+# The hook should print &quot;hook running&quot; and the commit should be prevented.
+$ git add a.txt
+
+$ git commit -m &quot;should not work&quot;
+hook running
+
+$ git status
+On branch main
+Changes to be committed:
+  (use &quot;git restore --staged &lt;file&gt;...&quot; to unstage)
+    modified:   a.txt
+</code></pre></div>
+</div>
+<ul>
+<li>More useful to check the files or something else</li>
+</ul>
+<div class="language-text" title="pre_commit_ruff.text">
+<div class="highlight"><pre><span></span><code>$ cat &gt; .git/hooks/pre-commit
+ruff check
+exit $?
+
+$ cat &gt; a.py
+x = not_defined
+
+$ git add .
+$ git commit
+a.py:1:5: F821 Undefined name `not_defined`
+Found 1 error.
+
+$ cat &gt; a.py
+x = 0
+
+$ git add .
+$ git commit -m &quot;this commit works&quot;
+All checks passed!
+[main 7c01aee] this commit works
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+</code></pre></div>
+</div>
+<ul>
+<li>Use <a href="https://pypi.org/project/ruff/">ruff</a> to <a class="gl-ref" href="../glossary/#gl:lint" markdown="1">lint</a> the project&rsquo;s Python code</li>
+<li>Exit with whatever exit status it returned<ul>
+<li><code>$?</code> is the exit status of the most recently run process in the shell</li>
+</ul>
+</li>
+</ul>
+<h2 class="aside">Managing These Examples</h2>
+<ul>
+<li>Want to include the examples shown above in this repository and re-run them automatically</li>
+<li>But nesting Git repositories is tricky</li>
+<li>And re-running these commands <em>and</em> capturing all their output is also hard</li>
 </ul>
     </main>
     <footer>

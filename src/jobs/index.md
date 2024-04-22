@@ -35,3 +35,29 @@ tagline: "How to do work on demand."
 -   Get one line per change
     -   Common to pipe the output of `fswatch` to something that parses these lines and acts on them
 -   [%fixme "why does removing the file generate a 'Created' record?" %]
+
+## Git Hooks {: #jobs-githooks}
+
+-   Git stores repository data in `.git`
+-   Contains a directory called `hooks`
+-   Git automatically runs programs it finds there at particular times
+    -   E.g., if there is a program called `pre-commit`, Git runs it before each commit takes place
+-   What happens next depends on the program's exit [%g exit_status "exit status" %]
+    -   0: no problems
+    -   anything else: an error code of some sort
+
+[%inc pre_commit_always_fail.text %]
+
+-   More useful to check the files or something else
+
+[%inc pre_commit_ruff.text %]
+
+-   Use [ruff][ruff] to [%g lint "lint" %] the project's Python code
+-   Exit with whatever exit status it returned
+    -   `$?` is the exit status of the most recently run process in the shell
+
+## Managing These Examples {: .aside}
+
+-   Want to include the examples shown above in this repository and re-run them automatically
+-   But nesting Git repositories is tricky
+-   And re-running these commands *and* capturing all their output is also hard

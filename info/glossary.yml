@@ -219,6 +219,12 @@
     def: >
       A [shell variable](#shell_var) that is inherited by [child processes](#child_process)
 
+- key: exit_status
+  en:
+    term: exit status
+    def: >
+      FIXME
+
 # F
 
 - key: filesystem
@@ -347,6 +353,12 @@
 - key: link_sym
   en:
     term: symbolic link (in filesystem)
+    def: >
+      FIXME
+
+- key: lint
+  en:
+    term: lint
     def: >
       FIXME
 

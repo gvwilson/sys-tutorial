@@ -1,0 +1,20 @@
+$ cat > .git/hooks/pre-commit
+ruff check
+exit $?
+
+$ cat > a.py
+x = not_defined
+
+$ git add .
+$ git commit
+a.py:1:5: F821 Undefined name `not_defined`
+Found 1 error.
+
+$ cat > a.py
+x = 0
+
+$ git add .
+$ git commit -m "this commit works"
+All checks passed!
+[main 7c01aee] this commit works
+ 1 file changed, 1 insertion(+), 1 deletion(-)
