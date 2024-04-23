@@ -170,10 +170,10 @@ tagline: "How to manage files, directories, and their stranger kin."
 ## Symbolic Links {: #fs-link-sym}
 
 -   A [%g link_sym "symbolic link" %] (or symlink) is a file that refers to another file
-    ([%f links %])
+    ([%f fs_links %])
 
 [% figure
-   slug="links"
+   slug=fs_links
    img="links.svg"
    alt="Relationship between hard and symbolic Links"
    caption="Hard and Symbolic Links"

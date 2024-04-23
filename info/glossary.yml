@@ -143,6 +143,12 @@
     def: >
       The ability of different parts of a system to take action at the same time.
 
+- key: copy_on_write
+  en:
+    term: copy-on-write
+    def: >
+      FIXME
+
 # D
 
 - key: daemon
@@ -264,6 +270,12 @@
       FIXME
 
 # H
+
+- key: hash
+  en:
+    term: hash
+    def: >
+      FIXME
 
 - key: hostname
   en:

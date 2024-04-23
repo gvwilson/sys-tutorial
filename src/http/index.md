@@ -20,7 +20,7 @@ tagline: "How to move data from place to place."
 -   [%f http_lifecycle %] shows what happened
 
 [% figure
-   slug="http_lifecycle"
+   slug=http_lifecycle
    img="http_lifecycle.svg"
    alt="HTTP request/response lifecycle"
    caption="Lifecycle of an HTTP request and response"
@@ -100,7 +100,7 @@ Look at [this list of HTTP status codes][http_status_codes].
     -   A dictionary with column names and lists of values, all the same length?
 
 [% figure
-   slug="http_json_tables"
+   slug=http_json_tables
    img="http_json_tables.svg"
    alt="Three ways to represent tables as JSON"
    caption="Representing tables as JSON"
