@@ -36,6 +36,14 @@ tagline: "How to do work on demand."
     -   Common to pipe the output of `fswatch` to something that parses these lines and acts on them
 -   [%fixme "why does removing the file generate a 'Created' record?" %]
 
+## And Then There's `cron` {: #jobs-cron}
+
+-   `cron` runs jobs at specified times
+-   Which sounds simple, but its interface is complex even by Unix standards
+    -   And differences between different machines make life even harder
+-   Most research programmers won't ever need it
+-   If you do, consult [crontab.guru][crontab-guru]
+
 ## Git Hooks {: #jobs-githooks}
 
 -   Git stores repository data in `.git`

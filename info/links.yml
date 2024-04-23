@@ -36,6 +36,10 @@
   url: "https://docs.conda.io/"
   title: "Conda package manager"
 
+- key: "crontab-guru"
+  url: "https://crontab.guru/"
+  title: "crontab guru"
+
 # D
 
 - key: "docker"
