@@ -112,7 +112,7 @@ tagline: "How to create, signal, and interact with running programs."
 -   When run as `python fork.py > temp.out`, the "starting" line may be duplicated
     -   Programs don't write directly to the screen
     -   Instead, they send text to the operating system for display
-    -   The operating system [%g buffer_verb "buffers" %] output (and input)
+    -   The operating system buffers output (and input)
     -   So the "starting" message may be sitting in a buffer when `fork` happens
     -   In which case both parent and child send it to the operating system to print
 -   OS decides how much to buffer and when to actually display it

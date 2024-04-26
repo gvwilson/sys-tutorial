@@ -56,7 +56,7 @@ def _collect_shortcodes():
     parser = shortcodes.Parser(inherit_globals=False, ignore_unknown=True)
     parser.register(_collect_shortcodes_figures, "figure")
     parser.register(_collect_shortcodes_glossary, "g")
-    parser.register(_collect_shortcodes_index, "i")
+    parser.register(_collect_shortcodes_index, "i", "/i")
     parser.register(_collect_shortcodes_tables, "table")
 
     collector = {}
@@ -95,19 +95,18 @@ def _collect_shortcodes_glossary(pargs, kwargs, extra):
     extra["terms"].append(pargs[0])
 
 
-def _collect_shortcodes_index(pargs, kwargs, extra):
-    """Collect data from a glossary reference shortcode."""
-    util.require(
-        1 <= len(pargs) <= 2,
-        f"Bad 'i' in {extra['filename']}: '{pargs}' and '{kwargs}'",
-    )
-    extra["index"].append(pargs[0])
+def _collect_shortcodes_index(pargs, kwargs, extra, _):
+    """Collect data from an index reference shortcode."""
+    extra["index"].extend(pargs)
 
 
 def _collect_shortcodes_tables(pargs, kwargs, extra):
     """Collect data from a table shortcode."""
-    slug = util.get_table_slug(kwargs, extra["filename"])
-    extra["tables"].append(slug)
+    util.require(
+        "slug" in kwargs,
+        f"Bad 'table' in {extra['filename']}: '{pargs}' and '{kwargs}'",
+    )
+    extra["tables"].append(kwargs["slug"])
 
 
 def _collect_shortcodes_visitor(node, parser, collector):

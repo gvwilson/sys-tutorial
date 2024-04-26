@@ -20,8 +20,6 @@
   async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
 </script>
 
-  <script defer data-domain="gvwilson.github.io/sys-tutorial" src="https://plausible.io/js/plausible.js"></script>
-
 
   </head>
   <body>
@@ -50,7 +48,7 @@
 
       
       <p class="terms">Terms defined: 
-<a class="gl-ref" href="../glossary/#gl:cache" markdown="1">cache</a>, <a class="gl-ref" href="../glossary/#gl:copy_on_write" markdown="1">copy-on-write</a>, <a class="gl-ref" href="../glossary/#gl:daemon" markdown="1">daemon</a>, <a class="gl-ref" href="../glossary/#gl:docker_container" markdown="1">Docker container</a>, <a class="gl-ref" href="../glossary/#gl:docker_image" markdown="1">Docker image</a>, <a class="gl-ref" href="../glossary/#gl:docker_layer" markdown="1">layer (of Docker image)</a>, <a class="gl-ref" href="../glossary/#gl:docker_tag" markdown="1">tag (a Docker image)</a>, <a class="gl-ref" href="../glossary/#gl:dockerfile" markdown="1">Dockerfile</a>, <a class="gl-ref" href="../glossary/#gl:hash" markdown="1">hash</a>, <a class="gl-ref" href="../glossary/#gl:mount" markdown="1">mount</a>, <a class="gl-ref" href="../glossary/#gl:virtual_env" markdown="1">virtual environment</a>
+<a class="gl-ref" href="../glossary/#gl:cache" markdown="1">cache</a>, <a class="gl-ref" href="../glossary/#gl:copy_on_write" markdown="1">copy-on-write</a>, <a class="gl-ref" href="../glossary/#gl:daemon" markdown="1">daemon</a>, <a class="gl-ref" href="../glossary/#gl:docker_container" markdown="1">Docker container</a>, <a class="gl-ref" href="../glossary/#gl:docker_image" markdown="1">Docker image</a>, <a class="gl-ref" href="../glossary/#gl:docker_layer" markdown="1">layer (of Docker image)</a>, <a class="gl-ref" href="../glossary/#gl:docker_tag" markdown="1">tag (a Docker image)</a>, <a class="gl-ref" href="../glossary/#gl:dockerfile" markdown="1">Dockerfile</a>, <a class="gl-ref" href="../glossary/#gl:hash" markdown="1">hash</a>, <a class="gl-ref" href="../glossary/#gl:virtual_env" markdown="1">virtual environment</a>
 </p>
       <h2>Virtual Environments</h2>
 <ul>
@@ -657,8 +655,7 @@ copied.txt  test.txt
 </code></pre></div>
 </div>
 <ul>
-<li>To <a class="gl-ref" href="../glossary/#gl:mount" markdown="1">mount</a> a storage device is to make its contents available
-    at some location in the filesystem</li>
+<li>Mounting a storage device makes its contents available at some location in the filesystem</li>
 <li>Use <code>--mount</code> to tell Docker to make a directory of the host filesystem available
     inside the container<ul>
 <li><code>type=bind</code>: there are other options (e.g., <code>type=volume</code>)</li>
@@ -669,7 +666,7 @@ copied.txt  test.txt
 </ul>
 <h2>Environment Variables</h2>
 <ul>
-<li>Do <em>not</em> put passwords in Dockerfiles <a class="cross-ref" href="../auth/">Chapter&nbsp;6</a></li>
+<li>Do <em>not</em> put passwords in Dockerfiles <a href="../auth/">Chapter&nbsp;6</a></li>
 <li>Common instead to pass them via environment variables<ul>
 <li>Which can also be used for things like server addresses</li>
 </ul>

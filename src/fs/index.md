@@ -33,7 +33,7 @@ tagline: "How to manage files, directories, and their stranger kin."
 
 -   It's a shame there's no option for column titles, but we can add them manually ([%t ls_long_tmp %])
 
-[%table tbl="ls_long_tmp.tbl" caption="Annotated Output of `ls`" %]
+[%table slug=ls_long_tmp tbl=ls_long_tmp.tbl caption="Annotated Output of `ls`" %]
 
 -   The [%g inode "inode" %] stores attributes and IDs of disk blocks
     -   No-one is sure any longer what the "i" stands for
@@ -92,7 +92,7 @@ tagline: "How to manage files, directories, and their stranger kin."
     -   Which is incredibly vague
 -   Files and directories capabilities are shown in [%t capabilities %]
 
-[%table tbl="capabilities.tbl" caption="Unix File and Directory Capabilities" %]
+[%table slug=capabilities tbl=capabilities.tbl caption="Unix File and Directory Capabilities" %]
 
 -   Read and write make sense
 -   Execute makes sense on files

@@ -276,8 +276,7 @@ What is the `re.sub` call in the `faker` script doing and why?
 
 [%inc mount_temp.text %]
 
--   To [%g mount "mount" %] a storage device is to make its contents available
-    at some location in the filesystem
+-   Mounting a storage device makes its contents available at some location in the filesystem
 -   Use `--mount` to tell Docker to make a directory of the host filesystem available
     inside the container
     -   `type=bind`: there are other options (e.g., `type=volume`)

@@ -20,8 +20,6 @@
   async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
 </script>
 
-  <script defer data-domain="gvwilson.github.io/sys-tutorial" src="https://plausible.io/js/plausible.js"></script>
-
 
   </head>
   <body>
@@ -50,7 +48,7 @@
 
       
       <p class="terms">Terms defined: 
-<a class="gl-ref" href="../glossary/#gl:background_process" markdown="1">background a process</a>, <a class="gl-ref" href="../glossary/#gl:buffer_verb" markdown="1">buffer (verb)</a>, <a class="gl-ref" href="../glossary/#gl:callback_function" markdown="1">callback function</a>, <a class="gl-ref" href="../glossary/#gl:child_process" markdown="1">child process</a>, <a class="gl-ref" href="../glossary/#gl:flush" markdown="1">flush</a>, <a class="gl-ref" href="../glossary/#gl:foreground_process" markdown="1">foreground a process</a>, <a class="gl-ref" href="../glossary/#gl:fork_process" markdown="1">fork (a process)</a>, <a class="gl-ref" href="../glossary/#gl:parent_process" markdown="1">parent process</a>, <a class="gl-ref" href="../glossary/#gl:process" markdown="1">process</a>, <a class="gl-ref" href="../glossary/#gl:process_id" markdown="1">process ID</a>, <a class="gl-ref" href="../glossary/#gl:process_tree" markdown="1">process tree</a>, <a class="gl-ref" href="../glossary/#gl:resume_process" markdown="1">resume (a process)</a>, <a class="gl-ref" href="../glossary/#gl:signal" markdown="1">signal</a>, <a class="gl-ref" href="../glossary/#gl:signal_handler" markdown="1">signal handler</a>, <a class="gl-ref" href="../glossary/#gl:suspend_process" markdown="1">suspend (a process)</a>
+<a class="gl-ref" href="../glossary/#gl:background_process" markdown="1">background a process</a>, <a class="gl-ref" href="../glossary/#gl:callback_function" markdown="1">callback function</a>, <a class="gl-ref" href="../glossary/#gl:child_process" markdown="1">child process</a>, <a class="gl-ref" href="../glossary/#gl:flush" markdown="1">flush</a>, <a class="gl-ref" href="../glossary/#gl:foreground_process" markdown="1">foreground a process</a>, <a class="gl-ref" href="../glossary/#gl:fork_process" markdown="1">fork (a process)</a>, <a class="gl-ref" href="../glossary/#gl:parent_process" markdown="1">parent process</a>, <a class="gl-ref" href="../glossary/#gl:process" markdown="1">process</a>, <a class="gl-ref" href="../glossary/#gl:process_id" markdown="1">process ID</a>, <a class="gl-ref" href="../glossary/#gl:process_tree" markdown="1">process tree</a>, <a class="gl-ref" href="../glossary/#gl:resume_process" markdown="1">resume (a process)</a>, <a class="gl-ref" href="../glossary/#gl:signal" markdown="1">signal</a>, <a class="gl-ref" href="../glossary/#gl:signal_handler" markdown="1">signal handler</a>, <a class="gl-ref" href="../glossary/#gl:suspend_process" markdown="1">suspend (a process)</a>
 </p>
       <h2>Program vs. Process</h2>
 <ul>
@@ -384,7 +382,7 @@ child got 0 is 41619
 <li>When run as <code>python fork.py &gt; temp.out</code>, the &ldquo;starting&rdquo; line may be duplicated<ul>
 <li>Programs don&rsquo;t write directly to the screen</li>
 <li>Instead, they send text to the operating system for display</li>
-<li>The operating system <a class="gl-ref" href="../glossary/#gl:buffer_verb" markdown="1">buffers</a> output (and input)</li>
+<li>The operating system buffers output (and input)</li>
 <li>So the &ldquo;starting&rdquo; message may be sitting in a buffer when <code>fork</code> happens</li>
 <li>In which case both parent and child send it to the operating system to print</li>
 </ul>
